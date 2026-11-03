@@ -51,5 +51,5 @@ The source was written for this study; no copyrighted tracks, sampled artist rec
 ## Read next
 
 - `../DIRECTOR_SCORE.md`
-- `../../../../START_HERE_FOR_LOCAL_CODEX.md`
-- `../../../../protocols/show-score-v1.schema.json`
+- `../../../START_HERE_FOR_LOCAL_CODEX.md`
+- `../../../protocols/show-score-v1.schema.json`
