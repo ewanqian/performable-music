@@ -4,12 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Performable Music — Strudel Preset Lab</title>
-  <script src="https://unpkg.com/@strudel/repl@latest"></script>
+  <script defer src="https://unpkg.com/@strudel/repl@1.3.0/dist/index.js"></script>
+  <script defer src="./controls.js"></script>
   <style>
     :root{color-scheme:dark;--bg:#0b0c0e;--fg:#eeeae2;--muted:#8d9298;--line:#2a2d31;--accent:#d8ff55}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif}
     header{padding:48px 5vw 28px;border-bottom:1px solid var(--line)}h1{font-size:clamp(42px,8vw,92px);line-height:.9;letter-spacing:-.07em;margin:10px 0 20px}.eyebrow{font-size:10px;letter-spacing:.18em;color:var(--accent)}header p{max-width:900px;color:var(--muted);line-height:1.6}
     main{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}section{background:var(--bg);padding:24px;min-height:520px}h2{margin:0 0 8px;font-size:25px;letter-spacing:-.04em}.desc{color:var(--muted);font-size:13px;line-height:1.55;margin-bottom:16px}strudel-editor{display:block;min-height:390px;border:1px solid var(--line)}footer{padding:24px 5vw;color:var(--muted);font-size:12px;line-height:1.6}@media(max-width:900px){main{grid-template-columns:1fr}}
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}button{font:inherit;padding:9px 16px;border:1px solid var(--line);background:#22252a;color:var(--fg);cursor:pointer;border-radius:4px}button:disabled{opacity:.45;cursor:wait}button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.play{background:var(--accent);color:#111}.status{color:var(--muted);font-size:12px}footer a{color:var(--accent)}
   </style>
 </head>
 <body>
@@ -19,7 +21,7 @@
   <p>四套机制草稿都使用 Idle → Seed → Build → Hold → Peak → Release。先直接播放，再修改 BPM、note、density、filter、room 和各状态持续 cycle。这里的任务是快速听出“哪一种机制值得迁移进 Ableton / Max”。</p>
 </header>
 <main>
-<section><h2>01 — Piano Glass</h2><p class="desc">钢琴 × 电子：固定材料逐渐被低频、密度与空间包围。</p><strudel-editor><!--
+<section><h2>01 — Piano Glass</h2><p class="desc">钢琴 × 电子：固定材料逐渐被低频、密度与空间包围。</p><div class="controls"><button class="play" type="button" disabled>播放 / 更新</button><button class="stop" type="button" disabled>停止</button><span class="status" role="status">编辑器加载中…</span></div><strudel-editor><!--
 setcpm(100/4)
 const idle = silence
 const seed = note("<c4 ~ e4 ~>").s("piano").gain(.45).room(.25)
@@ -29,7 +31,7 @@ const peak = stack(note("c4 [e4 g4] b4 [g4 e4]").s("piano").gain(.58).room(.55),
 const release = note("<c5 g4 e4 c4>").s("piano").slow(4).gain(.38).room(.8)
 arrange([2,idle],[4,seed],[8,build],[6,hold],[4,peak],[6,release])
 --></strudel-editor></section>
-<section><h2>02 — Machine Pulse</h2><p class="desc">Euclidean groove + synth bass：用规则、密度与滤波变化建立机械性。</p><strudel-editor><!--
+<section><h2>02 — Machine Pulse</h2><p class="desc">Euclidean groove + synth bass：用规则、密度与滤波变化建立机械性。</p><div class="controls"><button class="play" type="button" disabled>播放 / 更新</button><button class="stop" type="button" disabled>停止</button><span class="status" role="status">编辑器加载中…</span></div><strudel-editor><!--
 setcpm(124/4)
 const idle = silence
 const seed = stack(s("bd ~ ~ ~").gain(.55),note("c2 ~ ~ ~").s("sawtooth").lpf(420).gain(.14))
@@ -39,7 +41,7 @@ const peak = stack(s("bd(7,8), rim(5,8), hh*16").gain(.5),note("c2 eb2 g2 bb2").
 const release = stack(s("bd ~ ~ ~").gain(.38),note("<g2 eb2 c2>").s("triangle").slow(2).lpf(650).room(.4).gain(.16))
 arrange([2,idle],[4,seed],[8,build],[8,hold],[6,peak],[6,release])
 --></strudel-editor></section>
-<section><h2>03 — Polyphase Field</h2><p class="desc">4 / 5 / 7 的并行节奏关系，用重合与偏移代替传统“加轨道”。</p><strudel-editor><!--
+<section><h2>03 — Polyphase Field</h2><p class="desc">4 / 5 / 7 的并行节奏关系，用重合与偏移代替传统“加轨道”。</p><div class="controls"><button class="play" type="button" disabled>播放 / 更新</button><button class="stop" type="button" disabled>停止</button><span class="status" role="status">编辑器加载中…</span></div><strudel-editor><!--
 setcpm(120/4)
 const idle = silence
 const seed = stack(s("bd*4").gain(.36),s("rim(3,8)").gain(.18))
@@ -49,7 +51,7 @@ const peak = stack(s("bd*4").gain(.45),s("rim(5,8)").gain(.25),s("hh(7,8)").gain
 const release = stack(s("bd ~ ~ ~").gain(.26),note("<bb4 g4 eb4 c4>").s("triangle").slow(4).gain(.16).room(.7))
 arrange([2,idle],[4,seed],[8,build],[8,hold],[8,peak],[6,release])
 --></strudel-editor></section>
-<section><h2>04 — Luminous Release</h2><p class="desc">明亮和声、快速脉冲和释放感：测试未来专辑最后一幕的语言。</p><strudel-editor><!--
+<section><h2>04 — Luminous Release</h2><p class="desc">明亮和声、快速脉冲和释放感：测试未来专辑最后一幕的语言。</p><div class="controls"><button class="play" type="button" disabled>播放 / 更新</button><button class="stop" type="button" disabled>停止</button><span class="status" role="status">编辑器加载中…</span></div><strudel-editor><!--
 setcpm(148/4)
 const idle = silence
 const seed = note("<a3 e4 a4 ~>").s("piano").gain(.4).room(.3)
@@ -60,5 +62,5 @@ const release = note("<a5 e5 cs5 a4>").s("piano").slow(4).gain(.34).room(.9)
 arrange([2,idle],[4,seed],[8,build],[6,hold],[6,peak],[8,release])
 --></strudel-editor></section>
 </main>
-<footer>Strudel 是试听/构图层，不是必须成为最终演出架构。保留下来的机制再进入 Ableton / Max，并把固定 arrange 转换成按钮、脚踏、手势或 OSC 驱动的状态切换。</footer>
+<footer>Strudel 是试听/构图层，不是必须成为最终演出架构。保留下来的机制再进入 Ableton / Max，并把固定 arrange 转换成按钮、脚踏、手势或 OSC 驱动的状态切换。 <a href="https://github.com/ewanqian/performable-music/tree/main/studies/005-strudel-preset-transitions">源码与预设</a> · <a href="https://strudel.cc/">Strudel</a></footer>
 </body></html>

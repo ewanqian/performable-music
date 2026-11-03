@@ -73,3 +73,12 @@ When third-party code is actually copied, modified or vendored into this reposit
 - what was changed.
 
 Studying an architecture or technique does not require copying its implementation.
+
+
+### Strudel — @strudel/repl 1.3.0
+- Project: https://strudel.cc/
+- Authors: Strudel contributors; credits: https://strudel.cc/technical-manual/credits/
+- Version checked: 1.3.0, 2026-11-04 (UNPKG release endpoint).
+- License: AGPL-3.0; official integration/license guidance: https://strudel.cc/technical-manual/project-start/
+- Use: unmodified externally hosted browser REPL in `studies/005-strudel-preset-transitions/index.html`; no runtime source vendored.
+- Integration source and original preset code: https://github.com/ewanqian/performable-music/tree/main/studies/005-strudel-preset-transitions

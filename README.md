@@ -6,6 +6,12 @@
 
 This repository is not primarily a music asset library. It is a long-term self-education, composition, performance and research system for music that can **wait, react, transform, be interrupted, be extended, be layered and be performed**.
 
+## Online audition
+
+Open [Strudel Preset Lab](https://ewanqian.github.io/performable-music/) to audition and edit the four current presets. Playback requires a user click and access to the external Strudel runtime / sample hosts.
+
+Publishing: `.github/workflows/pages.yml` deploys the lab on changes to its source on `main`. The root redirects to `studies/005-strudel-preset-transitions/`; research notes and local show files are not packaged into the website.
+
 ## Core research question
 
 > What kinds of music are structurally suited to live control, spatial input, state changes, audiovisual coupling and human–agent co-creation?

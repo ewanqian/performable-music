@@ -1,0 +1,47 @@
+name: Deploy audition lab to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - studies/005-strudel-preset-transitions/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - name: Package static audition lab
+        run: |
+          mkdir -p _site/studies/005-strudel-preset-transitions
+          cp index.html _site/index.html
+          cp studies/005-strudel-preset-transitions/index.html studies/005-strudel-preset-transitions/controls.js _site/studies/005-strudel-preset-transitions/
+          cp -R studies/005-strudel-preset-transitions/presets _site/studies/005-strudel-preset-transitions/presets
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
