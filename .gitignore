@@ -1,0 +1,39 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+
+# secrets
+.env
+.env.*
+*.key
+*.pem
+
+# local reference corpus — never commit copyrighted source audio
+reference-audio/
+corpus/raw/
+research/**/source-audio/
+
+# Ableton temporary / backup / collected reference samples
+*.als.bak
+Ableton Project Info/
+Backup/
+Samples/Imported/
+Samples/Processed/
+
+# generated analysis/cache
+__pycache__/
+*.pyc
+node_modules/
+.venv/
+venv/
+.cache/
+
+# private/public boundary
+private/
+_private/
+local-only/
+
+# large temporary exports
+renders/tmp/
+exports/tmp/
