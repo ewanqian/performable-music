@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "0.1",
+  "study": "001-one-sound-six-states",
+  "bpm": 100,
+  "states": [
+    {
+      "id": "idle",
+      "label": "Idle",
+      "energy": 0.1,
+      "density": 0.05,
+      "tension": 0.05,
+      "brightness": 0.2,
+      "space": 0.3,
+      "transition": {"next": "seed", "mode": "event"}
+    },
+    {
+      "id": "seed",
+      "label": "Seed",
+      "energy": 0.2,
+      "density": 0.15,
+      "tension": 0.15,
+      "brightness": 0.3,
+      "space": 0.35,
+      "transition": {"next": "build", "mode": "event"}
+    },
+    {
+      "id": "build",
+      "label": "Build",
+      "energy": 0.45,
+      "density": 0.4,
+      "tension": 0.45,
+      "brightness": 0.5,
+      "space": 0.45,
+      "transition": {"next": "hold", "mode": "event-or-time"}
+    },
+    {
+      "id": "hold",
+      "label": "Hold",
+      "energy": 0.55,
+      "density": 0.45,
+      "tension": 0.6,
+      "brightness": 0.55,
+      "space": 0.55,
+      "variation": {"bounded": true, "amount": 0.15},
+      "transition": {"next": "peak", "mode": "event"}
+    },
+    {
+      "id": "peak",
+      "label": "Peak",
+      "energy": 0.9,
+      "density": 0.85,
+      "tension": 0.85,
+      "brightness": 0.75,
+      "space": 0.8,
+      "transition": {"next": "release", "mode": "event"}
+    },
+    {
+      "id": "release",
+      "label": "Release",
+      "energy": 0.25,
+      "density": 0.1,
+      "tension": 0.1,
+      "brightness": 0.35,
+      "space": 0.65,
+      "transition": {"next": "idle", "mode": "event-or-end"}
+    }
+  ],
+  "safety": {
+    "manualKill": true,
+    "killTarget": "idle",
+    "staleInputTarget": "idle"
+  },
+  "note": "These values are starting hypotheses. Change them by listening, not by making the graph look elegant."
+}
