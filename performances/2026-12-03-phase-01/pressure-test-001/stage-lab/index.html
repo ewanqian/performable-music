@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRITICAL FIELD — Audio / Visual Cue Lab</title>
+<style>
+*{box-sizing:border-box} :root{--bg:#090909;--fg:#e9e6de;--muted:#8a8a85;--line:#383833}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+header{padding:24px 3vw 14px;border-bottom:1px solid var(--line)}.eye{font-size:11px;color:var(--muted);letter-spacing:.2em}
+h1{font-weight:400;font-size:clamp(32px,6.1vw,72px);letter-spacing:-.06em;margin:10px 0 0}header p{font-size:12px;color:var(--muted);line-height:1.5;max-width:870px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;min-height:calc(100vh - 155px)}
+.stage{position:relative;min-height:540px;overflow:hidden;background:#030403}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.info{position:absolute;bottom:20px;left:22px;font-size:12px;letter-spacing:.14em;color:#e9e6de}
+.time{position:absolute;top:20px;left:22px;font-size:12px;color:#adaca6;white-space:pre-line}
+.panel{border-left:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:18px;background:#111210}
+button{font:inherit;color:var(--fg);background:none;border:1px solid var(--line);padding:12px;cursor:pointer;text-align:left}button:hover,button:focus-visible{border-color:#d0cdbc;outline:none}button.active{background:#e9e6de;color:#10100e}button:disabled{opacity:.4;cursor:not-allowed}.group{display:grid;gap:7px}
+.control{display:grid;grid-template-columns:1fr 40px;align-items:center;gap:8px}.control label{grid-column:1 / -1;color:var(--muted);font-size:10px;letter-spacing:.12em}.control input{width:100%;accent-color:#eee}.control span{text-align:right;font-size:11px}
+.tiny{color:var(--muted);font-size:10px;line-height:1.7}.mono{font-variant-numeric:tabular-nums}.safe{border-color:#b87272;color:#f2caca}a{color:#d9d8cf}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.stage{min-height:54vh}.panel{border-left:none;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<header>
+<div class="eye">STAGE CASTING 04 / PERFORMABLE MUSIC / TEST 001</div>
+<h1>CRITICAL FIELD <span style="font-size:.24em;letter-spacing:0;color:#95958f">/ AUDIOVISUAL CUE LAB</span></h1>
+<p>可交互的四 Stem / 场景切换实验：128 BPM，78.75 秒。音乐是提前生成的原创音轨；此页是交互混音与时间码视觉预演，<strong>不是</strong>已接入 Vision Pro、Max 或真正的舞台空间音频。耳机试听请降低初始音量。</p>
+</header>
+<div class="layout">
+<div class="stage" id="stage"><canvas id="field"></canvas><div class="time mono" id="time">00:00.00 / 01:18.75
+128 BPM / 4/4 · 42 BARS</div><div class="info" id="sceneTitle">A / VACUUM</div></div>
+<aside class="panel">
+<div class="group"><button id="play">LOAD &amp; PLAY</button><button id="stop" disabled>STOP</button><button id="safe" class="safe" disabled>SAFE — FADE AUDIO</button><span class="tiny" id="status" role="status">点击 LOAD & PLAY；浏览器需允许音频播放。</span></div>
+<div class="group"><div class="eye">SCENE / CLICK TO JUMP</div><button class="scene-btn active" data-scene="0">A / VACUUM · 0:00</button><button class="scene-btn" data-scene="1">B / MOTION · 0:09</button><button class="scene-btn" data-scene="2">C / SUSPENSION · 0:31</button><button class="scene-btn" data-scene="3">D / OVERRIDE · 0:45</button><button class="scene-btn" data-scene="4">E / AFTERIMAGE · 1:07</button></div>
+<div class="group"><div class="eye">STEMS / LEVELS</div>
+<div class="control"><label for="sub">SUB / IMPACT</label><input type="range" id="sub" min="0" max="1.2" step="0.01" value="1"><span id="subv">1.00</span></div>
+<div class="control"><label for="mech">MECHANISM</label><input type="range" id="mech" min="0" max="1.2" step="0.01" value="1"><span id="mechv">1.00</span></div>
+<div class="control"><label for="harm">HARMONIC MEMORY</label><input type="range" id="harm" min="0" max="1.2" step="0.01" value="1"><span id="harmv">1.00</span></div>
+<div class="control"><label for="fieldlvl">PRESSURE FIELD</label><input type="range" id="fieldlvl" min="0" max="1.2" step="0.01" value="1"><span id="fieldlvlv">1.00</span></div></div>
+<div class="tiny">SPACE / PRESSURE / FRACTURE 仅为参考可视化量。当前按钮触发的是相同长度音频缓冲区的跳转，不是重新生成乐句。SAFE 不是外部物理急停。</div>
+</aside></div>
+<script type="module" src="./lab.js"></script>
+</body></html>
