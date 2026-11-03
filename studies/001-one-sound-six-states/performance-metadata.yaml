@@ -1,0 +1,48 @@
+id: study-001-one-sound-six-states
+title: One Sound / Six States
+version: 0.1
+bpm: 100
+key: null
+
+energy: 1
+density: 1
+tension: 1
+
+loopable: true
+extendable: true
+interruptible: true
+layerable: true
+
+inputs:
+  - Button
+  - MIDI
+
+states:
+  - Idle
+  - Seed
+  - Build
+  - Hold
+  - Peak
+  - Release
+
+visual_coupling:
+  - Event
+  - Structure
+  - SharedState
+
+safe_state:
+  description: Return to Idle and neutral parameter targets
+  manual_kill: true
+
+implementation:
+  ableton: false
+  max_msp: false
+  webaudio: false
+
+artifacts:
+  preview: null
+  live_set: null
+  patch: null
+  state_json: state-score.json
+
+notes: "Fill after first rehearsal."
