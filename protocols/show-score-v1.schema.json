@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ewanqian/performable-music/blob/main/protocols/show-score-v1.schema.json",
+  "title": "Performable Music / Show Score v1",
+  "description": "One semantic event payload drives audio and visual. v1 proposed for local integration and not yet validated against real hardware.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "session_id",
+    "seq",
+    "t_ms",
+    "scene",
+    "state",
+    "controls",
+    "event",
+    "tracking",
+    "safe"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Monotonically increasing per session."
+    },
+    "t_ms": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Monotonic elapsed milliseconds since session start, not wall-clock."
+    },
+    "scene": {
+      "type": "string",
+      "enum": [
+        "INITIAL_CONDITION",
+        "FIELD",
+        "OVERRIDE",
+        "AFTERIMAGE"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "IDLE",
+        "SEED",
+        "BUILD",
+        "HOLD",
+        "PEAK",
+        "RELEASE",
+        "SAFE"
+      ]
+    },
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "energy",
+        "density",
+        "tension",
+        "space",
+        "pressure",
+        "fracture"
+      ],
+      "properties": {
+        "energy": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "density": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "tension": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "space": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "pressure": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "fracture": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "event": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "ADVANCE",
+                "OVERRIDE",
+                "FREEZE",
+                "RELEASE",
+                "RESET",
+                "KILL"
+              ]
+            },
+            "source": {
+              "type": "string",
+              "enum": [
+                "FOOT",
+                "HAND",
+                "MIDI",
+                "AUTOMATION",
+                "REPLAY"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "tracking": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "valid",
+        "stale_ms"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": [
+            "WEBXR",
+            "FOOT",
+            "MIDI",
+            "DESKTOP",
+            "REPLAY"
+          ]
+        },
+        "valid": {
+          "type": "boolean"
+        },
+        "stale_ms": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "safe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manual_kill",
+        "neutral",
+        "reason"
+      ],
+      "properties": {
+        "manual_kill": {
+          "type": "boolean"
+        },
+        "neutral": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
