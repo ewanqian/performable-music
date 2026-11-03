@@ -1,0 +1,6 @@
+scene,start_bar,start_seconds,end_seconds,music_action,visual_action,performer_action
+A,0,0.0,9.375,VACUUM / INITIAL FORCE,One hand draws an initial field from near-darkness,foot:advance/kill; hand:shape field (not implemented in audio sketch)
+B,5,9.375,31.875,MOTION / TWO CLOCKS,Kinetic lines rotate; two temporal systems become visible,foot:advance/kill; hand:shape field (not implemented in audio sketch)
+C,17,31.875,45.0,SUSPENSION / FRACTURE,"A held hand suspends the sound field, negative space",foot:advance/kill; hand:shape field (not implemented in audio sketch)
+D,24,45.0,67.5,OVERRIDE / CRITICAL MASS,"Foot launch. Field buckles, punctuated blackouts",foot:advance/kill; hand:shape field (not implemented in audio sketch)
+E,36,67.5,78.75,AFTERIMAGE / RETURN,All surviving particles trace the original motif,foot:advance/kill; hand:shape field (not implemented in audio sketch)
