@@ -1,0 +1,55 @@
+{
+  "project": "Performable Music / Critical Field",
+  "date": "2026-11-04",
+  "show_target": "2026-12-03",
+  "status": "P0_REVIEW_LOCAL_AUDIO_AND_BUILD_ONE_SHARED_EVENT",
+  "current_goal": "60–90s distinctive original sound + audible structural tension + 1 foot/button event driving audio and visual from same Show Score",
+  "priority": [
+    "read START_HERE_FOR_LOCAL_CODEX.md",
+    "stop expanding soft-piano MIDI material",
+    "run render.py to regenerate original reference stems and score",
+    "listen critically and produce A/B revision of suspension->override",
+    "prove one same-event SC audio and WebGL/Jitter visual reaction",
+    "test disconnect and independent manual kill"
+  ],
+  "do_not_claim": [
+    "16-minute show finished",
+    "multichannel spatial audio tested",
+    "AVP input connected",
+    "user wav uploaded publicly",
+    "audio quality passed"
+  ],
+  "local_files_required": [
+    "Listening_Y personally supplied on user's machine (do not commit publicly)",
+    "SuperCollider installation/version",
+    "Live/Max versions if used"
+  ],
+  "deliverables": [
+    "A.wav",
+    "B.wav",
+    "audio_visual_event_demo",
+    "cue/score log",
+    "audit with timestamps and real test results"
+  ],
+  "audition_gate": "User must hear and choose; no musical self-scoring by agents",
+  "full_show_outline": [
+    {
+      "act": "INITIAL_CONDITION",
+      "minutes": "0-3"
+    },
+    {
+      "act": "FIELD",
+      "minutes": "3-7"
+    },
+    {
+      "act": "OVERRIDE",
+      "minutes": "7-12"
+    },
+    {
+      "act": "AFTERIMAGE",
+      "minutes": "12-16"
+    }
+  ],
+  "data_contract": "protocols/show-score-v1.schema.json",
+  "reference_renderer": "performances/2026-12-03-phase-01/pressure-test-001/render.py"
+}
