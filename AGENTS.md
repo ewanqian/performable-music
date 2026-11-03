@@ -1,3 +1,9 @@
+# CURRENT RUN OVERRIDE — 2026-11-04
+
+**READ [START_HERE_FOR_LOCAL_CODEX.md](START_HERE_FOR_LOCAL_CODEX.md) FIRST**, then [the Critical Field director's score](performances/2026-12-03-phase-01/DIRECTOR_SCORE.md). The 2026-12-03 show goal supersedes previous generic MIDI/preset expansion tasks. This public repo now has a reproducible 78.75-second original audio sketch under `performances/2026-12-03-phase-01/pressure-test-001/render.py`, but NOT its WAV binaries. The user-supplied 38.61-second soft keyboard sketch was heard and judged insufficient for the intended high-impact audiovisual performance; see the sanitized review. Pause further generative music proliferation until musical A/B + audiovisual event and live recovery are verified.
+
+---
+
 # AGENTS.md
 
 ## Purpose
