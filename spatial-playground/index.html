@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090b0c"><title>CRITICAL FIELD — XR Playground</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#090b0c;color:#e9ece9;font-family:system-ui,-apple-system,sans-serif;height:100%}
+main{display:grid;grid-template-columns:1fr 335px;height:100vh}canvas{width:100%;height:100%;display:block;touch-action:none;background:#030505}
+aside{border-left:1px solid #29312f;padding:25px 22px;overflow:auto;background:#111413}h1{font-size:49px;line-height:.9;font-weight:500;letter-spacing:-.07em;margin:12px 0}h1 em{font-family:Georgia,serif;font-weight:400}
+p,.fine{font-size:11px;line-height:1.65;color:#9ca6a0}.eyebrow{letter-spacing:.2em;color:#aab4ac;font-size:10px}
+button{font:inherit;cursor:pointer;color:#e7ece7;background:#171d1b;border:1px solid #38433e;padding:11px 13px}
+button:hover,button:focus-visible{border-color:#f3f4ed}button.active{background:#e5eae4;color:#151b18}button:disabled{opacity:.45;cursor:not-allowed}
+#enter{width:100%;background:#dbe3da;color:#162019;font-size:12px;letter-spacing:.1em;margin:15px 0}
+.head{padding:15px 0 8px;border-top:1px solid #38413c;color:#96a19a;letter-spacing:.15em;font-size:10px;margin-top:16px}
+.acts{display:grid;gap:5px}.act{display:flex;align-items:center;text-align:left;gap:14px}.act b{font:italic 17px Georgia,serif}.act span{font-size:10px;letter-spacing:.09em}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.row button{font-size:11px;padding:12px 3px}
+.control{display:grid;grid-template-columns:72px 1fr 32px;align-items:center;gap:8px;font:10px monospace;margin:12px 0;color:#a7b1aa}.control input{accent-color:#e2e9e1;min-width:0}
+#overlay{position:absolute;top:20px;left:22px;font:10px monospace;color:#abb6ae;pointer-events:none;line-height:1.8}
+#label{position:absolute;bottom:23px;left:24px;font:11px monospace;color:#aab7af}
+.view{position:relative;overflow:hidden}.muted{color:#8b948f}a{color:#d3e0d7}
+@media(max-width:830px){main{height:auto;grid-template-columns:1fr}.view{height:55vh;min-height:330px}aside{overflow:visible;border-left:0;border-top:1px solid #344038}}
+</style></head><body>
+<main><div class="view"><canvas id="canvas"></canvas><div id="overlay">STAGE CASTING 04 / PERFORMANCE FIELD<br>DESKTOP OR IMMERSIVE WEBXR</div><div id="label">01 / INITIAL CONDITION</div></div>
+<aside><div class="eyebrow">PERFORMABLE MUSIC / LAB 001</div><h1>CRITICAL<br><em>FIELD.</em></h1><p>临界场 · 四幕视听演出空间实验。真实 WebXR 立体场景；无 CDN、无账号、无第三方音乐素材。</p>
+<button id="enter" disabled>DETECTING WEBXR…</button><p id="xrstatus">普通浏览器可以先看桌面模式；Vision Pro 需要 HTTPS 和 Safari。</p>
+<div class="head">FOUR ACTS</div>
+<div class="acts"><button class="act active" data-scene="0"><b>01</b><span>INITIAL CONDITION / 原点</span></button><button class="act" data-scene="1"><b>02</b><span>FIELD / 展开</span></button><button class="act" data-scene="2"><b>03</b><span>OVERRIDE / 冲击</span></button><button class="act" data-scene="3"><b>04</b><span>AFTERIMAGE / 残影</span></button></div>
+<div class="row"><button id="hold">HOLD</button><button id="trigger">TRIGGER</button><button id="safe">SAFE</button></div>
+<div class="head">SHARED SHOW SCORE / 0–1</div>
+<div id="sliders"></div>
+<div class="head">LOCAL RECORD / REPLAY</div><div class="row"><button id="rec">● REC</button><button id="replay" disabled>REPLAY</button><button id="export" disabled>EXPORT</button></div>
+<p id="telemetry">SCENE READY · DESKTOP</p><p>桌面拖动旋转，按 1–4 切换。XR 通过头部视角观察，注视＋捏合 / 控制器 select 推进章节。手部关节权限可选；关节丢失会让控制回到安全中性值。</p>
+<p class="fine">本页是视觉 / Show Score 控制测试，不包含正式歌曲、实时 OSC、空间音频母带或独立硬件急停。沉浸模式是 VR，不是透视 AR。<a href="https://github.com/ewanqian/performable-music/tree/main/spatial-playground">代码与说明</a></p>
+</aside></main>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),clamp=x=>Math.max(0,Math.min(1,x)),T=2*Math.PI,canvas=$('canvas');
+const acts=['INITIAL_CONDITION','FIELD','OVERRIDE','AFTERIMAGE'],names=['INITIAL CONDITION','FIELD','OVERRIDE','AFTERIMAGE'];
+const defs=[{energy:.23,density:.16,space:.38,tension:.28},{energy:.62,density:.69,space:.72,tension:.48},{energy:.86,density:.86,space:.82,tension:.91},{energy:.34,density:.41,space:.77,tension:.42}];
+let scene=0,score={...defs[0]},hold=false,safe=false,overrideTime=-1,session=null,refSpace=null,lastHands=0,handEver=false,handCount=0,seq=0,evt=null;
+let recording=false,frames=[],recStart=0,lastRec=-1,playing=false,replayStart=0;
+const setMsg=s=>$('telemetry').textContent=s;
+function change(i,source='AUTOMATION'){scene=(i+4)%4;score={...defs[scene]};hold=false;safe=false;overrideTime=scene===2?performance.now():-1;evt={id:'event-'+(++seq),type:'ADVANCE',source};drawUI();}
+function drawUI(){document.querySelectorAll('.act').forEach((b,i)=>b.classList.toggle('active',scene===i));$('label').textContent='0'+(scene+1)+' / '+names[scene];for(const k of Object.keys(score)){const a=$(k);if(a){a.value=score[k];$(k+'-value').textContent=score[k].toFixed(2);}}$('hold').classList.toggle('active',hold);}
+function doHold(){hold=!hold;evt={id:'event-'+(++seq),type:hold?'FREEZE':'RELEASE',source:'AUTOMATION'};drawUI();}
+function doTrigger(){change(2);overrideTime=performance.now();evt={id:'event-'+(++seq),type:'OVERRIDE',source:'AUTOMATION'};}
+function doSafe(){safe=true;score={energy:0,density:0,space:.18,tension:0};evt={id:'event-'+(++seq),type:'KILL',source:'AUTOMATION'};drawUI();}
+document.querySelectorAll('.act').forEach(b=>b.onclick=()=>change(+b.dataset.scene));
+$('hold').onclick=doHold;$('trigger').onclick=doTrigger;$('safe').onclick=doSafe;
+$('sliders').innerHTML=Object.keys(score).map(k=>'<div class="control"><label for="'+k+'">'+k.toUpperCase()+'</label><input type="range" min="0" max="1" step=".01" id="'+k+'" value="'+score[k]+'"><output id="'+k+'-value">'+score[k].toFixed(2)+'</output></div>').join('');
+for(const k of Object.keys(score))$(k).oninput=e=>{score[k]=clamp(+e.target.value);$(k+'-value').textContent=score[k].toFixed(2);safe=false;};
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key>='1'&&e.key<='4')change(+e.key-1);if(e.code==='Space'){e.preventDefault();doHold();}if(e.key.toLowerCase()==='o')doTrigger();if(e.key==='Escape')doSafe();});
+function capture(now,source){const frame={schema_version:'1.0',session_id:'xr-lab',seq:seq++,t_ms:Math.max(0,Math.round(now-recStart)),scene:acts[scene],state:safe?'SAFE':hold?'HOLD':scene===2?'PEAK':scene===3?'RELEASE':scene===1?'BUILD':'SEED',controls:{energy:score.energy,density:score.density,tension:score.tension,space:score.space,pressure:score.tension,fracture:scene===2?.75:.1},event:evt,tracking:{source,valid:source==='WEBXR'?handCount>0:true,stale_ms:source==='WEBXR'&&handEver?Math.max(0,now-lastHands):0},safe:{manual_kill:safe,neutral:safe,reason:safe?'user-safe':null}};evt=null;return frame;}
+$('rec').onclick=()=>{recording=!recording;if(recording){frames=[];recStart=performance.now();lastRec=-1;$('rec').textContent='■ STOP';setMsg('RECORDING / 20Hz');}else{$('rec').textContent='● REC';$('replay').disabled=!frames.length;$('export').disabled=!frames.length;setMsg(frames.length+' FRAMES SAVED');}};
+$('export').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({format:'PM-ShowScore-v1',frames},null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='xr-show-score.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);};
+$('replay').onclick=()=>{if(!frames.length)return;if(recording)$('rec').click();playing=true;replayStart=performance.now();setMsg('REPLAYING CAPTURE');};
+function tick(now,source){if(playing){const elapsed=now-replayStart;let f=frames[0];for(let i=0;i<frames.length;i++){if(frames[i].t_ms>elapsed)break;f=frames[i];}const n=acts.indexOf(f.scene);if(n>=0)scene=n;score={energy:f.controls.energy,density:f.controls.density,space:f.controls.space,tension:f.controls.tension};safe=Boolean(f.safe.neutral);drawUI();if(elapsed>frames[frames.length-1].t_ms+100){playing=false;setMsg('REPLAY ENDED');}}else if(recording&&now-lastRec>50){frames.push(capture(now,source));lastRec=now;}}
+// WebGL1 geometry: lines and particles in true 3D; no external shader packages.
+let gl=canvas.getContext('webgl2',{antialias:true,xrCompatible:true})||canvas.getContext('webgl',{antialias:true,xrCompatible:true});
+if(!gl){$('enter').textContent='WEBGL NOT AVAILABLE';return;}
+const vert='attribute vec3 pos;attribute float alpha;uniform mat4 proj,view;uniform float size;varying float a;void main(){vec4 eye=view*vec4(pos,1.0);gl_Position=proj*eye;gl_PointSize=clamp(size/max(1.0,-eye.z)*3.0,1.0,6.0);a=alpha;}';
+const frag='precision mediump float;uniform float isPoint;varying float a;void main(){if(isPoint>0.5&&length(gl_PointCoord-vec2(.5))>0.5)discard;gl_FragColor=vec4(.90,.93,.90,a);}';
+function shader(type,text){const s=gl.createShader(type);gl.shaderSource(s,text);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
+const prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vert));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,frag));gl.linkProgram(prog);
+const loc={pos:gl.getAttribLocation(prog,'pos'),alpha:gl.getAttribLocation(prog,'alpha'),proj:gl.getUniformLocation(prog,'proj'),view:gl.getUniformLocation(prog,'view'),size:gl.getUniformLocation(prog,'size'),isPoint:gl.getUniformLocation(prog,'isPoint')};
+const bl=gl.createBuffer(),bp=gl.createBuffer();gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+let lines=[],dots=[],yaw=0,pitch=0,drag=false,lastX=0,lastY=0;
+function stroke(a,b,opacity){lines.push(...a,opacity,...b,opacity);}
+function geo(t){lines=[];dots=[];const E=safe?0:score.energy,D=safe?0:score.density,expand=overrideTime>0?Math.exp(-(performance.now()-overrideTime)/1600):0;
+const rings=scene===0?3:scene===1?8:scene===2?11:6;
+for(let k=0;k<rings;k++){const z=-3.6+(k/(rings-1)-.5)*(scene===2?3.4:1.7),r=(.48+k/rings*1.42)*(1+expand*.44),tilt=scene===1?k*.24:scene===2?.5:.12;
+for(let n=0;n<110;n++){let a=n*T/110+(hold?0:t*.13)*(k%2?1:-1),b=(n+1)*T/110+(hold?0:t*.13)*(k%2?1:-1);stroke([r*Math.cos(a),r*Math.sin(a)*Math.cos(tilt),z+r*Math.sin(a)*Math.sin(tilt)],[r*Math.cos(b),r*Math.sin(b)*Math.cos(tilt),z+r*Math.sin(b)*Math.sin(tilt)],.10+E*.26);}}
+for(let i=0;i<1300*D+90;i++){const q=(Math.sin(i*19.93)*46358.7)%1,rr=(i/(1300*D+91))**.5*(scene===2?1.85:1.4),a=i*2.399+t*(scene===1?.17:scene===2?-.22:.04),x=rr*Math.cos(a)*(1+expand),y=rr*Math.sin(a)*.78*(1+expand),z=-3.6+q*(scene===2?3.5:1.7);dots.push(x,y,z,.13+E*.56);}
+}
+function buffer(data,b,primitive,sz){gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.DYNAMIC_DRAW);gl.vertexAttribPointer(loc.pos,3,gl.FLOAT,false,16,0);gl.enableVertexAttribArray(loc.pos);gl.vertexAttribPointer(loc.alpha,1,gl.FLOAT,false,16,12);gl.enableVertexAttribArray(loc.alpha);gl.uniform1f(loc.isPoint,primitive===gl.POINTS?1:0);gl.uniform1f(loc.size,sz);gl.drawArrays(primitive,0,data.length/4);}
+function draw(view,proj){gl.useProgram(prog);gl.uniformMatrix4fv(loc.view,false,view);gl.uniformMatrix4fv(loc.proj,false,proj);buffer(lines,bl,gl.LINES,2);buffer(dots,bp,gl.POINTS,4);}
+function perspective(a){const f=1/Math.tan(.53),o=new Float32Array(16);o[0]=f/a;o[5]=f;o[10]=-1.001;o[11]=-1;o[14]=-.2;return o;}
+function look(eye){const z=[eye[0],eye[1],eye[2]+3.6],l=Math.hypot(...z);z.forEach((v,i)=>z[i]=v/l);const x=[z[2],0,-z[0]],lx=Math.hypot(...x);x.forEach((v,i)=>x[i]=v/lx);const y=[z[1]*x[2]*-1,z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-x[0]*eye[0]-x[2]*eye[2],-y[0]*eye[0]-y[1]*eye[1]-y[2]*eye[2],-z[0]*eye[0]-z[1]*eye[1]-z[2]*eye[2],1]);}
+canvas.onpointerdown=e=>{drag=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);};canvas.onpointerup=()=>drag=false;canvas.onpointermove=e=>{if(drag&&!session){yaw=Math.max(-1.1,Math.min(1.1,yaw+(e.clientX-lastX)*.006));pitch=Math.max(-.6,Math.min(.6,pitch+(e.clientY-lastY)*.006));lastX=e.clientX;lastY=e.clientY;}};
+function screen(now){requestAnimationFrame(screen);if(session)return;tick(now,'DESKTOP');const dpi=Math.min(devicePixelRatio||1,1.5),w=canvas.clientWidth*dpi,h=canvas.clientHeight*dpi;if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}gl.bindFramebuffer(gl.FRAMEBUFFER,null);gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(.005,.009,.010,1);gl.clear(gl.COLOR_BUFFER_BIT);geo(now/1000);draw(look([2.6*Math.sin(yaw),pitch,2.6*Math.cos(yaw)]),perspective(canvas.width/canvas.height));}
+async function xrStart(){try{const s=await navigator.xr.requestSession('immersive-vr',{optionalFeatures:['hand-tracking']});if(gl.makeXRCompatible)await gl.makeXRCompatible();s.updateRenderState({baseLayer:new XRWebGLLayer(s,gl)});refSpace=await s.requestReferenceSpace('local');session=s;$('enter').textContent='EXIT XR';$('xrstatus').textContent='沉浸式 XR 已启动';s.addEventListener('select',()=>change(scene+1,'HAND'));s.addEventListener('end',()=>{session=null;refSpace=null;$('enter').textContent='ENTER IMMERSIVE XR';$('xrstatus').textContent='已退出 XR';});s.requestAnimationFrame(xrFrame);}catch(e){$('xrstatus').textContent='XR 启动失败：'+e.message;}}
+function xrFrame(now,frame){if(!session)return;session.requestAnimationFrame(xrFrame);let tracked=0;for(const source of session.inputSources){if(!source.hand)continue;const tip=source.hand.get('index-finger-tip');if(!tip)continue;const p=frame.getJointPose(tip,refSpace);if(!p)continue;tracked++;if(source.handedness==='left')score.space=clamp((p.transform.position.x+.5));if(source.handedness==='right')score.energy=clamp(p.transform.position.y+.65);}
+if(tracked){handEver=true;lastHands=now;}if(handEver&&!tracked&&now-lastHands>500){score.energy=0;score.density=0;}handCount=tracked;tick(now,'WEBXR');const pose=frame.getViewerPose(refSpace);if(!pose)return;const layer=session.renderState.baseLayer;gl.bindFramebuffer(gl.FRAMEBUFFER,layer.framebuffer);geo(now/1000);gl.enable(gl.SCISSOR_TEST);for(const v of pose.views){const box=layer.getViewport(v);gl.viewport(box.x,box.y,box.width,box.height);gl.scissor(box.x,box.y,box.width,box.height);gl.clearColor(.005,.009,.010,1);gl.clear(gl.COLOR_BUFFER_BIT);draw(new Float32Array(v.transform.inverse.matrix),new Float32Array(v.projectionMatrix));}gl.disable(gl.SCISSOR_TEST);}
+$('enter').onclick=()=>session?session.end():xrStart();
+(async()=>{try{const ok=navigator.xr&&await navigator.xr.isSessionSupported('immersive-vr');$('enter').disabled=!ok;$('enter').textContent=ok?'ENTER IMMERSIVE XR':'XR 不可用 · 桌面预览';$('xrstatus').textContent=ok?'Vision Pro / 兼容头显：可以进入 immersive-vr':'此设备未报告 immersive-vr。桌面仍可预览。';}catch(e){$('enter').textContent='XR 检测失败';}})();
+drawUI();requestAnimationFrame(screen);
+})();
+</script></body></html>
