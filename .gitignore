@@ -45,3 +45,6 @@ performances/2026-12-03-phase-01/pressure-test-001/show-score-reference.json
 
 # Never accidentally commit private listening exports
 Listening_Y*.wav
+
+# Generated study audio (large; rebuild from render scripts)
+studies/*/outputs/

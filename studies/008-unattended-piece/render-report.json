@@ -1,0 +1,43 @@
+{
+  "bpm": 128,
+  "bars": 32,
+  "sample_rate": 48000,
+  "duration_s": 62.0,
+  "roles": {
+    "bass": {
+      "patch": "patches_factory/Basses/Rubber Bass.fxp",
+      "notes": 80,
+      "peak": 0.07909953594207764,
+      "state_sha256": "7031796f30395da3f25248b8d6ba96a0a0a70b061eccd19f2a079bc0721b2f16"
+    },
+    "metal": {
+      "patch": "patches_factory/FX/Metal Pluck.fxp",
+      "notes": 29,
+      "peak": 0.12927691638469696,
+      "state_sha256": "00f4243aeb8ef7f04166e481943e9b64e02444a342a62e6f644af825bcdb579a"
+    },
+    "kick": {
+      "patch": "patches_factory/Percussion/Kick Tech 1.fxp",
+      "notes": 40,
+      "peak": 0.3541603982448578,
+      "state_sha256": "86bb859c954616c188247ad67c2abe04fdb307e703c39bd5ef5b017b364ed34a"
+    },
+    "snare": {
+      "patch": "patches_factory/Percussion/Snare Tight.fxp",
+      "notes": 24,
+      "peak": 0.01146343071013689,
+      "state_sha256": "2bac05f9eae81855aa0c53964b5a7509df030f89060cbaac303622bea396bea2"
+    },
+    "pressure": {
+      "patch": "patches_factory/FX/Radio Noise.fxp",
+      "notes": 2,
+      "peak": 0.006237170193344355,
+      "state_sha256": "0acf08c464e54925f28bbdfebbe63f758f30e06187c31b23ec14cedaf01a101a"
+    }
+  },
+  "status": "REAL SURGE VST3 RENDER; no DAW export; no human listening",
+  "master": {
+    "peak": 0.637505054473877,
+    "rms": 0.0536004863679409
+  }
+}

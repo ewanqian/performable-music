@@ -1,0 +1,181 @@
+{
+  "D01_LATTICE": {
+    "bpm": 120,
+    "seconds": 195.0,
+    "layers": {
+      "click": {
+        "patch": "patches_factory/Percussion/Drum One.fxp",
+        "notes": 652,
+        "peak": 0.025779681280255318
+      },
+      "tone": {
+        "patch": "patches_factory/Plucks/Bell 1.fxp",
+        "notes": 70,
+        "peak": 0.038142986595630646
+      },
+      "sub": {
+        "patch": "patches_factory/Basses/Eighties Drone.fxp",
+        "notes": 4,
+        "peak": 0.058737654238939285
+      }
+    },
+    "master_peak": 0.637505054473877,
+    "master_rms": 0.13497111201286316
+  },
+  "D02_GRAIN": {
+    "bpm": 140,
+    "seconds": 167.57,
+    "layers": {
+      "grain": {
+        "patch": "patches_factory/Percussion/Drum One.fxp",
+        "notes": 392,
+        "peak": 0.03462263196706772
+      },
+      "test": {
+        "patch": "patches_factory/Plucks/Comb Pluck.fxp",
+        "notes": 30,
+        "peak": 0.011148754507303238
+      }
+    },
+    "master_peak": 0.637505054473877,
+    "master_rms": 0.06471241265535355
+  },
+  "D03_DRONE": {
+    "bpm": 92,
+    "seconds": 253.43,
+    "layers": {
+      "pad1": {
+        "patch": "patches_factory/Pads/Pad 1.fxp",
+        "notes": 36,
+        "peak": 0.027252044528722763
+      },
+      "pad3": {
+        "patch": "patches_factory/Pads/Pad 3.fxp",
+        "notes": 24,
+        "peak": 0.03609805181622505
+      },
+      "sub": {
+        "patch": "patches_factory/Basses/Eighties Drone.fxp",
+        "notes": 4,
+        "peak": 0.0399722084403038
+      }
+    },
+    "master_peak": 0.637505054473877,
+    "master_rms": 0.14448614418506622
+  },
+  "D04_MACHINE": {
+    "bpm": 124,
+    "seconds": 188.81,
+    "layers": {
+      "kick": {
+        "patch": "patches_factory/Percussion/Kick Tech 1.fxp",
+        "notes": 438,
+        "peak": 0.1837691366672516
+      },
+      "tom": {
+        "patch": "patches_factory/Percussion/Synth Tom 2.fxp",
+        "notes": 288,
+        "peak": 0.028693407773971558
+      },
+      "bass": {
+        "patch": "patches_factory/Basses/Rubber Bass.fxp",
+        "notes": 288,
+        "peak": 0.06075769290328026
+      },
+      "metal": {
+        "patch": "patches_factory/FX/Metal Pluck.fxp",
+        "notes": 6,
+        "peak": 0.059052273631095886
+      }
+    },
+    "master_peak": 0.637505054473877,
+    "master_rms": 0.0892588421702385
+  },
+  "D05_RADIO_HALL": {
+    "bpm": 100,
+    "seconds": 233.4,
+    "layers": {
+      "vinyl": {
+        "patch": "patches_factory/FX/Vinyl.fxp",
+        "notes": 4,
+        "peak": 0.025724463164806366
+      },
+      "noise": {
+        "patch": "patches_factory/FX/Radio Noise.fxp",
+        "notes": 4,
+        "peak": 0.0007284947787411511
+      },
+      "ep": {
+        "patch": "patches_factory/Keys/EP 1.fxp",
+        "notes": 48,
+        "peak": 0.03318221494555473
+      }
+    },
+    "master_peak": 0.637505054473877,
+    "master_rms": 0.04358811676502228
+  },
+  "D06_GESTURE": {
+    "bpm": 128,
+    "seconds": 183.0,
+    "layers": {
+      "lead": {
+        "patch": "patches_factory/Leads/Classic Lead 1.fxp",
+        "notes": 1228,
+        "peak": 0.14751194417476654
+      },
+      "pad": {
+        "patch": "patches_factory/Pads/Ghost Pad.fxp",
+        "notes": 36,
+        "peak": 0.016260556876659393
+      }
+    },
+    "master_peak": 0.637505054473877,
+    "master_rms": 0.08249656111001968
+  },
+  "D07_SEQUENCER": {
+    "bpm": 132,
+    "seconds": 177.55,
+    "layers": {
+      "voiceA": {
+        "patch": "patches_factory/FX/Metal Pluck.fxp",
+        "notes": 507,
+        "peak": 0.11103320121765137
+      },
+      "voiceB": {
+        "patch": "patches_factory/Percussion/Kick Tech 2.fxp",
+        "notes": 326,
+        "peak": 0.22240228950977325
+      },
+      "voiceC": {
+        "patch": "patches_factory/Plucks/Bell 2.fxp",
+        "notes": 336,
+        "peak": 0.014878754504024982
+      }
+    },
+    "master_peak": 0.637505054473877,
+    "master_rms": 0.08506865054368973
+  },
+  "D08_AFTERIMAGE": {
+    "bpm": 90,
+    "seconds": 259.0,
+    "layers": {
+      "pad": {
+        "patch": "patches_factory/Pads/Ghost Pad.fxp",
+        "notes": 36,
+        "peak": 0.022887876257300377
+      },
+      "bell": {
+        "patch": "patches_factory/Pads/Bell Pad.fxp",
+        "notes": 26,
+        "peak": 0.03029273822903633
+      },
+      "unsettler": {
+        "patch": "patches_factory/FX/Unsettler.fxp",
+        "notes": 1,
+        "peak": 0.00826065894216299
+      }
+    },
+    "master_peak": 0.637505054473877,
+    "master_rms": 0.09210741519927979
+  }
+}

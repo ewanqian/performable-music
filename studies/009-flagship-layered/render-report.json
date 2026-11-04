@@ -1,0 +1,139 @@
+{
+  "bpm": 128,
+  "total_bars": 240,
+  "duration_s": 453.0,
+  "sample_rate": 48000,
+  "sections": [
+    {
+      "name": "INTRO",
+      "start_bar": 1,
+      "end_bar": 16
+    },
+    {
+      "name": "GROOVE",
+      "start_bar": 17,
+      "end_bar": 48
+    },
+    {
+      "name": "DIALOGUE",
+      "start_bar": 49,
+      "end_bar": 80
+    },
+    {
+      "name": "WITHDRAW",
+      "start_bar": 81,
+      "end_bar": 112
+    },
+    {
+      "name": "BUILD",
+      "start_bar": 113,
+      "end_bar": 144
+    },
+    {
+      "name": "RUPTURE",
+      "start_bar": 145,
+      "end_bar": 160
+    },
+    {
+      "name": "AFTERIMAGE",
+      "start_bar": 161,
+      "end_bar": 200
+    },
+    {
+      "name": "OUTRO",
+      "start_bar": 201,
+      "end_bar": 240
+    }
+  ],
+  "status": "REAL SURGE VST3 RENDER; no DAW export; no human listening",
+  "layers": {
+    "sub": {
+      "patch": "patches_factory/Basses/Eighties Drone.fxp",
+      "notes": 8,
+      "peak": 0.0736827403306961,
+      "rms": 0.015282303094863892,
+      "state_sha256": "fd82dc6c431d4a7937ccb79c80f7efb2c73586b89cbbe1ca840c85e6baa4dfdd"
+    },
+    "bass": {
+      "patch": "patches_factory/Basses/Rubber Bass.fxp",
+      "notes": 526,
+      "peak": 0.060656484216451645,
+      "rms": 0.0029549305327236652,
+      "state_sha256": "4d84dc12fe4d83c47d0812e63d48ce0ce34efce4900e0ea4d7c548b86614307b"
+    },
+    "pad": {
+      "patch": "patches_factory/Pads/Ghost Pad.fxp",
+      "notes": 180,
+      "peak": 0.0498506985604763,
+      "rms": 0.005535539239645004,
+      "state_sha256": "b22f85256558693f4dc2d316306481c1c6c7370a4f7a9b03bc1c1a47113f1788"
+    },
+    "noise": {
+      "patch": "patches_factory/FX/Radio Noise.fxp",
+      "notes": 8,
+      "peak": 0.007462470326572657,
+      "rms": 0.0015688518760725856,
+      "state_sha256": "0dbad95b58dfdb8c0bfe58109f315df675747aff1c2d389903b8d6d0530f5dc2"
+    },
+    "shimmer": {
+      "patch": "patches_factory/Pads/Bell Pad.fxp",
+      "notes": 96,
+      "peak": 0.03289500251412392,
+      "rms": 0.004956400021910667,
+      "state_sha256": "75f7cc4ec1d1a60b1d215dcbd770dd221d9abff5bc949cdcf3c8ce639bec6d71"
+    },
+    "kick": {
+      "patch": "patches_factory/Percussion/Kick Tech 1.fxp",
+      "notes": 243,
+      "peak": 0.16188445687294006,
+      "rms": 0.012536155991256237,
+      "state_sha256": "e305e1f0faf3eb88c05c198453f7f95dc46925e5fba3520652e0adc5879d31c5"
+    },
+    "snare": {
+      "patch": "patches_factory/Percussion/Snare Tight.fxp",
+      "notes": 197,
+      "peak": 0.07899156957864761,
+      "rms": 0.0021672784350812435,
+      "state_sha256": "7f7eb3f102a9734c3d9a88b1a34fff1806f8b3589daf395db875d4d8e7c98756"
+    },
+    "hat": {
+      "patch": "patches_factory/Percussion/Drum One.fxp",
+      "notes": 512,
+      "peak": 0.07838473469018936,
+      "rms": 0.007172418292611837,
+      "state_sha256": "03fdbca56848162dcdefeb81c4f0d50b7d4be0da5c1f891b34e35d44e9b1a5b1"
+    },
+    "metal": {
+      "patch": "patches_factory/FX/Metal Pluck.fxp",
+      "notes": 121,
+      "peak": 0.1269381195306778,
+      "rms": 0.005037175957113504,
+      "state_sha256": "f3b2996723cd7dd61ac9880c2cf5e0a1fad9d166f44e077270eb806833f00f69"
+    },
+    "bell": {
+      "patch": "patches_factory/Plucks/Bell 1.fxp",
+      "notes": 36,
+      "peak": 0.06717770546674728,
+      "rms": 0.0022244665306061506,
+      "state_sha256": "affa3475d9fb206c65f263ac14aeebaf8b846eb454c2d0f22207ecc526e93ea1"
+    },
+    "texture": {
+      "patch": "patches_factory/FX/Unsettler.fxp",
+      "notes": 1,
+      "peak": 0.14065320789813995,
+      "rms": 0.006967857945710421,
+      "state_sha256": "31384017405c7811e717c38b6aea2626e12f8079f49636273088ecef6c14d3da"
+    },
+    "impact": {
+      "patch": "patches_factory/Percussion/Kick Tech 2.fxp",
+      "notes": 4,
+      "peak": 0.23587310314178467,
+      "rms": 0.0036900166887789965,
+      "state_sha256": "060654a0e455ad92f5017eac99b138de27bae19ca63fb84146fd49bc8517821b"
+    }
+  },
+  "master": {
+    "peak": 0.637505054473877,
+    "rms": 0.045957837253808975
+  }
+}
