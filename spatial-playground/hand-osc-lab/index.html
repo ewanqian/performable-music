@@ -42,7 +42,7 @@ DESKTOP SIMULATOR · NOT XR SENSOR DATA</div><div class="overlay-caption" id="ca
 <div class="btns"><button id="connect">CONNECT</button><button id="arm" disabled>ARM OSC</button></div>
 <p id="wsstate">离线 · 骨架与区域判断可独立运行。</p>
 <div class="rule">SPATIAL REGIONS · METERS</div>
-<div id="zoneinfo" class="metrics"></div>
+<div id="zoneinfo" class="metrics"></div><details style="margin-top:9px"><summary style="font-size:11px;cursor:pointer">EDIT ZONE XYZ / RADIUS BEFORE XR</summary><div id="zone-editor" style="display:grid;gap:8px;margin:12px 0"></div><button type="button" id="export-zones">EXPORT ZONES JSON</button></details>
 <label>进入/退出迟滞距离（毫米） <span id="hystvalue">9 / 14</span>
 <input id="hyst" type="range" min="4" max="24" value="9"></label>
 <label>事件确认时长（毫秒） <span id="dwellvalue">34</span>
