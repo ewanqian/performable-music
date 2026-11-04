@@ -51,5 +51,11 @@
     }
   ],
   "data_contract": "protocols/show-score-v1.schema.json",
-  "reference_renderer": "performances/2026-12-03-phase-01/pressure-test-001/render.py"
+  "reference_renderer": "performances/2026-12-03-phase-01/pressure-test-001/render.py",
+  "updated_at": "2026-11-04",
+  "production_stack_decision": "Use legally authorized existing Ableton if save/export works; otherwise Waveform Free 14 (zero-cost DAW). Surge XT for synth, plugdata for modular live DSP, optional Supermassive for space, and SuperCollider only for unique scripted synth/stems, not blanket music production.",
+  "selection_doc": "research/agent-music/PRODUCTION_STACK_DECISION_2026-11-04.md",
+  "first_action": "Pause further SuperCollider soft-keyboard/melody generation. Verify local DAW/license/save/export, list installed plugins, and build a 16-bar A/B comparison using original syncopated percussive language, with meaningful structural variation.",
+  "private_listening_evidence": "User-uploaded 26.04 s groove-focused original audio clip: tactile pitched percussion, metallic accents and negative space. Not in public repo. No final quality verdict.",
+  "no_cost_constraint": "No purchased plugins or license bypass; REAPER is only 60-day fully functional evaluation, not permanent free baseline."
 }
