@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-11-04T13:53:49.425881+08:00",
+  "status": "PARTIAL REAL RUN; Waveform Free14 native workflow still NOT RUN",
+  "passed": [
+    "real Surge preset render",
+    "authored MIDI velocity response",
+    "five synth states reload to nonzero audio",
+    "real plugdata .pd DSP impulse",
+    "two preparation WAVs plus four reconstructing stems each",
+    "portable source archive CRC and SHA256 roundtrip"
+  ],
+  "pending": [
+    "Waveform Free14 installed/version/entitlement",
+    "native prepared Edit open/save/reopen",
+    "native master process/export",
+    "final blind DAW WAVs/stems",
+    "human listening decision"
+  ],
+  "archive": "PREPARED_Waveform_source_package_UNVERIFIED.zip",
+  "archive_bytes": 5284703,
+  "archive_sha256": "6efbbf2de5ac46b18068fbfba50844def121d80982ef8f48815fce117fc663e6",
+  "files_modified_this_task": [
+    "studies/006-curated-production-ab/ (new)",
+    "references/ACKNOWLEDGEMENTS.md (append; previous edits retained)",
+    "research/acceptance-matrix.csv (append; prior records retained)",
+    "research/prototype-scorecard.csv (append; prior records retained)",
+    "research/wrongbook.md (append; prior history retained)"
+  ],
+  "source_sha256": {
+    "plugdata_host.py": "c76a07405ae592d320f41d101914d2e91023c1d843d395b2b9716bdcabb02a59",
+    "verify_package.py": "1a94cb277ce09035c9a4a5229910a23b3ce1ded6b4ea494383df66f1c2151eb6",
+    "compose.py": "24f9b93d1356d62b2556a10f42fd9ef7088b9b9069d79698b327259ac0f5523d",
+    "build_waveform_edit.py": "80d56c86d227d238efa9d67103130b1d608a756a797f2d989b1187822c423be2",
+    "surge_host.py": "5b2372f3cd044c14a5f9cd1e5c0e33a62c27303bba7e7a55a23a57d4fdb139b1",
+    "relocate_package.py": "74f6f3c66766946cdaf6bb34b46528cda91fc3e0ee49999262a517090f5541f7",
+    "metal-memory.pd": "fad9bfd6d16cf34d54133afc42ed02e955f56cbfaff1ac5aad7fd401a0f737fb",
+    "render_sources.py": "e9c40a8c4172b9987c8d672d0dd004782b521dbc8494b5fbadb6d301751afd1f",
+    "test_sources.py": "4c81e03138357cfc3338f2c222656f9ebf4cbfd97236768846c47baa88ae30c1",
+    "prepare_mix.py": "60c17413d7ef8b25362540027fed8aaf447237bcbd2d02dd95d694c1bc32613f"
+  }
+}

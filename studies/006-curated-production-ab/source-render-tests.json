@@ -1,0 +1,190 @@
+{
+  "status": "REAL SURGE VST3 SOURCE RENDER; not Waveform export",
+  "sample_rate": 48000,
+  "duration": 31.5,
+  "versions": {
+    "A": {
+      "bass": {
+        "peak": 0.08566321432590485,
+        "rms": 0.007040813099592924,
+        "notes": 52,
+        "state_sha256": "7031796f30395da3f25248b8d6ba96a0a0a70b061eccd19f2a079bc0721b2f16"
+      },
+      "metal": {
+        "peak": 0.14878778159618378,
+        "rms": 0.004596509505063295,
+        "notes": 15,
+        "state_sha256": "00f4243aeb8ef7f04166e481943e9b64e02444a342a62e6f644af825bcdb579a"
+      },
+      "kick": {
+        "peak": 0.3541603982448578,
+        "rms": 0.013716707937419415,
+        "notes": 10,
+        "state_sha256": "86bb859c954616c188247ad67c2abe04fdb307e703c39bd5ef5b017b364ed34a"
+      },
+      "snare": {
+        "peak": 0.016971278935670853,
+        "rms": 0.00031843854230828583,
+        "notes": 7,
+        "state_sha256": "2bac05f9eae81855aa0c53964b5a7509df030f89060cbaac303622bea396bea2"
+      },
+      "pressure": {
+        "peak": 0.007599637843668461,
+        "rms": 0.000804574869107455,
+        "notes": 3,
+        "state_sha256": "0acf08c464e54925f28bbdfebbe63f758f30e06187c31b23ec14cedaf01a101a"
+      }
+    },
+    "B": {
+      "bass": {
+        "peak": 0.09463896602392197,
+        "rms": 0.006748397368937731,
+        "notes": 45,
+        "state_sha256": "7031796f30395da3f25248b8d6ba96a0a0a70b061eccd19f2a079bc0721b2f16"
+      },
+      "metal": {
+        "peak": 0.13635961711406708,
+        "rms": 0.00447942316532135,
+        "notes": 17,
+        "state_sha256": "00f4243aeb8ef7f04166e481943e9b64e02444a342a62e6f644af825bcdb579a"
+      },
+      "kick": {
+        "peak": 0.3541603982448578,
+        "rms": 0.012108800001442432,
+        "notes": 7,
+        "state_sha256": "86bb859c954616c188247ad67c2abe04fdb307e703c39bd5ef5b017b364ed34a"
+      },
+      "snare": {
+        "peak": 0.013877477496862411,
+        "rms": 0.000269116775598377,
+        "notes": 6,
+        "state_sha256": "2bac05f9eae81855aa0c53964b5a7509df030f89060cbaac303622bea396bea2"
+      },
+      "pressure": {
+        "peak": 0.008203287608921528,
+        "rms": 0.0008652023389004171,
+        "notes": 4,
+        "state_sha256": "0acf08c464e54925f28bbdfebbe63f758f30e06187c31b23ec14cedaf01a101a"
+      }
+    }
+  },
+  "roles": {
+    "bass": {
+      "factory_patch": "patches_factory/Basses/Rubber Bass.fxp",
+      "metadata": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "Rubber bass",
+            "category": "Bass",
+            "comment": "",
+            "author": "Claes",
+            "license": ""
+          }
+        ]
+      },
+      "production_changes": {
+        "a_velocity_vca_gain": "-21.98",
+        "b_velocity_vca_gain": "-21.98",
+        "fx_chain_bypass": "All FX Off",
+        "global_volume": "-6.0",
+        "a_filter_1_cutoff": "620.0",
+        "a_filter_1_resonance": "10.0"
+      }
+    },
+    "metal": {
+      "factory_patch": "patches_factory/FX/Metal Pluck.fxp",
+      "metadata": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "Metalpluck",
+            "category": "FX",
+            "comment": "",
+            "author": "Claes",
+            "license": ""
+          }
+        ]
+      },
+      "production_changes": {
+        "a_velocity_vca_gain": "-18.0",
+        "b_velocity_vca_gain": "-18.0",
+        "fx_chain_bypass": "All FX Off",
+        "global_volume": "-9.98"
+      }
+    },
+    "kick": {
+      "factory_patch": "patches_factory/Percussion/Kick Tech 1.fxp",
+      "metadata": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "Kick Tech 1",
+            "category": "Percussion",
+            "comment": "",
+            "author": "Claes",
+            "license": ""
+          }
+        ]
+      },
+      "production_changes": {
+        "a_velocity_vca_gain": "-12.0",
+        "b_velocity_vca_gain": "-12.0",
+        "fx_chain_bypass": "All FX Off",
+        "global_volume": "-8.0"
+      }
+    },
+    "snare": {
+      "factory_patch": "patches_factory/Percussion/Snare Tight.fxp",
+      "metadata": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "SnareTight",
+            "category": "Drums",
+            "comment": "",
+            "author": "Taron",
+            "license": ""
+          }
+        ]
+      },
+      "production_changes": {
+        "a_velocity_vca_gain": "-24.0",
+        "b_velocity_vca_gain": "-24.0",
+        "fx_chain_bypass": "All FX Off",
+        "global_volume": "-13.0"
+      }
+    },
+    "pressure": {
+      "factory_patch": "patches_factory/FX/Radio Noise.fxp",
+      "metadata": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "Radio noise",
+            "category": "FX",
+            "comment": "",
+            "author": "Claes",
+            "license": ""
+          }
+        ]
+      },
+      "production_changes": {
+        "a_velocity_vca_gain": "-9.98",
+        "b_velocity_vca_gain": "-9.98",
+        "fx_chain_bypass": "All FX Off",
+        "global_volume": "-19.0"
+      }
+    }
+  }
+}

@@ -1,0 +1,2005 @@
+[
+  {
+    "id": "01",
+    "name": "缺席的末音",
+    "idea": "建立四音回答，撤走最后一音，结尾才兑现。",
+    "form": "2+2+2+2：完整/确认/缺席/完成",
+    "development": "withhold",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 1.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 2.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 4,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 5.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 6.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 8,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 9.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 10.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 12,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 13.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 14.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 16,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 17.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 20,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 21.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 24,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 25.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 26.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 28,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 29.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 30.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        }
+      ],
+      "metal": [
+        {
+          "beat": 0.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 2,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 3.25,
+          "note": 69,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 4.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 6,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 7.25,
+          "note": 69,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 8.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 10,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 11.25,
+          "note": 69,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 12.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 14,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 15.25,
+          "note": 69,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 16.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 18,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 20.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 22,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 24.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 26,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 28.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 30,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 31.25,
+          "note": 69,
+          "velocity": 76,
+          "duration": 0.15
+        }
+      ],
+      "kick": [
+        {
+          "beat": 0,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 8,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 24,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        }
+      ]
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  },
+  {
+    "id": "02",
+    "name": "两个人抢一句话",
+    "idea": "低频与金属交错接话；共享旋律的音区在中点互换。",
+    "form": "2+2+2+2：接话/抢答/交换/和解",
+    "development": "hocket",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 2,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 4,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 6,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 8,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 10,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 12,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 14,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 17,
+          "note": 38,
+          "velocity": 85,
+          "duration": 0.24
+        },
+        {
+          "beat": 19,
+          "note": 34,
+          "velocity": 85,
+          "duration": 0.24
+        },
+        {
+          "beat": 21,
+          "note": 38,
+          "velocity": 85,
+          "duration": 0.24
+        },
+        {
+          "beat": 23,
+          "note": 34,
+          "velocity": 85,
+          "duration": 0.24
+        },
+        {
+          "beat": 24,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 26,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 28,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 30,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        }
+      ],
+      "metal": [
+        {
+          "beat": 1,
+          "note": 74,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 3,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 5,
+          "note": 74,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 7,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 9,
+          "note": 74,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 11,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 13,
+          "note": 74,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 15,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 16,
+          "note": 67,
+          "velocity": 105,
+          "duration": 0.18
+        },
+        {
+          "beat": 18,
+          "note": 70,
+          "velocity": 72,
+          "duration": 0.18
+        },
+        {
+          "beat": 20,
+          "note": 67,
+          "velocity": 105,
+          "duration": 0.18
+        },
+        {
+          "beat": 22,
+          "note": 70,
+          "velocity": 72,
+          "duration": 0.18
+        },
+        {
+          "beat": 25,
+          "note": 74,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 27,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 29,
+          "note": 74,
+          "velocity": 88,
+          "duration": 0.15
+        }
+      ],
+      "kick": [
+        {
+          "beat": 0,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 8,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 24,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        }
+      ]
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  },
+  {
+    "id": "03",
+    "name": "三步撞上四步",
+    "idea": "低频保留四拍句，金属每三拍出现；最后主动合拍。",
+    "form": "3+3+2：分离/失配/对齐",
+    "development": "phase",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 1.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 3.25,
+          "note": 29,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 4,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 5.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 7.25,
+          "note": 29,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 8,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 9.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 11.25,
+          "note": 29,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 12,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 13.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 15.25,
+          "note": 29,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 16,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 17.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 19.25,
+          "note": 29,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 20,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 21.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 23.25,
+          "note": 29,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 24,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 25.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 27.25,
+          "note": 29,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 28,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 29.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        }
+      ],
+      "metal": [
+        {
+          "beat": 1,
+          "note": 74,
+          "velocity": 83,
+          "duration": 0.16
+        },
+        {
+          "beat": 4,
+          "note": 70,
+          "velocity": 83,
+          "duration": 0.16
+        },
+        {
+          "beat": 7,
+          "note": 74,
+          "velocity": 83,
+          "duration": 0.16
+        },
+        {
+          "beat": 10,
+          "note": 70,
+          "velocity": 83,
+          "duration": 0.16
+        },
+        {
+          "beat": 13,
+          "note": 74,
+          "velocity": 83,
+          "duration": 0.16
+        },
+        {
+          "beat": 16,
+          "note": 70,
+          "velocity": 83,
+          "duration": 0.16
+        },
+        {
+          "beat": 19,
+          "note": 74,
+          "velocity": 83,
+          "duration": 0.16
+        },
+        {
+          "beat": 22,
+          "note": 70,
+          "velocity": 83,
+          "duration": 0.16
+        },
+        {
+          "beat": 24,
+          "note": 74,
+          "velocity": 92,
+          "duration": 0.18
+        },
+        {
+          "beat": 27.5,
+          "note": 74,
+          "velocity": 92,
+          "duration": 0.18
+        },
+        {
+          "beat": 30,
+          "note": 74,
+          "velocity": 92,
+          "duration": 0.18
+        }
+      ],
+      "kick": []
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  },
+  {
+    "id": "04",
+    "name": "越来越晚的回答",
+    "idea": "提问稳定，回答逐次推迟，制造等待；最后回答反而提前。",
+    "form": "2+2+2+2：准时/迟到/失约/抢先",
+    "development": "late",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 2.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 4,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 6.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 8,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 10.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 12,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 14.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 16,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 20,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 24,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 26.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 28,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 30.5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        }
+      ],
+      "metal": [
+        {
+          "beat": 0.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 2.25,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 4.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 6.25,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 9.0,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 10.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 13.0,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 14.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 17.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 19.0,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 21.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 23.0,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 24.25,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 25.75,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 28.25,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 29.75,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        }
+      ],
+      "kick": [
+        {
+          "beat": 0,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 8,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 24,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        }
+      ]
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  },
+  {
+    "id": "05",
+    "name": "空白里的重拍",
+    "idea": "抽掉鼓，靠低频与无声位置让身体继续数拍。",
+    "form": "2+2+2+2：锚定/少鼓/无鼓/轻回归",
+    "development": "negative",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0.25,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 1.5,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 3,
+          "note": 38,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 4.25,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 5.5,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 7,
+          "note": 38,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 8.25,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 9.5,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 11,
+          "note": 38,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 13.5,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 15,
+          "note": 38,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 16.25,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 17.5,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 19,
+          "note": 38,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 21.5,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 23,
+          "note": 38,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 24.25,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 25.5,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 27,
+          "note": 38,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 28.25,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 29.5,
+          "note": 34,
+          "velocity": 72,
+          "duration": 0.24
+        }
+      ],
+      "metal": [
+        {
+          "beat": 2.25,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 6.25,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 10.25,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 14.25,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 18.25,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 22.25,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 26.25,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 30.25,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        }
+      ],
+      "kick": [
+        {
+          "beat": 0,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        }
+      ]
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  },
+  {
+    "id": "06",
+    "name": "熟悉声音变了角色",
+    "idea": "同一节奏先是低频主角，后变成高处残像；旋律不增加。",
+    "form": "2+2+2+2：实体/上移/残像/落地",
+    "development": "register",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 1.25,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 2.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 4,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 5.25,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 6.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 8,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 9.25,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 10.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 12,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 13.25,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 14.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 28,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 29.25,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 30.75,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        }
+      ],
+      "metal": [
+        {
+          "beat": 3.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 7.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 11.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 15.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 16,
+          "note": 67,
+          "velocity": 90,
+          "duration": 0.16
+        },
+        {
+          "beat": 17.25,
+          "note": 74,
+          "velocity": 57,
+          "duration": 0.16
+        },
+        {
+          "beat": 18.75,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.16
+        },
+        {
+          "beat": 19.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 20,
+          "note": 67,
+          "velocity": 90,
+          "duration": 0.16
+        },
+        {
+          "beat": 21.25,
+          "note": 74,
+          "velocity": 57,
+          "duration": 0.16
+        },
+        {
+          "beat": 22.75,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.16
+        },
+        {
+          "beat": 23.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 24,
+          "note": 67,
+          "velocity": 90,
+          "duration": 0.16
+        },
+        {
+          "beat": 25.25,
+          "note": 74,
+          "velocity": 57,
+          "duration": 0.16
+        },
+        {
+          "beat": 26.75,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.16
+        },
+        {
+          "beat": 27.5,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        }
+      ],
+      "kick": [
+        {
+          "beat": 0,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 8,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 24,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        }
+      ]
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  },
+  {
+    "id": "07",
+    "name": "七拍问九拍答",
+    "idea": "句长错开小节线，呼吸仍清楚；第三次才恢复均衡。",
+    "form": "7+9+7+9 拍：两次不等长问答",
+    "development": "asymmetric",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0,
+          "note": 31,
+          "velocity": 104,
+          "duration": 0.3
+        },
+        {
+          "beat": 1.5,
+          "note": 31,
+          "velocity": 67,
+          "duration": 0.3
+        },
+        {
+          "beat": 4.25,
+          "note": 31,
+          "velocity": 90,
+          "duration": 0.3
+        },
+        {
+          "beat": 7,
+          "note": 34,
+          "velocity": 104,
+          "duration": 0.3
+        },
+        {
+          "beat": 8.5,
+          "note": 34,
+          "velocity": 67,
+          "duration": 0.3
+        },
+        {
+          "beat": 11.25,
+          "note": 34,
+          "velocity": 90,
+          "duration": 0.3
+        },
+        {
+          "beat": 16,
+          "note": 29,
+          "velocity": 104,
+          "duration": 0.3
+        },
+        {
+          "beat": 17.5,
+          "note": 29,
+          "velocity": 67,
+          "duration": 0.3
+        },
+        {
+          "beat": 20.25,
+          "note": 29,
+          "velocity": 90,
+          "duration": 0.3
+        },
+        {
+          "beat": 23,
+          "note": 31,
+          "velocity": 104,
+          "duration": 0.3
+        },
+        {
+          "beat": 24.5,
+          "note": 31,
+          "velocity": 67,
+          "duration": 0.3
+        },
+        {
+          "beat": 27.25,
+          "note": 31,
+          "velocity": 90,
+          "duration": 0.3
+        }
+      ],
+      "metal": [
+        {
+          "beat": 5.5,
+          "note": 67,
+          "velocity": 83,
+          "duration": 0.18
+        },
+        {
+          "beat": 14.5,
+          "note": 70,
+          "velocity": 83,
+          "duration": 0.18
+        },
+        {
+          "beat": 21.5,
+          "note": 65,
+          "velocity": 83,
+          "duration": 0.18
+        },
+        {
+          "beat": 30.5,
+          "note": 67,
+          "velocity": 83,
+          "duration": 0.18
+        }
+      ],
+      "kick": [
+        {
+          "beat": 0,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 8,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 24,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        }
+      ]
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  },
+  {
+    "id": "08",
+    "name": "重音换了，音符没换",
+    "idea": "同一组音高与落点，力度重心在中段转移，低频让出头拍。",
+    "form": "2+2+2+2：原重音/反重音/悬置/新重心",
+    "development": "accent",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 1,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 2.5,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 3.25,
+          "note": 29,
+          "velocity": 55,
+          "duration": 0.24
+        },
+        {
+          "beat": 4,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 5,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 6.5,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 7.25,
+          "note": 29,
+          "velocity": 55,
+          "duration": 0.24
+        },
+        {
+          "beat": 8,
+          "note": 31,
+          "velocity": 57,
+          "duration": 0.24
+        },
+        {
+          "beat": 9,
+          "note": 38,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 10.5,
+          "note": 34,
+          "velocity": 64,
+          "duration": 0.24
+        },
+        {
+          "beat": 11.25,
+          "note": 29,
+          "velocity": 97,
+          "duration": 0.24
+        },
+        {
+          "beat": 12,
+          "note": 31,
+          "velocity": 57,
+          "duration": 0.24
+        },
+        {
+          "beat": 13,
+          "note": 38,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 14.5,
+          "note": 34,
+          "velocity": 64,
+          "duration": 0.24
+        },
+        {
+          "beat": 15.25,
+          "note": 29,
+          "velocity": 97,
+          "duration": 0.24
+        },
+        {
+          "beat": 16,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 17,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 18.5,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 19.25,
+          "note": 29,
+          "velocity": 55,
+          "duration": 0.24
+        },
+        {
+          "beat": 20,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 21,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 22.5,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 23.25,
+          "note": 29,
+          "velocity": 55,
+          "duration": 0.24
+        },
+        {
+          "beat": 24,
+          "note": 31,
+          "velocity": 57,
+          "duration": 0.24
+        },
+        {
+          "beat": 25,
+          "note": 38,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 26.5,
+          "note": 34,
+          "velocity": 64,
+          "duration": 0.24
+        },
+        {
+          "beat": 27.25,
+          "note": 29,
+          "velocity": 97,
+          "duration": 0.24
+        },
+        {
+          "beat": 28,
+          "note": 31,
+          "velocity": 57,
+          "duration": 0.24
+        },
+        {
+          "beat": 29,
+          "note": 38,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 30.5,
+          "note": 34,
+          "velocity": 64,
+          "duration": 0.24
+        }
+      ],
+      "metal": [
+        {
+          "beat": 1.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 3.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 5.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 7.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 9.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 11.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 13.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 15.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 17.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 19.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 21.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 23.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 25.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 27.5,
+          "note": 74,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 29.75,
+          "note": 70,
+          "velocity": 88,
+          "duration": 0.15
+        }
+      ],
+      "kick": [
+        {
+          "beat": 0,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 8,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 24,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        }
+      ]
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  },
+  {
+    "id": "09",
+    "name": "冲击之后还会说话",
+    "idea": "第一落点只说半句，空一拍；第二落点回答，结尾减去一半。",
+    "form": "2+2+1+1+2：暗示/抽空/冲击/停顿/后果",
+    "development": "aftermath",
+    "bpm": 128,
+    "bars": 8,
+    "notes": {
+      "bass": [
+        {
+          "beat": 0,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 1.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 3,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 4,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 5.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 7,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 8,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 9.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 11,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 16,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 24,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 25.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        },
+        {
+          "beat": 27,
+          "note": 34,
+          "velocity": 91,
+          "duration": 0.24
+        },
+        {
+          "beat": 28,
+          "note": 31,
+          "velocity": 105,
+          "duration": 0.24
+        },
+        {
+          "beat": 29.75,
+          "note": 38,
+          "velocity": 72,
+          "duration": 0.24
+        }
+      ],
+      "metal": [
+        {
+          "beat": 0.75,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 2.5,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 4.75,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 6.5,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 8.75,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 10.5,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 16.75,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 18.5,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        },
+        {
+          "beat": 24.75,
+          "note": 77,
+          "velocity": 88,
+          "duration": 0.15
+        },
+        {
+          "beat": 26.5,
+          "note": 70,
+          "velocity": 76,
+          "duration": 0.15
+        }
+      ],
+      "kick": [
+        {
+          "beat": 0,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 8,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        },
+        {
+          "beat": 24,
+          "note": 43,
+          "velocity": 104,
+          "duration": 0.12
+        }
+      ]
+    },
+    "status": "MIDI WRITTEN; human audition pending"
+  }
+]

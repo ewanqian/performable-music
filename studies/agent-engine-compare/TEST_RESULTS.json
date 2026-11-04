@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-04",
+  "status": "PASS: technical render and file validation only",
+  "human_listening": "NOT REVIEWED",
+  "engine": "SuperCollider 3.14.1 / real scsynth NRT",
+  "versions": {
+    "A": {
+      "path": "renders/Afterimage_A.wav",
+      "sample_rate": 48000,
+      "channels": 2,
+      "duration_seconds": 38.60666666666667,
+      "pcm_subtype": "PCM_24",
+      "raw_measurement": {
+        "integrated_lufs": -40.02,
+        "true_peak_dbtp": -24.99,
+        "lra_lu": 6.7
+      },
+      "gain_db": 20.020000000000003,
+      "matched_measurement": {
+        "integrated_lufs": -20.01,
+        "true_peak_dbtp": -4.97,
+        "lra_lu": 6.7
+      },
+      "sha256": "475ff16e6c7bd3b6829c32883e6dab37fd819b362d039ea8720c82400c8951c0"
+    },
+    "B": {
+      "path": "renders/Afterimage_B.wav",
+      "sample_rate": 48000,
+      "channels": 2,
+      "duration_seconds": 38.60666666666667,
+      "pcm_subtype": "PCM_24",
+      "raw_measurement": {
+        "integrated_lufs": -41.93,
+        "true_peak_dbtp": -25.36,
+        "lra_lu": 11.4
+      },
+      "gain_db": 21.93,
+      "matched_measurement": {
+        "integrated_lufs": -20.01,
+        "true_peak_dbtp": -3.43,
+        "lra_lu": 11.4
+      },
+      "sha256": "2550d224f05362547f38a609aab5f2418c8a2b22b96815b72d417524c1d82561"
+    }
+  },
+  "target_lufs": -20.0,
+  "same_opening_pcm": true,
+  "B_measured_silence": [
+    {
+      "bars": [
+        8,
+        8
+      ],
+      "raw_peak_dbfs": null,
+      "below_minus_100_dbfs": true
+    },
+    {
+      "bars": [
+        12,
+        12
+      ],
+      "raw_peak_dbfs": null,
+      "below_minus_100_dbfs": true
+    }
+  ],
+  "errors": [],
+  "scope_limits": [
+    "Synthesized struck-string/key tone; not a sampled acoustic piano",
+    "A/B comparison changes a compositional strategy, not a single isolated variable",
+    "No acoustic/subjective listening or musical self-score",
+    "No real-time latency, hardware or stage-safety test",
+    "Existing Ableton session not accessed or changed in this task"
+  ],
+  "A_repeat_render_pcm_identical": true,
+  "repeat_check_path": "renders/repeat-check/Afterimage_A_raw.wav"
+}

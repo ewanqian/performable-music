@@ -1,0 +1,47 @@
+{
+  "status": "REAL RUN: technical only",
+  "human_listening": "PENDING",
+  "bpm": 128,
+  "sample_rate": 44100,
+  "seconds": 78.75,
+  "versions": {
+    "A": {
+      "raw": {
+        "input_i": -19.72,
+        "input_tp": -3.71,
+        "input_lra": 11.8
+      },
+      "pre_event_silence_seconds": 0.9375,
+      "edited_interval_seconds": [
+        31.875,
+        52.5
+      ],
+      "gain_db": 0.7199999999999989,
+      "matched": {
+        "input_i": -19.0,
+        "input_tp": -2.99,
+        "input_lra": 11.8
+      }
+    },
+    "B": {
+      "raw": {
+        "input_i": -19.62,
+        "input_tp": -3.71,
+        "input_lra": 12.2
+      },
+      "pre_event_silence_seconds": 1.40625,
+      "edited_interval_seconds": [
+        31.875,
+        52.5
+      ],
+      "gain_db": 0.620000000000001,
+      "matched": {
+        "input_i": -19.0,
+        "input_tp": -3.09,
+        "input_lra": 12.2
+      }
+    }
+  },
+  "outside_edit_region_identical_before_matching": true,
+  "notes": "A/B are original hypotheses. No claim of better music without human audition."
+}

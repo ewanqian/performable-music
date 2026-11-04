@@ -1,0 +1,108 @@
+{
+  "status": "REAL RUN",
+  "velocity": {
+    "48": {
+      "rms": 0.004387820139527321,
+      "peak": 0.023453719913959503
+    },
+    "112": {
+      "rms": 0.015710007399320602,
+      "peak": 0.08397290110588074
+    }
+  },
+  "high_low_rms_ratio": 3.58036722102583,
+  "restore": [
+    {
+      "role": "bass",
+      "meta": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "Rubber bass",
+            "category": "Bass",
+            "comment": "",
+            "author": "Claes",
+            "license": ""
+          }
+        ]
+      },
+      "peak": 0.06611162424087524
+    },
+    {
+      "role": "metal",
+      "meta": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "Metalpluck",
+            "category": "FX",
+            "comment": "",
+            "author": "Claes",
+            "license": ""
+          }
+        ]
+      },
+      "peak": 0.12212591618299484
+    },
+    {
+      "role": "kick",
+      "meta": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "Kick Tech 1",
+            "category": "Percussion",
+            "comment": "",
+            "author": "Claes",
+            "license": ""
+          }
+        ]
+      },
+      "peak": 0.21598166227340698
+    },
+    {
+      "role": "snare",
+      "meta": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "SnareTight",
+            "category": "Drums",
+            "comment": "",
+            "author": "Taron",
+            "license": ""
+          }
+        ]
+      },
+      "peak": 0.028111359104514122
+    },
+    {
+      "role": "pressure",
+      "meta": {
+        "patch": {
+          "revision": "24"
+        },
+        "meta": [
+          {
+            "name": "Radio noise",
+            "category": "FX",
+            "comment": "",
+            "author": "Claes",
+            "license": ""
+          }
+        ]
+      },
+      "peak": 0.011717903427779675
+    }
+  ],
+  "DAW_save_reload": "NOT RUN",
+  "human_audition": "PENDING"
+}

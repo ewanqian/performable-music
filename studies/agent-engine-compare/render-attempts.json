@@ -1,0 +1,41 @@
+[
+  {
+    "attempt_utc": "20261103T170739Z",
+    "sclang_exit": 0,
+    "timed_out": false,
+    "errors": [],
+    "log": "renders/logs/sclang-20261103T170739Z.txt",
+    "real_sc_renderer": true,
+    "completed_marker": true,
+    "output_files": [
+      {
+        "path": "renders/Afterimage_A_raw.wav",
+        "exists": true,
+        "bytes": 11118764
+      },
+      {
+        "path": "renders/Afterimage_B_raw.wav",
+        "exists": true,
+        "bytes": 11118764
+      }
+    ],
+    "status": "PASS"
+  },
+  {
+    "attempt_utc": "20261103T171050Z",
+    "sclang_exit": 0,
+    "timed_out": false,
+    "errors": [],
+    "log": "renders/logs/sclang-20261103T171050Z.txt",
+    "real_sc_renderer": true,
+    "completed_marker": true,
+    "output_files": [
+      {
+        "path": "renders/repeat-check/Afterimage_A_raw.wav",
+        "exists": true,
+        "bytes": 11118764
+      }
+    ],
+    "status": "PASS"
+  }
+]

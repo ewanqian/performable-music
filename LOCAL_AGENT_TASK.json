@@ -2,7 +2,7 @@
   "project": "Performable Music / Critical Field",
   "date": "2026-11-04",
   "show_target": "2026-12-03",
-  "status": "P0_REVIEW_LOCAL_AUDIO_AND_BUILD_ONE_SHARED_EVENT",
+  "status": "P0_NATIVE_DAW_VERIFICATION_AND_ONE_EXCERPT_FINISH",
   "current_goal": "60–90s distinctive original sound + audible structural tension + 1 foot/button event driving audio and visual from same Show Score",
   "priority": [
     "read START_HERE_FOR_LOCAL_CODEX.md",
@@ -55,7 +55,16 @@
   "updated_at": "2026-11-04",
   "production_stack_decision": "Use legally authorized existing Ableton if save/export works; otherwise Waveform Free 14 (zero-cost DAW). Surge XT for synth, plugdata for modular live DSP, optional Supermassive for space, and SuperCollider only for unique scripted synth/stems, not blanket music production.",
   "selection_doc": "research/agent-music/PRODUCTION_STACK_DECISION_2026-11-04.md",
-  "first_action": "Pause further SuperCollider soft-keyboard/melody generation. Verify local DAW/license/save/export, list installed plugins, and build a 16-bar A/B comparison using original syncopated percussive language, with meaningful structural variation.",
+  "first_action": "Read handoff, preserve work, verify installed Waveform Free edition and native save/reopen/export using NEW edit; refine one existing excerpt and provide level-matched audition.",
   "private_listening_evidence": "User-uploaded 26.04 s groove-focused original audio clip: tactile pitched percussion, metallic accents and negative space. Not in public repo. No final quality verdict.",
-  "no_cost_constraint": "No purchased plugins or license bypass; REAPER is only 60-day fully functional evaluation, not permanent free baseline."
+  "no_cost_constraint": "No purchased plugins or license bypass; REAPER is only 60-day fully functional evaluation, not permanent free baseline.",
+  "handoff": "research/agent-music/OPENCODE_HANDOFF_2026-11-04.md",
+  "latest_local_inventory": {
+    "Waveform": "14.1.24 installed",
+    "Free_entitlement": "NOT TESTED",
+    "native_save_reopen_export": "NOT RUN",
+    "Surge_XT": "1.3.4 actual VST3 rendered",
+    "plugdata": "0.9.3 actual DSP tested"
+  },
+  "human_feedback": "Promising percussive direction, production still rough; no specific A/B selection or show approval"
 }

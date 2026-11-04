@@ -82,3 +82,21 @@ Studying an architecture or technique does not require copying its implementatio
 - License: AGPL-3.0; official integration/license guidance: https://strudel.cc/technical-manual/project-start/
 - Use: unmodified externally hosted browser REPL in `studies/005-strudel-preset-transitions/index.html`; no runtime source vendored.
 - Integration source and original preset code: https://github.com/ewanqian/performable-music/tree/main/studies/005-strudel-preset-transitions
+
+
+### SuperCollider — 3.14.1
+- Project / contributors: https://supercollider.github.io/ ; https://github.com/supercollider/supercollider
+- Version/date checked: 3.14.1, 2026-11-04.
+- License: GNU GPL v3; preserve the official distribution's COPYING and notices.
+- Use: unmodified official macOS universal binary, kept in ignored workspace-local tooling. Executes original `studies/agent-engine-compare/supercollider-afterimage.scd` with core UGens and Score NRT.
+- No runtime source, sample library, third-party SynthDef or Quark is copied into tracked project source.
+- NRT reference: https://doc.sccode.org/Guides/Non-Realtime-Synthesis.html
+
+
+## Curated production preparation — 2026-11-04
+
+- Surge XT1.3.4, Surge Synth Team, GPL-3.0: https://surge-synthesizer.github.io/downloads/ — actual installed VST3 and bundled factory presets as original music sound sources; factory authors/paths recorded in studies/006-curated-production-ab/source-render-tests.json. Modified states and assets kept local; no third-party preset files added to Git.
+- plugdata0.9.3, Timothy Schoen and contributors, GPL-3.0: https://plugdata.org/download.html — actual effect plugin running original metal-memory.pd. State format inspected against official Source/PluginProcessor.cpp at tagv0.9.3; no DSP implementation copied.
+- Pedalboard0.9.26, Spotify, GPL-3.0: https://github.com/spotify/pedalboard — isolated local VST3 audition/preparation host and standard EQ/compression; not represented as a Waveform DAW.
+- JUCE state serialization reference: https://github.com/juce-framework/JUCE/blob/master/modules/juce_core/memory/juce_MemoryBlock.cpp — original interoperability encoder follows the public state format; no JUCE source vendored.
+- Tracktion Waveform Free14, Tracktion Software Corporation, proprietary zero-purchase-cost edition: https://www.tracktion.com/products/waveform-free — selected final DAW; install/save/export not yet verified. Prepared Edit XML properties inspected against https://github.com/Tracktion/tracktion_engine (GPL/commercial engine); no engine source vendored or compiled. CLI reference https://tracktion.github.io/waveform_manual/14.1.22-beta/rendering-and-stems/ is version-specific and not proof that installed stable Free14 supports it.

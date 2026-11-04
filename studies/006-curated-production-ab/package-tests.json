@@ -1,0 +1,26 @@
+{
+  "A": {
+    "format": "PCM24 stereo48k",
+    "seconds": 31.5,
+    "bars": 16,
+    "source_note_data": "original score.json",
+    "peak": 0.776311993598938,
+    "stems_reconstruction_error": 3.5762786865234375e-07,
+    "prepared_edit_media_references": 16,
+    "Waveform_open_save_export": "NOT RUN"
+  },
+  "B": {
+    "format": "PCM24 stereo48k",
+    "seconds": 31.5,
+    "bars": 16,
+    "source_note_data": "original score.json",
+    "peak": 0.7638996839523315,
+    "stems_reconstruction_error": 3.5762786865234375e-07,
+    "prepared_edit_media_references": 16,
+    "Waveform_open_save_export": "NOT RUN"
+  },
+  "source_velocity_restore": "PASS actual VST3 render/reload",
+  "plugdata_impulse": "PASS actual FX process; 64 samples latency",
+  "human_audition": "PENDING",
+  "Waveform_DAW": "NOT RUN"
+}

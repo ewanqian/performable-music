@@ -1,0 +1,4 @@
+# Original audio is deliverable locally; avoid accidental large-file publication.
+renders/
+*.osc
+__pycache__/

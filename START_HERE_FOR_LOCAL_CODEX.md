@@ -1,3 +1,9 @@
+# LOCAL PROGRESS + AGENT HANDOFF — 2026-11-04
+
+Read [OpenCode handoff](research/agent-music/OPENCODE_HANDOFF_2026-11-04.md) for the latest tested progress and next bounded task. Waveform **14.1.24 is now installed**; Free entitlement/native save/reopen/export remain untested. Earlier absence reports below and in study audits are historical. Studies006/007 contain current original percussive A/B, finish trials and nine composition sketches. User finds promise but rough production; no final mix or performance approval. The earlier SC keyboard study is paused. Full show remains unverified.
+
+---
+
 # PRODUCTION SELECTION UPDATE — 2026-11-04 (LATEST)
 
 **Read [PRODUCTION_STACK_DECISION_2026-11-04.md](research/agent-music/PRODUCTION_STACK_DECISION_2026-11-04.md) before creating any more sound.** The user supplied a second original 26.04s listening example with much stronger percussive, syncopated and edited electronic language. This **revises the production workflow**: keep **legally authorized Ableton Live** if it really saves/exports; otherwise test **Waveform Free 14** as zero-cost main DAW. Use **Surge XT** for expressive source sounds and **plugdata** for free modular live patching; **SuperCollider is a narrow purpose-built DSP/stem engine**, not the only composition and production environment. Stop new sine/triangle melody expansion. The first 16-bar A/B sound-quality gate supersedes any instruction to generate a full 16 minutes. No app/plugin is proven installed; local Codex must verify.

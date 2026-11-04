@@ -1,0 +1,15 @@
+{
+  "MIDI_scores": 9,
+  "bars_each": 8,
+  "audio_sketches_actual": 2,
+  "remaining_seven": "MIDI ONLY",
+  "note_completion_01": "checked last answer exists",
+  "equal_level_comparison": "PASS technical loudness match",
+  "finite_audio_and_peak_checks": "PASS",
+  "human_quality": "PENDING",
+  "Waveform_export": "NOT RUN",
+  "source_sha256": {
+    "render_trials.py": "4c36b60c1ee24762663cc0bff584b5268544aa2bbfdc84dafb9828233204343b",
+    "write_sketches.py": "63156d17cd6a49ad510815ff273fc90ec69ac3fb3074baeee0a9e59c0b262e03"
+  }
+}

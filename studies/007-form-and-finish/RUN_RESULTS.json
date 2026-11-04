@@ -1,0 +1,48 @@
+{
+  "status": "REAL offline render; Waveform native export NOT RUN",
+  "human_listening": "PENDING",
+  "trials": {
+    "01": {
+      "name": "缺席的末音",
+      "seconds": 16,
+      "bars": 8,
+      "measured": {
+        "input_i": -27.29,
+        "input_tp": -7.28,
+        "input_lra": 3.5
+      },
+      "engine": "actual Surge XT saved production states",
+      "status": "sonic score proof; not final mix"
+    },
+    "07": {
+      "name": "七拍问九拍答",
+      "seconds": 16,
+      "bars": 8,
+      "measured": {
+        "input_i": -28.12,
+        "input_tp": -7.4,
+        "input_lra": 8.3
+      },
+      "engine": "actual Surge XT saved production states",
+      "status": "sonic score proof; not final mix"
+    }
+  },
+  "finish": {
+    "before": {
+      "input_i": -25.26,
+      "input_tp": -2.34,
+      "input_lra": 5.8
+    },
+    "equal_level": {
+      "input_i": -25.26,
+      "input_tp": -3.72,
+      "input_lra": 4.4
+    },
+    "delivery_trial": {
+      "input_i": -21.08,
+      "input_tp": -1.5,
+      "input_lra": 4.3
+    },
+    "note": "Per-bus tone/peak revision plus mild glue. Equal-level audition required; delivery loudness is a separate test. Not an approved master."
+  }
+}

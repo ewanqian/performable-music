@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-04",
+  "platform": "26.7.2",
+  "architecture": "arm64",
+  "initial_standard_install_found": false,
+  "runtime_location": "local-only/toolchains/SuperCollider.app",
+  "installation_scope": "workspace-local official app; no system installation",
+  "release": "Version-3.14.1",
+  "official_download": "https://github.com/supercollider/supercollider/releases/download/Version-3.14.1/SuperCollider-3.14.1-macOS-universal.dmg",
+  "download_sha256": "ed264b32752d27fc86e506dd0a7eb36de7c19ebce73c3fdf2ed5514f8c73f02e",
+  "release_asset_sha256_match": true,
+  "codesign_verify_exit": 0,
+  "codesign_errors": "",
+  "binaries": {
+    "sclang": {
+      "exit": 0,
+      "version": "sclang 3.14.1 (Built from tag 'Version-3.14.1' [426edf6])"
+    },
+    "scsynth": {
+      "exit": 0,
+      "version": "scsynth 3.14.1 (Built from tag 'Version-3.14.1' [426edf6])"
+    }
+  },
+  "dependencies_already_present": [
+    "Python 3",
+    "NumPy",
+    "soundfile",
+    "FFmpeg"
+  ],
+  "network_note": "Direct official download was slow; resumed through the machine existing configured loopback proxy. No proxy settings changed.",
+  "ableton": "No Ableton commands were issued by this experiment."
+}

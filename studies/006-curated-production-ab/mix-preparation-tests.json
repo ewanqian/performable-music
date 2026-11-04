@@ -1,0 +1,74 @@
+{
+  "status": "REAL PREPARATION MIX; NOT A WAVEFORM DAW EXPORT",
+  "sample_rate": 48000,
+  "stem_names": [
+    "bass",
+    "percussion",
+    "metal",
+    "pressure"
+  ],
+  "chains": {
+    "bass": [
+      "<pedalboard.Highpass cutoff_frequency_hz=28>",
+      "<pedalboard.PeakFilter cutoff_frequency_hz=180 gain_db=-2.5 q=0.8>",
+      "<pedalboard.Lowpass cutoff_frequency_hz=2200>",
+      "<pedalboard.Compressor threshold_db=-25 ratio=1.7 attack_ms=18 release_ms=95>",
+      "<pedalboard.Gain gain_db=8>"
+    ],
+    "kick": [
+      "<pedalboard.Highpass cutoff_frequency_hz=30>",
+      "<pedalboard.PeakFilter cutoff_frequency_hz=145 gain_db=-3.5 q=1>",
+      "<pedalboard.Lowpass cutoff_frequency_hz=8500>",
+      "<pedalboard.Compressor threshold_db=-15 ratio=2 attack_ms=12 release_ms=65>",
+      "<pedalboard.Gain gain_db=-4>"
+    ],
+    "snare": [
+      "<pedalboard.Highpass cutoff_frequency_hz=190>",
+      "<pedalboard.Lowpass cutoff_frequency_hz=9000>",
+      "<pedalboard.Gain gain_db=8>"
+    ],
+    "metal": [
+      "<pedalboard.Highpass cutoff_frequency_hz=420>",
+      "<pedalboard.PeakFilter cutoff_frequency_hz=3200 gain_db=-3 q=1>",
+      "<pedalboard.Lowpass cutoff_frequency_hz=10000>",
+      "<pedalboard.Compressor threshold_db=-20 ratio=2 attack_ms=6 release_ms=75>"
+    ],
+    "pressure": [
+      "<pedalboard.Highpass cutoff_frequency_hz=300>",
+      "<pedalboard.Lowpass cutoff_frequency_hz=6000>",
+      "<pedalboard.Gain gain_db=18>"
+    ]
+  },
+  "versions": {
+    "A": {
+      "before_matching": {
+        "input_i": -34.8,
+        "input_tp": -11.74,
+        "input_lra": 6.0
+      },
+      "gain_db": 9.54,
+      "measured": {
+        "input_i": -25.26,
+        "input_tp": -2.2,
+        "input_lra": 6.1
+      },
+      "stem_reconstruction_max_error": 3.5762786865234375e-07
+    },
+    "B": {
+      "before_matching": {
+        "input_i": -34.66,
+        "input_tp": -11.74,
+        "input_lra": 5.8
+      },
+      "gain_db": 9.399999999999999,
+      "measured": {
+        "input_i": -25.26,
+        "input_tp": -2.34,
+        "input_lra": 5.8
+      },
+      "stem_reconstruction_max_error": 3.5762786865234375e-07
+    }
+  },
+  "human_audition": "PENDING",
+  "DAW_export": "NOT RUN"
+}

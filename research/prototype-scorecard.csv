@@ -1,0 +1,4 @@
+prototype,music_quality,shared_event,replay,software_recovery,physical_kill,venue_audio,status,evidence
+Critical Field pressure-test-001,REVIEW PENDING,PASS,PASS,PASS,NOT RUN,NOT RUN,TECHNICAL EXPERIMENT ONLY,performances/2026-12-03-phase-01/pressure-test-001/runtime/AUDIT.md
+Critical Field curated16bar,PENDING human audition,NOT IN SCOPE,source-state reload PASS,NOT IN SCOPE,NOT IN SCOPE,NOT RUN,PREPARATION ONLY - Waveform completion pending,studies/006-curated-production-ab/AUDIT.md
+Critical Field form and finish,PENDING human review,NOT IN SCOPE,source code and score saved,NOT IN SCOPE,NOT IN SCOPE,NOT RUN,NINE MIDI SKETCHES TWO AUDIO PROOFS,studies/007-form-and-finish/CHECKS.json

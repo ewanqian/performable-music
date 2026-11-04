@@ -1,0 +1,47 @@
+{
+  "initial_inventory": {
+    "Waveform Free": "NOT INSTALLED",
+    "Surge XT": "NOT INSTALLED",
+    "plugdata": "NOT INSTALLED",
+    "note": "/Applications/Surge.app is a network proxy, not Surge XT synth"
+  },
+  "after_setup": [
+    {
+      "name": "Surge XT.app",
+      "path": "/Users/ewanqian/Applications/Surge XT.app",
+      "version": "1.3.4",
+      "build": "1.3.4"
+    },
+    {
+      "name": "plugdata.app",
+      "path": "/Users/ewanqian/Applications/plugdata.app",
+      "version": "0.9.3",
+      "build": "0.9.3"
+    },
+    {
+      "name": "Tracktion Download Manager.app",
+      "path": "/Users/ewanqian/Applications/Tracktion Download Manager.app",
+      "version": "1.5.3",
+      "build": "1.5.3"
+    },
+    {
+      "name": "Surge XT.vst3",
+      "path": "/Users/ewanqian/Library/Audio/Plug-Ins/VST3/Surge XT.vst3",
+      "version": "1.3.4",
+      "build": "1.3.4"
+    },
+    {
+      "name": "plugdata-fx.vst3",
+      "path": "/Users/ewanqian/Library/Audio/Plug-Ins/VST3/plugdata-fx.vst3",
+      "version": "0.9.3",
+      "build": "0.9.3"
+    }
+  ],
+  "waveform": "Awaiting verified Free product/account install, no Pro trial selected",
+  "gui": "Surge and Tracktion manager launch via CUA timed out; Chrome UI reachable; no DAW save/export verification yet",
+  "purchase_cost": 0,
+  "latest_check_2026_11_04": {
+    "Waveform": "14.1.24 now installed; entitlement/SaveAs/reopen/export NOT TESTED",
+    "previous_inventory": "historical pre-install snapshot; retain as history"
+  }
+}

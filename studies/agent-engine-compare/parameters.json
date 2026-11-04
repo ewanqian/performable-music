@@ -1,0 +1,63 @@
+{
+  "render": {
+    "title": "Afterimage / two futures",
+    "bpm": 108,
+    "bars": 16,
+    "beats_per_bar": 4,
+    "sample_rate": 48000,
+    "tail_seconds": 3,
+    "preroll_seconds": 0.05,
+    "voice_amp": 0.115,
+    "master_ceiling": 0.75,
+    "piano_brightness": 0.72,
+    "piano_release_seconds": 0.24,
+    "memory_brightness": 0.28,
+    "memory_attack_seconds": 0.024,
+    "memory_release_seconds": 0.55,
+    "humanization": "explicit phrase articulation; no random onset jitter",
+    "external_plugins": [],
+    "external_samples": []
+  },
+  "motif": {
+    "midi": [
+      69,
+      72,
+      76,
+      77,
+      76,
+      74
+    ],
+    "notes": [
+      "A4",
+      "C5",
+      "E5",
+      "F5",
+      "E5",
+      "D5"
+    ],
+    "onsets_beats": [
+      0,
+      1.5,
+      2.5,
+      4,
+      5.75,
+      6.5
+    ],
+    "durations_beats": [
+      0.7,
+      0.4,
+      0.7,
+      1.2,
+      0.45,
+      1.1
+    ],
+    "velocities": [
+      73,
+      64,
+      68,
+      80,
+      60,
+      67
+    ]
+  }
+}
