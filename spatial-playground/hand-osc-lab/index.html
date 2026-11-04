@@ -1,0 +1,60 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HAND / SPACE / OSC — Performable Music Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#090b0b;--fg:#ecefe9;--muted:#9aa7a0;--edge:#34403b;--accent:#c3e6cd}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+main{display:grid;grid-template-columns:minmax(0,1fr) 350px;min-height:100vh}
+.stage{position:relative;background:#010303;min-height:580px}
+canvas{width:100%;height:100%;position:absolute;inset:0;display:block;touch-action:none}
+.hud{position:absolute;left:24px;top:22px;font-size:11px;line-height:1.7;pointer-events:none;white-space:pre-line}
+.overlay-caption{position:absolute;left:24px;bottom:22px;font-size:11px;color:#9aa7a0}
+aside{border-left:1px solid var(--edge);padding:23px;overflow:auto}
+h1{font-size:clamp(28px,3.4vw,49px);font-weight:500;letter-spacing:-.055em;line-height:.95;margin:12px 0 18px}
+p,small{font-size:11px;line-height:1.6;color:var(--muted)}
+.eyebrow{font-size:10px;color:#b2c1b7;letter-spacing:.15em}
+button,input,select{font:inherit}button{color:var(--fg);background:#18211d;border:1px solid #43564b;padding:11px;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}button:hover{border-color:#a8ceb3}button.primary{background:#d1e5d2;color:#172019}
+button.danger{color:#ffc8c4;border-color:#834c4a}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.rule{border-top:1px solid var(--edge);margin:18px 0 11px;padding-top:8px;color:#a1aea6;font-size:10px;letter-spacing:.13em}
+label{display:block;font-size:11px;color:#c7d3ca;line-height:1.6;margin:9px 0}
+input[type=text],input[type=password],input[type=number]{background:#0a0e0d;border:1px solid var(--edge);color:var(--fg);padding:9px;width:100%}
+input[type=range]{width:100%;accent-color:#c7e1cf}
+.row{display:flex;align-items:center;gap:10px}.row>*:first-child{flex:1}.metrics{font-size:10px;white-space:pre-wrap;line-height:1.65;background:#101512;padding:12px;border:1px solid var(--edge);min-height:136px;color:#b7c9bc}
+#log{max-height:126px;overflow:auto;min-height:92px}
+a{color:#cbe9d2}
+@media(max-width:900px){main{grid-template-columns:1fr}.stage{min-height:50vh}aside{border:0;border-top:1px solid var(--edge)}}
+</style></head><body>
+<main><div class="stage"><canvas id="view"></canvas><div class="hud" id="hud">HAND / SPACE / OSC
+DESKTOP SIMULATOR · NOT XR SENSOR DATA</div><div class="overlay-caption" id="caption">25 joints/hand · lightweight lines · three spatial zones</div></div>
+<aside>
+<div class="eyebrow">PERFORMABLE MUSIC / SPATIAL PLAYGROUND / LAB 02</div><h1>HAND<br>SPACE<br>OSC.</h1>
+<p>细线骨架 + 每关节位置/朝向 + 手指弯曲角度 + 三维区域 ENTER/EXIT。真实手部优先经 WebXR 每帧取得，不用高面数皮肤网格。</p>
+<div class="rule">HEADSET / MIXED REALITY</div>
+<div class="btns"><button id="ar" class="primary" disabled>ENTER MR / AR</button><button id="vr" disabled>ENTER VR</button></div>
+<p id="device">检测 WebXR…Quest 优先 immersive-ar；Vision Pro Safari 使用 immersive-vr。</p>
+<div class="rule">BROWSER OSC BRIDGE</div>
+<label>桥接地址（从 HTTPS 页面连接时必须使用受信任的 WSS）
+<input id="endpoint" type="text" placeholder="wss://your-bridge.example.com" autocomplete="off" spellcheck="false"></label>
+<label>临时连接令牌（仅内存，不写入仓库）
+<input id="token" type="password" placeholder="token" autocomplete="off"></label>
+<div class="btns"><button id="connect">CONNECT</button><button id="arm" disabled>ARM OSC</button></div>
+<p id="wsstate">离线 · 骨架与区域判断可独立运行。</p>
+<div class="rule">SPATIAL REGIONS · METERS</div>
+<div id="zoneinfo" class="metrics"></div>
+<label>进入/退出迟滞距离（毫米） <span id="hystvalue">9 / 14</span>
+<input id="hyst" type="range" min="4" max="24" value="9"></label>
+<label>事件确认时长（毫秒） <span id="dwellvalue">34</span>
+<input id="dwell" type="range" min="0" max="120" step="1" value="34"></label>
+<div class="row"><label style="margin:0">绘制关节局部坐标轴（更精细）</label><input id="axes" type="checkbox" checked></div>
+<div class="row"><label style="margin:0">OSC 发送全部关节与姿态</label><input id="full" type="checkbox"></div>
+<div class="rule">HAND / FINGER TELEMETRY</div>
+<div id="telemetry" class="metrics">等待设备；桌面移动鼠标可模拟右手。</div>
+<div class="rule">TEST / RECORD</div>
+<div class="btns"><button id="record">RECORD JSON</button><button id="download" disabled>EXPORT</button></div>
+<div class="btns" style="margin-top:7px"><button id="reset">RESET ZONES</button><button id="panic" class="danger">SOFT PANIC</button></div>
+<div id="log" class="metrics" style="margin-top:9px">事件日志：等待 ENTER / EXIT。</div>
+<p><strong>注意：</strong>桌面模拟不是实机追踪测试；WebXR 不能提供可靠的原生逐关节置信度；SOFT PANIC 不能替代不依赖 Wi-Fi/头显的物理音频急停。浏览器不能直接发 UDP OSC。<a href="https://github.com/ewanqian/performable-music/tree/main/spatial-playground/hand-osc-lab">代码与接线说明</a></p>
+</aside></main><script type="module" src="./app.mjs"></script>
+</body></html>
