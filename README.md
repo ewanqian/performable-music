@@ -1,3 +1,5 @@
+> **NEW / 2026-11-05:** [CRITICAL FIELD XR Playground source](spatial-playground/) — an immersive WebXR four-act field viewer with a desktop fallback, WebXR select / optional hand pose input, and Show Score capture. [Expected GitHub Pages route](https://ewanqian.github.io/performable-music/spatial-playground/) (confirm Pages workflow succeeds). Real Vision Pro testing and OSC/Max integration are still pending.
+
 > **CURRENT / 2026-11-04:** The Dec 3 show is now **CRITICAL FIELD / 临界场**. The local music Agent must read [START_HERE_FOR_LOCAL_CODEX.md](START_HERE_FOR_LOCAL_CODEX.md) and the [director's score](performances/2026-12-03-phase-01/DIRECTOR_SCORE.md) before generating more tracks. The previous soft-piano sketch is **not a passed show track**. A [reproducible original 78.75s sound + AV cue reference](performances/2026-12-03-phase-01/pressure-test-001/) is now in the repository **as source code**; WAV/stems can be generated locally. No final 16-minute show or real AVP integration has been completed.\n\n# Performable Music
 
 ## Music Systems for Stage, Interaction and Live Performance
