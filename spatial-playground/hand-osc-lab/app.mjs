@@ -349,6 +349,40 @@ $('download').onclick=()=>{
     format:'performable-music-hand-osc-v0.1',note:'Desktop mode is simulated; XR mode contains actual WebXR API poses, which may include inferred joints.',frames:recordFrames},null,2)],{type:'application/json'});
   a.href=URL.createObjectURL(b);a.download='hand-space-osc-capture.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 };
+// Human-editable zones before entering XR; live values are shared by the
+// collision engine and the exact wireframe display.
+const editor=$('zone-editor');
+for(const z of zones){
+  const wrap=document.createElement('div');
+  wrap.style.cssText='border:1px solid #34403b;padding:8px;';
+  const title=document.createElement('div');
+  title.textContent=z.id+' / '+z.name;
+  title.style.cssText='font-size:10px;color:#a9c0af;margin-bottom:5px;';
+  wrap.appendChild(title);
+  for(let k=0;k<4;k++){
+    const label=document.createElement('label'),names=['x','y','z','radius'];
+    label.textContent=names[k]+' (m)';
+    label.style.cssText='display:inline-grid;width:50%;font-size:10px;gap:3px;';
+    const inp=document.createElement('input');
+    inp.type='number';inp.min=k===3?'.02':'-3';inp.max=k===3?'.5':'3';
+    inp.step='.01';inp.value=String(k===3?z.radius:z.center[k]);
+    inp.addEventListener('change',()=>{
+      const value=Number(inp.value);
+      if(!Number.isFinite(value))return;
+      if(k===3)z.radius=clamp(value,.02,.5);
+      else z.center[k]=clamp(value,-3,3);
+      engine.reset();
+      log('ZONE '+z.id+' GEOMETRY UPDATED');
+    });
+    label.appendChild(inp);wrap.appendChild(label);
+  }
+  editor.appendChild(wrap);
+}
+$('export-zones').onclick=()=>{
+  const blob=new Blob([JSON.stringify({space:'local',units:'meters',zones},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='xr-regions.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+};
 if(setupGL()){
   detect().catch(e=>$('device').textContent=e.message);
   requestAnimationFrame(desktopFrame);
