@@ -100,7 +100,7 @@ wss.on('connection',(socket,request)=>{
     if(data?.type==='zone'){
       if(!/^[ABC]$/.test(data.zone)||!['left','right'].includes(data.hand)||
          !['ENTER','EXIT','TRACKING_LOST'].includes(data.type))return;
-      osc('/pm/zone/'+data.zone+'/'+data.type.toLowerCase(),[data.hand]);
+      osc('/pm/zone/'+data.zone+'/'+data.type.toLowerCase(),[data.hand,Number.isSafeInteger(data.seq)?data.seq:0,Number.isFinite(data.t_ms)?Math.round(data.t_ms):0]);
       return;
     }
     if(data?.type!=='frame'||!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
