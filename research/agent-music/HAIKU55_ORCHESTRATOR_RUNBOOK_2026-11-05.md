@@ -1,3 +1,9 @@
+## NEW METHODS LANE — Music Expectation / Typed Composition (2026-11-05)
+
+Before assigning more 4-minute tracks, study the updated seven-essay [Performable Music Writing](https://github.com/ewanqian/portfolio/tree/main/writings/performable-music), specifically 05 expectation, 06 typed grammar and 07 current systems. Run [Composition Plan v1](../../protocols/composition-plan-v1/README.md) validation and [Experiment 011](../../studies/011-musical-expectation/README.md) to produce A/B symbolic MIDI. **This is a research lane, not permission to block Critical Field show P0 or to overwrite the active DAW**. Archive test results and ask a human which rendition establishes a real musical expectation. Review [editorial audit](../editorial/PERFORMABLE_MUSIC_PEER_REVIEW_2026-11-05.md).
+
+---
+
 # Haiku 5.5 — Performable Music Multi-Agent Orchestrator
 ## 2026-11-05 · READ BEFORE DISPATCH
 
