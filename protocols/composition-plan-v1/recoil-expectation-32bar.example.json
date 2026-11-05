@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "plan_id": "recoil-expectation-32bar-a",
+  "tempo_bpm": 128,
+  "meter": [
+    4,
+    4
+  ],
+  "total_bars": 32,
+  "motifs": [
+    {
+      "id": "rubber-metal-01",
+      "length_bars": 2,
+      "roles": [
+        "bass-question",
+        "metal-answer"
+      ],
+      "identity_rule": "Keep the low elastic question followed by a displaced, bright metal reply."
+    }
+  ],
+  "sections": [
+    {
+      "id": "S1-establish",
+      "start_bar": 1,
+      "end_bar_exclusive": 9,
+      "function": "ESTABLISH",
+      "motif_id": "rubber-metal-01",
+      "operations": [
+        "ESTABLISH",
+        "VARY"
+      ]
+    },
+    {
+      "id": "S2-develop",
+      "start_bar": 9,
+      "end_bar_exclusive": 17,
+      "function": "DEVELOP",
+      "motif_id": "rubber-metal-01",
+      "operations": [
+        "DISPLACE",
+        "VARY"
+      ]
+    },
+    {
+      "id": "S3-withhold",
+      "start_bar": 17,
+      "end_bar_exclusive": 25,
+      "function": "WITHHOLD",
+      "motif_id": "rubber-metal-01",
+      "operations": [
+        "OMIT",
+        "DEFER"
+      ]
+    },
+    {
+      "id": "S4-return",
+      "start_bar": 25,
+      "end_bar_exclusive": 33,
+      "function": "FULFIL",
+      "motif_id": "rubber-metal-01",
+      "operations": [
+        "RETURN_TRANSFORMED",
+        "RELEASE"
+      ]
+    }
+  ],
+  "expectations": [
+    {
+      "id": "ex-bass-return",
+      "motif_id": "rubber-metal-01",
+      "target_event": "bass-return",
+      "established_by_bars": [
+        1,
+        8
+      ],
+      "predicted_bar": 17,
+      "operation": "OMIT",
+      "operation_range": [
+        17,
+        25
+      ],
+      "fulfilment": {
+        "bar": 25,
+        "type": "RETURN_TRANSFORMED",
+        "changes": [
+          "register",
+          "attack",
+          "harmony"
+        ]
+      },
+      "audible_cue": "Keep the high-metal reply on its previous rhythmic grid while bass is absent so the missing bass position remains legible."
+    }
+  ],
+  "constraints": {
+    "preserve": [
+      "tempo",
+      "motif_identity",
+      "meter",
+      "headroom"
+    ],
+    "max_voices": 6,
+    "rights": "original"
+  },
+  "performance": {
+    "trigger": "FOOT",
+    "action": "REQUEST_FULFILMENT",
+    "quantization": "NEXT_BAR",
+    "tracking_loss_behavior": "SAFE_PLAYBACK"
+  },
+  "review": {
+    "human_listening_status": "NOT_AUDITIONED",
+    "audio_artifact_status": "NOT_RENDERED",
+    "hypothesis": "A listener will perceive a missing bass return and a changed fulfilment after the withheld section."
+  }
+}
