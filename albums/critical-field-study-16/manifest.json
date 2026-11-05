@@ -1,0 +1,297 @@
+{
+  "schema_version": "0.1-draft",
+  "title": "Critical Field / 16-track performable album research",
+  "updated": "2026-11-05",
+  "classification": "16 complete written composition specifications. NOT 16 rendered musical files. Current repository studies/010 already contains 8 prototype renders reported locally, pending human listening.",
+  "source_context": [
+    "studies/010-eight-directions/render_directions.py",
+    "research/agent-music/OPENCODE_HANDOFF_2026-11-04.md",
+    "spatial-playground/hand-osc-lab/README.md",
+    "performances/2026-12-03-phase-01/DIRECTOR_SCORE.md"
+  ],
+  "goal": "Eight mechanisms, two materially different 3–5-minute compositions each, 4 minutes nominal, actual local render and review required.",
+  "constrained_stack": "Existing installed Waveform 14.1.24 (Free entitlement and save/reopen/export still unverified), Surge XT 1.3.4, plugdata 0.9.3; optional available licensed Ableton and SuperCollider for custom DSP. Do not purchase plugins.",
+  "studio_status": "Research briefs committed; no local render/AVP/venue tests conducted by this commit.",
+  "families": [
+    {
+      "id": "F01",
+      "name": "MICRO / DATA PRECISION",
+      "lineage": "Ryoji Ikeda: +/- (1996), matrix (2000), dataplex (2005), test pattern (2008). Learn perceptual scale and extreme precision, not his exact frequencies or imagery.",
+      "mechanism": "A sparse quantized event lattice, stable micro-events, one rare disruptive event. The grid must make musical sense without white flashing.",
+      "instrument": "Bitfield Instrument: scheduled impulses + resonant filter bank + sub-pulse; quantization, probability and negative-space gates. A Surge XT metallic pluck is a sketch fallback; plugdata/SC can provide original event DSP.",
+      "tracks": [
+        {
+          "id": "F01-1",
+          "title": "Unit Cell",
+          "bpm": 120,
+          "target_minutes": 4,
+          "role": "micro / quiet / cerebral",
+          "arrangement": "0:00–0:38 establish three timbral classes; 0:38–1:22 one clock with holes; 1:22–2:10 exact sub events create body; 2:10–3:02 remove most events, preserve a 5-step motif; 3:02–4:00 accelerated return then near-silence.",
+          "differentiation": "Event geometry is slow enough that each click has a function; dynamics from interval and silence, not loudness.",
+          "mix_fx": "No full-bus reverb; only two bright hits to 0.15–0.4s early reflections; short tempo-free delay on isolated events.",
+          "controls": "precision → scheduling grid tightness; aperture → exposed voices; PINCH triggers rare structure reversal.",
+          "visual": "single grid cell → an ordered field; same event IDs trigger light points.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        },
+        {
+          "id": "F01-2",
+          "title": "Error Horizon",
+          "bpm": 137,
+          "target_minutes": 4,
+          "role": "micro / brutal / discontinuous",
+          "arrangement": "0:00–0:27 static precise click; 0:27–1:08 deliberate nonperiodic omissions; 1:08–1:53 micro-events accelerate while pitch register moves down; 1:53–2:38 hard silence + low-only events; 2:38–3:30 bounded overload; 3:30–4:00 break down to one original pulse.",
+          "differentiation": "An intentionally broken syntax and negative space, NOT the previous track at a faster BPM.",
+          "mix_fx": "Spectral narrowing versus widening is the primary effect. Keep headroom and harsh high-frequency safety; no sustained high-level tones.",
+          "controls": "fault → omission/insert rate; scale → micro-to-architectural grouping; FOOT toggles source/derived grid.",
+          "visual": "error codes fracture and reorganize spatial geometry; avoid imitation of artist-specific data visualizations.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "name": "RHYTHMIC MACHINES",
+      "lineage": "Byetone's Plastic Star / Death of a Typographer (2008), Symeta (2011), combined with user's original 26s Listening_02 observations. Develop original rhythmic identities.",
+      "mechanism": "Elastic sub, percussion with identifiable transients, staggered call/response; silence is a groove device.",
+      "instrument": "Rubber Drum/Metal Transient: FM pitch sweep, short resonator, velocity-dependent timbre and transient/body separation; Surge XT + plugdata custom hit shaper.",
+      "tracks": [
+        {
+          "id": "F02-1",
+          "title": "Recoil",
+          "bpm": 122,
+          "target_minutes": 4,
+          "role": "groove / dry / tactile",
+          "arrangement": "0:00–0:31 percussive bass calls; 0:31–1:20 two complementary percussion replies; 1:20–1:55 remove kick and expose syncopation; 1:55–2:52 structural groove return with new answer; 2:52–3:35 phase-delayed metallic texture; 3:35–4:00 abrupt dry exit.",
+          "differentiation": "Genuine call and response; one two-bar groove grows by replacing events, never by continuous clutter.",
+          "mix_fx": "Short slap delay on metal only, hard dry transient front; sidechain/release tuned to bass notes and kick, no huge reverb.",
+          "controls": "bounce → pitch-envelope elastic tension; dialogue → call/answer balance; FOOT launches a deliberate breakdown.",
+          "visual": "impact geometry; original bass attacks are same events as short-lived volumetric deformations.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        },
+        {
+          "id": "F02-2",
+          "title": "Shear Force",
+          "bpm": 138,
+          "target_minutes": 4,
+          "role": "industrial / peak / kinetic",
+          "arrangement": "0:00–0:47 sub-only tension; 0:47–1:28 4+3 step asymmetry; 1:28–2:12 fractured kick and one exposed midrange signature; 2:12–2:53 complete rhythmic subtraction; 2:53–3:33 one decisive transformation and deep impact; 3:33–4:00 heavy, slow deceleration.",
+          "differentiation": "Architectural rupture, nonstandard phrase grouping, and earned contrast; not a louder Recoil.",
+          "mix_fx": "Parallel distorted midrange bus with dry sub preserved, short metallic space, 1–2 event-locked long tails.",
+          "controls": "shear → clock disagreement; impact → bounded bass/timbre pressure; FOOT triggers rupture.",
+          "visual": "a rigid structure shears and reforms on the same override event.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        }
+      ]
+    },
+    {
+      "id": "F03",
+      "name": "SPATIAL / SPECTRAL ARCHITECTURE",
+      "lineage": "Ryoichi Kurokawa early Copynature/READ to rheo; scene is conceived as sound+image from the outset. Not a copy of his datasets or shots.",
+      "mechanism": "One multidimensional spatial field with source location and timbral space sharing underlying coordinate/state.",
+      "instrument": "Spectral Mesh: controlled bank of resonators fed by own field recordings + moving grains; plugdata biquad bank or SC Klank-like approach; optional real 4ch bus after rider verification.",
+      "tracks": [
+        {
+          "id": "F03-1",
+          "title": "Volumetric Weather",
+          "bpm": 92,
+          "target_minutes": 4,
+          "role": "ambient / fluid / immersive",
+          "arrangement": "0:00–0:56 one captured environmental grain; 0:56–1:42 timbral altitude shift; 1:42–2:18 wide stillness; 2:18–3:11 weather front/pitched resonance moves through field; 3:11–4:00 evaporate to source recording.",
+          "differentiation": "Mostly texture with genuinely evolving spectral form; no need for busy click track.",
+          "mix_fx": "Three depth planes: near dry, medium early reflection, far late reverb; automate decay only during designed spatial transitions.",
+          "controls": "altitude → resonant center; weather → cloud density; position → speaker/stereo panning; manual gesture hold.",
+          "visual": "a spatial volume with a legible near/far relationship. Stereo fallback uses meaningful depth, not fake verified surround.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        },
+        {
+          "id": "F03-2",
+          "title": "Tectonic Glass",
+          "bpm": 120,
+          "target_minutes": 4,
+          "role": "impact / spectral rupture",
+          "arrangement": "0:00–0:25 weak brittle contact; 0:25–1:14 resonance stabilizes into 3-note harmonic cell; 1:14–2:04 deformation causes partial frequency splits; 2:04–2:42 stop all high content; 2:42–3:24 one collapse / reconstitution; 3:24–4:00 small fragments fall away.",
+          "differentiation": "Granular/spectral transformations form a time sculpture; structural impact without generic cinematic riser.",
+          "mix_fx": "Multiband control for brittle highs; frequency-dependent room tails and pre-delay to preserve attacks.",
+          "controls": "fracture → count of resonant shards; mass → low/medium harmonic weighting; PINCH capture.",
+          "visual": "same fractured resonator graph also determines point-cloud connectivity.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        }
+      ]
+    },
+    {
+      "id": "F04",
+      "name": "COPY / RESYNTHESIS / MEMORY",
+      "lineage": "Alva Noto's early Transform (2001) and Xerrox Vol.1 (2007): digital copying/misreading can be compositional material. Use only original input.",
+      "mechanism": "Original source repeatedly transformed into structurally meaningful descendants, with a reversible lineage of sonic identity.",
+      "instrument": "Copy Engine: local audio buffer, lossy/bit-depth variants, granular offset, spectral freeze, bounded feedback, preset snapshots; commit derived versions to disk for repeatability.",
+      "tracks": [
+        {
+          "id": "F04-1",
+          "title": "First Copy",
+          "bpm": 96,
+          "target_minutes": 4,
+          "role": "minimal / uncanny / patient",
+          "arrangement": "0:00–0:50 expose one original contact/room sound; 0:50–1:42 one degree of degradation; 1:42–2:21 derived pitch becomes a counterline; 2:21–3:09 material turns spatial and distant; 3:09–4:00 near-perfect return with one missing detail.",
+          "differentiation": "Source remains audible until the final transformation; it is a piece about remembering sound.",
+          "mix_fx": "Convolution or early reflections tied to source, not constant wet pad. Two tempo-free echo distances separated by register.",
+          "controls": "copy_depth → destructive lineage stage; memory → how many prior generations can answer; BUTTON commits a generation.",
+          "visual": "source shape duplicates and misregisters; track generation IDs in shared score.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        },
+        {
+          "id": "F04-2",
+          "title": "Xerographic Fault",
+          "bpm": 134,
+          "target_minutes": 4,
+          "role": "aggressive / error / discontinuous",
+          "arrangement": "0:00–0:40 original loop becomes a machine; 0:40–1:18 controlled copy errors form groove; 1:18–2:06 fast switching between generations; 2:06–2:36 rupture/dropped frame silence; 2:36–3:27 hard reassembled drum machine; 3:27–4:00 source unexpectedly returns clean.",
+          "differentiation": "Rhythmic corruption rather than dreamy copying, with a genuinely new composition from intermediate generations.",
+          "mix_fx": "Sample-rate reduction at selected transitions, transient-preserving delay for 2/4 events, low wet on sustained sources.",
+          "controls": "corrupt → bit/segment transform index; repeat → re-insertion probability; FOOT restore original.",
+          "visual": "temporal discontinuity is audible and visible with same generation markers.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        }
+      ]
+    },
+    {
+      "id": "F05",
+      "name": "FOUND-SOUND / CORPUS INSTRUMENT",
+      "lineage": "Amon Tobin early Bricolage (1997), Permutation (1998), Supermodified (2000), Foley Room (2007), ISAM (2011): source transformation from recordings to playable instruments. Record your own sources.",
+      "mechanism": "A small personal corpus of physically interesting original audio, segmented and played as an expressive instrument, not a sample pack montage.",
+      "instrument": "Object Corpus: 20 self-recorded object/material hits; segmentation/transient detection; descriptors or manual metadata; mapping pitch, attack/decay, resonance and articulation. Optional FluCoMa if available and licensed.",
+      "tracks": [
+        {
+          "id": "F05-1",
+          "title": "Contact Archive",
+          "bpm": 110,
+          "target_minutes": 4,
+          "role": "intimate / curious / object-sound",
+          "arrangement": "0:00–0:35 three original material contacts; 0:35–1:17 learn their articulation; 1:17–2:12 assign them a rhythmic dialogue; 2:12–2:54 stretch one into a quasi-melodic sustain; 2:54–3:28 return hits against the sustain; 3:28–4:00 end on an unprocessed object sound.",
+          "differentiation": "Composed identity and original sound provenance, no generic drum rack substitutions.",
+          "mix_fx": "Dry percussive foreground, one predelay/short resonant chamber on selected contacts, spatial motion meaningful to materials.",
+          "controls": "material → corpus cluster; articulation → strike/scrape/resonate; PINCH commits a phrase.",
+          "visual": "materials represented as simple spatial traces, not literal photos.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        },
+        {
+          "id": "F05-2",
+          "title": "Object Swarm",
+          "bpm": 142,
+          "target_minutes": 4,
+          "role": "club / dense / percussive",
+          "arrangement": "0:00–0:25 isolate one mechanical contact; 0:25–1:06 derive a kick/bass from contact; 1:06–1:54 accelerating hocket of different materials; 1:54–2:22 tempo persists through sudden empty field; 2:22–3:20 multi-object groove fractures and resolves; 3:20–4:00 source solo becomes percussion again.",
+          "differentiation": "One corpus as tightly produced dance/industrial system; not simply more of Contact Archive.",
+          "mix_fx": "Per-material parallel distortion and envelope shaping; sub kept centered, bright shards with short spatial return.",
+          "controls": "swarm → voice count with max polyphony; material_bias → selection distribution; FOOT mutes all but main pulse.",
+          "visual": "number of spatial bodies corresponds to playing object-voices, event-synchronized.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        }
+      ]
+    },
+    {
+      "id": "F06",
+      "name": "PIANO / ELECTRONIC LONG FORM",
+      "lineage": "KASHIWA Daisuke's piano/electronics and programmatic long-form, contrasted with user's current Afterimage. Extract musical processes, not notes or arrangements.",
+      "mechanism": "A genuinely written ORIGINAL piano motif with directed harmonic, registral and rhythmic development; electronics changes the meaning of the motif.",
+      "instrument": "Afterimage Piano: original MIDI + recorded/synthesized piano, delayed-event memory; resonator and granular counterpart; optional string-like harmonic layer.",
+      "tracks": [
+        {
+          "id": "F06-1",
+          "title": "Gravity Phrase",
+          "bpm": 84,
+          "target_minutes": 4,
+          "role": "emotional / cinematic but not game-like",
+          "arrangement": "0:00–0:55 strong 2-bar phrase alone with expressive dynamics; 0:55–1:34 counterline changes cadence; 1:34–2:23 low spectral shadow answers harmony; 2:23–3:06 remove most notes, slow harmonic transformation; 3:06–4:00 original motif returns in changed register/chord then stops.",
+          "differentiation": "Narrative driven by original harmonic tension and real phrasing, not repeating high notes with stock strings.",
+          "mix_fx": "Dry piano anchors center; spectral resonance creates one 'shadow' role; short and long space buses contrasted at returns.",
+          "controls": "memory → delayed phrase history; harmonic_weight → note/chord voicing density; foot cue instead of arbitrary note control.",
+          "visual": "motif traces appear later as delayed paths; scene changes on true harmonic arrivals.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        },
+        {
+          "id": "F06-2",
+          "title": "Luminous Afterimage",
+          "bpm": 108,
+          "target_minutes": 4,
+          "role": "release / melodic / warm",
+          "arrangement": "0:00–0:39 incomplete motif; 0:39–1:20 clear answered phrase; 1:20–2:02 rhythm enters with carefully staggered counterline; 2:02–2:45 remove bass and make harmony weightless; 2:45–3:29 delayed phrase returns in altered harmony; 3:29–4:00 final release with the original melodic material and limited tail.",
+          "differentiation": "A brighter narrative outcome, with distinct chords, gesture of arrival and remembered theme; not merely Gravity Phrase transposed.",
+          "mix_fx": "Avoid global hall reverb; keep intimate leading attacks and create tails only on phrase endings. Stereo image should move slowly.",
+          "controls": "phrase_release → orchestrated scene change; color → harmonic/filtered counterpart; optional small gestural rubato bounded by tempo clock.",
+          "visual": "from restricted lattice to spacious field; calm release after the stage peak.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        }
+      ]
+    },
+    {
+      "id": "F07",
+      "name": "EMBODIED / INTERACTION-COMPOSED",
+      "lineage": "Daito Manabe's 2008 myoelectric/face instrument research plus later algorithmic and agent systems. Vision Pro DJ public video is evidence of a demonstration, not open technical implementation.",
+      "mechanism": "The performer changes a musical system's rules, not 50 raw synth knobs. Work first with desktop/MIDI replay before real AVP and never imply actual EMG capture.",
+      "instrument": "Gesture Voltage: dual state engines; stable glide, event hysteresis, hand zone control; self-contained OSC MIDI fallback; spectral/timbral pressure is bounded and neutral-safe.",
+      "tracks": [
+        {
+          "id": "F07-1",
+          "title": "Virtual Muscle",
+          "bpm": 126,
+          "target_minutes": 4,
+          "role": "gesture / elastic / tense",
+          "arrangement": "0:00–0:33 dry repeated motor phrase; 0:33–1:16 a virtual effort envelope changes harmonic excitation; 1:16–2:08 voice modulations interact; 2:08–2:50 controlled failure / loss of tracking changes nothing unsafe; 2:50–3:30 recover with new melodic contour; 3:30–4:00 fade effort, leave source.",
+          "differentiation": "Movement articulation and instrument response are compositional; gesture dynamics are recorded/replayable, not random automation.",
+          "mix_fx": "Bounded pressure→saturation with dry bypass, transient-safe multiband envelope, stereo movement never on master gain.",
+          "controls": "effort (simulated/derived) → pressure; pinch edge→event; dwell→hold; FOOT→recover/kill.",
+          "visual": "show both human control and system state, using hand skeleton only if actual tracking is available.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        },
+        {
+          "id": "F07-2",
+          "title": "Override Gesture",
+          "bpm": 132,
+          "target_minutes": 4,
+          "role": "peak / performative / dramatic",
+          "arrangement": "0:00–0:41 one audible decision changes rhythm; 0:41–1:32 player locks an unstable beat; 1:32–2:14 tension grows with declining event density; 2:14–2:40 deliberate long near-silence; 2:40–3:25 one foot override creates decisive sonic/spatial change; 3:25–4:00 performer chooses deconstruction.",
+          "differentiation": "Single performable moment, strong agency and peak contrast; not just more modulated sounds.",
+          "mix_fx": "High-impact short transient plus long, carefully bounded spectral tail; dry sub and transient peak checked; manual hard mute independent of network.",
+          "controls": "FOOT OVERRIDE is priority; left/right gestures shape pre/post-event state. tracking stale→neutral.",
+          "visual": "same event.id deforms both speaker-scene and large spatial geometry; flash rules controlled for audience safety.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        }
+      ]
+    },
+    {
+      "id": "F08",
+      "name": "TIME / ORBITAL SEQUENCER",
+      "lineage": "Original Stage Casting 04 time-space instrument line; technical relation to Max, MIDI and spatial performance rather than copying artist-specific work.",
+      "mechanism": "Multiple voiced clocks and spatial paths that can re-align; a sequencer that produces meaningful notes, rests and phrases.",
+      "instrument": "Orbital Hocket: three bounded phase oscillators, Euclidean-ish gates, MIDI note selector, quantized transition, OSC phase/state publisher. Tempo remains in one authoritative clock.",
+      "tracks": [
+        {
+          "id": "F08-1",
+          "title": "Orbital Hocket",
+          "bpm": 128,
+          "target_minutes": 4,
+          "role": "dance / geometrical / playful",
+          "arrangement": "0:00–0:34 one clock and one tone; 0:34–1:19 two voices exchange notes rather than overlap; 1:19–2:05 third clock adds long-range cycle; 2:05–2:46 clocks briefly coincide; 2:46–3:31 voice order inverts into a more physical groove; 3:31–4:00 unravel to initial clock.",
+          "differentiation": "Hocket and voice role exchange, not randomized 16th sequence flood.",
+          "mix_fx": "Tempo-related ping delays on two voice outputs, no global wet wash; clear front-to-back separation.",
+          "controls": "phase → musical time divergence; orbit → spatialization; BUTTON quantizes realignment at bar boundary.",
+          "visual": "three orbital paths share exact clock state and note event IDs.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        },
+        {
+          "id": "F08-2",
+          "title": "Phase Zero",
+          "bpm": 150,
+          "target_minutes": 4,
+          "role": "climax / acceleration / release",
+          "arrangement": "0:00–0:21 nearly empty synchrony; 0:21–1:03 progressively displaced accent layers; 1:03–1:52 long composite rhythm emerges; 1:52–2:26 remove strong grid to reveal hidden periodicity; 2:26–3:23 one successful realignment becomes the climax; 3:23–4:00 clocks reset at different speeds to silence.",
+          "differentiation": "The peak is a structural realignment and a new rhythm, not just increased BPM or notes.",
+          "mix_fx": "Very dry attacks and explicitly selected stereo echo points; short reverb only in the late afterpulse.",
+          "controls": "divergence → phase ratio bound; density → max event voices; FOOT realign; SAFE reset authoritative clock.",
+          "visual": "spatial orbit coincidence coincides with sonic phase alignment, not unrelated FFT reactivity.",
+          "status": "SPECIFIED_NOT_RENDERED"
+        }
+      ]
+    }
+  ]
+}
