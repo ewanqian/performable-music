@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ewanqian/performable-music/blob/main/protocols/composition-plan-v1/composition-plan.schema.json",
+  "title": "Performable Music Composition Plan v1 (PROPOSED)",
+  "description": "A local, versioned agent-facing musical form/expectation plan. Not a music industry standard; not a proof of musical quality.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "plan_id",
+    "tempo_bpm",
+    "meter",
+    "total_bars",
+    "motifs",
+    "sections",
+    "expectations",
+    "constraints",
+    "performance",
+    "review"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-_]{2,79}$"
+    },
+    "tempo_bpm": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 300
+    },
+    "meter": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        {
+          "enum": [
+            2,
+            4,
+            8,
+            16
+          ]
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "total_bars": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 1024
+    },
+    "motifs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "length_bars",
+          "roles",
+          "identity_rule"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "length_bars": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 64
+          },
+          "roles": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "identity_rule": {
+            "type": "string",
+            "minLength": 8,
+            "description": "What must remain audible despite variations."
+          }
+        }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "start_bar",
+          "end_bar_exclusive",
+          "function",
+          "motif_id",
+          "operations"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "start_bar": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "end_bar_exclusive": {
+            "type": "integer",
+            "minimum": 2
+          },
+          "function": {
+            "enum": [
+              "ESTABLISH",
+              "DEVELOP",
+              "WITHHOLD",
+              "TRANSFORM",
+              "FULFIL",
+              "RELEASE",
+              "OTHER"
+            ]
+          },
+          "motif_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "ESTABLISH",
+                "REPEAT",
+                "VARY",
+                "DISPLACE",
+                "AUGMENT",
+                "DIMINISH",
+                "OMIT",
+                "DEFER",
+                "REHARMONIZE",
+                "ORCHESTRATE",
+                "RETURN_TRANSFORMED",
+                "RELEASE"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "expectations": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "motif_id",
+          "target_event",
+          "established_by_bars",
+          "predicted_bar",
+          "operation",
+          "operation_range",
+          "fulfilment",
+          "audible_cue"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "motif_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target_event": {
+            "type": "string",
+            "minLength": 1
+          },
+          "established_by_bars": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "integer",
+                "minimum": 1
+              }
+            ],
+            "items": false,
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "predicted_bar": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "operation": {
+            "enum": [
+              "OMIT",
+              "DEFER",
+              "DISPLACE",
+              "REHARMONIZE",
+              "RETURN_TRANSFORMED"
+            ]
+          },
+          "operation_range": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "integer",
+                "minimum": 2
+              }
+            ],
+            "items": false,
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "fulfilment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "bar",
+              "type",
+              "changes"
+            ],
+            "properties": {
+              "bar": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "type": {
+                "enum": [
+                  "RETURN_ORIGINAL",
+                  "RETURN_TRANSFORMED",
+                  "UNRESOLVED"
+                ]
+              },
+              "changes": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "register",
+                    "attack",
+                    "duration",
+                    "timing",
+                    "timbre",
+                    "harmony",
+                    "dynamics",
+                    "space",
+                    "none"
+                  ]
+                }
+              }
+            }
+          },
+          "audible_cue": {
+            "type": "string",
+            "minLength": 12,
+            "description": "What specific musical clue should a human hear before fulfilment?"
+          }
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preserve",
+        "max_voices",
+        "rights"
+      ],
+      "properties": {
+        "preserve": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "tempo",
+              "motif_identity",
+              "downbeat",
+              "meter",
+              "headroom",
+              "original_source"
+            ]
+          }
+        },
+        "max_voices": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128
+        },
+        "rights": {
+          "enum": [
+            "original",
+            "licensed",
+            "public_domain"
+          ],
+          "description": "Do not mark third-party material as original without verification."
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger",
+        "action",
+        "quantization",
+        "tracking_loss_behavior"
+      ],
+      "properties": {
+        "trigger": {
+          "enum": [
+            "FOOT",
+            "MIDI",
+            "HAND",
+            "REPLAY"
+          ]
+        },
+        "action": {
+          "enum": [
+            "REQUEST_FULFILMENT",
+            "ADVANCE",
+            "FREEZE",
+            "MUTATE",
+            "RELEASE"
+          ]
+        },
+        "quantization": {
+          "enum": [
+            "IMMEDIATE",
+            "NEXT_BEAT",
+            "NEXT_BAR",
+            "NEXT_SECTION"
+          ]
+        },
+        "tracking_loss_behavior": {
+          "enum": [
+            "HOLD_LAST_BOUNDED",
+            "NEUTRAL",
+            "SAFE_PLAYBACK"
+          ]
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "human_listening_status",
+        "audio_artifact_status",
+        "hypothesis"
+      ],
+      "properties": {
+        "human_listening_status": {
+          "enum": [
+            "NOT_AUDITIONED",
+            "AUDITIONED_REVISE",
+            "AUDITIONED_ACCEPTED",
+            "AUDITIONED_REJECTED"
+          ]
+        },
+        "audio_artifact_status": {
+          "enum": [
+            "NOT_RENDERED",
+            "RENDERED_LOCAL_UNVERIFIED",
+            "RENDERED_VERIFIED"
+          ]
+        },
+        "hypothesis": {
+          "type": "string",
+          "minLength": 12
+        },
+        "reviewer_notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
