@@ -48,3 +48,6 @@ Listening_Y*.wav
 
 # Generated study audio (large; rebuild from render scripts)
 studies/*/outputs/
+
+# Agent music expectation MIDI audition outputs (generated on each workstation)
+studies/011-musical-expectation/out/
