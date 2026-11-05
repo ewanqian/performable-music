@@ -1,0 +1,68 @@
+name: Composition plan & expectation MIDI contract
+
+on:
+  push:
+    paths:
+      - 'protocols/composition-plan-v1/**'
+      - 'studies/011-musical-expectation/**'
+      - '.github/workflows/agent-composition-check.yml'
+  pull_request:
+    paths:
+      - 'protocols/composition-plan-v1/**'
+      - 'studies/011-musical-expectation/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-composition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install open-source validation dependencies
+        run: python -m pip install --disable-pip-version-check mido jsonschema
+      - name: Validate Draft 2020-12 schema and example
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+          p=Path('protocols/composition-plan-v1')
+          schema=json.loads((p/'composition-plan.schema.json').read_text())
+          example=json.loads((p/'recoil-expectation-32bar.example.json').read_text())
+          Draft202012Validator.check_schema(schema)
+          Draft202012Validator(schema).validate(example)
+          print('PASS: JSON Schema and example')
+          PY
+      - name: Run cross-reference checks
+        run: python protocols/composition-plan-v1/check_plan.py protocols/composition-plan-v1/recoil-expectation-32bar.example.json
+      - name: Generate two MIDI arrangements and assert expected differences
+        run: |
+          python studies/011-musical-expectation/generate_midis.py
+          python - <<'PY'
+          from pathlib import Path
+          import mido
+          p=Path('studies/011-musical-expectation/out')
+          A=mido.MidiFile(p/'expectation_A.mid')
+          B=mido.MidiFile(p/'expectation_B.mid')
+          assert len(A.tracks)==4 and len(B.tracks)==4
+          def bars(mid):
+              result=[]
+              tick=0
+              for msg in mid.tracks[1]:
+                  tick+=msg.time
+                  if msg.type=='note_on' and msg.velocity>0:
+                      result.append(tick//(4*mid.ticks_per_beat)+1)
+              return set(result)
+          missing=set(range(17,25))
+          assert not missing.intersection(bars(A)), 'A bass should be withheld'
+          assert missing.issubset(bars(B)), 'B bass must remain'
+          assert 25 in bars(A), 'A bass must return'
+          assert 59.8 < A.length < 60.2 and 59.8 < B.length < 60.2
+          print('PASS: two structurally distinct 60s symbolic MIDI variants')
+          PY
