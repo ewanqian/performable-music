@@ -1,0 +1,228 @@
+{
+  "timezone": "Asia/Shanghai",
+  "date_from": "2026-11-06",
+  "date_through": "2026-12-03",
+  "focus_rule": "24 working days at 240 focused minutes; 4 Sundays at 60 minutes, subject to real-world show time",
+  "breaks": [
+    "14:40–14:55",
+    "16:25–16:45"
+  ],
+  "daily": {
+    "2026-11-06": {
+      "weekday": "周五",
+      "music": "确认本机已存在的Live/Waveform/SC/Visual Runtime和可合法使用的作者素材，不动旧工程",
+      "visual": "V01 三构图：作者图片/视频叠 GRID、CURVE、TYPE，镜头固定",
+      "qa": "三份10–15秒预览；检查画幅无裁切",
+      "experiment": "V01",
+      "focus_hours": 4
+    },
+    "2026-11-07": {
+      "weekday": "周六",
+      "music": "制作Recoil/OVERRIDE第一段30–60秒可听A/B，干声先行",
+      "visual": "V13 共享event_id桥接：一条消息同时驱动音源与二维/三维",
+      "qa": "录两次同事件音画改变，标注未实现项",
+      "experiment": "V13",
+      "focus_hours": 4
+    },
+    "2026-11-08": {
+      "weekday": "周日",
+      "primary": "Week0检查：V01三份预览、V13实际声音链路；若没音频先补闭环，不开新视觉功能",
+      "experiment": "GATE",
+      "focus_hours": 1
+    },
+    "2026-11-09": {
+      "weekday": "周一",
+      "music": "精修Recoil低频与金属打击的问答、撤除与回归，不随机扩曲",
+      "visual": "V13 完成SC/Live→Show Score→Runtime同ID闭环；不可连真声源则标阻塞",
+      "qa": "核对event_id、听觉响应与画面变化时间",
+      "experiment": "V13",
+      "focus_hours": 4
+    },
+    "2026-11-10": {
+      "weekday": "周二",
+      "music": "制作SUSPENSION到OVERRIDE干湿两版，保留瞬态和低频",
+      "visual": "V15 脚踏或MIDI/键盘触发器，段落量化与手动重置",
+      "qa": "保存触发记录、边界条件和恢复路径",
+      "experiment": "V15",
+      "focus_hours": 4
+    },
+    "2026-11-11": {
+      "weekday": "周三",
+      "music": "对比15–30秒弱/强OVERRIDE，两版实际导出音频",
+      "visual": "V15 验证同一次触发的可逆性、重复触发与追踪失效中性状态",
+      "qa": "留脚踏/模拟输入的录像和日志",
+      "experiment": "V15",
+      "focus_hours": 4
+    },
+    "2026-11-12": {
+      "weekday": "周四",
+      "music": "试听第一段60–90秒，按三个具体时间码删改",
+      "visual": "V02 从本人已有GN工程选择一个最简单模型并导出已求值glTF",
+      "qa": "保留Blender源、glb文件与加载问题记录",
+      "experiment": "V02",
+      "focus_hours": 4
+    },
+    "2026-11-13": {
+      "weekday": "周五",
+      "music": "混音层：DRY近景、短反射中景、长尾远景各一个有意义的时段",
+      "visual": "V02 在Web三维场景实际加载一个GLB且保持固定摄影机",
+      "qa": "拍一段Blender与网页的材质/形状对比录像",
+      "experiment": "V02",
+      "focus_hours": 4
+    },
+    "2026-11-14": {
+      "weekday": "周六",
+      "music": "封存第一版60–90秒真实音画候选，录制可听A/B",
+      "visual": "V09 两套作者化排版与字体设计，关联一个节奏/叙事事件",
+      "qa": "检查舞台远视距可读性、禁止频谱条",
+      "experiment": "V09",
+      "focus_hours": 4
+    },
+    "2026-11-15": {
+      "weekday": "周日",
+      "primary": "Gate1：审看前六项实验，依据音频/视频证据保留4项、废弃2项；不投入新技术",
+      "experiment": "GATE",
+      "focus_hours": 1
+    },
+    "2026-11-16": {
+      "weekday": "周一",
+      "music": "将第一版音画系统重开、重渲染；记录软件版本和稳定性",
+      "visual": "V16 记录/重放章节、材料、图层及事件 ID；排查计时一致性",
+      "qa": "重放两次并比较事件与章节序列",
+      "experiment": "V16",
+      "focus_hours": 4
+    },
+    "2026-11-17": {
+      "weekday": "周二",
+      "music": "建立第二声音段落的独立音乐动机和60秒局部草稿",
+      "visual": "V05 轨道与曲线三状态（静止/分层/事件变形），默认没有镜头动作",
+      "qa": "导出15秒曲线对比和参数配置",
+      "experiment": "V05",
+      "focus_hours": 4
+    },
+    "2026-11-18": {
+      "weekday": "周三",
+      "music": "完成两段声音之间的过渡和撤除，不使用无意义白噪上升",
+      "visual": "V03 作者视频作为前景/背景与实时线条合成，保持视频画幅",
+      "qa": "输出15–20秒带手动Cue的合成镜头",
+      "experiment": "V03",
+      "focus_hours": 4
+    },
+    "2026-11-19": {
+      "weekday": "周四",
+      "music": "演出安全：失联后维持音乐/静音切换方案，不依赖浏览器静音",
+      "visual": "V04 Drop Flow源文件/动作捕捉授权与坐标整理；无真实数据则阻塞",
+      "qa": "记录源资产路径、坐标/时长/许可证，不造假扫描",
+      "experiment": "V04",
+      "focus_hours": 4
+    },
+    "2026-11-20": {
+      "weekday": "周五",
+      "music": "精修第二声音段落的节奏对答和低频控制",
+      "visual": "V04 用一条真实动作轨迹带动粒子/残影；对照手工曲线",
+      "qa": "输出有源数据与没有源数据的两种状态，区分真实性",
+      "experiment": "V04",
+      "focus_hours": 4
+    },
+    "2026-11-21": {
+      "weekday": "周六",
+      "music": "第一次串联两段音乐，观察是否缺乏结构而非只缺少音量",
+      "visual": "V06 原创点云/粒子发射源与人物轨迹或体积场混合",
+      "qa": "记录帧率、声部/动作映射和15秒预览",
+      "experiment": "V06",
+      "focus_hours": 4
+    },
+    "2026-11-22": {
+      "weekday": "周日",
+      "primary": "Gate2：审看已完成的视觉预览，判断能否形成独立舞台语法；可对低价值任务停工",
+      "experiment": "GATE",
+      "focus_hours": 1
+    },
+    "2026-11-23": {
+      "weekday": "周一",
+      "music": "第三幕音乐：让撤除与真实回归成立，明确低频与金属声的角色",
+      "visual": "V10 第17小节缺失事件→视觉缺口，第25小节返回→补全",
+      "qa": "输出带时间码的音画A/B对照",
+      "experiment": "V10",
+      "focus_hours": 4
+    },
+    "2026-11-24": {
+      "weekday": "周二",
+      "music": "第四幕音乐：早期动机变化后回归，避免四幕互不相关",
+      "visual": "V14 两个时钟的精确对齐与音符轮流发声的视觉关系",
+      "qa": "同一时钟日志对应音频与曲线相遇事件",
+      "experiment": "V14",
+      "focus_hours": 4
+    },
+    "2026-11-25": {
+      "weekday": "周三",
+      "music": "拼出12–16分钟演出的大结构，分轨可回放，承认未完成处",
+      "visual": "V07 选一件本人几何模型在单个事件上断裂/重组",
+      "qa": "15秒前后对比，不自动推进镜头",
+      "experiment": "V07",
+      "focus_hours": 4
+    },
+    "2026-11-26": {
+      "weekday": "周四",
+      "music": "测试完整串联中的段落切换、音频尾音、黑场和脚踏后备",
+      "visual": "V11 HOLD/CUT/MOVE明确镜头Cue，默认HOLD",
+      "qa": "导出相同素材固定镜头/主动MOVE两版",
+      "experiment": "V11",
+      "focus_hours": 4
+    },
+    "2026-11-27": {
+      "weekday": "周五",
+      "music": "对当前音画作品进行匿名试听与删减审查，保留最多四套音乐系统",
+      "visual": "V12 把演奏工作站UI与观众主屏彻底分离；复用ENTROPY信息语言",
+      "qa": "两视图截图：操作台、主屏；信息层不遮作品",
+      "experiment": "V12",
+      "focus_hours": 4
+    },
+    "2026-11-28": {
+      "weekday": "周六",
+      "music": "输出四幕当前可播放参考，记录声音/视觉未通过的Gate",
+      "visual": "V08 先做双声道声音空间位置与可见轨迹对应；没有设备不冒充环绕",
+      "qa": "保存 stereo定位对照和多声道未测声明",
+      "experiment": "V08",
+      "focus_hours": 4
+    },
+    "2026-11-29": {
+      "weekday": "周日",
+      "primary": "Gate3：从全部已实做的研究中选4套终选（2套主力+2套备选），冻结候选池",
+      "experiment": "GATE",
+      "focus_hours": 1
+    },
+    "2026-11-30": {
+      "weekday": "周一",
+      "music": "精修选中方案1–2的声音段落、过渡、可演奏动作",
+      "visual": "精修前两套作者素材，统一镜头规则、素材来源与色彩",
+      "qa": "保存两段30–60秒正式候选和可重播Cue",
+      "experiment": "FINALISTS",
+      "focus_hours": 4
+    },
+    "2026-12-01": {
+      "weekday": "周二",
+      "music": "精修选中方案3–4并把四幕整合成12–16分钟候选",
+      "visual": "精修后两套视觉，保留背景视频/实时图层切换",
+      "qa": "生成一份连续预演视频和可操作的Show Score",
+      "experiment": "FINALISTS",
+      "focus_hours": 4
+    },
+    "2026-12-02": {
+      "weekday": "周三",
+      "music": "工作室彩排 #1：完整作品、声音和脚踏两次连续运行",
+      "visual": "工作室彩排 #2：断连/恢复、视频fallback、源素材重载",
+      "qa": "逐条修复P0事故，冻结源码、音频与播放副本",
+      "experiment": "REHEARSAL",
+      "focus_hours": 4
+    },
+    "2026-12-03": {
+      "weekday": "周四",
+      "music": "演出当天预检：媒体和音频备份、输出规格、控制映射、断线恢复",
+      "visual": "根据实际场馆call time调整为现场联调/播放清单；此处不是已确认场地时间",
+      "qa": "冻结演出版本；仅修复演出阻塞，不新增功能",
+      "experiment": "SHOW",
+      "focus_hours": 4
+    }
+  }
+}
