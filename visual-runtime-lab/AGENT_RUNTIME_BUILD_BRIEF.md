@@ -1,3 +1,5 @@
+> **NOV 6 EXECUTION PLAN:** [Ranked 16 study/sprint plan](../research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md) · [Exact daily timetable](../research/visual-runtime/2026-11-06-16-study-plan/DAILY_TIMEBLOCKS_2026-11-06_TO_2026-12-03.csv). The runtime is an **artist asset compositor and controlled performance scene**, not an autonomous aesthetic generator. Camera is held by default. See PM Issue #9.
+
 > **PRIORITY CORRECTION / 2026-11-06:** The creator rejected AI-authored default visual identity and automatic camera zoom. Read [Hybrid Authoring Architecture](HYBRID_AUTHORING_ARCHITECTURE.md) first. This system must become **artist-authored source material + procedural overlay + explicitly cued runtime**, with fixed framing unless the author has designed a camera cue. Do NOT make dozens of automatically generated new scenes. Use the new v0.2 independent material/layer controls and local media plate for one chosen authored source. Implement glTF/Geometry Nodes and audio interoperability only when asset and test requirements are concrete.
 
 # Runtime Build Brief for local Haiku / Codex
