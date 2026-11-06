@@ -177,6 +177,7 @@ next_unique_task: 'one sentence, one owner'
 - [Machine-readable ranked study list](EXPERIMENTS_16.json)
 - [Exact 28-day calendar / 104 work blocks](DAILY_TIMEBLOCKS_2026-11-06_TO_2026-12-03.csv)
 - [Machine-readable daily plans](DAILY_PLAN.json)
+- [Optional calendar import (.ics / 104 tentative blocks)](TIMEBLOCKS_104_IMPORT_OPTIONAL.ics) — importing creates entries in the user's calendar, nothing has been added automatically; be mindful of existing commitments.
 - [Local-agent assignment](LOCAL_HAIKU_START.md)
 - [Hybrid authoring architecture](../../../visual-runtime-lab/HYBRID_AUTHORING_ARCHITECTURE.md)
 
