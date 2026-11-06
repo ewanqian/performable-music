@@ -7,6 +7,7 @@ on:
       - index.html
       - studies/005-strudel-preset-transitions/**
       - spatial-playground/**
+      - visual-runtime-lab/**
       - .github/workflows/pages.yml
   workflow_dispatch:
 
@@ -23,13 +24,16 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/configure-pages@v5
+      - name: Check narrative runtime JavaScript
+        run: node --check visual-runtime-lab/app.js
       - name: Package static audition lab
         run: |
-          mkdir -p _site/studies/005-strudel-preset-transitions _site/spatial-playground
+          mkdir -p _site/studies/005-strudel-preset-transitions _site/spatial-playground _site/visual-runtime-lab
           cp index.html _site/index.html
           cp studies/005-strudel-preset-transitions/index.html studies/005-strudel-preset-transitions/controls.js _site/studies/005-strudel-preset-transitions/
           cp -R studies/005-strudel-preset-transitions/presets _site/studies/005-strudel-preset-transitions/presets
           cp -R spatial-playground/. _site/spatial-playground/
+          cp visual-runtime-lab/index.html visual-runtime-lab/app.js _site/visual-runtime-lab/
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v4
         with:
