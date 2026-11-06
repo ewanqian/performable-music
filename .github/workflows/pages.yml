@@ -26,6 +26,8 @@ jobs:
       - uses: actions/configure-pages@v5
       - name: Check narrative runtime JavaScript
         run: node --check visual-runtime-lab/app.js
+      - name: Check author-led runtime HTML/control contract
+        run: node visual-runtime-lab/check-contract.mjs
       - name: Package static audition lab
         run: |
           mkdir -p _site/studies/005-strudel-preset-transitions _site/spatial-playground _site/visual-runtime-lab
