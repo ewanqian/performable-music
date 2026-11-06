@@ -1,0 +1,105 @@
+date,weekday,start_local,end_local,timezone,lane,owner,task,deliverable,experiment,estimated_focus_min
+2026-11-06,周五,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,确认本机已存在的Live/Waveform/SC/Visual Runtime和可合法使用的作者素材，不动旧工程,可听音频或工程变更+真实日志,V01,90
+2026-11-06,周五,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V01 三构图：作者图片/视频叠 GRID、CURVE、TYPE，镜头固定,视觉实验源码与15–30秒预览,V01,90
+2026-11-06,周五,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,三份10–15秒预览；检查画幅无裁切,可播放文件、截图、实际测试与失败记录,V01,45
+2026-11-06,周五,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V01,15
+2026-11-07,周六,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,制作Recoil/OVERRIDE第一段30–60秒可听A/B，干声先行,可听音频或工程变更+真实日志,V13,90
+2026-11-07,周六,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V13 共享event_id桥接：一条消息同时驱动音源与二维/三维,视觉实验源码与15–30秒预览,V13,90
+2026-11-07,周六,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,录两次同事件音画改变，标注未实现项,可播放文件、截图、实际测试与失败记录,V13,45
+2026-11-07,周六,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V13,15
+2026-11-08,周日,14:00,14:40,Asia/Shanghai,REVIEW,ARTIST + PM,Week0检查：V01三份预览、V13实际声音链路；若没音频先补闭环，不开新视觉功能,gate-review.md; 1个保留/淘汰决定,GATE,40
+2026-11-08,周日,14:40,15:00,Asia/Shanghai,PLAN,PM,记录下周唯一P0问题，剩余时间休息,next-task.md,GATE,20
+2026-11-09,周一,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,精修Recoil低频与金属打击的问答、撤除与回归，不随机扩曲,可听音频或工程变更+真实日志,V13,90
+2026-11-09,周一,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V13 完成SC/Live→Show Score→Runtime同ID闭环；不可连真声源则标阻塞,视觉实验源码与15–30秒预览,V13,90
+2026-11-09,周一,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,核对event_id、听觉响应与画面变化时间,可播放文件、截图、实际测试与失败记录,V13,45
+2026-11-09,周一,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V13,15
+2026-11-10,周二,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,制作SUSPENSION到OVERRIDE干湿两版，保留瞬态和低频,可听音频或工程变更+真实日志,V15,90
+2026-11-10,周二,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V15 脚踏或MIDI/键盘触发器，段落量化与手动重置,视觉实验源码与15–30秒预览,V15,90
+2026-11-10,周二,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,保存触发记录、边界条件和恢复路径,可播放文件、截图、实际测试与失败记录,V15,45
+2026-11-10,周二,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V15,15
+2026-11-11,周三,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,对比15–30秒弱/强OVERRIDE，两版实际导出音频,可听音频或工程变更+真实日志,V15,90
+2026-11-11,周三,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V15 验证同一次触发的可逆性、重复触发与追踪失效中性状态,视觉实验源码与15–30秒预览,V15,90
+2026-11-11,周三,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,留脚踏/模拟输入的录像和日志,可播放文件、截图、实际测试与失败记录,V15,45
+2026-11-11,周三,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V15,15
+2026-11-12,周四,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,试听第一段60–90秒，按三个具体时间码删改,可听音频或工程变更+真实日志,V02,90
+2026-11-12,周四,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V02 从本人已有GN工程选择一个最简单模型并导出已求值glTF,视觉实验源码与15–30秒预览,V02,90
+2026-11-12,周四,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,保留Blender源、glb文件与加载问题记录,可播放文件、截图、实际测试与失败记录,V02,45
+2026-11-12,周四,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V02,15
+2026-11-13,周五,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,混音层：DRY近景、短反射中景、长尾远景各一个有意义的时段,可听音频或工程变更+真实日志,V02,90
+2026-11-13,周五,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V02 在Web三维场景实际加载一个GLB且保持固定摄影机,视觉实验源码与15–30秒预览,V02,90
+2026-11-13,周五,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,拍一段Blender与网页的材质/形状对比录像,可播放文件、截图、实际测试与失败记录,V02,45
+2026-11-13,周五,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V02,15
+2026-11-14,周六,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,封存第一版60–90秒真实音画候选，录制可听A/B,可听音频或工程变更+真实日志,V09,90
+2026-11-14,周六,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V09 两套作者化排版与字体设计，关联一个节奏/叙事事件,视觉实验源码与15–30秒预览,V09,90
+2026-11-14,周六,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,检查舞台远视距可读性、禁止频谱条,可播放文件、截图、实际测试与失败记录,V09,45
+2026-11-14,周六,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V09,15
+2026-11-15,周日,14:00,14:40,Asia/Shanghai,REVIEW,ARTIST + PM,Gate1：审看前六项实验，依据音频/视频证据保留4项、废弃2项；不投入新技术,gate-review.md; 1个保留/淘汰决定,GATE,40
+2026-11-15,周日,14:40,15:00,Asia/Shanghai,PLAN,PM,记录下周唯一P0问题，剩余时间休息,next-task.md,GATE,20
+2026-11-16,周一,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,将第一版音画系统重开、重渲染；记录软件版本和稳定性,可听音频或工程变更+真实日志,V16,90
+2026-11-16,周一,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V16 记录/重放章节、材料、图层及事件 ID；排查计时一致性,视觉实验源码与15–30秒预览,V16,90
+2026-11-16,周一,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,重放两次并比较事件与章节序列,可播放文件、截图、实际测试与失败记录,V16,45
+2026-11-16,周一,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V16,15
+2026-11-17,周二,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,建立第二声音段落的独立音乐动机和60秒局部草稿,可听音频或工程变更+真实日志,V05,90
+2026-11-17,周二,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V05 轨道与曲线三状态（静止/分层/事件变形），默认没有镜头动作,视觉实验源码与15–30秒预览,V05,90
+2026-11-17,周二,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,导出15秒曲线对比和参数配置,可播放文件、截图、实际测试与失败记录,V05,45
+2026-11-17,周二,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V05,15
+2026-11-18,周三,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,完成两段声音之间的过渡和撤除，不使用无意义白噪上升,可听音频或工程变更+真实日志,V03,90
+2026-11-18,周三,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V03 作者视频作为前景/背景与实时线条合成，保持视频画幅,视觉实验源码与15–30秒预览,V03,90
+2026-11-18,周三,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,输出15–20秒带手动Cue的合成镜头,可播放文件、截图、实际测试与失败记录,V03,45
+2026-11-18,周三,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V03,15
+2026-11-19,周四,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,演出安全：失联后维持音乐/静音切换方案，不依赖浏览器静音,可听音频或工程变更+真实日志,V04,90
+2026-11-19,周四,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V04 Drop Flow源文件/动作捕捉授权与坐标整理；无真实数据则阻塞,视觉实验源码与15–30秒预览,V04,90
+2026-11-19,周四,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,记录源资产路径、坐标/时长/许可证，不造假扫描,可播放文件、截图、实际测试与失败记录,V04,45
+2026-11-19,周四,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V04,15
+2026-11-20,周五,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,精修第二声音段落的节奏对答和低频控制,可听音频或工程变更+真实日志,V04,90
+2026-11-20,周五,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V04 用一条真实动作轨迹带动粒子/残影；对照手工曲线,视觉实验源码与15–30秒预览,V04,90
+2026-11-20,周五,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,输出有源数据与没有源数据的两种状态，区分真实性,可播放文件、截图、实际测试与失败记录,V04,45
+2026-11-20,周五,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V04,15
+2026-11-21,周六,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,第一次串联两段音乐，观察是否缺乏结构而非只缺少音量,可听音频或工程变更+真实日志,V06,90
+2026-11-21,周六,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V06 原创点云/粒子发射源与人物轨迹或体积场混合,视觉实验源码与15–30秒预览,V06,90
+2026-11-21,周六,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,记录帧率、声部/动作映射和15秒预览,可播放文件、截图、实际测试与失败记录,V06,45
+2026-11-21,周六,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V06,15
+2026-11-22,周日,14:00,14:40,Asia/Shanghai,REVIEW,ARTIST + PM,Gate2：审看已完成的视觉预览，判断能否形成独立舞台语法；可对低价值任务停工,gate-review.md; 1个保留/淘汰决定,GATE,40
+2026-11-22,周日,14:40,15:00,Asia/Shanghai,PLAN,PM,记录下周唯一P0问题，剩余时间休息,next-task.md,GATE,20
+2026-11-23,周一,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,第三幕音乐：让撤除与真实回归成立，明确低频与金属声的角色,可听音频或工程变更+真实日志,V10,90
+2026-11-23,周一,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V10 第17小节缺失事件→视觉缺口，第25小节返回→补全,视觉实验源码与15–30秒预览,V10,90
+2026-11-23,周一,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,输出带时间码的音画A/B对照,可播放文件、截图、实际测试与失败记录,V10,45
+2026-11-23,周一,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V10,15
+2026-11-24,周二,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,第四幕音乐：早期动机变化后回归，避免四幕互不相关,可听音频或工程变更+真实日志,V14,90
+2026-11-24,周二,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V14 两个时钟的精确对齐与音符轮流发声的视觉关系,视觉实验源码与15–30秒预览,V14,90
+2026-11-24,周二,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,同一时钟日志对应音频与曲线相遇事件,可播放文件、截图、实际测试与失败记录,V14,45
+2026-11-24,周二,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V14,15
+2026-11-25,周三,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,拼出12–16分钟演出的大结构，分轨可回放，承认未完成处,可听音频或工程变更+真实日志,V07,90
+2026-11-25,周三,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V07 选一件本人几何模型在单个事件上断裂/重组,视觉实验源码与15–30秒预览,V07,90
+2026-11-25,周三,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,15秒前后对比，不自动推进镜头,可播放文件、截图、实际测试与失败记录,V07,45
+2026-11-25,周三,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V07,15
+2026-11-26,周四,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,测试完整串联中的段落切换、音频尾音、黑场和脚踏后备,可听音频或工程变更+真实日志,V11,90
+2026-11-26,周四,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V11 HOLD/CUT/MOVE明确镜头Cue，默认HOLD,视觉实验源码与15–30秒预览,V11,90
+2026-11-26,周四,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,导出相同素材固定镜头/主动MOVE两版,可播放文件、截图、实际测试与失败记录,V11,45
+2026-11-26,周四,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V11,15
+2026-11-27,周五,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,对当前音画作品进行匿名试听与删减审查，保留最多四套音乐系统,可听音频或工程变更+真实日志,V12,90
+2026-11-27,周五,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V12 把演奏工作站UI与观众主屏彻底分离；复用ENTROPY信息语言,视觉实验源码与15–30秒预览,V12,90
+2026-11-27,周五,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,两视图截图：操作台、主屏；信息层不遮作品,可播放文件、截图、实际测试与失败记录,V12,45
+2026-11-27,周五,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V12,15
+2026-11-28,周六,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,输出四幕当前可播放参考，记录声音/视觉未通过的Gate,可听音频或工程变更+真实日志,V08,90
+2026-11-28,周六,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,V08 先做双声道声音空间位置与可见轨迹对应；没有设备不冒充环绕,视觉实验源码与15–30秒预览,V08,90
+2026-11-28,周六,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,保存 stereo定位对照和多声道未测声明,可播放文件、截图、实际测试与失败记录,V08,45
+2026-11-28,周六,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,V08,15
+2026-11-29,周日,14:00,14:40,Asia/Shanghai,REVIEW,ARTIST + PM,Gate3：从全部已实做的研究中选4套终选（2套主力+2套备选），冻结候选池,gate-review.md; 1个保留/淘汰决定,GATE,40
+2026-11-29,周日,14:40,15:00,Asia/Shanghai,PLAN,PM,记录下周唯一P0问题，剩余时间休息,next-task.md,GATE,20
+2026-11-30,周一,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,精修选中方案1–2的声音段落、过渡、可演奏动作,可听音频或工程变更+真实日志,FINALISTS,90
+2026-11-30,周一,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,精修前两套作者素材，统一镜头规则、素材来源与色彩,视觉实验源码与15–30秒预览,FINALISTS,90
+2026-11-30,周一,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,保存两段30–60秒正式候选和可重播Cue,可播放文件、截图、实际测试与失败记录,FINALISTS,45
+2026-11-30,周一,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,FINALISTS,15
+2026-12-01,周二,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,精修选中方案3–4并把四幕整合成12–16分钟候选,可听音频或工程变更+真实日志,FINALISTS,90
+2026-12-01,周二,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,精修后两套视觉，保留背景视频/实时图层切换,视觉实验源码与15–30秒预览,FINALISTS,90
+2026-12-01,周二,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,生成一份连续预演视频和可操作的Show Score,可播放文件、截图、实际测试与失败记录,FINALISTS,45
+2026-12-01,周二,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,FINALISTS,15
+2026-12-02,周三,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,工作室彩排 #1：完整作品、声音和脚踏两次连续运行,可听音频或工程变更+真实日志,REHEARSAL,90
+2026-12-02,周三,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,工作室彩排 #2：断连/恢复、视频fallback、源素材重载,视觉实验源码与15–30秒预览,REHEARSAL,90
+2026-12-02,周三,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,逐条修复P0事故，冻结源码、音频与播放副本,可播放文件、截图、实际测试与失败记录,REHEARSAL,45
+2026-12-02,周三,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,REHEARSAL,15
+2026-12-03,周四,13:10,14:40,Asia/Shanghai,P0_MUSIC,ARTIST + MUSIC_AGENT,演出当天预检：媒体和音频备份、输出规格、控制映射、断线恢复,可听音频或工程变更+真实日志,SHOW,90
+2026-12-03,周四,14:55,16:25,Asia/Shanghai,P1_VISUAL,ARTIST + VISUAL_AGENT,根据实际场馆call time调整为现场联调/播放清单；此处不是已确认场地时间,视觉实验源码与15–30秒预览,SHOW,90
+2026-12-03,周四,16:45,17:30,Asia/Shanghai,QA_EXPORT,ARTIST + QA_AGENT,冻结演出版本；仅修复演出阻塞，不新增功能,可播放文件、截图、实际测试与失败记录,SHOW,45
+2026-12-03,周四,17:30,17:45,Asia/Shanghai,PM_LOG,LOCAL_HAIKU_PM,git提交/归档/安全备份；记录明天唯一主任务,每日状态与Git commit或阻塞记录,SHOW,15
