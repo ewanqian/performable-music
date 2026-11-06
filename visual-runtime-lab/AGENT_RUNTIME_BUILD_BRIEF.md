@@ -1,3 +1,5 @@
+> **PRIORITY CORRECTION / 2026-11-06:** The creator rejected AI-authored default visual identity and automatic camera zoom. Read [Hybrid Authoring Architecture](HYBRID_AUTHORING_ARCHITECTURE.md) first. This system must become **artist-authored source material + procedural overlay + explicitly cued runtime**, with fixed framing unless the author has designed a camera cue. Do NOT make dozens of automatically generated new scenes. Use the new v0.2 independent material/layer controls and local media plate for one chosen authored source. Implement glTF/Geometry Nodes and audio interoperability only when asset and test requirements are concrete.
+
 # Runtime Build Brief for local Haiku / Codex
 ## P1 Creative-coding research lane; never displace P0 12/03 music rehearsal
 
