@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a1010">
+<title>NINE / TRANSIT SIGNAL — Narrative Runtime Lab 01</title>
+<style>
+:root{--bg:#090d0d;--fg:#e9eadd;--sub:#9da59f;--line:#43504b;--accent:#bed7c3}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font:13px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}
+header{padding:21px 2.5vw;border-bottom:1px solid #303b37;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}header strong{font-size:clamp(23px,3.8vw,53px);line-height:1;font-weight:400;letter-spacing:-.055em}header small{display:block;color:var(--sub);letter-spacing:.16em;margin-bottom:12px}header .small{max-width:275px;color:var(--sub);font-size:11px}
+main{display:grid;grid-template-columns:minmax(0,1fr) 325px;min-height:calc(100vh - 115px)}.stage{position:relative;min-height:520px;overflow:hidden;background:linear-gradient(135deg,#101815,#050a09);isolation:isolate}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}#graphics{pointer-events:none}.labelextra{position:absolute;left:20px;top:17px;z-index:2;font-size:10px;letter-spacing:.15em;color:#9faf9f;pointer-events:none}.floor{position:absolute;bottom:18px;left:20px;z-index:2;font-size:10px;letter-spacing:.15em;color:#d4dccb;pointer-events:none}
+aside{padding:22px;border-left:1px solid #33413b;background:#101514;display:flex;flex-direction:column;gap:16px;min-width:0;overflow:auto}section{display:grid;gap:7px}.k{font-size:10px;letter-spacing:.18em;color:var(--sub)}button{font:inherit;cursor:pointer;color:var(--fg);background:#19221e;border:1px solid #435249;padding:11px;text-align:left}button:hover,button:focus-visible{border-color:#d2deca}button.active{background:#dce9d8;color:#0f1814}button:disabled{opacity:.48;cursor:not-allowed}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:6px}input[type=range]{width:100%;accent-color:#cddcc9}.control{display:grid;grid-template-columns:80px 1fr 35px;align-items:center;gap:8px;font-size:11px}.control b{font-weight:400;color:var(--sub)}.value{text-align:right;font-variant-numeric:tabular-nums}p{font-size:11px;line-height:1.7;color:var(--sub);margin:0}.telemetry{background:#09100e;padding:10px;font-size:10px;white-space:pre-wrap;line-height:1.6;color:#afc4b2;max-height:120px;overflow:auto}a{color:#c6dec6}footer{padding:15px 2.5vw;font-size:11px;color:var(--sub);border-top:1px solid #303b37}@media(max-width:880px){main{display:block}.stage{min-height:55vh}aside{border-left:0;border-top:1px solid #33413b}header .small{display:none}}
+</style>
+</head>
+<body>
+<header><div><small>PERFORMABLE MUSIC / CREATIVE-CODING RUNTIME 01</small><strong>NINE / TRANSIT SIGNAL</strong></div><div class="small">叙事、数据与空间的统一事件实验<br>Original procedural visuals · No third-party media</div></header>
+<main>
+<div class="stage" id="stage"><canvas id="world" aria-label="实时三维线框交通网络"></canvas><canvas id="graphics" aria-label="信息图形与文字图层"></canvas><div class="labelextra">WORLDMAP / NODE-09<br>THREE-DIMENSIONAL FIELD + TYPOGRAPHY</div><div class="floor" id="scene-caption">01 / ARRIVAL · WAITING</div></div>
+<aside>
+<section><span class="k">NARRATIVE CONTROL / 01</span><button id="step" class="active">TRIGGER TRANSFER</button><div class="row"><button id="auto">AUTO · OFF</button><button id="reset">RESET</button></div><p>每次触发都是一个有 ID 的世界事件，改变场景、图形和空间结构。没有真实音源输入时保持静音。</p></section>
+<section><span class="k">WORLD STATE</span><button class="act active" data-act="0">01 / ARRIVAL</button><button class="act" data-act="1">02 / EXCHANGE</button><button class="act" data-act="2">03 / DEVIATION</button><button class="act" data-act="3">04 / TRANSFER</button></section>
+<section><span class="k">GRAPHIC / GEOMETRIC CONTROLS</span><div class="control"><b>Density</b><input type="range" id="density" min="0" max="1" step=".01" value=".55"><span class="value" id="density-v">.55</span></div><div class="control"><b>Motion</b><input type="range" id="motion" min="0" max="1" step=".01" value=".50"><span class="value" id="motion-v">.50</span></div><div class="control"><b>Space</b><input type="range" id="space" min="0" max="1" step=".01" value=".45"><span class="value" id="space-v">.45</span></div></section>
+<section><span class="k">RECORD / REPLAY · JSON</span><div class="row"><button id="record">● RECORD</button><button id="replay">REPLAY</button></div><button id="export">EXPORT EVENT LOG</button><p>纯视觉事件记录。它不是传感器、OSC、真实 3D 扫描或音频引擎的联调报告。不能用页面上的 SAFE 模拟独立物理急停。</p></section>
+<section><span class="k">PERFORMANCE TELEMETRY</span><div id="telemetry" class="telemetry" aria-live="polite">INITIALIZED</div></section>
+<section><span class="k">KEYS</span><p>1–4：章节选择 · Space：触发 TRANSFER · R：录制/停止。适合桌面和投影预演；WebXR 入口沿用已有 spatial-playground。</p></section>
+<section><span class="k">SOURCE</span><a href="https://github.com/ewanqian/performable-music/tree/main/visual-runtime-lab">README / Source / Execution Tasks</a></section>
+</aside></main>
+<footer>PROTOTYPE / DESKTOP WEBGL + CANVAS2D · 逻辑控制与分层结构验证，无 DAW/OSC 实时音画联调和现场帧率承诺。</footer>
+<script type="module" src="./app.js"></script>
+</body></html>
