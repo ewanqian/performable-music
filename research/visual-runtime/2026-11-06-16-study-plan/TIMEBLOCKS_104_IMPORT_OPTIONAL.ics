@@ -16,7 +16,7 @@ DESCRIPTION:确认本机已存在的Live/Waveform/SC/Visual Runtime和可
  nt V01 | Details: https://github.com/ewanqian/performable-music/blob/mai
  n/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-002@ewanqian.github.io
@@ -29,7 +29,7 @@ DESCRIPTION:V01 三构图：作者图片/视频叠 GRID、CURVE、TYPE，
  com/ewanqian/performable-music/blob/main/research/visual-runtime/2026-11
  -06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-003@ewanqian.github.io
@@ -42,7 +42,7 @@ DESCRIPTION:三份10–15秒预览；检查画幅无裁切 | Asia/Shangha
  sic/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PL
  AN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-004@ewanqian.github.io
@@ -55,7 +55,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-005@ewanqian.github.io
@@ -68,7 +68,7 @@ DESCRIPTION:制作Recoil/OVERRIDE第一段30–60秒可听A/B，干声先
  ian/performable-music/blob/main/research/visual-runtime/2026-11-06-16-st
  udy-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-006@ewanqian.github.io
@@ -81,7 +81,7 @@ DESCRIPTION:V13 共享event_id桥接：一条消息同时驱动音源与
  .com/ewanqian/performable-music/blob/main/research/visual-runtime/2026-1
  1-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-007@ewanqian.github.io
@@ -94,7 +94,7 @@ DESCRIPTION:录两次同事件音画改变，标注未实现项 | Asia/Sh
  le-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MAST
  ER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-008@ewanqian.github.io
@@ -107,7 +107,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-009@ewanqian.github.io
@@ -120,7 +120,7 @@ DESCRIPTION:Week0检查：V01三份预览、V13实际声音链路；若
  nt GATE | Details: https://github.com/ewanqian/performable-music/blob/ma
  in/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-010@ewanqian.github.io
@@ -133,7 +133,7 @@ DESCRIPTION:归档保留/淘汰决定并整理下一主任务 | Asia/Shan
  e-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTE
  R_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-011@ewanqian.github.io
@@ -146,7 +146,7 @@ DESCRIPTION:精修Recoil低频与金属打击的问答、撤除与回归
  ithub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2
  026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-012@ewanqian.github.io
@@ -159,7 +159,7 @@ DESCRIPTION:V13 完成SC/Live→Show Score→Runtime同ID闭环；不可
  ps://github.com/ewanqian/performable-music/blob/main/research/visual-run
  time/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-013@ewanqian.github.io
@@ -172,7 +172,7 @@ DESCRIPTION:核对event_id、听觉响应与画面变化时间 | Asia/Sha
  e-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTE
  R_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-014@ewanqian.github.io
@@ -185,7 +185,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-015@ewanqian.github.io
@@ -198,7 +198,7 @@ DESCRIPTION:制作SUSPENSION到OVERRIDE干湿两版，保留瞬态和低
  ian/performable-music/blob/main/research/visual-runtime/2026-11-06-16-st
  udy-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-016@ewanqian.github.io
@@ -211,7 +211,7 @@ DESCRIPTION:V15 脚踏或MIDI/键盘触发器，段落量化与手动重
  ian/performable-music/blob/main/research/visual-runtime/2026-11-06-16-st
  udy-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-017@ewanqian.github.io
@@ -224,7 +224,7 @@ DESCRIPTION:保存触发记录、边界条件和恢复路径 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-018@ewanqian.github.io
@@ -237,7 +237,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-019@ewanqian.github.io
@@ -250,7 +250,7 @@ DESCRIPTION:对比15–30秒弱/强OVERRIDE，两版实际导出音频 |
  rformable-music/blob/main/research/visual-runtime/2026-11-06-16-study-pl
  an/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-020@ewanqian.github.io
@@ -263,7 +263,7 @@ DESCRIPTION:V15 验证同一次触发的可逆性、重复触发与追踪
  ithub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2
  026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-021@ewanqian.github.io
@@ -275,7 +275,7 @@ DESCRIPTION:留脚踏/模拟输入的录像和日志 | Asia/Shanghai | Ex
  periment V15 | Details: https://github.com/ewanqian/performable-music/bl
  ob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-022@ewanqian.github.io
@@ -288,7 +288,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-023@ewanqian.github.io
@@ -301,7 +301,7 @@ DESCRIPTION:试听第一段60–90秒，按三个具体时间码删改 |
  rformable-music/blob/main/research/visual-runtime/2026-11-06-16-study-pl
  an/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-024@ewanqian.github.io
@@ -314,7 +314,7 @@ DESCRIPTION:V02 从本人已有GN工程选择一个最简单模型并导
  hub.com/ewanqian/performable-music/blob/main/research/visual-runtime/202
  6-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-025@ewanqian.github.io
@@ -327,7 +327,7 @@ DESCRIPTION:保留Blender源、glb文件与加载问题记录 | Asia/Shan
  -music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER
  _PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-026@ewanqian.github.io
@@ -340,7 +340,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-027@ewanqian.github.io
@@ -353,7 +353,7 @@ DESCRIPTION:混音层：DRY近景、短反射中景、长尾远景各一
  //github.com/ewanqian/performable-music/blob/main/research/visual-runtim
  e/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-028@ewanqian.github.io
@@ -366,7 +366,7 @@ DESCRIPTION:V02 在Web三维场景实际加载一个GLB且保持固定摄
  anqian/performable-music/blob/main/research/visual-runtime/2026-11-06-16
  -study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-029@ewanqian.github.io
@@ -379,7 +379,7 @@ DESCRIPTION:拍一段Blender与网页的材质/形状对比录像 | Asia/
  able-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MA
  STER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-030@ewanqian.github.io
@@ -392,7 +392,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-031@ewanqian.github.io
@@ -405,7 +405,7 @@ DESCRIPTION:封存第一版60–90秒真实音画候选，录制可听A/B
  /performable-music/blob/main/research/visual-runtime/2026-11-06-16-study
  -plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-032@ewanqian.github.io
@@ -418,7 +418,7 @@ DESCRIPTION:V09 两套作者化排版与字体设计，关联一个节奏
  .com/ewanqian/performable-music/blob/main/research/visual-runtime/2026-1
  1-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-033@ewanqian.github.io
@@ -431,7 +431,7 @@ DESCRIPTION:检查舞台远视距可读性、禁止频谱条 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-034@ewanqian.github.io
@@ -444,7 +444,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-035@ewanqian.github.io
@@ -457,7 +457,7 @@ DESCRIPTION:Gate1：审看前六项实验，依据音频/视频证据保
  ATE | Details: https://github.com/ewanqian/performable-music/blob/main/r
  esearch/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-036@ewanqian.github.io
@@ -470,7 +470,7 @@ DESCRIPTION:归档保留/淘汰决定并整理下一主任务 | Asia/Shan
  e-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTE
  R_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-037@ewanqian.github.io
@@ -483,7 +483,7 @@ DESCRIPTION:将第一版音画系统重开、重渲染；记录软件版
  ub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2026
  -11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-038@ewanqian.github.io
@@ -496,7 +496,7 @@ DESCRIPTION:V16 记录/重放章节、材料、图层及事件 ID；排
  ithub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2
  026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-039@ewanqian.github.io
@@ -509,7 +509,7 @@ DESCRIPTION:重放两次并比较事件与章节序列 | Asia/Shanghai |
  blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.m
  d
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-040@ewanqian.github.io
@@ -522,7 +522,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-041@ewanqian.github.io
@@ -535,7 +535,7 @@ DESCRIPTION:建立第二声音段落的独立音乐动机和60秒局部
  anqian/performable-music/blob/main/research/visual-runtime/2026-11-06-16
  -study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-042@ewanqian.github.io
@@ -548,7 +548,7 @@ DESCRIPTION:V05 轨道与曲线三状态（静止/分层/事件变形）
  https://github.com/ewanqian/performable-music/blob/main/research/visual-
  runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-043@ewanqian.github.io
@@ -560,7 +560,7 @@ DESCRIPTION:导出15秒曲线对比和参数配置 | Asia/Shanghai | Expe
  riment V05 | Details: https://github.com/ewanqian/performable-music/blob
  /main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-044@ewanqian.github.io
@@ -573,7 +573,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-045@ewanqian.github.io
@@ -586,7 +586,7 @@ DESCRIPTION:完成两段声音之间的过渡和撤除，不使用无意
  ub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2026
  -11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-046@ewanqian.github.io
@@ -599,7 +599,7 @@ DESCRIPTION:V03 作者视频作为前景/背景与实时线条合成，
  ithub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2
  026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-047@ewanqian.github.io
@@ -612,7 +612,7 @@ DESCRIPTION:输出15–20秒带手动Cue的合成镜头 | Asia/Shanghai |
  /blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.
  md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-048@ewanqian.github.io
@@ -625,7 +625,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-049@ewanqian.github.io
@@ -638,7 +638,7 @@ DESCRIPTION:演出安全：失联后维持音乐/静音切换方案，不
  //github.com/ewanqian/performable-music/blob/main/research/visual-runtim
  e/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-050@ewanqian.github.io
@@ -651,7 +651,7 @@ DESCRIPTION:V04 Drop Flow源文件/动作捕捉授权与坐标整理；
  ps://github.com/ewanqian/performable-music/blob/main/research/visual-run
  time/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-051@ewanqian.github.io
@@ -664,7 +664,7 @@ DESCRIPTION:记录源资产路径、坐标/时长/许可证，不造假
  anqian/performable-music/blob/main/research/visual-runtime/2026-11-06-16
  -study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-052@ewanqian.github.io
@@ -677,7 +677,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-053@ewanqian.github.io
@@ -690,7 +690,7 @@ DESCRIPTION:精修第二声音段落的节奏对答和低频控制 | Asia
  mable-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/M
  ASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-054@ewanqian.github.io
@@ -703,7 +703,7 @@ DESCRIPTION:V04 用一条真实动作轨迹带动粒子/残影；对照
  com/ewanqian/performable-music/blob/main/research/visual-runtime/2026-11
  -06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-055@ewanqian.github.io
@@ -716,7 +716,7 @@ DESCRIPTION:输出有源数据与没有源数据的两种状态，区分
  /ewanqian/performable-music/blob/main/research/visual-runtime/2026-11-06
  -16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-056@ewanqian.github.io
@@ -729,7 +729,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-057@ewanqian.github.io
@@ -742,7 +742,7 @@ DESCRIPTION:第一次串联两段音乐，观察是否缺乏结构而非
  ub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2026
  -11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-058@ewanqian.github.io
@@ -755,7 +755,7 @@ DESCRIPTION:V06 原创点云/粒子发射源与人物轨迹或体积场
  anqian/performable-music/blob/main/research/visual-runtime/2026-11-06-16
  -study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-059@ewanqian.github.io
@@ -768,7 +768,7 @@ DESCRIPTION:记录帧率、声部/动作映射和15秒预览 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-060@ewanqian.github.io
@@ -781,7 +781,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-061@ewanqian.github.io
@@ -794,7 +794,7 @@ DESCRIPTION:Gate2：审看已完成的视觉预览，判断能否形成
  iment GATE | Details: https://github.com/ewanqian/performable-music/blob
  /main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-062@ewanqian.github.io
@@ -807,7 +807,7 @@ DESCRIPTION:归档保留/淘汰决定并整理下一主任务 | Asia/Shan
  e-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTE
  R_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-063@ewanqian.github.io
@@ -820,7 +820,7 @@ DESCRIPTION:第三幕音乐：让撤除与真实回归成立，明确低
  ps://github.com/ewanqian/performable-music/blob/main/research/visual-run
  time/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-064@ewanqian.github.io
@@ -833,7 +833,7 @@ DESCRIPTION:V10 第17小节缺失事件→视觉缺口，第25小节返
  com/ewanqian/performable-music/blob/main/research/visual-runtime/2026-11
  -06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-065@ewanqian.github.io
@@ -845,7 +845,7 @@ DESCRIPTION:输出带时间码的音画A/B对照 | Asia/Shanghai | Experi
  ment V10 | Details: https://github.com/ewanqian/performable-music/blob/m
  ain/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-066@ewanqian.github.io
@@ -858,7 +858,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-067@ewanqian.github.io
@@ -871,7 +871,7 @@ DESCRIPTION:第四幕音乐：早期动机变化后回归，避免四幕
  com/ewanqian/performable-music/blob/main/research/visual-runtime/2026-11
  -06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-068@ewanqian.github.io
@@ -884,7 +884,7 @@ DESCRIPTION:V14 两个时钟的精确对齐与音符轮流发声的视觉
  anqian/performable-music/blob/main/research/visual-runtime/2026-11-06-16
  -study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-069@ewanqian.github.io
@@ -897,7 +897,7 @@ DESCRIPTION:同一时钟日志对应音频与曲线相遇事件 | Asia/Sh
  le-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MAST
  ER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-070@ewanqian.github.io
@@ -910,7 +910,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-071@ewanqian.github.io
@@ -923,7 +923,7 @@ DESCRIPTION:拼出12–16分钟演出的大结构，分轨可回放，承
  ub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2026
  -11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-072@ewanqian.github.io
@@ -936,7 +936,7 @@ DESCRIPTION:V07 选一件本人几何模型在单个事件上断裂/重
  ian/performable-music/blob/main/research/visual-runtime/2026-11-06-16-st
  udy-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-073@ewanqian.github.io
@@ -948,7 +948,7 @@ DESCRIPTION:15秒前后对比，不自动推进镜头 | Asia/Shanghai | E
  xperiment V07 | Details: https://github.com/ewanqian/performable-music/b
  lob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-074@ewanqian.github.io
@@ -961,7 +961,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-075@ewanqian.github.io
@@ -974,7 +974,7 @@ DESCRIPTION:测试完整串联中的段落切换、音频尾音、黑场
  ub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2026
  -11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-076@ewanqian.github.io
@@ -987,7 +987,7 @@ DESCRIPTION:V11 HOLD/CUT/MOVE明确镜头Cue，默认HOLD | Asia/Shanghai
  ic/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_PLA
  N.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-077@ewanqian.github.io
@@ -1000,7 +1000,7 @@ DESCRIPTION:导出相同素材固定镜头/主动MOVE两版 | Asia/Shangh
  usic/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_P
  LAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-078@ewanqian.github.io
@@ -1013,7 +1013,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-079@ewanqian.github.io
@@ -1026,7 +1026,7 @@ DESCRIPTION:对当前音画作品进行匿名试听与删减审查，保
  https://github.com/ewanqian/performable-music/blob/main/research/visual-
  runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-080@ewanqian.github.io
@@ -1039,7 +1039,7 @@ DESCRIPTION:V12 把演奏工作站UI与观众主屏彻底分离；复用E
  ithub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2
  026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-081@ewanqian.github.io
@@ -1052,7 +1052,7 @@ DESCRIPTION:两视图截图：操作台、主屏；信息层不遮作品
  performable-music/blob/main/research/visual-runtime/2026-11-06-16-study-
  plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-082@ewanqian.github.io
@@ -1065,7 +1065,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-083@ewanqian.github.io
@@ -1078,7 +1078,7 @@ DESCRIPTION:输出四幕当前可播放参考，记录声音/视觉未通
  m/ewanqian/performable-music/blob/main/research/visual-runtime/2026-11-0
  6-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-084@ewanqian.github.io
@@ -1091,7 +1091,7 @@ DESCRIPTION:V08 先做双声道声音空间位置与可见轨迹对应；
  https://github.com/ewanqian/performable-music/blob/main/research/visual-
  runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-085@ewanqian.github.io
@@ -1104,7 +1104,7 @@ DESCRIPTION:保存 stereo定位对照和多声道未测声明 | Asia/Shan
  -music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER
  _PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-086@ewanqian.github.io
@@ -1117,7 +1117,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER_
  PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-087@ewanqian.github.io
@@ -1130,7 +1130,7 @@ DESCRIPTION:Gate3：从全部已实做的研究中选4套终选（2套主
  Details: https://github.com/ewanqian/performable-music/blob/main/researc
  h/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-088@ewanqian.github.io
@@ -1143,7 +1143,7 @@ DESCRIPTION:归档保留/淘汰决定并整理下一主任务 | Asia/Shan
  e-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTE
  R_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-089@ewanqian.github.io
@@ -1156,7 +1156,7 @@ DESCRIPTION:精修选中方案1–2的声音段落、过渡、可演奏
  com/ewanqian/performable-music/blob/main/research/visual-runtime/2026-11
  -06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-090@ewanqian.github.io
@@ -1169,7 +1169,7 @@ DESCRIPTION:精修前两套作者素材，统一镜头规则、素材来
  ithub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2
  026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-091@ewanqian.github.io
@@ -1182,7 +1182,7 @@ DESCRIPTION:保存两段30–60秒正式候选和可重播Cue | Asia/Shan
  rmable-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/
  MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-092@ewanqian.github.io
@@ -1195,7 +1195,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  mable-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/M
  ASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-093@ewanqian.github.io
@@ -1208,7 +1208,7 @@ DESCRIPTION:精修选中方案3–4并把四幕整合成12–16分钟候
  /ewanqian/performable-music/blob/main/research/visual-runtime/2026-11-06
  -16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-094@ewanqian.github.io
@@ -1221,7 +1221,7 @@ DESCRIPTION:精修后两套视觉，保留背景视频/实时图层切换
  anqian/performable-music/blob/main/research/visual-runtime/2026-11-06-16
  -study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-095@ewanqian.github.io
@@ -1234,7 +1234,7 @@ DESCRIPTION:生成一份连续预演视频和可操作的Show Score | Asi
  /performable-music/blob/main/research/visual-runtime/2026-11-06-16-study
  -plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-096@ewanqian.github.io
@@ -1247,7 +1247,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  mable-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/M
  ASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-097@ewanqian.github.io
@@ -1260,7 +1260,7 @@ DESCRIPTION:工作室彩排 #1：完整作品、声音和脚踏两次连
  ub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2026
  -11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-098@ewanqian.github.io
@@ -1273,7 +1273,7 @@ DESCRIPTION:工作室彩排 #2：断连/恢复、视频fallback、源素
  ub.com/ewanqian/performable-music/blob/main/research/visual-runtime/2026
  -11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-099@ewanqian.github.io
@@ -1286,7 +1286,7 @@ DESCRIPTION:逐条修复P0事故，冻结源码、音频与播放副本 |
  qian/performable-music/blob/main/research/visual-runtime/2026-11-06-16-s
  tudy-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-100@ewanqian.github.io
@@ -1299,7 +1299,7 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  mable-music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/M
  ASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-101@ewanqian.github.io
@@ -1312,7 +1312,7 @@ DESCRIPTION:演出当天预检：媒体和音频备份、输出规格、
   https://github.com/ewanqian/performable-music/blob/main/research/visual
  -runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-102@ewanqian.github.io
@@ -1325,7 +1325,7 @@ DESCRIPTION:根据实际场馆call time调整为现场联调/播放清单
   Details: https://github.com/ewanqian/performable-music/blob/main/resear
  ch/visual-runtime/2026-11-06-16-study-plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-103@ewanqian.github.io
@@ -1338,7 +1338,7 @@ DESCRIPTION:冻结演出版本；仅修复演出阻塞，不新增功能
  /performable-music/blob/main/research/visual-runtime/2026-11-06-16-study
  -plan/MASTER_PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 BEGIN:VEVENT
 UID:pm-visual-2026-104@ewanqian.github.io
@@ -1351,6 +1351,6 @@ DESCRIPTION:提交与记录真正产物；唯一下一任务 | Asia/Shang
  -music/blob/main/research/visual-runtime/2026-11-06-16-study-plan/MASTER
  _PLAN.md
 TRANSP:OPAQUE
-STATUS:CONFIRMED
+STATUS:TENTATIVE
 END:VEVENT
 END:VCALENDAR
