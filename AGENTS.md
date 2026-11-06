@@ -1,3 +1,5 @@
+> **P1 / 2026-11-06 · VISUAL RUNTIME RESEARCH:** Read [Narrative Runtime Lab](visual-runtime-lab/README.md) + [staged execution brief](visual-runtime-lab/AGENT_RUNTIME_BUILD_BRIEF.md). It is a **separate low-contention lane** from the 12/03 musical P0. Do not overwrite `pressure-test-001/runtime` or add unsupported sensor/DAW completion claims. First validate `visual-runtime-lab/app.js` and actual browser interactions, then bridge one event to existing Show Score.
+
 > **DISPATCH NOTICE / 2026-11-05:** For album research expansion or multi-agent work, read [Haiku orchestrator runbook](research/agent-music/HAIKU55_ORCHESTRATOR_RUNBOOK_2026-11-05.md) plus [16-track manifest](albums/critical-field-study-16/manifest.json). Do NOT overwrite the live-show P0 lane or assume subagents have actually been spawned. The first task is inventory of existing 8 rendered-direction reports and current local DAW status.
 
 # CURRENT RUN OVERRIDE — 2026-11-04
