@@ -11,12 +11,15 @@ if (!gl || !ctx) {
   throw new Error('WebGL and Canvas2D are required for this experiment.');
 }
 const scenes = [
-  { id: 'ARRIVAL', status: 'WAITING', label: '01 / ARRIVAL', color: [0.80, 0.91, 0.82], tint: '#cce1c9', bg: [0.020, 0.039, 0.034], amplitude: 0.04, scale: 0.72 },
-  { id: 'EXCHANGE', status: 'IN TRANSIT', label: '02 / EXCHANGE', color: [0.96, 0.74, 0.61], tint: '#f4bb9c', bg: [0.038, 0.052, 0.046], amplitude: 0.20, scale: 1.00 },
-  { id: 'DEVIATION', status: 'UNRESOLVED', label: '03 / DEVIATION', color: [0.83, 0.78, 0.96], tint: '#d5c9ef', bg: [0.025, 0.029, 0.046], amplitude: 0.38, scale: 0.58 },
-  { id: 'TRANSFER', status: 'RECONSTRUCTION', label: '04 / TRANSFER', color: [0.97, 0.87, 0.64], tint: '#f7dd9f', bg: [0.051, 0.050, 0.034], amplitude: 0.58, scale: 1.32 }
+  { id: 'ARRIVAL', status: 'WAITING', label: '01 / ARRIVAL', color: [0.80, 0.91, 0.82], tint: '#cce1c9', bg: [0.020, 0.039, 0.034], amplitude: 0.04 },
+  { id: 'EXCHANGE', status: 'IN TRANSIT', label: '02 / EXCHANGE', color: [0.96, 0.74, 0.61], tint: '#f4bb9c', bg: [0.038, 0.052, 0.046], amplitude: 0.20 },
+  { id: 'DEVIATION', status: 'UNRESOLVED', label: '03 / DEVIATION', color: [0.83, 0.78, 0.96], tint: '#d5c9ef', bg: [0.025, 0.029, 0.046], amplitude: 0.38 },
+  { id: 'TRANSFER', status: 'RECONSTRUCTION', label: '04 / TRANSFER', color: [0.97, 0.87, 0.64], tint: '#f7dd9f', bg: [0.051, 0.050, 0.034], amplitude: 0.58 }
 ];
-const state = { scene: 0, density: 0.55, motion: 0.50, space: 0.45, seq: 0, auto: false };
+const state = { scene: 0, density: 0.55, motion: 0.00, space: 0.45, material: 'all', layer3d: true, layer2d: true, seq: 0, auto: false };
+// Camera framing is author-owned and stays fixed. No implicit scene zoom or continuous camera rotation.
+const CAMERA_SCALE = 0.82;
+const VISUAL_MATERIALS = new Set(['all', 'grid', 'orbits', 'architecture', 'particles', 'none']);
 const clamp = (n, lo=0, hi=1) => Math.min(hi, Math.max(lo, n));
 let dimensions = { w: 1, h: 1, dpr: 1 };
 let logs = [];
@@ -31,7 +34,6 @@ let frameCounter = 0;
 let frameMeterStart = performance.now();
 let measuredFPS = 0;
 let lastSliderLog = 0;
-let currentScale = 0.72;
 let currentWarp = 0.04;
 let currentDensity = 0.55;
 let transferPulse = 0;
@@ -44,7 +46,7 @@ const vertexSource = [
   '  vec3 q=aPosition;',
   '  q.y+=sin(q.x*2.6+q.z*1.2+uTime*.35)*uWarp*.12;',
   '  q.x+=sin(q.y*3.5+uTime*.25)*uWarp*.07;',
-  '  float theta=.17*sin(uTime*.13);',
+  '  float theta=.12; // fixed camera framing; animation is local to geometry',
   '  float x=q.x*cos(theta)-q.z*sin(theta);',
   '  float z=q.x*sin(theta)+q.z*cos(theta);',
   '  float depth=4.6+z*.40;',
@@ -80,6 +82,7 @@ const attributes = { position: gl.getAttribLocation(program, 'aPosition') };
 const uniforms = Object.fromEntries(['uTime','uWarp','uScale','uAspect','uColor']
   .map((name) => [name, gl.getUniformLocation(program, name)]));
 const vertices = [];
+const vertexGroups = {};
 function line(x1, y1, z1, x2, y2, z2) {
   vertices.push(x1, y1, z1, x2, y2, z2);
 }
@@ -90,6 +93,7 @@ for (let k = -14; k <= 14; k++) {
 for (let k = -18; k <= 18; k++) {
   line(k * 0.17, -1.08, -2.45, k * 0.17, -1.08, 2.45);
 }
+vertexGroups.grid = { first: 0, count: vertices.length / 3 };
 // Interconnected elliptical orbital transit routes.
 for (let track = 0; track < 4; track++) {
   const r = 0.62 + track * 0.36;
@@ -102,6 +106,7 @@ for (let track = 0; track < 4; track++) {
          Math.cos(b) * r, y2, Math.sin(b) * r * 0.8);
   }
 }
+vertexGroups.orbits = { first: vertexGroups.grid.count, count: vertices.length / 3 - vertexGroups.grid.count };
 // Architectural profiles, with several different tower heights.
 for (let i = 0; i < 64; i++) {
   const x = (i % 16 - 7.5) * 0.38;
@@ -114,6 +119,7 @@ for (let i = 0; i < 64; i++) {
   line(x-hw,y+height,z,x+hw,y+height,z);
   if (i % 3 === 0) line(x,y+height,z,x,y+height+0.16,z+0.09);
 }
+vertexGroups.architecture = { first: vertexGroups.orbits.first + vertexGroups.orbits.count, count: vertices.length / 3 - (vertexGroups.orbits.first + vertexGroups.orbits.count) };
 // Fine short line stars / data points distributed in three dimensions.
 for (let i = 0; i < 700; i++) {
   const fx = Math.sin(i * 78.234) * 29481.73;
@@ -124,6 +130,7 @@ for (let i = 0; i < 700; i++) {
   const z = ((fz - Math.floor(fz)) * 2 - 1) * 2.5;
   line(x,y,z,x+0.008,y+0.012,z);
 }
+vertexGroups.particles = { first: vertexGroups.architecture.first + vertexGroups.architecture.count, count: vertices.length / 3 - (vertexGroups.architecture.first + vertexGroups.architecture.count) };
 const buffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
@@ -148,7 +155,7 @@ resize();
 
 function snapshot() {
   return { scene: state.scene, density: state.density, motion: state.motion,
-    space: state.space, seq: state.seq };
+    space: state.space, material: state.material, layer3d: state.layer3d, layer2d: state.layer2d, seq: state.seq };
 }
 function logEvent(type, payload) {
   if (recording && !playback) {
@@ -164,6 +171,11 @@ function updateUI() {
     get(id).value = state[id].toFixed(2);
     get(id + '-v').textContent = state[id].toFixed(2);
   }
+  get('material').value = state.material;
+  get('layer3d').checked = state.layer3d;
+  get('layer2d').checked = state.layer2d;
+  world.style.opacity = state.layer3d ? '1' : '0';
+  graphics.style.opacity = state.layer2d ? '1' : '0';
   get('auto').textContent = state.auto ? 'AUTO · ON' : 'AUTO · OFF';
   get('auto').classList.toggle('active', state.auto);
   get('record').textContent = recording ? '■ STOP RECORD' : '● RECORD';
@@ -189,8 +201,11 @@ function setScene(index, source='BUTTON', cause='SCENE_ADVANCE', fromReplay=fals
 function reset() {
   state.scene = 0;
   state.density = 0.55;
-  state.motion = 0.5;
+  state.motion = 0;
   state.space = 0.45;
+  state.material = 'all';
+  state.layer3d = true;
+  state.layer2d = true;
   state.seq += 1;
   transferPulse = 0;
   elapsed = 0;
@@ -209,6 +224,58 @@ get('auto').addEventListener('click', () => {
   updateUI();
 });
 get('reset').addEventListener('click', reset);
+get('material').addEventListener('change', () => {
+  const selected = get('material').value;
+  if (!VISUAL_MATERIALS.has(selected)) return;
+  state.material = selected;
+  logEvent('MATERIAL_SELECT', { material: selected });
+  updateUI();
+});
+for (const [inputId, stateKey] of [['layer3d', 'layer3d'], ['layer2d', 'layer2d']]) {
+  get(inputId).addEventListener('change', () => {
+    state[stateKey] = get(inputId).checked;
+    logEvent('LAYER_TOGGLE', { layer: stateKey, visible: state[stateKey] });
+    updateUI();
+  });
+}
+// Author-owned still/image/video plates are local, do not upload to a server.
+// The input is deliberately not serialized in the public event log.
+let assetURL = null;
+function clearAuthoredAsset() {
+  get('authored-image').removeAttribute('src');
+  get('authored-image').hidden = true;
+  get('authored-video').pause();
+  get('authored-video').removeAttribute('src');
+  get('authored-video').load();
+  get('authored-video').hidden = true;
+  if (assetURL) URL.revokeObjectURL(assetURL);
+  assetURL = null;
+  get('author-asset').value = '';
+  get('asset-status').textContent = 'NO AUTHOR ASSET LOADED';
+}
+get('clear-asset').addEventListener('click', clearAuthoredAsset);
+get('author-asset').addEventListener('change', () => {
+  const file = get('author-asset').files?.[0];
+  if (!file) return;
+  if (!(file.type.startsWith('image/') || file.type === 'video/mp4' || file.type === 'video/webm')) {
+    get('asset-status').textContent = 'UNSUPPORTED MEDIA: choose image or muted video';
+    return;
+  }
+  clearAuthoredAsset();
+  assetURL = URL.createObjectURL(file);
+  const video = file.type.startsWith('video/');
+  const target = get(video ? 'authored-video' : 'authored-image');
+  target.src = assetURL;
+  target.hidden = false;
+  if (video) target.play().catch(() => {
+    get('asset-status').textContent = 'VIDEO LOADED: browser may require a user play action';
+  });
+  get('asset-status').textContent = 'LOCAL ASSET: ' + file.name;
+  // No private filename or actual media bytes enter recorded event logs.
+});
+get('asset-opacity').addEventListener('input', () => {
+  get('authored-media').style.opacity = String(clamp(Number(get('asset-opacity').value)));
+});
 for (const id of ['density', 'motion', 'space']) {
   const inp = get(id);
   function setControl(final=false) {
@@ -274,6 +341,9 @@ function applyReplayEvent(entry) {
   state.density = entry.state.density;
   state.motion = entry.state.motion;
   state.space = entry.state.space;
+  state.material = VISUAL_MATERIALS.has(entry.state.material) ? entry.state.material : 'all';
+  state.layer3d = entry.state.layer3d !== false;
+  state.layer2d = entry.state.layer2d !== false;
   state.seq = entry.state.seq;
   transferPulse = entry.type === 'WORLD_EVENT' ? 1 : transferPulse;
   updateUI();
@@ -292,10 +362,10 @@ function paintHUD(scene, seconds) {
   const count=4+Math.round(18*state.density);
   for(let i=0;i<count;i++){
     const u=i/Math.max(1,count-1);
-    const swell=Math.abs(Math.sin(i*.76+seconds*(.35+state.motion)));
+    const swell=Math.abs(Math.sin(i*.76+seconds*state.motion));
     const size=4+25*swell;
     const x=edge+u*(w-2*edge);
-    const y=bandY+16+Math.cos(i*.92+seconds*.28)*12;
+    const y=bandY+16+Math.cos(i*.92+seconds*state.motion*.56)*12;
     ctx.globalAlpha=.38+.55*swell;
     ctx.fillRect(x,y,size*.42,3+size*.2);
   }
@@ -322,7 +392,7 @@ function paintHUD(scene, seconds) {
   ctx.beginPath();
   for(let i=0;i<120;i++){
     const x=edge+i*(Math.min(240,w*.40)/119);
-    const y=traceY+Math.sin(i*.24+seconds*.65)*5+Math.cos(i*.07+seconds*.13)*10*state.motion;
+    const y=traceY+Math.sin(i*.24+seconds*state.motion)*5+Math.cos(i*.07+seconds*state.motion*.2)*10*state.motion;
     if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
   }
   ctx.stroke();
@@ -345,21 +415,27 @@ function render(now) {
     setScene((state.scene+1)%scenes.length,'AUTO','AUTO_ADVANCE');
   }
   const scene=scenes[state.scene];
-  currentScale+=(scene.scale*(.70+state.space*.55)-currentScale)*Math.min(1,dt*2.8);
-  currentWarp+=(scene.amplitude-currentWarp)*Math.min(1,dt*2.1);
+  currentWarp+=(scene.amplitude*.5 + state.space*.09-currentWarp)*Math.min(1,dt*2.1);
   currentDensity+=(state.density-currentDensity)*Math.min(1,dt*2.6);
   transferPulse*=Math.exp(-dt*3);
   const warp=currentWarp+transferPulse*.12;
   gl.viewport(0,0,world.width,world.height);
   gl.clearColor(...scene.bg,1);
   gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.uniform1f(uniforms.uTime,elapsed*(.16+state.motion*1.85));
+  gl.uniform1f(uniforms.uTime,elapsed*state.motion*1.85);
   gl.uniform1f(uniforms.uWarp,warp);
-  gl.uniform1f(uniforms.uScale,currentScale*5.5);
+  gl.uniform1f(uniforms.uScale,CAMERA_SCALE*5.5);
   gl.uniform1f(uniforms.uAspect,dimensions.w/dimensions.h);
   gl.uniform3f(uniforms.uColor,...scene.color);
-  const count=Math.max(100,Math.floor(vertices.length/3*(.28+.72*currentDensity)));
-  gl.drawArrays(gl.LINES,0,count-count%2);
+  // Draw authored material groups independently. Scene changes never auto-zoom.
+  const visibleGroups = state.material === 'none' ? [] : state.material === 'all'
+    ? ['grid', 'orbits', 'architecture', 'particles'] : [state.material];
+  for (const name of visibleGroups) {
+    const group = vertexGroups[name];
+    let count = Math.floor(group.count * (.08 + .92 * currentDensity));
+    count -= count % 2;
+    if (count > 0) gl.drawArrays(gl.LINES, group.first, count);
+  }
   paintHUD(scene,elapsed);
   frameCounter++;
   if(now-frameMeterStart>=1000){
@@ -374,7 +450,9 @@ function render(now) {
       '\nFRAME   '+measuredFPS.toFixed(1)+' fps (measured browser draw loop)'+
       '\nLOG     '+logs.length+' events / '+(recording?'RECORDING':playback?'REPLAY':'IDLE')+
       '\nAUTO    '+(state.auto?'ON':'OFF')+
-      '\nSOURCE  internal scene controls (not OSC or live music)';
+      '\nCAMERA  FIXED / NO AUTO ZOOM'+
+      '\nMEDIA   '+(assetURL ? 'LOCAL AUTHOR PLATE' : 'NONE')+
+      '\nSOURCE  internal controls (not OSC or live music)';
   }
   requestAnimationFrame(render);
 }
