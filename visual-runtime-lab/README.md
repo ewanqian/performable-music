@@ -1,3 +1,5 @@
+> **Author-led v0.2 update (2026-11-06):** [Hybrid Authoring Architecture](HYBRID_AUTHORING_ARCHITECTURE.md). Following artist feedback, camera scale is now fixed and auto camera zoom/rotation removed; MOTION defaults to 0. Scene chapter, material type, 2D/3D layer visibility and author media are independently controlled. A local image/MP4 plate can be loaded directly from the browser without being uploaded. This is a **manual compositing proof**, not a complete mixed-media timeline or 3D asset import pipeline.
+
 # NINE / TRANSIT SIGNAL — Narrative Runtime Lab 01
 
 **Status:** original, dependency-free **desktop visual demonstration** (WebGL1 + Canvas2D). It is **not** a completed music video, OSC music link, Vision Pro app, physical camera tracker, true 3D scan, or venue-proven runtime.
