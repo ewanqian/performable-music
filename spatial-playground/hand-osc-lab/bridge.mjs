@@ -75,6 +75,8 @@ function neutral(reason){
   osc('/pm/system/connected',[0]);
   osc('/pm/system/stale',[1]);
   osc('/pm/hand/left/tracked',[0]);osc('/pm/hand/right/tracked',[0]);
+  // Never leave an external synthesizer's sustained envelope latched after stale/disconnect/panic.
+  osc('/pm/perf/gate',[0]);osc('/pm/perf/hold',[0]);
   if(reason)osc('/pm/system/reason',[reason]);
 }
 wss.on('connection',(socket,request)=>{
