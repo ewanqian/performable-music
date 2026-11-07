@@ -67,14 +67,23 @@ async function enableAudio(){
   if(study!=='score'&&!tone.ready){
     try{
       log('LOADING TONE.JS / PINNED 15.1.22');
-      await tone.start();preferred='TONE';
-      tone.setPatch(study==='sigil'?'CATHEDRAL':tone.patch);
-      log('TONE.JS READY / FM + AM + MULTI FX');
+      await tone.start();
+      if(tone.Tone.getContext().state!=='running'){
+        preferred='NATIVE';
+        log('TONE.JS CONTEXT SUSPENDED / LOCAL SYNTH FALLBACK');
+      }else{
+        preferred='TONE';
+        tone.setPatch(study==='sigil'?'CATHEDRAL':tone.patch);
+        log('TONE.JS READY / FM + AM + MULTI FX');
+      }
     }catch(e){
       preferred='NATIVE';
       log('TONE.JS UNAVAILABLE / NATIVE SYNTH FALLBACK: '+String(e.message||e).slice(0,85));
     }
-  }else if(tone.ready){await tone.resume();preferred='TONE';}
+  }else if(tone.ready){
+    await tone.resume();
+    preferred=tone.Tone.getContext().state==='running'?'TONE':'NATIVE';
+  }
   $('study-audio').textContent='AUDIO ACTIVE';
   status();
 }
@@ -122,7 +131,7 @@ function playSound({digit=null,x=.5,y=.5,energy=.55}={},diagnostic=false){
   if(!ready||muted)return false;
   const args={digit,energy,x,y};
   let ok=false;
-  if(study!=='score'&&preferred==='TONE'&&tone.ready){
+  if(study!=='score'&&preferred==='TONE'&&tone.ready&&tone.Tone.getContext().state==='running'){
     try{ok=tone.fire(args)}catch(e){log('TONE ISSUE / FALLBACK '+e.message);preferred='NATIVE';}
   }
   if(!ok)ok=native.fire(args);
@@ -205,7 +214,7 @@ function download(name,text,type='application/json'){
 $('score-strudel').addEventListener('click',()=>{
   const source=strudelScore(clock.bpm);
   download('spatial-instrument-strudel.js',source,'text/javascript');
-  log('STR UDEL SOURCE EXPORTED: paste in strudel.cc REPL (not linked playback)');
+  log('STRUDEL SOURCE EXPORTED: paste in strudel.cc REPL (not linked playback)');
 });
 $('score-osc').addEventListener('click',()=>{
   const details=[...document.querySelectorAll('details')].find(d=>d.textContent.includes('BROWSER OSC BRIDGE'));
