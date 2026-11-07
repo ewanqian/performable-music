@@ -1,6 +1,6 @@
 # HAND / SPACE / OSC · Spatial Playground Lab 02
 
-**Status:** WebXR/OSC prototype committed; headset hardware and audio integration NOT yet tested. No raw camera access, no room-scale anchor persistence, no physical KILL.
+**Status:** Three separate pages exist (sensor baseline / sustained Web Audio synth / Organic Fields sound maps). Code and source-level tests have been committed; real Quest/AVP audio, hand latency and stage quality are **NOT yet hardware-verified**. No raw camera access, no room-scale anchor persistence, no physical KILL.
 
 ## Start
 
@@ -12,6 +12,28 @@ Quest 3/3S Browser: HTTPS page → ENTER MR / AR → hand-tracking consent. The 
 Vision Pro Safari: HTTPS page → ENTER VR → hand-tracking consent. Current browser WebXR does not provide true immersive AR passthrough; in VR the lines are a virtual representation.
 
 Desktop fallback: from the repository root run python3 -m http.server 8000; open http://localhost:8000/spatial-playground/hand-osc-lab/. Move pointer to simulate right fingertip. Desktop poses are not actual hardware tracking.
+
+## Which page should have sound?
+
+| URL (relative) | Purpose | Expected Web Audio |
+| --- | --- | --- |
+| [index.html](./index.html) | Lab02: hand joints / spatial zones / OSC input diagnostics | **SILENT BY DESIGN** |
+| [instrument.html](./instrument.html) | Hand / Synth / Space V2: sustained subtractive voice and space-triggered tones | **YES**; press START AUDIO or ENTER MR; tracking alone now opens a quiet drone, pinch increases loudness |
+| [playground.html](./playground.html) | Organic Fields: METAL / ELECTRO / ORCHESTRA map-driven sound fields | **YES**; press ENABLE AUDIO or ENTER MR, then move fingers through rings |
+
+**No Mac, bridge, WSS or OSC connection is required for local browser sound.** The bridge is only for forwarding semantic control events to another program.
+
+### Quick XR sound diagnosis
+
+1. On V2, lower the headset volume, tap **SOUND CHECK**. It plays a standalone 440→660 Hz cue that does not depend on hand tracking.
+2. Tap and hold **TEST GATE** on the 2D page to hear the continuous synth. This is a simulated control, not a headset hand test.
+3. Tap **ENTER MR / AR**. That user click explicitly attempts to unlock Web Audio, without awaiting and losing transient XR activation.
+4. Listen for an entry sound-check cue. Once the hand tracking is valid, a quiet sustained drone should play **even without pinch**; thumb-index pinch boosts it.
+5. Inside V2 XR, **green audio-state dot** means running; **amber** means AudioContext suspended (browser/permission problem); **red** means locked or manually muted. If amber, exit XR and tap START AUDIO / SOUND CHECK again.
+6. If the XR cue plays but no drone follows, verify that the WebXR interface reports 1–2 tracked hands and 25 joint poses rather than missing hand input.
+7. Entering MR never requires Mac OSC. If headset sound still fails, capture browser version, headset model, audio-state dot, and whether SOUND CHECK works *outside* XR.
+
+This addresses the difference between “can synthesize sound,” “has permission to output sound,” and “has tracked hand input to modulate sound.” Do not claim an actual headset fix has been confirmed until it is tested on device.
 
 ## What's implemented
 

@@ -9,6 +9,41 @@ const synth=new FieldSynth();
 let lastTick=null,perfLast=0,uiLast=0,flashUntil=0,manualGate=false;
 let frameCount=0,maxFrameGap=0,lagFrames=0,computeMs=0,maxComputeMs=0;
 let gapSamples=[],eventsLog=[],eventsCount=0,lastOutput=null,lastMode='DESKTOP';
+let explicitlyMuted=false,bootPromise=null,lastXRStatus='',lastXRStatusTime=0;
+const audioState=()=>!synth.ready?'LOCKED':synth.isMuted?'MUTED':
+  synth.ctx.state==='running'?'RUNNING':'SUSPENDED';
+window.__pmXRAudioStatus='LOCKED';
+const updateAudioStatus=()=>{
+  const state=audioState();window.__pmXRAudioStatus=state;return state;
+};
+// Unlock sound while ENTER MR still has an authentic user activation.
+// Crucially do NOT await AudioContext startup before WebXR requestSession.
+window.__pmBeforeEnterXR=()=>{
+  if(explicitlyMuted){addLog('XR AUDIO SKIPPED: manual MUTE active');return;}
+  bootPromise=(synth.ready?synth.resume():synth.start()).then(()=>{
+    synth.setBpm(Number($('bpm').value)||100);
+    $('audio-start').textContent='AUDIO ACTIVE';
+    addLog('XR AUDIO '+updateAudioStatus());
+  }).catch(err=>{
+    addLog('XR AUDIO START FAILED: '+String(err?.message||err));
+    updateAudioStatus();
+  });
+};
+window.__pmOnXRStart=(xrMode)=>{
+  addLog('XR '+xrMode+' / SOUND '+updateAudioStatus());
+  // A startup test tone is independent of all hand recognition and OSC.
+  bootPromise?.then(()=>{
+    if(synth.soundCheck())addLog('XR SOUND CHECK: 440–660Hz');
+  });
+};
+window.__pmXRAudioState=(now)=>{
+  if(now-lastXRStatusTime<250)return;
+  lastXRStatusTime=now;
+  const state=updateAudioStatus();
+  if(state!==lastXRStatus){lastXRStatus=state;addLog('XR AUDIO STATE '+state);}
+};
+window.__pmOnXREnd=()=>{addLog('EXIT XR / AUDIO '+updateAudioStatus());};
+
 const short=(x)=>Number.isFinite(x)?Number(x).toFixed(3):'—';
 function addLog(txt){
   eventsCount++;eventsLog.unshift(new Date().toLocaleTimeString()+'  '+txt);
@@ -16,6 +51,7 @@ function addLog(txt){
   if($('instrument-events'))$('instrument-events').textContent=eventsLog.join('\n');
 }
 $('audio-start').addEventListener('click',async()=>{
+  explicitlyMuted=false;
   try{
     if(synth.ready&&synth.isMuted)await synth.resume();
     else await synth.start();
@@ -25,6 +61,7 @@ $('audio-start').addEventListener('click',async()=>{
   }catch(e){$('instrument-meter').textContent='Audio startup failed: '+String(e.message||e);}
 });
 $('audio-panic').addEventListener('click',()=>{
+  explicitlyMuted=true;
   manualGate=false;synth.panic();$('audio-start').textContent='RESUME AUDIO';
   addLog('LOCAL AUDIO MUTED / OSC must be disarmed separately');
 });
@@ -47,6 +84,16 @@ for(const name of ['pointerup','pointercancel','lostpointercapture','pointerleav
 $('test-gate').addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!e.repeat){e.preventDefault();setManualGate(true)}});
 $('test-gate').addEventListener('keyup',e=>{if(e.key===' '||e.key==='Enter'){setManualGate(false)}});
 $('test-zone').addEventListener('click',()=>{const ok=synth.trigger('C');addLog('SIMULATED ZONE C ENTER'+(ok?' / AUDIO':' / AUDIO LOCKED'));flashUntil=performance.now()+250;});
+$('audio-check')?.addEventListener('click',async()=>{
+  try{
+    explicitlyMuted=false;
+    if(!synth.ready)await synth.start();
+    else await synth.resume();
+    const ok=synth.soundCheck();
+    addLog('SOUND CHECK: '+(ok?'TONE 440–660Hz / NO OSC':'FAILED / '+audioState()));
+    updateAudioStatus();
+  }catch(e){addLog('SOUND CHECK ERROR: '+String(e?.message||e));}
+});
 $('test-double').addEventListener('click',()=>{
   // Separate deterministic mapper: no spoofed XR hand measurements.
   const m=new GestureInstrument({holdMs:260});
@@ -98,6 +145,9 @@ window.__pmInstrumentFeed=({hands,zoneEvents,now,mode})=>{
   lastTick=now;
   const output=mapper.update({left:hands.left,right:hands.right,zones:zoneEvents,now});
   lastOutput=output;const params={...output.params};
+  // XR hand presence opens a quiet drone. Pinch is the louder performance
+  // state. No hands => silence; never use the desktop simulated hand for this.
+  params.presence=mode!=='DESKTOP'&&output.diagnostics.trackedHands>0?1:0;
   // A visible, explicitly simulated desktop gate for checking synthesis without a headset.
   if(mode==='DESKTOP'&&manualGate)params.gate=1;
   if(synth.ready)synth.update(params,now);
@@ -117,7 +167,7 @@ window.__pmInstrumentFeed=({hands,zoneEvents,now,mode})=>{
   if(now-perfLast>=55){perfLast=now;outgoing(params,null,now)}
   // Low-cost wireframe-only visual signal in the baseline XR renderer.
   window.__pmInstrumentVisual={
-    gate:params.gate,
+    gate:Math.max(params.gate,params.presence*.40),
     flash:Math.max(0,Math.min(1,(flashUntil-now)/220)),
     timbre:params.timbre
   };
@@ -127,7 +177,8 @@ window.__pmInstrumentFeed=({hands,zoneEvents,now,mode})=>{
     $('instrument-meter').textContent=[
       'AUDIO / '+(synth.ready?(synth.isMuted?'MUTED':synth.ctx.state.toUpperCase()):'LOCKED')+
         '    MODE / '+mode,
-      'GATE '+(params.gate?'ON':'OFF')+'  HOLD '+(params.hold?'ON':'OFF')+'  TIMBRE '+params.timbre+
+      'GATE '+(params.gate?'ON':'OFF')+'  XR PRESENCE '+(params.presence?'ON':'OFF')+
+        '  HOLD '+(params.hold?'ON':'OFF')+'  TIMBRE '+params.timbre+
         '  BPM '+synth.bpm+(synth.quantized?' QUANTIZED':' FREE'),
       'FILTER '+Math.round(130*Math.pow(6000/130,params.cutoff))+'Hz'+
         '  Q '+(0.75+params.resonance*8.25).toFixed(1)+

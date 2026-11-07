@@ -110,6 +110,19 @@ function geometry(){
       spot(tip,[1,.95,.75],Math.min(.95,strength));
     }
     const z=zones[2],rad=z.radius+Math.max(0,fx.flash||0)*.11;
+    // XR-visible audio-state lamp. Green = running, amber = suspended,
+    // dark red = deliberately muted/not initialized. Adds only 12 GL lines.
+    if(mode!=='DESKTOP'){
+      const status=window.__pmXRAudioStatus||'LOCKED';
+      const indicator=status==='RUNNING'?[.45,.98,.64]:
+        status==='SUSPENDED'?[1,.75,.18]:[.78,.26,.23];
+      const x=.03,y=-.02,z=-.43,r=.014;
+      for(let i=0;i<12;i++){
+        const a=i*Math.PI/6,b=(i+1)*Math.PI/6;
+        line([x+Math.cos(a)*r,y+Math.sin(a)*r,z],
+             [x+Math.cos(b)*r,y+Math.sin(b)*r,z],indicator,.82);
+      }
+    }
     if((fx.flash||0)>.02)for(let i=0;i<24;i++){
       const a=i*Math.PI/12,b=(i+1)*Math.PI/12;
       line([z.center[0]+Math.cos(a)*rad,z.center[1],z.center[2]+Math.sin(a)*rad],
@@ -293,6 +306,12 @@ function desktopFrame(now){
 async function enterXR(type){
   if(!navigator.xr)return;
   try{
+    // Trigger user-approved AudioContext unlock in the SAME user click as
+    // WebXR requestSession. Do not await it before calling requestSession:
+    // XR browsers may require the original transient activation.
+    try{window.__pmBeforeEnterXR?.(type);}catch(audioError){
+      log('XR AUDIO UNLOCK ERROR: '+audioError.message);
+    }
     // To render fine hand lines, hand tracking must be granted. Never silently
     // launch a session where the user expects tracked joints but none are available.
     const s=await navigator.xr.requestSession(type,{requiredFeatures:['hand-tracking']});
@@ -301,12 +320,14 @@ async function enterXR(type){
     s.updateRenderState({baseLayer:layer});
     ref=await s.requestReferenceSpace('local');
     session=s;mode=type==='immersive-ar'?'QUEST MR':'IMMERSIVE VR';
+    window.__pmOnXRStart?.(mode);
     engine.reset();jointCache.left=null;jointCache.right=null;hands.left=null;hands.right=null;
     log('XR SESSION '+mode+' — JOINT DATA REQUESTED');
     s.addEventListener('end',()=>{
       session=null;ref=null;hands.left=null;hands.right=null;engine.reset();
       authenticated=Boolean(ws&&ws.readyState===WebSocket.OPEN&&authenticated);
       mode='DESKTOP';$('device').textContent='XR 已退出；桌面模拟恢复';log('XR SESSION END');
+      window.__pmOnXREnd?.();
     });
     s.requestAnimationFrame(xrFrame);
   }catch(e){$('device').textContent='XR session error: '+e.message;log('XR ERROR: '+e.message);}
@@ -320,6 +341,7 @@ function xrFrame(time,frame){
     hands[src.handedness]=readHand(frame,src,src.handedness);
   }
   process(time);
+  window.__pmXRAudioState?.(time);
   const pose=frame.getViewerPose(ref);if(!pose)return;
   const layer=session.renderState.baseLayer;
   gl.bindFramebuffer(gl.FRAMEBUFFER,layer.framebuffer);gl.enable(gl.SCISSOR_TEST);

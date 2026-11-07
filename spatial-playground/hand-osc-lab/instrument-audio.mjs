@@ -9,7 +9,7 @@ export class FieldSynth {
     this.bpm=100;this.quantized=false;this.origin=0;this.isMuted=true;
     this.lastGate=0;this.lastHold=0;this.lastFrameMs=0;this.lastOutput=0;}
   async start(){
-    if(this.ready){if(this.ctx.state!=='running')await this.ctx.resume();this.isMuted=false;return;}
+    if(this.ready)return this.resume();
     const AC=window.AudioContext||window.webkitAudioContext;
     if(!AC)throw new Error('Web Audio is unavailable in this browser');
     const ctx=this.ctx=new AC({latencyHint:'interactive'});await ctx.resume();
@@ -31,8 +31,8 @@ export class FieldSynth {
     this.delay.connect(this.feedback);this.feedback.connect(this.delay);
     mix.connect(this.pan);this.pan.connect(limiter);limiter.connect(this.output);
     this.output.connect(this.analyser);this.analyser.connect(ctx.destination);
-    const base=73.42;
-    for(const [type,mult,vol] of [['sawtooth',1,.31],['triangle',.5,.46],['sine',1.997,.12]]){
+    const base=110; // audible on built-in headset speakers; low partial remains
+    for(const [type,mult,vol] of [['sawtooth',1,.38],['triangle',.5,.26],['sine',2.997,.19]]){
       const osc=ctx.createOscillator(),gain=ctx.createGain();
       osc.type=type;osc.frequency.value=base*mult;gain.gain.value=vol;osc.connect(gain);gain.connect(this.source);osc.start();
       this.osc.push({osc,gain,mult});
@@ -57,9 +57,13 @@ export class FieldSynth {
     const ctx=this.ctx,t=ctx.currentTime,sm=(param,value,ramp=.025)=>{
       param.setTargetAtTime(value,t,ramp);
     };
-    const gate=bound(params.gate,0,1),energy=bound(params.energy,0,1);
-    // Envelope is driven by pinch, not sequenced notes.
-    sm(this.source.gain,gate?lerp(.12,.53,energy):0,gate?.022:.065);
+    const gate=bound(params.gate,0,1),presence=bound(params.presence,0,1),
+      energy=bound(params.energy,0,1);
+    // XR tracking alone opens a soft ambient layer, making hand movement
+    // immediately audible. Pinch increases loudness/expression. Both release
+    // safely to silence on tracking loss. OSC gate remains discrete.
+    const sustain=Math.max(gate,presence*.40);
+    sm(this.source.gain,sustain*lerp(.16,.55,energy),sustain?.022:.065);
     // Log frequency response; effect from 130Hz to 6kHz.
     const cutoff=bound(params.cutoff,0,1);
     sm(this.filter.frequency,130*Math.pow(6000/130,cutoff),.033);
@@ -93,6 +97,23 @@ export class FieldSynth {
     this.activePings++;
     o.onended=()=>{this.activePings--;try{o.disconnect();tone.disconnect();g.disconnect();p.disconnect()}catch(e){}};
     o.start(t);o.stop(t+dur+.02);
+    return true;
+  }
+  soundCheck(){
+    // Audible diagnostic independent of gesture recognition, OSC and XR.
+    // Kept separate from the continuous voice's pinch envelope.
+    if(!this.ready||this.isMuted||this.ctx.state!=='running')return false;
+    const c=this.ctx,t=c.currentTime+.015;
+    const osc=c.createOscillator(),env=c.createGain();
+    osc.type='triangle';
+    osc.frequency.setValueAtTime(440,t);
+    osc.frequency.linearRampToValueAtTime(660,t+.6);
+    env.gain.setValueAtTime(.0001,t);
+    env.gain.exponentialRampToValueAtTime(.11,t+.035);
+    env.gain.exponentialRampToValueAtTime(.0001,t+1.15);
+    osc.connect(env);env.connect(this.output);
+    osc.onended=()=>{try{osc.disconnect();env.disconnect();}catch(e){}};
+    osc.start(t);osc.stop(t+1.20);
     return true;
   }
   async panic(){
