@@ -4,7 +4,7 @@ import {FingerDial,ScoreClock,DIGIT_JOINTS,INCANTATION,strudelScore,distance} fr
 function hand(digit=0,contact=.012){
  const p=Array.from({length:25},(_,i)=>[.16+i*.003, -.2, -.55]);
  p[4]=[.16,-.2,-.55];
- for(const s of DIGIT_JOINTS)p[s.index]=[.16+s.digit*.014,-.2,-.55];
+ for(const s of DIGIT_JOINTS)p[s.index]=[.16+.060+s.digit*.014,-.2,-.55];
  if(digit)p[DIGIT_JOINTS[digit-1].index]=[.16+contact,-.2,-.55];
  return p;
 }
