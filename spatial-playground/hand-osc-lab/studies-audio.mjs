@@ -145,9 +145,11 @@ export class NativeFallback{
   fire({energy=.5,x=.5}={}){
     if(!this.started)return false;
     const ids=['kick','hat','snare','acid','fm','rise'];
-    this.engine.trigger({kind:'ENTER',id:ids[Math.min(5,Math.floor(clamp(x)*6))],
+    // SCORE may have temporarily switched the shared procedural engine to
+    // orchestra. Always restore its electro bank before fallback triggering.
+    if(this.engine.mode!=='electro')this.engine.setMode('electro');
+    return this.engine.trigger({kind:'ENTER',id:ids[Math.min(5,Math.floor(clamp(x)*6))],
       mode:'electro',velocity:clamp(energy)});
-    return true;
   }
   motion(x,y,v){if(this.started)this.engine.motion(x,y,v);}
   mute(){this.engine.panic();}
