@@ -105,6 +105,21 @@ wss.on('connection',(socket,request)=>{
       osc('/pm/zone/'+data.zone+'/'+data.type.toLowerCase(),[data.hand,Number.isSafeInteger(data.seq)?data.seq:0,Number.isFinite(data.t_ms)?Math.round(data.t_ms):0]);
       return;
     }
+    if(data?.type==='study'){
+      if(!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
+      client.seq=data.seq;
+      const labs=['score','tone','sigil'];
+      const actions=['PLAY','STEMS_PLAY','STEMS_STOP','BAR','BEAT','MORPH',
+        'DIGIT','SEAL','MUTE','TRIGGER','PATCH','STOP'];
+      if(!labs.includes(data.lab)||!actions.includes(data.action))return;
+      const code=Number(data.code),value=Number(data.value),
+        x=Number(data.x),y=Number(data.y);
+      if(!Number.isInteger(code)||code<0||code>100000||!Number.isFinite(value)||
+         value<0||value>1||!Number.isFinite(x)||x<0||x>1||
+         !Number.isFinite(y)||y<0||y>1)return;
+      osc('/pm/study/'+data.lab+'/event',[data.action,code,value,x,y]);
+      return;
+    }
     if(data?.type==='organic'){
       if(!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
       client.seq=data.seq;

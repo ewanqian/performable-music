@@ -41,7 +41,11 @@ jobs:
           node --check organic-audio.mjs
           node --check organic-ui.mjs
           node --check organic-engine.test.mjs
+          node --check studies-engine.mjs
+          node --check studies-engine.test.mjs
+          node --check studies-audio.mjs
+          node --check studies-ui.mjs
       - name: Test joint geometry and spatial zones
-        run: node --test engine.test.mjs instrument-gesture.test.mjs instrument-audio.test.mjs organic-engine.test.mjs
+        run: node --test engine.test.mjs instrument-gesture.test.mjs instrument-audio.test.mjs organic-engine.test.mjs studies-engine.test.mjs
       - name: Check package dependency installation
         run: npm install --ignore-scripts --no-audit --no-fund

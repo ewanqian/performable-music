@@ -1,0 +1,128 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SPATIAL INSTRUMENT STUDIES — Score / Tone / Sigil</title>
+<style>
+:root{color-scheme:dark;--bg:#090b0b;--fg:#ecefe9;--muted:#9aa7a0;--edge:#34403b;--accent:#c3e6cd}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+main{display:grid;grid-template-columns:minmax(0,1fr) 425px;min-height:100vh}
+.stage{position:relative;background:#010303;min-height:580px}
+canvas{width:100%;height:100%;position:absolute;inset:0;display:block;touch-action:none}
+.hud{position:absolute;left:24px;top:22px;font-size:11px;line-height:1.7;pointer-events:none;white-space:pre-line}
+.overlay-caption{position:absolute;left:24px;bottom:22px;font-size:11px;color:#9aa7a0}
+aside{border-left:1px solid var(--edge);padding:23px;overflow:auto}
+h1{font-size:clamp(28px,3.4vw,49px);font-weight:500;letter-spacing:-.055em;line-height:.95;margin:12px 0 18px}
+p,small{font-size:11px;line-height:1.6;color:var(--muted)}
+.eyebrow{font-size:10px;color:#b2c1b7;letter-spacing:.15em}
+button,input,select{font:inherit}button{color:var(--fg);background:#18211d;border:1px solid #43564b;padding:11px;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}button:hover{border-color:#a8ceb3}button.primary{background:#d1e5d2;color:#172019}
+button.danger{color:#ffc8c4;border-color:#834c4a}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.rule{border-top:1px solid var(--edge);margin:18px 0 11px;padding-top:8px;color:#a1aea6;font-size:10px;letter-spacing:.13em}
+label{display:block;font-size:11px;color:#c7d3ca;line-height:1.6;margin:9px 0}
+input[type=text],input[type=password],input[type=number]{background:#0a0e0d;border:1px solid var(--edge);color:var(--fg);padding:9px;width:100%}
+input[type=range]{width:100%;accent-color:#c7e1cf}
+.row{display:flex;align-items:center;gap:10px}.row>*:first-child{flex:1}.metrics{font-size:10px;white-space:pre-wrap;line-height:1.65;background:#101512;padding:12px;border:1px solid var(--edge);min-height:136px;color:#b7c9bc}
+#log{max-height:126px;overflow:auto;min-height:92px}
+a{color:#cbe9d2}
+@media(max-width:900px){main{grid-template-columns:1fr}.stage{min-height:50vh}aside{border:0;border-top:1px solid var(--edge)}}
+
+#study-pad{position:absolute;inset:0;z-index:2;touch-action:none;cursor:crosshair;background:rgba(2,5,6,.95)}
+.hud{z-index:3}.overlay-caption{z-index:3}
+.study-mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}
+.study-mode-grid button{font-size:11px;line-height:1.5;padding:12px 6px;min-height:66px}
+.study-mode-grid button.active{background:#d0decf;color:#102018}
+.study-panel{display:none}.study-panel.active{display:block}
+.control-row{display:flex;gap:9px;align-items:center}
+.control-row label{flex:1}.control-row input[type=range]{width:100%}
+.study-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}
+.study-grid button{font-size:12px;min-height:48px}
+.study-status{padding:12px;background:#111917;border:1px solid #34403b;font-size:11px;white-space:pre-wrap;line-height:1.6}
+input[type=file]{width:100%;font-size:10px}
+input[type=checkbox]{accent-color:#c6e2ce}
+#glyph{width:100%;height:132px;border:1px solid #35423c;background:#050807;display:block;margin:10px 0}
+pre{white-space:pre-wrap;word-break:break-all;font-size:10px;background:#090f0d;padding:10px}
+#sigil-sequence{font-size:17px;letter-spacing:.14em;word-break:break-all}
+@media(max-width:700px){.stage{min-height:520px}}
+</style></head><body>
+<main><div class="stage"><canvas id="view"></canvas><canvas id="study-pad"></canvas><div class="hud" id="hud">HAND / SPACE / OSC
+DESKTOP SIMULATOR · NOT XR SENSOR DATA</div><div class="overlay-caption" id="caption">SCORE / TONE / SIGIL · One hand-input protocol · Three sound studies</div></div>
+<aside>
+<a href="https://ewanqian.site/#/apps" style="display:inline-block;margin-bottom:14px;font-size:10px;letter-spacing:.07em;color:#c7dbca;text-decoration:none">← EWAN / APPLICATIONS</a>
+<div class="eyebrow">PERFORMABLE MUSIC / SPATIAL PLAYGROUND / LAB 05</div><h1>SPATIAL<br>INSTRUMENT<br>STUDIES.</h1>
+<p>从手部关节数据到编排、音色设计和动作记谱。保留 Lab 02 输入层，独立测试伴奏控制、Tone.js 效果链和六个指节的数字序列。</p>
+<div class="study-mode-grid">
+<button id="mode-score" type="button">01<br><b>SCORE</b><br>伴奏与 Studio</button>
+<button id="mode-tone" type="button">02<br><b>TONE</b><br>声音设计</button>
+<button id="mode-sigil" type="button">03<br><b>SIGIL</b><br>掐诀 / 指节拨号</button>
+</div>
+<div class="btns"><button id="study-audio" class="primary">ENABLE AUDIO</button><button id="study-mute" class="danger">MUTE</button></div>
+<div id="study-status" class="study-status" style="margin-top:8px">AUDIO LOCKED — 点击 ENABLE AUDIO。浏览器直接发声，无需连接电脑。</div>
+<div class="rule">01 / SCORE — ARRANGEMENT & STEMS</div>
+<section id="panel-score" class="study-panel">
+<p>四路伴奏脉冲和最多四路自己导入的同步音轨。导入有相同 BPM、长度的 WAV/MP3，以同一 Web Audio 时间戳循环播放。Strudel 导出的是源码，不是虚假的双向实时连接。</p>
+<div class="control-row"><label>BPM / <span id="score-bpm-value">100</span><input id="score-bpm" type="range" min="60" max="180" value="100"></label></div>
+<div class="btns"><button id="score-play">PLAY ARRANGEMENT</button><button id="score-stop">STOP</button></div>
+<label>导入伴奏分轨（依次选择 PULSE / METAL / SHIMMER / DRONE，每路≤36MB）<input id="score-stems" type="file" accept="audio/*" multiple></label>
+<div class="btns"><button id="score-stem-play">PLAY IMPORTED STEMS</button><button id="score-stem-stop">STOP STEMS</button></div>
+<div class="btns"><button id="score-strudel">EXPORT STRUDEL CODE</button><button id="score-osc">OSC / MAX ROUTING</button></div>
+<p id="stem-list">没有导入音频，默认播放程序化伴奏草稿。</p>
+</section>
+<div class="rule">02 / TONE — PROFESSIONAL PATCH LAB</div>
+<section id="panel-tone" class="study-panel">
+<p>优先加载固定版本 Tone.js 15.1.22：FM / AM 多声部、卷积式混响节点、PingPong Delay、失真和限幅。需要联网加载；失败时明确提示并使用本地原生合成器。</p>
+<div class="study-grid">
+<button type="button" data-patch="ABYSS">ABYSS<br>暗涌</button>
+<button type="button" data-patch="FERRO">FERRO<br>金属</button>
+<button type="button" data-patch="CATHEDRAL">CATHEDRAL<br>圣咏</button>
+</div>
+<div class="control-row"><label>FILTER / X<input id="tone-x" type="range" min="0" max="100" value="55"></label><label>SPACE / Y<input id="tone-y" type="range" min="0" max="100" value="62"></label></div>
+<div class="control-row"><label>INTENSITY<input id="tone-energy" type="range" min="0" max="100" value="60"></label></div>
+<div class="btns"><button id="tone-strike">TRIGGER PATCH</button><button id="tone-hold">TRIGGER PHRASE × 8</button></div>
+</section>
+<div class="rule">03 / SIGIL — SIX PHALANX DIAL</div>
+<section id="panel-sigil" class="study-panel">
+<p>右手拇指触碰六个不同指节，产生 1–6 的离散输入。相邻手指不重复触发；必须松开拇指后才能输入下一位。连续输入 <strong>3345655643</strong> 会完成一段原创的声画符号。此映射属于艺术实验，不宣称是历史道教手诀复原。</p>
+<div class="study-grid">
+<button class="sigil-digit" data-digit="1">1 / 食指中</button>
+<button class="sigil-digit" data-digit="2">2 / 食指末</button>
+<button class="sigil-digit" data-digit="3">3 / 中指中</button>
+<button class="sigil-digit" data-digit="4">4 / 中指末</button>
+<button class="sigil-digit" data-digit="5">5 / 无名中</button>
+<button class="sigil-digit" data-digit="6">6 / 无名末</button>
+</div>
+<canvas id="glyph" width="540" height="132"></canvas>
+<div id="sigil-sequence">—</div>
+<p id="sigil-progress">TARGET / 3345655643 · 0/10</p>
+<div class="btns"><button id="sigil-play">AUTO TEST 3345655643</button><button id="sigil-reset">RESET INPUT</button></div>
+</section>
+<div class="rule">TEST / EXPORT</div>
+<div class="btns"><button id="study-export">EXPORT SESSION JSON</button><button id="study-test">10K STRESS TEST</button></div>
+<div id="study-log" class="metrics" style="min-height:72px;max-height:165px;overflow:auto">事件与音频记录 / 无</div>
+<p>进入 MR 时会尝试解锁声音。XR 内实际手势与音频延迟未经过设备验收；桌面模拟数据不作为头显精度证据。<a href="./index.html">Lab 02 原版</a> · <a href="./instrument.html">V2 Synth</a> · <a href="./playground.html">Organic Fields</a></p>
+<details style="margin:14px 0" open><summary class="rule" style="cursor:pointer">HEADSET / MIXED REALITY</summary>
+<div class="btns"><button id="ar" class="primary" disabled>ENTER MR / AR</button><button id="vr" disabled>ENTER VR</button></div>
+<p id="device">检测 WebXR…Quest 优先 immersive-ar；Vision Pro Safari 使用 immersive-vr。</p>
+</details><details style="margin:14px 0"><summary class="rule" style="cursor:pointer">BROWSER OSC BRIDGE / MAX</summary>
+<label>桥接地址（从 HTTPS 页面连接时必须使用受信任的 WSS）
+<input id="endpoint" type="text" placeholder="wss://your-bridge.example.com" autocomplete="off" spellcheck="false"></label>
+<label>临时连接令牌（仅内存，不写入仓库）
+<input id="token" type="password" placeholder="token" autocomplete="off"></label>
+<div class="btns"><button id="connect">CONNECT</button><button id="arm" disabled>ARM OSC</button></div>
+<p id="wsstate">离线 · 骨架与区域判断可独立运行。</p>
+</details><details style="margin:14px 0"><summary class="rule" style="cursor:pointer">BASELINE XR SENSOR REGIONS</summary>
+<div id="zoneinfo" class="metrics"></div><details style="margin-top:9px"><summary style="font-size:11px;cursor:pointer">EDIT ZONE XYZ / RADIUS BEFORE XR</summary><div id="zone-editor" style="display:grid;gap:8px;margin:12px 0"></div><button type="button" id="export-zones">EXPORT ZONES JSON</button></details>
+<label>进入/退出迟滞距离（毫米） <span id="hystvalue">9 / 14</span>
+<input id="hyst" type="range" min="4" max="24" value="9"></label>
+<label>事件确认时长（毫秒） <span id="dwellvalue">34</span>
+<input id="dwell" type="range" min="0" max="120" step="1" value="34"></label>
+<div class="row"><label style="margin:0">绘制关节局部坐标轴（更精细）</label><input id="axes" type="checkbox" checked></div>
+<div class="row"><label style="margin:0">OSC 发送全部关节与姿态</label><input id="full" type="checkbox"></div>
+<div class="rule">HAND / FINGER TELEMETRY</div>
+<div id="telemetry" class="metrics">等待设备；桌面移动鼠标可模拟右手。</div>
+<div class="rule">TEST / RECORD</div>
+<div class="btns"><button id="record">RECORD JSON</button><button id="download" disabled>EXPORT</button></div>
+<div class="btns" style="margin-top:7px"><button id="reset">RESET ZONES</button><button id="panic" class="danger">SOFT PANIC</button></div>
+<div id="log" class="metrics" style="margin-top:9px">事件日志：等待 ENTER / EXIT。</div>
+</details><p><strong>注意：</strong>桌面模拟不是实机追踪测试；WebXR 不能提供可靠的原生逐关节置信度；SOFT PANIC 不能替代不依赖 Wi-Fi/头显的物理音频急停。浏览器不能直接发 UDP OSC。<a href="https://github.com/ewanqian/performable-music/tree/main/spatial-playground/hand-osc-lab">代码与接线说明</a></p>
+</aside></main><script type="module" src="./app.mjs"></script>
+<script>document.documentElement.dataset.instrument='on';document.documentElement.dataset.organic='on';</script><script type="module" src="./studies-ui.mjs"></script></body></html>
