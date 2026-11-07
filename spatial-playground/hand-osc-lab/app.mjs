@@ -16,6 +16,14 @@ if(document.documentElement.dataset.instrument==='on'){
     ws.send(JSON.stringify({type:'performance',seq:++seq,t_ms:Math.round(performance.now()),...packet}));
     return true;
   };
+  window.__pmSendOrganic=(event)=>{
+    if(!armed||!authenticated||ws?.readyState!==WebSocket.OPEN)return false;
+    if(!event||!['ENTER','EXIT'].includes(event.kind))return false;
+    const packet={type:'organic',seq:++seq,t_ms:Math.round(performance.now()),
+      mode:event.mode,kind:event.kind,region:event.id,
+      x:event.x,y:event.y,velocity:event.velocity};
+    ws.send(JSON.stringify(packet));return true;
+  };
 }
 const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
 function setupGL(){
