@@ -9,7 +9,7 @@ export class FieldSynth {
     this.bpm=100;this.quantized=false;this.origin=0;this.isMuted=true;
     this.lastGate=0;this.lastHold=0;this.lastFrameMs=0;this.lastOutput=0;}
   async start(){
-    if(this.ready){if(this.ctx.state!=='running')await this.ctx.resume();this.isMuted=false;return;}
+    if(this.ready)return this.resume();
     const AC=window.AudioContext||window.webkitAudioContext;
     if(!AC)throw new Error('Web Audio is unavailable in this browser');
     const ctx=this.ctx=new AC({latencyHint:'interactive'});await ctx.resume();
