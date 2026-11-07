@@ -36,7 +36,7 @@ DESKTOP SIMULATOR · NOT XR SENSOR DATA</div><div class="overlay-caption" id="ca
 <div class="btns"><button id="ar" class="primary" disabled>ENTER MR / AR</button><button id="vr" disabled>ENTER VR</button></div>
 <p id="device">检测 WebXR…Quest 优先 immersive-ar；Vision Pro Safari 使用 immersive-vr。</p>
 <div class="rule">SYNTH INSTRUMENT / EXPERIMENTAL</div>
-<p>这是持续音色/滤波控制器，不是空中钢琴。默认静音，必须点击启动；请先调低耳机或扬声器音量。</p>
+<p>这是持续音色/滤波控制器，不是空中钢琴。XR 手部一旦被追踪，就会启动轻音色；捏合可增强演奏力度。默认静音，点击 START AUDIO 或 ENTER MR 都会尝试开启声音。启动前请调低设备音量；不需要电脑或 OSC。</p>
 <div class="btns">
   <button id="audio-start" class="primary">START AUDIO / 启动</button>
   <button id="audio-panic" class="danger">MUTE / 静音</button>
@@ -60,10 +60,10 @@ TRACKING LOST → release / neutral (not EXIT)
 <div id="instrument-meter" class="metrics" style="min-height:100px">Audio locked · press START AUDIO. Hand tracking unaffected.</div>
 <div id="instrument-events" class="metrics" style="min-height:88px;max-height:144px;overflow:auto">No instrument events</div>
 <div class="btns">
- <button id="test-gate">TEST GATE (hold)</button><button id="test-zone">TEST ZONE C</button>
+ <button id="audio-check">SOUND CHECK / 听诊</button><button id="test-gate">TEST GATE (hold)</button><button id="test-zone">TEST ZONE C</button>
  <button id="test-double">TEST BOTH HANDS</button><button id="diag-export">EXPORT TEST DATA</button>
 </div>
-<p>测试按钮是<strong>模拟输入</strong>，不能证明头显追踪精度。OSC 传输仍使用下方原来的加密桥接和 ARM OSC；本地 Web Audio 不依赖 OSC。</p>
+<p>SOUND CHECK 可以播放独立于手势的 440–660Hz 检测音。如果 MR 里能听到检测音、但无持续音色，优先检查 XR HAND TRACKED 状态；若状态是 SUSPENDED，需退出 MR 后点击 START AUDIO 再试。绿色圆点表示音频运行，黄色表示暂停，红色表示静音或未启动。<br>测试按钮是<strong>模拟输入</strong>，不能证明头显追踪精度。OSC 传输仍使用下方原来的加密桥接和 ARM OSC；本地 Web Audio 不依赖 OSC。</p>
 <div class="rule">BROWSER OSC BRIDGE</div>
 <label>桥接地址（从 HTTPS 页面连接时必须使用受信任的 WSS）
 <input id="endpoint" type="text" placeholder="wss://your-bridge.example.com" autocomplete="off" spellcheck="false"></label>
