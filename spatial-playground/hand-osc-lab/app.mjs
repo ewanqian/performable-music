@@ -10,6 +10,13 @@ let session=null,ref=null,mode='DESKTOP',ws=null,armed=false,authenticated=false
 let nowMs=0,lastNet=0,lastTelemetry=0,lastFull=0,logEntries=[],recording=false,recordFrames=[];
 let pointer={x:.23,y:-.28,z:-.54},fakeHand=true,zoneEvents=[],pendingEvent=[];
 const log=message=>{logEntries.unshift(message);logEntries.length=Math.min(12,logEntries.length);$('log').textContent=logEntries.join('\n');};
+if(document.documentElement.dataset.instrument==='on'){
+  window.__pmSendPerformance=(packet)=>{
+    if(!armed||!authenticated||ws?.readyState!==WebSocket.OPEN)return false;
+    ws.send(JSON.stringify({type:'performance',seq:++seq,t_ms:Math.round(performance.now()),...packet}));
+    return true;
+  };
+}
 const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
 function setupGL(){
   gl=canvas.getContext('webgl2',{alpha:true,depth:true,antialias:false,xrCompatible:true})||
@@ -77,6 +84,29 @@ function geometry(){
           const d=rotate(q,axis);line(p,[p[0]+d[0],p[1]+d[1],p[2]+d[2]],col,.62);
         }
       }
+    }
+  }
+  // Minimal extra primitives only on performer page; same GL line buffer and
+  // headset compositor. No second renderer or large particle allocations.
+  const fx=document.documentElement.dataset.instrument==='on'?window.__pmInstrumentVisual:null;
+  if(fx){
+    const strength=Math.max(fx.gate?0.35:0,fx.flash||0);
+    const tip=hands.right?.positions?.[9]||hands.left?.positions?.[9];
+    if(tip && strength>0.02){
+      const c=[.77,.88,.95],rad=.022+.042*strength;
+      for(let i=0;i<16;i++){
+        const a=i*Math.PI/8,b=(i+1)*Math.PI/8;
+        line([tip[0]+rad*Math.cos(a),tip[1]+rad*Math.sin(a),tip[2]],
+             [tip[0]+rad*Math.cos(b),tip[1]+rad*Math.sin(b),tip[2]],c,.28+.6*strength);
+      }
+      spot(tip,[1,.95,.75],Math.min(.95,strength));
+    }
+    const z=zones[2],rad=z.radius+Math.max(0,fx.flash||0)*.11;
+    if((fx.flash||0)>.02)for(let i=0;i<24;i++){
+      const a=i*Math.PI/12,b=(i+1)*Math.PI/12;
+      line([z.center[0]+Math.cos(a)*rad,z.center[1],z.center[2]+Math.sin(a)*rad],
+           [z.center[0]+Math.cos(b)*rad,z.center[1],z.center[2]+Math.sin(b)*rad],
+           [.89,.94,.70],.72*(fx.flash||0));
     }
   }
 }
@@ -218,6 +248,13 @@ function publish(now){
 function process(now){
   nowMs=now;
   doZones(now);
+  // Optional performer layer: synchronous read-only feed. Baseline page has no
+  // dataset.instrument flag and retains its original 25-joint XR performance.
+  if(document.documentElement.dataset.instrument==='on' && window.__pmInstrumentFeed){
+    try{
+      window.__pmInstrumentFeed({hands,zoneEvents:pendingEvent,now,mode});
+    }catch(err){console.error('Performance-layer error',err);}
+  }
   while(pendingEvent.length){
     const ev=pendingEvent.shift();
     if(armed&&authenticated&&ws?.readyState===WebSocket.OPEN)ws.send(JSON.stringify({type:'zone',...ev}));
