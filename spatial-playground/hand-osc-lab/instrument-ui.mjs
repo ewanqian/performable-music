@@ -87,8 +87,8 @@ $('test-zone').addEventListener('click',()=>{const ok=synth.trigger('C');addLog(
 $('audio-check')?.addEventListener('click',async()=>{
   try{
     explicitlyMuted=false;
-    if(synth.isMuted||!synth.ready)await synth.start();
-    if(synth.ctx.state!=='running')await synth.ctx.resume();
+    if(!synth.ready)await synth.start();
+    else await synth.resume();
     const ok=synth.soundCheck();
     addLog('SOUND CHECK: '+(ok?'TONE 440–660Hz / NO OSC':'FAILED / '+audioState()));
     updateAudioStatus();
