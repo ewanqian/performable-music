@@ -6,6 +6,10 @@ on:
     paths:
       - spatial-playground/hand-osc-lab/**
       - .github/workflows/hand-osc-ci.yml
+  pull_request:
+    paths:
+      - spatial-playground/hand-osc-lab/**
+      - .github/workflows/hand-osc-ci.yml
   workflow_dispatch:
 
 permissions:
@@ -28,7 +32,11 @@ jobs:
           node --check app.mjs
           node --check bridge.mjs
           node --check engine.test.mjs
+          node --check instrument-gesture.mjs
+          node --check instrument-gesture.test.mjs
+          node --check instrument-audio.mjs
+          node --check instrument-ui.mjs
       - name: Test joint geometry and spatial zones
-        run: node --test engine.test.mjs
+        run: node --test engine.test.mjs instrument-gesture.test.mjs
       - name: Check package dependency installation
         run: npm install --ignore-scripts --no-audit --no-fund

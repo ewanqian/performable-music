@@ -75,6 +75,8 @@ function neutral(reason){
   osc('/pm/system/connected',[0]);
   osc('/pm/system/stale',[1]);
   osc('/pm/hand/left/tracked',[0]);osc('/pm/hand/right/tracked',[0]);
+  // Never leave an external synthesizer's sustained envelope latched after stale/disconnect/panic.
+  osc('/pm/perf/gate',[0]);osc('/pm/perf/hold',[0]);
   if(reason)osc('/pm/system/reason',[reason]);
 }
 wss.on('connection',(socket,request)=>{
@@ -101,6 +103,32 @@ wss.on('connection',(socket,request)=>{
       if(!/^[ABC]$/.test(data.zone)||!['left','right'].includes(data.hand)||
          !['ENTER','EXIT','TRACKING_LOST'].includes(data.type))return;
       osc('/pm/zone/'+data.zone+'/'+data.type.toLowerCase(),[data.hand,Number.isSafeInteger(data.seq)?data.seq:0,Number.isFinite(data.t_ms)?Math.round(data.t_ms):0]);
+      return;
+    }
+    if(data?.type==='performance'){
+      if(!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
+      client.seq=data.seq;
+      // A semantic control layer. Untrusted browser values are strictly bounded
+      // before converting to OSC. Keep frame heartbeat as source of staleness.
+      const params=data.params||{};
+      const names=['gate','cutoff','resonance','wet','spread','energy','drive','hold'];
+      for(const name of names){
+        const v=params[name];
+        if(typeof v==='number'&&Number.isFinite(v)&&v>=0&&v<=1)
+          osc('/pm/perf/'+name,[v]);
+      }
+      if(Number.isInteger(params.timbre)&&params.timbre>=0&&params.timbre<=2)
+        osc('/pm/perf/timbre',[params.timbre]);
+      if(Number.isFinite(data.bpm)&&data.bpm>=40&&data.bpm<=220)
+        osc('/pm/perf/bpm',[Number(data.bpm)]);
+      if(data.quantized===0||data.quantized===1)osc('/pm/perf/quantized',[data.quantized]);
+      const ev=data.event;
+      if(ev&&['ZONE_ENTER','ZONE_EXIT'].includes(ev.kind)&&
+         /^[ABC]$/.test(ev.zone)&&['left','right'].includes(ev.hand)){
+        osc('/pm/perf/zone/'+ev.zone+'/'+ev.kind.toLowerCase(),[ev.hand]);
+      }else if(ev&&['TIMBRE_CHANGE','HOLD_TOGGLE','HOLD_RELEASE'].includes(ev.kind)){
+        osc('/pm/perf/event',[ev.kind,Number.isInteger(ev.value)?Math.max(0,Math.min(2,ev.value)):0]);
+      }
       return;
     }
     if(data?.type!=='frame'||!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
