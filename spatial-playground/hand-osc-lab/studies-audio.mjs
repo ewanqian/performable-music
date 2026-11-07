@@ -59,14 +59,15 @@ export class ProductionTone{
     this.lastError='';this.rendered=0;this.filter=null;this.synth=null;this.pad=null;this.percussion=null;
     this.limiter=null;this.reverb=null;this.delay=null;this.fx=null;this.bpm=100;}
   async start(){
-    if(this.ready){await this.Tone.start();this.muted=false;this.limiter.mute=false;return;}
+    if(this.ready){await this.Tone.start();this.muted=false;this.volume.mute=false;return;}
     // Optional high-level instrument. Realtime playing never silently depends
     // on an undocumented, long-abandoned Strudel-to-Tone adapter.
     const Tone=await import('https://esm.sh/tone@15.1.22?bundle');
     this.Tone=Tone;
     await Tone.start();
-    this.limiter=new Tone.Limiter(-8).toDestination();
-    this.limiter.mute=false;
+    this.volume=new Tone.Volume(-14).toDestination();
+    this.limiter=new Tone.Limiter(-8).connect(this.volume);
+    this.volume.mute=false;
     const comp=new Tone.Compressor(-18,4).connect(this.limiter);
     this.reverb=new Tone.Reverb({decay:4.8,wet:.32}).connect(comp);
     await this.reverb.generate();
@@ -131,11 +132,11 @@ export class ProductionTone{
   }
   mute(){
     this.muted=true;
-    if(this.ready){this.stopAll();this.limiter.mute=true;}
+    if(this.ready){this.stopAll();this.volume.mute=true;}
   }
   async resume(){
     if(!this.ready)return this.start();
-    await this.Tone.start();this.limiter.mute=false;this.muted=false;
+    await this.Tone.start();this.volume.mute=false;this.muted=false;
   }
 }
 export class NativeFallback{
