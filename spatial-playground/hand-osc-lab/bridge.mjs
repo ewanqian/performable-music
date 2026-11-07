@@ -105,6 +105,24 @@ wss.on('connection',(socket,request)=>{
       osc('/pm/zone/'+data.zone+'/'+data.type.toLowerCase(),[data.hand,Number.isSafeInteger(data.seq)?data.seq:0,Number.isFinite(data.t_ms)?Math.round(data.t_ms):0]);
       return;
     }
+    if(data?.type==='organic'){
+      if(!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
+      client.seq=data.seq;
+      const allowed={
+        metal:new Set(['pot','lid','cutlery','bowl','glass','pan']),
+        electro:new Set(['kick','hat','snare','acid','fm','rise']),
+        orchestra:new Set(['strings','harp','brass','choir','timpani','tutti'])
+      };
+      if(!Object.prototype.hasOwnProperty.call(allowed,data.mode)||
+          !allowed[data.mode].has(data.region)||!['ENTER','EXIT'].includes(data.kind))return;
+      if(![data.x,data.y,data.velocity].every(v=>
+        typeof v==='number'&&Number.isFinite(v)&&v>=0&&v<=1))return;
+      osc('/pm/playground/region/'+data.region+'/'+data.kind.toLowerCase(),
+          [data.mode,data.x,data.y,data.velocity]);
+      osc('/pm/playground/gesture/speed',[data.velocity]);
+      osc('/pm/playground/gesture/xy',[data.x,data.y]);
+      return;
+    }
     if(data?.type==='performance'){
       if(!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
       client.seq=data.seq;
