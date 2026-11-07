@@ -109,6 +109,12 @@ function geometry(){
            [.89,.94,.70],.72*(fx.flash||0));
     }
   }
+  // Organic Fields uses the existing joint/line renderer. Optional scene
+  // receives only drawing functions, not GL state or raw camera data.
+  if(document.documentElement.dataset.organic==='on' && typeof window.__pmOrganicDraw==='function'){
+    try{window.__pmOrganicDraw({line,spot,now:nowMs,mode});}
+    catch(e){console.error('Organic fields visualization',e);}
+  }
 }
 function paint(vertices,modeGL,pointSize){
   if(!vertices.length)return;
