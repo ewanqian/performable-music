@@ -16,6 +16,12 @@ if(document.documentElement.dataset.instrument==='on'){
     ws.send(JSON.stringify({type:'performance',seq:++seq,t_ms:Math.round(performance.now()),...packet}));
     return true;
   };
+  window.__pmSendStudy=(event)=>{
+    if(!armed||!authenticated||ws?.readyState!==WebSocket.OPEN)return false;
+    if(!event||!['score','tone','sigil'].includes(event.lab))return false;
+    ws.send(JSON.stringify({type:'study',seq:++seq,t_ms:Math.round(performance.now()),...event}));
+    return true;
+  };
   window.__pmSendOrganic=(event)=>{
     if(!armed||!authenticated||ws?.readyState!==WebSocket.OPEN)return false;
     if(!event||!['ENTER','EXIT'].includes(event.kind))return false;
