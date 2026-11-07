@@ -16,6 +16,14 @@ if(document.documentElement.dataset.instrument==='on'){
     ws.send(JSON.stringify({type:'performance',seq:++seq,t_ms:Math.round(performance.now()),...packet}));
     return true;
   };
+  window.__pmSendOrganic=(event)=>{
+    if(!armed||!authenticated||ws?.readyState!==WebSocket.OPEN)return false;
+    if(!event||!['ENTER','EXIT'].includes(event.kind))return false;
+    const packet={type:'organic',seq:++seq,t_ms:Math.round(performance.now()),
+      mode:event.mode,kind:event.kind,region:event.id,
+      x:event.x,y:event.y,velocity:event.velocity};
+    ws.send(JSON.stringify(packet));return true;
+  };
 }
 const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
 function setupGL(){
@@ -108,6 +116,12 @@ function geometry(){
            [z.center[0]+Math.cos(b)*rad,z.center[1],z.center[2]+Math.sin(b)*rad],
            [.89,.94,.70],.72*(fx.flash||0));
     }
+  }
+  // Organic Fields uses the existing joint/line renderer. Optional scene
+  // receives only drawing functions, not GL state or raw camera data.
+  if(document.documentElement.dataset.organic==='on' && typeof window.__pmOrganicDraw==='function'){
+    try{window.__pmOrganicDraw({line,spot,now:nowMs,mode});}
+    catch(e){console.error('Organic fields visualization',e);}
   }
 }
 function paint(vertices,modeGL,pointSize){
