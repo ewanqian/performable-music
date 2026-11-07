@@ -12,6 +12,34 @@ const flashes=new Map();
 let xrHands=0,lastTime=performance.now(),frameCount=0,renderMax=0;
 let frameGaps=[],audioStartError='',demoActive=false,demoStart=0,stressResult=null;
 let mobileView={w:1,h:1},sessionActive=false,playCount=0,visibleMode='DESKTOP';
+let explicitlyMuted=false,xrBoot=null,lastAudioReport='';
+// The XR button itself is a valid user gesture to unlock Web Audio.
+// This runs synchronously BEFORE requestSession; no desktop/OSC bridge needed.
+window.__pmBeforeEnterXR=()=>{
+  if(explicitlyMuted){log('XR AUDIO: intentionally muted');return;}
+  xrBoot=audio.start().then(()=>{
+    $('organic-start').textContent='AUDIO ACTIVE';
+    window.__pmXRAudioStatus=audio.ctx?.state==='running'?'RUNNING':'SUSPENDED';
+    log('XR AUDIO '+window.__pmXRAudioStatus);
+  }).catch(err=>log('XR AUDIO ERROR '+String(err?.message||err)));
+};
+window.__pmOnXRStart=(mode)=>{
+  log('XR '+mode+' / Web Audio local');
+  xrBoot?.then(()=>{
+    const first=MODES[current].fields[0];
+    if(audio.trigger({kind:'ENTER',id:first.id,mode:current,velocity:.60})){
+      log('XR SOUND CHECK '+first.name+' / local synth');
+    }
+  });
+};
+window.__pmXRAudioState=()=>{
+  const state=!audio.ready?'LOCKED':audio.muted?'MUTED':
+    audio.ctx?.state==='running'?'RUNNING':'SUSPENDED';
+  window.__pmXRAudioStatus=state;
+  if(state!==lastAudioReport){lastAudioReport=state;log('XR AUDIO '+state);}
+};
+window.__pmOnXREnd=()=>log('XR SESSION END / audio '+window.__pmXRAudioStatus);
+
 const color3=hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255);
 const posFromEvent=e=>{
   const rect=pad.getBoundingClientRect();
@@ -65,6 +93,7 @@ function modeChange(mode){
 for(const m of Object.keys(MODES))
   $('mode-'+m).addEventListener('click',()=>modeChange(m));
 $('organic-start').addEventListener('click',async()=>{
+  explicitlyMuted=false;
   try{
     await audio.start();
     $('organic-start').textContent='AUDIO ACTIVE';
@@ -72,6 +101,7 @@ $('organic-start').addEventListener('click',async()=>{
   }catch(e){audioStartError=String(e.message||e);log('AUDIO ERROR: '+audioStartError);}
 });
 $('organic-mute').addEventListener('click',()=>{
+  explicitlyMuted=true;
   audio.panic();$('organic-start').textContent='RESUME AUDIO';
   log('LOCAL AUDIO MUTED / OSC independent');
 });
