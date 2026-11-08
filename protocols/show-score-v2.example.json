@@ -1,0 +1,38 @@
+{
+  "schema_version": "2.0",
+  "session_id": "demo-2026-11-08",
+  "seq": 42,
+  "t_ms": 3750,
+  "clock": {
+    "bpm": 100,
+    "beats_per_bar": 4,
+    "beat_unit": 4,
+    "steps_per_beat": 4,
+    "bar": 1,
+    "beat": 2,
+    "step": 1,
+    "phase": 0,
+    "origin_ms": 0
+  },
+  "scene": "OVERRIDE",
+  "state": "PEAK",
+  "controls": {
+    "energy": 0.72,
+    "filter": 0.41,
+    "spread": 0.58
+  },
+  "event": {
+    "type": "HAND_ENTER",
+    "source": "hand",
+    "hand": "right",
+    "target": "OVERRIDE",
+    "intensity": 0.82
+  },
+  "tracking": {
+    "hands": 1
+  },
+  "safe": {
+    "armed": true,
+    "kill": false
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ewanqian/performable-music/blob/main/protocols/show-score-v2.schema.json",
+  "title": "Performable Music / Show Score v2",
+  "description": "v1 payload plus an explicit musical clock. v1 only carried t_ms, so two lanes with different BPM (e.g. ENTROPY at 100 and a 128 BPM conductor) could not agree on where a bar started. v2 makes tempo, meter and bar/beat/step first class and keeps t_ms as the authoritative transport time.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "session_id",
+    "seq",
+    "t_ms",
+    "clock",
+    "scene",
+    "state",
+    "controls",
+    "event",
+    "tracking",
+    "safe"
+  ],
+  "properties": {
+    "schema_version": { "const": "2.0" },
+    "session_id": { "type": "string", "minLength": 1 },
+    "seq": { "type": "integer", "minimum": 0 },
+    "t_ms": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Monotonic elapsed milliseconds since session start. Authoritative: audio and visuals must align on this, not on wall clock."
+    },
+    "clock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bpm", "beats_per_bar", "beat_unit", "steps_per_beat", "bar", "beat", "step", "phase"],
+      "description": "Musical position derived from t_ms and the transport origin. bar/beat/step are zero-based.",
+      "properties": {
+        "bpm": { "type": "number", "minimum": 20, "maximum": 320 },
+        "beats_per_bar": { "type": "integer", "minimum": 1, "maximum": 16 },
+        "beat_unit": { "type": "integer", "enum": [2, 4, 8, 16] },
+        "steps_per_beat": { "type": "integer", "minimum": 1, "maximum": 16 },
+        "bar": { "type": "integer", "minimum": 0 },
+        "beat": { "type": "integer", "minimum": 0 },
+        "step": { "type": "integer", "minimum": 0 },
+        "phase": { "type": "number", "minimum": 0, "exclusiveMaximum": 1 },
+        "origin_ms": { "type": "number" },
+        "tempo_map": {
+          "type": "array",
+          "description": "Optional tempo changes. Each entry is a transport position where bpm changes.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["at_ms", "bpm"],
+            "properties": {
+              "at_ms": { "type": "number", "minimum": 0 },
+              "bpm": { "type": "number", "minimum": 20, "maximum": 320 },
+              "beats_per_bar": { "type": "integer", "minimum": 1, "maximum": 16 }
+            }
+          }
+        }
+      }
+    },
+    "scene": {
+      "type": "string",
+      "enum": ["INITIAL_CONDITION", "FIELD", "OVERRIDE", "AFTERIMAGE"]
+    },
+    "state": {
+      "type": "string",
+      "enum": ["IDLE", "SEED", "BUILD", "HOLD", "PEAK", "RELEASE", "SAFE"]
+    },
+    "controls": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Bounded continuous parameters. Numeric values are clamped by the receiver, never used as raw master gain."
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "source"],
+      "properties": {
+        "type": { "type": "string", "minLength": 1 },
+        "source": {
+          "type": "string",
+          "enum": ["hand", "foot", "button", "osc", "clock", "system"]
+        },
+        "hand": { "type": "string", "enum": ["left", "right", "both"] },
+        "target": { "type": "string" },
+        "value": { "type": "number" },
+        "intensity": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "tracking": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hands"],
+      "properties": {
+        "hands": { "type": "integer", "minimum": 0, "maximum": 2 },
+        "lost": { "type": "boolean" },
+        "note": { "type": "string" }
+      }
+    },
+    "safe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["armed", "kill"],
+      "properties": {
+        "armed": { "type": "boolean" },
+        "kill": { "type": "boolean" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}
