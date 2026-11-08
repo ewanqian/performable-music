@@ -2,12 +2,16 @@
 import {FingerDial,ScoreClock,INCANTATION,DIGIT_JOINTS,TRACKS,strudelScore,clamp}
   from './studies-engine.mjs';
 import {StemTransport,ProductionTone,NativeFallback} from './studies-audio.mjs';
+import {SCORE_ZONES,SpatialScoreMap,scoreWorldPosition,getScorePositionFromXR} from './score-map.mjs';
 
 const $=id=>document.getElementById(id);
 const canvas=$('study-pad'),pctx=canvas.getContext('2d',{alpha:false});
 const glyph=$('glyph'),gctx=glyph.getContext('2d');
 const stem=new StemTransport(),tone=new ProductionTone(),native=new NativeFallback();
 const dial=new FingerDial(),clock=new ScoreClock({bpm:100,lookaheadMs:12});
+const scoreMap=new SpatialScoreMap(),scoreMix={pulse:.74,metal:.04,shimmer:.04,chord:.12};
+const scoreHitUntil=Object.create(null);
+let scoreFocus='pulse',scoreTouches=0,scoreGridStep=0,scoreLastMixUpdate=0;
 const logs=[],capture=[],trails=new Map();
 const valid=['score','tone','sigil'];
 const qs=new URLSearchParams(location.search);
@@ -16,6 +20,7 @@ let mode='DESKTOP',ready=false,preferred='NATIVE',muted=false,mutedByUser=false;
 let lastPointer={x:.5,y:.5},lastFire=-Infinity,lastDialActive=null;
 let gestureCounter=0,scoreTimer=null,storyFlash=0,sealUntil=0,seq='',seqProgress=0,frameCount=0,maxFrameGap=0,lastFrame=0;
 let audioBoot=null,importing=false,seqTestTimer=null,clockPlayStart=null;
+let actualXRHands=0;
 const clamp01=x=>clamp(x,0,1);
 function log(message){
   const line=new Date().toLocaleTimeString()+'  '+message;
@@ -42,9 +47,10 @@ function soundtrack(){
 }
 function status(){
   const text=[
-    'LAB '+study.toUpperCase()+' / '+(mode==='DESKTOP'?'DESKTOP SIMULATED':'TRACKED '+mode),
+    'LAB '+study.toUpperCase()+' / '+(mode==='DESKTOP'?'DESKTOP SIMULATED':'TRACKED '+mode)+' / HANDS '+actualXRHands,
     'AUDIO '+soundtrack()+'  /  '+(muted?'MUTED':'ACTIVE'),
-    'SCORE '+(clock.running?'PLAY':'STOP')+' / '+clock.bpm+' BPM',
+    'SCORE '+(clock.running?'PLAY':'STOP')+' / '+clock.bpm+' BPM / STEP '+String(scoreGridStep+1).padStart(2,'0')+'/16',
+    'SPATIAL PADS '+scoreTouches+' hits | FOCUS '+scoreFocus.toUpperCase()+' | layers '+Object.entries(scoreMix).map(([k,v])=>k.toUpperCase()+':'+Math.round(v*100)+'%').join(' '),
     'TONE PATCH '+tone.patch+' / '+(tone.ready?'TONE.JS ENGINE':'NATIVE FALLBACK'),
     'SIGIL '+(seq||'—')+' / '+seqProgress+'/'+INCANTATION.length,
     'EVENTS '+gestureCounter+'  /  NO OSC REQUIRED FOR AUDIO',
@@ -115,7 +121,8 @@ function select(name){
   if(!valid.includes(name))return;
   if(seqTestTimer!==null){clearInterval(seqTestTimer);seqTestTimer=null;}
   if(clock.running)stopScore();
-  study=name;dial.reset();seq='';seqProgress=0;
+  study=name;dial.reset();seq='';seqProgress=0;scoreMap.reset();scoreGridStep=0;
+  // Study switching does not replace or reset the original sensor baseline.
   for(const k of valid){
     $('mode-'+k).classList.toggle('active',k===name);
     $('panel-'+k).classList.toggle('active',k===name);
@@ -142,25 +149,56 @@ function moveSound(x,y,v=0.4){
   lastPointer={x:clamp01(x),y:clamp01(y)};
   if(tone.ready&&!tone.muted)tone.motion(lastPointer.x,lastPointer.y,v);
   native.motion(lastPointer.x,lastPointer.y,v);
-  if(stem.running){
-    // two meaningful mix controls, bounded and smoothed by native GainNodes.
-    stem.gain('METAL',.15+.8*lastPointer.x);
-    stem.gain('DRONE',.16+.8*(1-lastPointer.y));
+  if(stem.running){applyScoreMix();}
+}
+function scorePadEnter(zoneEvent){
+  const zoneId=zoneEvent.id;
+  const cfg=SCORE_ZONES.find(z=>z.id===zoneId);if(!cfg)return;
+  scoreFocus=zoneId;scoreTouches++;
+  scoreMix[zoneId]=Math.min(.98,Math.max(.82,scoreMix[zoneId]+.25));
+  scoreHitUntil[zoneId]=performance.now()+380;
+  // Audible immediate feedback independent from a clock loop / Web Audio stems.
+  if(ready&&!muted){
+    const engine=native.engine;
+    const sound=zoneId==='chord'?{bank:'orchestra',id:'strings'}:
+      {bank:'electro',id:{pulse:'kick',metal:'snare',shimmer:'hat'}[zoneId]};
+    engine.setMode(sound.bank);
+    engine.trigger({kind:'ENTER',id:sound.id,mode:sound.bank,
+      velocity:Math.max(.48,zoneEvent.intensity||.65)});
   }
+  record({type:'ZONE',code:SCORE_ZONES.findIndex(z=>z.id===zoneId)+1,
+    slot:zoneId,intensity:zoneEvent.intensity||.7,x:zoneEvent.x,y:zoneEvent.y});
+  log('PAD '+cfg.name+' / '+Math.round(scoreMix[zoneId]*100)+'% MIX / hit '+scoreTouches);
+  applyScoreMix();
+}
+function handleScoreEvents(events){for(const e of events)if(e.kind==='ENTER')scorePadEnter(e);}
+function applyScoreMix(){
+  if(!stem.running)return;
+  for(const [slot,key] of [['PULSE','pulse'],['METAL','metal'],['SHIMMER','shimmer'],['DRONE','chord']])
+    stem.gain(slot,scoreMix[key]);
+}
+function resetScoreMix(){
+  Object.assign(scoreMix,{pulse:.74,metal:.04,shimmer:.04,chord:.12});
+  scoreFocus='pulse';scoreTouches=0;scoreMap.reset();
+  applyScoreMix();log('SCORE MIX RESET / baseline pulse + low drone');
 }
 function scoreNote(e){
   if(!clock.running)return;
   // Procedural accompaniment. Imported stems remain the quality path.
   const engine=native.engine;
-  if(ready&&!muted&&!stem.running){
+  const level=scoreMix[e.track]||0;
+  if(ready&&!muted&&!stem.running&&level>.09){
     engine.setMode(e.track==='chord'?'orchestra':'electro');
     const id={pulse:'kick',metal:'snare',shimmer:'hat',chord:'strings'}[e.track];
-    engine.trigger({kind:'ENTER',id,mode:engine.mode,velocity:e.velocity});
+    engine.trigger({kind:'ENTER',id,mode:engine.mode,velocity:e.velocity*level});
   }
   if(e.step===0){record({type:'BAR',code:e.bar,value:e.velocity});}
 }
 function scoreTick(){
-  const events=clock.advance(performance.now());
+  const now=performance.now(),events=clock.advance(now);
+  if(clock.running){
+    scoreGridStep=((Math.floor(Math.max(0,now-clock.originMs)/(60000/clock.bpm/4)))%16+16)%16;
+  }
   for(const e of events)scoreNote(e);
   if(events.length)status();
 }
@@ -201,6 +239,7 @@ $('score-stem-play').addEventListener('click',async()=>{
   try{
     await stem.start();
     if(!stem.play()){log('IMPORT STEMS FIRST');return;}
+    applyScoreMix();
     record({type:'STEMS_PLAY'});
     log('STEMS RUN ON THE SAME WEB AUDIO START CLOCK; NOT ABLETON LINK');
   }catch(e){log('STEMS ERROR '+e.message)}
