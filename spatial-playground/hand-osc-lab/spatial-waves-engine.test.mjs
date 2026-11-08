@@ -49,6 +49,8 @@ test('pinch and bimanual distance drive continuous normalized synthesis paramete
 test('3D geometry uses genuine xyz changes with no flat screen-space overlays',()=>{
  const a=visualGeometry(0,.3,.2),b=visualGeometry(120,.9,.8);
  assert.equal(a.rings.length,12);assert.equal(a.bridges.length,4);
+ assert.equal(a.shells.length,48);
+ assert.ok(a.shells.every(x=>x.points.every(p=>p.length===3&&p.every(Number.isFinite))));
  const lengths=a.rings.map(x=>x.points.length);
  assert.ok(lengths.every(n=>n===33));
  assert.notDeepEqual(a.rings[0].points,b.rings[0].points);
