@@ -4,8 +4,8 @@ import {BRANCHES,THUNDER_FORMS,PRACTICE_PATHS,PalmContactEngine,BranchLesson,
  assessSwordPose,SwordPoseCoach,branchDistances} from './handseal-engine.mjs';
 function hand(){
  const p=Array.from({length:25},(_,i)=>[i*.001,0,0]);
- p[4]=[.4,0,0];
- for(const b of BRANCHES)p[b.joint]=[0,0,0];
+ p[4]=[0,0,0];
+ BRANCHES.forEach((b,i)=>p[b.joint]=[.25+i*.01,.10,0]);
  return p;
 }
 function swordHand(){
