@@ -70,6 +70,10 @@ DESKTOP SIMULATOR · NOT XR SENSOR DATA</div><div class="overlay-caption" id="ca
 <div id="timeline"><div id="timeline-head"></div></div>
 <div class="btns"><button id="waves-test">SIMULATE 4 VOLUMES</button><button id="waves-reset">RESET MIX</button></div>
 <div class="btns" style="margin-top:7px"><button id="waves-export">EXPORT INPUT JSON</button><a href="./neural.html" style="display:flex;align-items:center;justify-content:center;border:1px solid #445e50;text-decoration:none;font-size:11px">NEURAL VISUAL STUDY →</a></div>
+<div class="rule">04 / IMPORT YOUR OWN 4-TRACK AUDIO</div>
+<p>如果程序化声音不够有质感，可以导入本人拥有使用权的 4 路等长 WAV/MP3：按 PULSE → MINERAL → AIR → HARMONIC 顺序选择。全部在本地浏览器解码，不上传。导入后以统一 AudioContext 时间戳同步循环，并继承空间声源。</p>
+<input id="waves-stems" type="file" accept=".wav,.mp3,.ogg,.aif,.aiff,audio/*" multiple>
+<div id="waves-stems-status" class="metrics" style="margin-top:6px;min-height:35px">NO STEMS / PROCEDURAL SYNTH FALLBACK</div>
 <div class="rule">04 / REAL-TIME DIAGNOSTICS</div>
 <div id="waves-status" class="metrics">Audio is locked until a real click. Desktop positions are simulated.</div>
 <p id="waves-event-log" class="metrics" style="min-height:65px;max-height:122px;overflow:auto"></p>
