@@ -6,6 +6,8 @@ const ZCOL=[[.38,.91,.69],[.94,.63,.45],[.57,.75,.97]];
 const hands={left:null,right:null};
 const jointCache={left:null,right:null};
 let gl=null,program=null,buffer=null,loc=null;
+let labelProgram=null,labelBuffer=null,labelTexture=null,labelLoc=null,labelCanvas=null;
+const labels=[];
 let session=null,ref=null,mode='DESKTOP',ws=null,armed=false,authenticated=false,seq=0;
 let nowMs=0,lastNet=0,lastTelemetry=0,lastFull=0,logEntries=[],recording=false,recordFrames=[];
 let pointer={x:.23,y:-.28,z:-.54},fakeHand=true,zoneEvents=[],pendingEvent=[];
@@ -63,10 +65,100 @@ function setupGL(){
     point:gl.getUniformLocation(program,'uPointSize'),dots:gl.getUniformLocation(program,'uDots')};
   gl.useProgram(program);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
   gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);
+  if(document.documentElement.dataset.labels==='on')setupLabelRenderer();
   return true;
 }
 const segments=[],dots=[];
 function vertex(dst,p,c,a){dst.push(p[0],p[1],p[2],c[0],c[1],c[2],a);}
+const LABEL_GLYPHS=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥','剑','诀','雷','掌','心'];
+const LABEL_COLS=5,LABEL_ROWS=4,LABEL_TILE=128;
+const LABEL_INDEX=new Map(LABEL_GLYPHS.map((g,i)=>[g,i]));
+function setupLabelRenderer(){
+  const vert=`attribute vec3 aPos;attribute vec2 aUv;attribute vec4 aColor;
+    uniform mat4 uView,uProjection;varying vec2 vUv;varying vec4 vColor;
+    void main(){gl_Position=uProjection*uView*vec4(aPos,1.);vUv=aUv;vColor=aColor;}`;
+  const frag=`precision mediump float;uniform sampler2D uAtlas;varying vec2 vUv;varying vec4 vColor;
+    void main(){float alpha=texture2D(uAtlas,vUv).a;gl_FragColor=vec4(vColor.rgb,vColor.a*alpha);}`;
+  function compileLabel(type,source){
+    const shader=gl.createShader(type);gl.shaderSource(shader,source);gl.compileShader(shader);
+    if(!gl.getShaderParameter(shader,gl.COMPILE_STATUS))throw Error('Label shader: '+gl.getShaderInfoLog(shader));
+    return shader;
+  }
+  labelProgram=gl.createProgram();
+  gl.attachShader(labelProgram,compileLabel(gl.VERTEX_SHADER,vert));
+  gl.attachShader(labelProgram,compileLabel(gl.FRAGMENT_SHADER,frag));
+  gl.linkProgram(labelProgram);
+  if(!gl.getProgramParameter(labelProgram,gl.LINK_STATUS))throw Error('Label program: '+gl.getProgramInfoLog(labelProgram));
+  labelBuffer=gl.createBuffer();
+  labelLoc={
+    pos:gl.getAttribLocation(labelProgram,'aPos'),
+    uv:gl.getAttribLocation(labelProgram,'aUv'),
+    color:gl.getAttribLocation(labelProgram,'aColor'),
+    view:gl.getUniformLocation(labelProgram,'uView'),
+    proj:gl.getUniformLocation(labelProgram,'uProjection'),
+    atlas:gl.getUniformLocation(labelProgram,'uAtlas')
+  };
+  labelCanvas=document.createElement('canvas');
+  labelCanvas.width=LABEL_COLS*LABEL_TILE;labelCanvas.height=LABEL_ROWS*LABEL_TILE;
+  const c=labelCanvas.getContext('2d');
+  c.clearRect(0,0,labelCanvas.width,labelCanvas.height);
+  c.textAlign='center';c.textBaseline='middle';
+  c.font='bold 84px "Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif';
+  for(let i=0;i<LABEL_GLYPHS.length;i++){
+    const x=(i%LABEL_COLS)*LABEL_TILE+LABEL_TILE/2;
+    const y=Math.floor(i/LABEL_COLS)*LABEL_TILE+LABEL_TILE/2;
+    c.lineJoin='round';c.lineWidth=10;c.strokeStyle='rgba(4,9,7,.96)';
+    c.strokeText(LABEL_GLYPHS[i],x,y);
+    c.fillStyle='#f5e7c8';c.fillText(LABEL_GLYPHS[i],x,y);
+  }
+  labelTexture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,labelTexture);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,labelCanvas);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  gl.bindTexture(gl.TEXTURE_2D,null);
+}
+function label(p,text,color=[1,1,1],alpha=1,size=.024,offset=[0,0,0]){
+  if(!p||!Array.isArray(p)||p.length<3||!text)return;
+  labels.push({p:[p[0]+offset[0],p[1]+offset[1],p[2]+offset[2]],
+    text:String(text),color,alpha:Math.max(0,Math.min(1,alpha)),size});
+}
+function drawLabels(view,projection){
+  if(!labels.length||!labelProgram||!labelTexture)return;
+  const right=[view[0],view[4],view[8]],up=[view[1],view[5],view[9]];
+  const rn=Math.hypot(...right)||1,un=Math.hypot(...up)||1;
+  for(let i=0;i<3;i++){right[i]/=rn;up[i]/=un;}
+  const data=[];
+  const push=(p,u,v,c,a)=>data.push(p[0],p[1],p[2],u,v,c[0],c[1],c[2],a);
+  for(const item of labels){
+    for(const glyph of item.text){
+      const index=LABEL_INDEX.get(glyph);if(index===undefined)continue;
+      const col=index%LABEL_COLS,row=Math.floor(index/LABEL_COLS);
+      const u0=col/LABEL_COLS,u1=(col+1)/LABEL_COLS;
+      const v1=1-row/LABEL_ROWS,v0=1-(row+1)/LABEL_ROWS;
+      const w=item.size,h=item.size;
+      const center=item.p;
+      const left=center.map((v,i)=>v-right[i]*w*.5);
+      const rightP=center.map((v,i)=>v+right[i]*w*.5);
+      const topL=left.map((v,i)=>v+up[i]*h*.5),topR=rightP.map((v,i)=>v+up[i]*h*.5);
+      const botL=left.map((v,i)=>v-up[i]*h*.5),botR=rightP.map((v,i)=>v-up[i]*h*.5);
+      push(topL,u0,v1,item.color,item.alpha);push(botL,u0,v0,item.color,item.alpha);push(topR,u1,v1,item.color,item.alpha);
+      push(topR,u1,v1,item.color,item.alpha);push(botL,u0,v0,item.color,item.alpha);push(botR,u1,v0,item.color,item.alpha);
+    }
+  }
+  if(!data.length)return;
+  gl.useProgram(labelProgram);gl.bindBuffer(gl.ARRAY_BUFFER,labelBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.DYNAMIC_DRAW);
+  const stride=36;
+  gl.enableVertexAttribArray(labelLoc.pos);gl.vertexAttribPointer(labelLoc.pos,3,gl.FLOAT,false,stride,0);
+  gl.enableVertexAttribArray(labelLoc.uv);gl.vertexAttribPointer(labelLoc.uv,2,gl.FLOAT,false,stride,12);
+  gl.enableVertexAttribArray(labelLoc.color);gl.vertexAttribPointer(labelLoc.color,4,gl.FLOAT,false,stride,20);
+  gl.uniformMatrix4fv(labelLoc.view,false,view);gl.uniformMatrix4fv(labelLoc.proj,false,projection);
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,labelTexture);gl.uniform1i(labelLoc.atlas,0);
+  gl.depthMask(false);gl.drawArrays(gl.TRIANGLES,0,data.length/9);gl.depthMask(true);
+}
 function line(p,q,c,a){vertex(segments,p,c,a);vertex(segments,q,c,a);}
 function spot(p,c,a){vertex(dots,p,c,a);}
 function rotate(q,v){
@@ -76,7 +168,7 @@ function rotate(q,v){
   return [vx+w*tx+(y*tz-z*ty),vy+w*ty+(z*tx-x*tz),vz+w*tz+(x*ty-y*tx)];
 }
 function geometry(){
-  segments.length=0;dots.length=0;
+  segments.length=0;dots.length=0;labels.length=0;
   for(let i=0;i<zones.length;i++){
     const z=zones[i],c=ZCOL[i],active=[...engine.states.entries()].some(([key,s])=>key.endsWith(':'+z.id)&&s.inside);
     for(let axis=0;axis<3;axis++){
@@ -149,7 +241,7 @@ function geometry(){
   // Organic Fields uses the existing joint/line renderer. Optional scene
   // receives only drawing functions, not GL state or raw camera data.
   if(document.documentElement.dataset.organic==='on' && typeof window.__pmOrganicDraw==='function'){
-    try{window.__pmOrganicDraw({line,spot,now:nowMs,mode});}
+    try{window.__pmOrganicDraw({line,spot,label,now:nowMs,mode});}
     catch(e){console.error('Organic fields visualization',e);}
   }
 }
@@ -165,7 +257,7 @@ function paint(vertices,modeGL,pointSize){
 function render(view,proj){
   gl.useProgram(program);
   gl.uniformMatrix4fv(loc.view,false,view);gl.uniformMatrix4fv(loc.proj,false,proj);
-  paint(segments,gl.LINES,1);paint(dots,gl.POINTS,5);
+  paint(segments,gl.LINES,1);paint(dots,gl.POINTS,5);drawLabels(view,proj);
 }
 const identity=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
 function perspective(aspect){

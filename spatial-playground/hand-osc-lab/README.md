@@ -115,3 +115,17 @@ For SuperCollider use OSCdef on these addresses. Route one bounded event into au
 - WebXR Hand Input 2026 W3C draft: https://www.w3.org/TR/2026/WD-webxr-hand-input-1-20261029/
 - Apple WebXR hands: https://developer.apple.com/videos/play/wwdc2024/10066/
 - W3C hand bulk API optimization: https://github.com/immersive-web/webxr-hand-input/blob/main/explainer.md
+
+
+## Hand Seal Trainer / 掌诀训练器
+
+**New independent page:** https://ewanqian.github.io/performable-music/spatial-playground/hand-osc-lab/handseal-trainer.html
+
+- 12 earthly-branch labels are rendered beside the corresponding 25-joint anchors in the existing WebGL hand view.
+- Thumb-to-joint contact uses dwell, hysteresis, release/re-arm and tracking-loss reset.
+- Guided lessons: all 12 branches, index-finger four-point route, pinky four-point route.
+- Sword-finger coach: five explainable pose checks and 500ms stable hold.
+- Six 雷诀 source cards from 《道法会元》卷五十四; manual reading checklist only, no lineage or ritual certification.
+- Desktop actions are simulated; Quest/AVP hardware accuracy and CJK glyph readability remain unverified.
+
+Technical and source notes: [HAND_SEAL_TRAINER.md](./HAND_SEAL_TRAINER.md).
