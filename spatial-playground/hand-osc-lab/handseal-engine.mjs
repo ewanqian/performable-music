@@ -85,6 +85,18 @@ export class PalmContactEngine{
   return this.calibration.size;
  }
  clearCalibration(){this.calibration.clear();return 0;}
+ exportCalibration(){
+  return {format:'pm-handseal-calibration',version:1,onDistance:this.onDistance,
+   branches:Object.fromEntries(this.calibration)};
+ }
+ importCalibration(data){
+  if(!data||data.format!=='pm-handseal-calibration'||!data.branches)return 0;
+  this.calibration.clear();
+  for(const [id,d] of Object.entries(data.branches)){
+   if(BRANCHES.some(b=>b.id===id)&&Number.isFinite(d))this.calibration.set(id,d);
+  }
+  return this.calibration.size;
+ }
  // Cross-palm branches (finger roots) sit farther from the thumb even when the
  // contact is correct, so they get a wider acceptance band. Tips stay tight.
  thresholdFor(branch){

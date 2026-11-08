@@ -1,0 +1,81 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>十二辰掌诀对照卡 / TWELVE BRANCHES CARD</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f2ec;color:#1b1d1a;font-family:"Songti SC","Noto Serif CJK SC","Source Han Serif SC",STSong,SimSun,serif}
+.page{width:min(1080px,calc(100% - 40px));margin:28px auto 60px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;border-bottom:2px solid #1b1d1a;padding-bottom:12px}
+h1{font-size:30px;font-weight:400;letter-spacing:.02em;margin:0}
+.head .sub{font:11px/1.6 ui-monospace,Menlo,monospace;color:#5b645c;letter-spacing:.08em;text-align:right}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.card{border:1px solid #b9beb4;background:#fff;padding:12px 12px 10px;display:flex;flex-direction:column;min-height:168px}
+.card .ord{font:10px/1 ui-monospace,Menlo,monospace;color:#7b857c;letter-spacing:.1em}
+.card .glyph{font-size:46px;line-height:1;margin:6px 0 4px}
+.card .finger{font-size:13px;color:#2f3a31}
+.card .seg{font-size:12px;color:#5b645c;margin-bottom:6px}
+.card .cue{font-size:11.5px;line-height:1.55;color:#3a443c;margin-top:auto}
+.card .joint{font:9.5px/1.4 ui-monospace,Menlo,monospace;color:#8a938b;margin-top:6px}
+.legend{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:14px;font-size:11.5px;line-height:1.7;color:#3a443c}
+.legend h2{font-size:13px;font-weight:400;margin:0 0 4px;letter-spacing:.04em}
+.note{border-top:1px solid #c8cdc2;margin-top:18px;padding-top:10px;font-size:10.5px;line-height:1.7;color:#6b746c}
+.toolbar{display:flex;gap:8px;margin-top:14px}
+button{font:12px ui-monospace,Menlo,monospace;padding:8px 12px;border:1px solid #8d958c;background:#fff;cursor:pointer}
+button:hover{background:#e9ece4}
+a{color:#2f4a37}
+@media print{
+ body{background:#fff}
+ .toolbar,.no-print{display:none!important}
+ .page{width:auto;margin:0}
+ @page{size:A4 landscape;margin:10mm}
+ .card{break-inside:avoid;min-height:150px}
+ .grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,1fr)}.legend{grid-template-columns:1fr}}
+</style></head><body>
+<div class="page">
+  <div class="head">
+    <div>
+      <div style="font:10px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.16em;color:#6b746c">PERFORMABLE MUSIC / SPATIAL INPUT / HAND SEAL</div>
+      <h1>十二辰 · 掌诀对照卡</h1>
+    </div>
+    <div class="sub">TWELVE EARTHLY BRANCHES<br>JOINT ANCHORS / TRAINING AID<br>NOT A LITURGICAL MANUAL</div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="legend">
+    <div>
+      <h2>怎么用</h2>
+      拇指依次掐到十二个位置，每个位置都要「接触 → 停留 → 松开」。<br>
+      卡上的关节名是 WebXR 25 点里最接近的锚点，<strong>不是真实掌纹线</strong>。
+    </div>
+    <div>
+      <h2>顺序</h2>
+      子 → 丑 → 寅 → 卯 → 辰 → 巳 → 午 → 未 → 申 → 酉 → 戌 → 亥<br>
+      从无名指根起，沿食指上行到指尖，再从中指尖走到小指根。
+    </div>
+  </div>
+  <div class="toolbar no-print">
+    <button onclick="window.print()">打印 / PRINT</button>
+    <a href="./handseal-trainer.html"><button>回到训练器</button></a>
+    <a href="./phalanx-approach.html"><button>多指接近实验</button></a>
+  </div>
+  <div class="note">
+    资料来源：道教文化资料库对「十二辰文」的描述，关节锚点为近似。本卡是练习与交互设计用的现代训练材料，
+    不宣称复原任何门派仪轨，也不提供宗教功效说明。WebXR 不提供压力或掌纹数据，实际识别精度需在设备上验收。
+  </div>
+</div>
+<script type="module">
+import { BRANCHES } from './handseal-engine.mjs';
+const grid = document.getElementById('grid');
+grid.innerHTML = BRANCHES.map(b => `
+  <div class="card">
+    <div class="ord">${String(b.ordinal).padStart(2,'0')} / 十二</div>
+    <div class="glyph">${b.name}</div>
+    <div class="finger">${b.finger} · ${b.segment}</div>
+    <div class="seg">${b.cue}</div>
+    <div class="cue">${b.segment==='指尖'?'指尖位置在头显里最容易漂移，建议先练这一组。':b.segment==='根部'?'跨掌心的位置，拇指行程最长，需要更大的接受范围。':'指节之间的位置，最容易和相邻位混淆。'}</div>
+    <div class="joint">${b.jointName}</div>
+  </div>`).join('');
+</script>
+</body></html>

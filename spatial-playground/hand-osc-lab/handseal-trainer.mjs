@@ -103,6 +103,29 @@ function renderBranches(parent){
  const cal=add(parent,'div','trainer-step');
  add(cal,'div','','个人校准：'+contact.calibration.size+' / 12 位');
  const calRow=add(cal,'div','trainer-grid');
+ const calIO=add(calRow,'button','','导出校准');
+ calIO.style.gridColumn='span 2';
+ calIO.addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(contact.exportCalibration(),null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='handseal-calibration.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+ });
+ const calFile=document.createElement('input');
+ calFile.type='file';calFile.accept='application/json';calFile.style.display='none';
+ calFile.addEventListener('change',async()=>{
+  const file=calFile.files?.[0];if(!file)return;
+  try{
+   const size=contact.importCalibration(JSON.parse(await file.text()));
+   setText('trainer-status','已导入 '+size+' 位校准');
+   record('CALIBRATION_IMPORT',{count:size});
+   renderWorkspace();updateCurrent();
+  }catch(e){setText('trainer-status','导入失败：'+e.message);}
+  calFile.value='';
+ });
+ parent.appendChild(calFile);
+ const calLoad=add(calRow,'button','','导入校准');
+ calLoad.style.gridColumn='span 2';
+ calLoad.addEventListener('click',()=>calFile.click());
  const rec=add(calRow,'button','','记录当前位');
  rec.style.gridColumn='span 2';
  rec.addEventListener('click',()=>{

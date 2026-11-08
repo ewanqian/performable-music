@@ -107,3 +107,15 @@ test('one-hand calibration widens only the calibrated branch',()=>{
  e.clearCalibration();
  assert.equal(e.thresholdFor(chou),before);
 });
+test('calibration survives export and import, and ignores unknown branches',()=>{
+ const a=new PalmContactEngine({onDistance:.034});
+ a.calibrate('chou',.055);a.calibrate('si',.036);
+ const blob=a.exportCalibration();
+ assert.equal(blob.format,'pm-handseal-calibration');
+ const b=new PalmContactEngine({onDistance:.034});
+ assert.equal(b.importCalibration(blob),2);
+ assert.ok(Math.abs(b.thresholdFor(BRANCHES.find(x=>x.id==='chou'))-a.thresholdFor(BRANCHES.find(x=>x.id==='chou')))<1e-9);
+ const dirty={...blob,branches:{...blob.branches,notabranch:.09}};
+ assert.equal(new PalmContactEngine().importCalibration(dirty),2);
+ assert.equal(new PalmContactEngine().importCalibration({}),0);
+});
