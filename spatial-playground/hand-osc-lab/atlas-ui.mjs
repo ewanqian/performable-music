@@ -20,6 +20,7 @@ let gate=false,handDetected=0,swordActive=false,filmBeat=0,filmTrace=0;
 let selectedPair=null,rayTarget='',sequence='',sequenceTarget='3142',lastPhrase='',progress=0;
 let lastXR={left:null,right:null},orbit=null,traceBank='metal',lastMotion={x:.5,y:.5,speed:.2};
 let flashUntil=0,demoTimer=null,needsStatus=true;
+const distLocal=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
 
 function log(t){
  logs.unshift(new Date().toLocaleTimeString()+'  '+t);
@@ -415,10 +416,8 @@ function xrPointer(positions,side,now){
  tr.push({x,y});if(tr.length>32)tr.shift();trails.set(key,tr);
  if(family==='music'){
   if(active==='continuum'){
-   const pinch=thumb&&Math.hypot(tip[0]-thumb[0],tip[1]-thumb[1],tip[2]-thumb[2])<.045;
-   const oldGate=gate;gate=Boolean(pinch);
-   soundMotion(x,y,velocity,gate?1:0);
-   if(oldGate!==gate)emit('GATE',gate?1:0,gate?1:0,x,y,gate?'XR PINCH ON':'XR PINCH OFF');
+   // Evaluate chosen hand once per frame after both sources are available.
+   // Otherwise absent right hand would cancel a valid left-hand pinch.
   }else if(active==='trace'){for(const ev of trace.move(key,x,y,now))strike(ev);}
   else if(active==='dial'&&side==='right'){
    const output=dial.update(positions,now);
@@ -469,9 +468,26 @@ window.__pmInstrumentFeed=({hands,now,mode})=>{
   else{releaseSound();}
  }
  if(hands.left?.positions)xrPointer(hands.left.positions,'left',now);
- else{trace.end('xr-left');trails.delete('xr-left');}
+ else{trace.end('xr-left');trails.delete('xr-left');pointers.delete('hover-left');}
  if(hands.right?.positions)xrPointer(hands.right.positions,'right',now);
- else{trace.end('xr-right');trails.delete('xr-right');gate=false;releaseSound();}
+ else{trace.end('xr-right');trails.delete('xr-right');pointers.delete('hover-right');pointers.delete('bagua-contact');}
+ if(family==='music'&&active==='continuum'){
+   const hand=hands.right||hands.left;
+   const tip=hand?.positions?.[9],thumb=hand?.positions?.[4];
+   const pinching=Boolean(tip&&thumb&&distLocal(tip,thumb)<.036);
+   const old=gate;gate=pinching;
+   if(tip){
+     const x=clamp(.5+tip[0]/1.2),y=clamp((.28-tip[1])/.72);
+     soundMotion(x,y,clamp(lastMotion.speed),pinching?1:0);
+     if(old!==pinching)emit('GATE',pinching?1:0,pinching?1:0,x,y,pinching?'PINCH ON':'PINCH OFF');
+   }else{releaseSound();if(old)emit('GATE',0,0,.5,.5,'TRACKING LOST / GATE OFF');}
+ }
+ if(family==='culture'&&active==='jian'&&!hands.right?.positions){
+   const prior=swordActive,pose=sword.update(null,now);
+   swordActive=pose.active;
+   if(prior&&!swordActive){finishSword();emit('POSE_OFF',0,0,.5,.5,'SWORD FORM LOST / RELEASE');}
+ }
+ redrawProgress();
 };
 $('atlas-export').addEventListener('click',()=>{
  const data={name:'Gestural Atlas / '+family,lab:active,
@@ -651,7 +667,7 @@ window.__pmOrganicDraw=({line,spot,now})=>{
   }
  }
  window.__pmInstrumentVisual={
-  gate:gate||swordActive?1:0,flash:now<flashUntil?.4:0,timbre:0
+  gate:gate||swordActive?1:0,flash:now<flashUntil?0.4:0,timbre:0
  };
 };
 window.addEventListener('pagehide',()=>{field.panic();hits.panic();});
