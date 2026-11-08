@@ -74,14 +74,25 @@ export function branchDistances(positions){
 export class PalmContactEngine{
  constructor({onDistance=.034,offDistance=.052,dwellMs=140,rearmMs=55,adaptive=true}={}){
   this.onDistance=onDistance;this.offDistance=offDistance;
-  this.dwellMs=dwellMs;this.rearmMs=rearmMs;this.adaptive=adaptive;this.reset();
+  this.dwellMs=dwellMs;this.rearmMs=rearmMs;this.adaptive=adaptive;
+  // Per-branch personal baselines from a one-hand calibration pass. They
+  // survive reset() because they describe the user's hand, not the session.
+  this.calibration=new Map();
+  this.reset();
  }
+ calibrate(digit,distance){
+  if(typeof digit==='string'&&Number.isFinite(distance))this.calibration.set(digit,distance);
+  return this.calibration.size;
+ }
+ clearCalibration(){this.calibration.clear();return 0;}
  // Cross-palm branches (finger roots) sit farther from the thumb even when the
  // contact is correct, so they get a wider acceptance band. Tips stay tight.
  thresholdFor(branch){
   if(!this.adaptive||!branch)return this.onDistance;
   const mult=branch.segment==='根部'?1.25:branch.segment==='指尖'?1.0:1.12;
-  return this.onDistance*mult;
+  const base=this.onDistance*mult;
+  const personal=this.calibration.get(branch.id);
+  return Number.isFinite(personal)?Math.max(base,personal*1.15):base;
  }
  releaseFor(branch){
   return Math.max(this.offDistance,this.thresholdFor(branch)*1.55);

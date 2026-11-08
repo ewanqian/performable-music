@@ -94,3 +94,16 @@ test('cross-palm root branches get a wider acceptance band than tips',()=>{
  assert.equal(e.thresholdFor(si),0.034);
  assert.ok(e.releaseFor(chou)>e.thresholdFor(chou));
 });
+test('one-hand calibration widens only the calibrated branch',()=>{
+ const e=new PalmContactEngine({onDistance:.034});
+ const chou=BRANCHES.find(b=>b.id==='chou');
+ const si=BRANCHES.find(b=>b.id==='si');
+ const before=e.thresholdFor(chou);
+ e.calibrate('chou',.055);
+ assert.ok(e.thresholdFor(chou)>before);
+ assert.ok(e.thresholdFor(chou)>=.055*1.15-1e-9);
+ assert.equal(e.thresholdFor(si),.034);
+ assert.equal(e.calibration.size,1);
+ e.clearCalibration();
+ assert.equal(e.thresholdFor(chou),before);
+});

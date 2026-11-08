@@ -40,6 +40,20 @@ export function handAngles(positions){
   return result;
 }
 export function distance(a,b){return Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);}
+// Thumb interphalangeal fold. Straight ~0 deg; a normal pinch is roughly
+// 40-110 deg. Values above ~165 deg mean the tip has folded back into the palm,
+// where WebXR positions stop describing a real contact.
+export function thumbFoldDeg(positions){
+  if(!Array.isArray(positions)||positions.length<25)return null;
+  const ip=bendDeg(positions[2],positions[3],positions[4]);
+  const mcp=bendDeg(positions[1],positions[2],positions[3]);
+  if(ip===null||mcp===null)return null;
+  return Math.max(ip,mcp);
+}
+export function thumbOverfold(positions,limit=165){
+  const f=thumbFoldDeg(positions);
+  return f!==null&&f>limit?f:null;
+}
 export function createZones(){
  return [
    {id:"A",name:"LEFT FIELD",center:[-.27,-.28,-.55],radius:.135},

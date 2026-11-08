@@ -81,3 +81,13 @@ test('10000-frame score/dial simulation finite and bounded',()=>{
  assert.ok(notes>500&&notes<4000);
  assert.ok(gestures<400);
 });
+test('small tracking jitter does not restart the dwell timer',()=>{
+  const d=new FingerDial({onDistance:.028,offDistance:.046,dwellMs:90,rearmMs:45});
+  const pos=(mm)=>{const p=Array.from({length:25},()=>[0,0,0]);p[4]=[0,0,0];
+    p[7]=[mm/1000,0,0];return p;};
+  d.update(pos(10),0);      // inside, starts timer
+  d.update(pos(31),40);     // jitter outside the band but inside retention
+  const out=d.update(pos(12),100);
+  assert.equal(out.events.filter(e=>e.kind==='DIGIT').length,1);
+  assert.equal(d.sequence,'1');
+});

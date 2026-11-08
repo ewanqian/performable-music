@@ -157,3 +157,18 @@ test('multi-contact releases when the thumb moves away', () => {
   assert.ok(away.events.some(v => v.kind === 'RELEASE'));
   assert.equal(away.contacts.length, 0);
 });
+
+test('folded-back thumb is damped instead of read as firm contact', async () => {
+  const { thumbOverfold } = await import('./engine.mjs');
+  // Tip folds back toward the base: a-b and c-b point the same way, which is
+  // the 180-degree end of bendDeg (0 = straight chain).
+  const p = hand([0, 0.02, -0.08]);
+  p[1] = [0, 0.00, -0.08];
+  p[2] = [0, 0.02, -0.08];
+  p[3] = [0, 0.04, -0.08];
+  p[4] = [0, 0.02, -0.08];
+  assert.ok(thumbOverfold(p) !== null, 'expected an over-fold reading');
+  const e = new MultiContactEngine({ onDistance: 0.030, dwellMs: 10, sustain: 0.2 });
+  const out = e.update(p, 0);
+  assert.ok(out.targets.every(t => t.intensity <= 0.5));
+});

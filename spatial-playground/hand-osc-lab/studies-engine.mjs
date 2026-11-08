@@ -27,38 +27,61 @@ export class FingerDial{
   reset(){
     this.active=null;this.candidate=null;this.since=0;this.releasedAt=-Infinity;
     this.sequence='';this.count=0;this.lastDigit=null;
+    // Per-digit timers: joint jitter no longer resets the dwell progress, which
+    // is what forced users to rub the thumb back and forth to make it fire.
+    this.timers=new Map();
   }
   update(positions,now){
     const events=[];
     if(!Array.isArray(positions)||positions.length<25||!validPoint(positions[4])){
-      // Tracking loss is unknown input: release contact, never synthesize digits.
       if(this.active!==null)events.push({kind:'LOST',digit:this.active,t_ms:now});
-      this.active=null;this.candidate=null;this.releasedAt=now;
-      return {events,active:null,nearest:null,sequence:this.sequence,progress:this.progress()};
+      this.active=null;this.candidate=null;this.timers.clear();this.releasedAt=now;
+      return {events,active:null,nearest:null,sequence:this.sequence,progress:this.progress(),intensity:0};
     }
     const d=DIGIT_JOINTS.map(slot=>({digit:slot.digit,d:distance(positions[4],positions[slot.index])}))
       .filter(v=>v.d!==null).sort((a,b)=>a.d-b.d);
     const nearest=d[0]||null;
+
     if(this.active!==null){
-      // Must lift thumb before the next number; prevents spurious continuous repeats.
       const dd=d.find(v=>v.digit===this.active)?.d??Infinity;
       if(dd>this.offDistance){
         events.push({kind:'RELEASE',digit:this.active,t_ms:now});
-        this.active=null;this.releasedAt=now;this.candidate=null;
+        this.active=null;this.releasedAt=now;this.timers.clear();
       }
-    }else if(nearest&&nearest.d<=this.onDistance && now-this.releasedAt>=this.rearmMs){
-      if(this.candidate!==nearest.digit){this.candidate=nearest.digit;this.since=now;}
-      else if(now-this.since>=this.dwellMs){
-        this.active=nearest.digit;this.candidate=null;this.lastDigit=this.active;
-        this.sequence=(this.sequence+String(this.active)).slice(-32);this.count++;
-        events.push({kind:'DIGIT',digit:this.active,t_ms:now,sequence:this.sequence});
-        if(this.sequence.endsWith(INCANTATION)){
-          events.push({kind:'SEAL',value:INCANTATION,t_ms:now});
-        }
+    }
+
+    // Keep a timer per joint while it is inside the contact band. A dip caused
+    // by tracking jitter keeps the timer; only leaving the band clears it.
+    for(const row of d){
+      // Retention band is wider than the contact band: a 2-3 mm tracking
+      // wobble must not restart the dwell, but the digit only confirms while
+      // the thumb is actually inside onDistance.
+      if(row.d<=this.onDistance*1.25){
+        if(!this.timers.has(row.digit))this.timers.set(row.digit,now);
+      }else this.timers.delete(row.digit);
+    }
+
+    let candidate=null,since=0;
+    for(const [digit,started] of this.timers){
+      if(started>=since){since=started;candidate=digit;}
+    }
+
+    if(this.active===null&&candidate!==null&&now-this.releasedAt>=this.rearmMs){
+      const currentDistance=d.find(v=>v.digit===candidate)?.d??Infinity;
+      if(currentDistance<=this.onDistance&&now-since>=this.dwellMs){
+        this.active=candidate;this.lastDigit=candidate;
+        this.sequence=(this.sequence+String(candidate)).slice(-32);this.count++;
+        events.push({kind:'DIGIT',digit:candidate,t_ms:now,sequence:this.sequence});
+        this.timers.delete(candidate);
+        if(this.sequence.endsWith(INCANTATION))events.push({kind:'SEAL',value:INCANTATION,t_ms:now});
+        candidate=null;since=0;
       }
-    }else if(this.active===null)this.candidate=null;
+    }
+
+    this.candidate=candidate;this.since=since;
+    const intensity=nearest?clamp(1-nearest.d/this.onDistance):0;
     return {events,active:this.active,nearest,sequence:this.sequence,
-      progress:this.progress()};
+      progress:this.progress(),intensity};
   }
   progress(){
     // Longest suffix also matching target prefix (KMP-style recovery).

@@ -100,6 +100,23 @@ function renderBranches(parent){
    if(xrMode==='DESKTOP')simulateBranch(b.id);
   });
  }
+ const cal=add(parent,'div','trainer-step');
+ add(cal,'div','','个人校准：'+contact.calibration.size+' / 12 位');
+ const calRow=add(cal,'div','trainer-grid');
+ const rec=add(calRow,'button','','记录当前位');
+ rec.style.gridColumn='span 2';
+ rec.addEventListener('click',()=>{
+  const n=contactState?.nearest;
+  if(!n){setText('trainer-status','没有可记录的接触：先把拇指放到目标指节上');return;}
+  const size=contact.calibrate(n.id,n.distance);
+  setText('trainer-status','已记录 '+(branchById(n.id)?.name||n.id)+' / '+(n.distance*1000).toFixed(0)+'mm（共 '+size+' 位）');
+  record('CALIBRATE',{id:n.id,distance:n.distance});
+  renderWorkspace();updateCurrent();
+ });
+ const clr=add(calRow,'button','','清除校准');
+ clr.style.gridColumn='span 2';
+ clr.addEventListener('click',()=>{contact.clearCalibration();setText('trainer-status','个人校准已清除');renderWorkspace();updateCurrent();});
+ add(parent,'p','trainer-muted','校准会为每个辰位记录你自己的可达距离，阈值至少放宽到该距离的 1.15 倍。它只解决“够不到”，不改变关节锚点。');
  add(parent,'p','trainer-muted','关节点上的中文字符会直接跟随 WebXR 手骨架显示。目标位置采用关节锚点近似，真实掌纹线不在 WebXR 25 点数据中。');
 }
 function renderLesson(parent){

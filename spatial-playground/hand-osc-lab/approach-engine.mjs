@@ -7,6 +7,8 @@
 // strategy 'velocity' : absolute distance AND closing motion (or deep contact),
 //                       which suppresses slow drift-through near misses.
 //
+import { thumbOverfold } from './engine.mjs';
+
 // All distances are metres. Every rejected candidate carries a machine-readable
 // reason so a headset user can be told WHY nothing fired.
 
@@ -280,6 +282,7 @@ export class MultiContactEngine {
 
     const thumb = positions[4];
     const palm = palmCenter(positions);
+    const overfold = thumbOverfold(positions);
     const events = [];
     const rows = [];
 
@@ -287,7 +290,10 @@ export class MultiContactEngine {
       const anchor = t.palm ? palm : positions[t.index];
       const d = distance(thumb, anchor);
       const threshold = this.onDistance;
-      const intensity = d === null ? 0 : Math.max(0, Math.min(1, 1 - d / threshold));
+      const raw = d === null ? 0 : Math.max(0, Math.min(1, 1 - d / threshold));
+      // A folded-back thumb reports a tip position inside the palm. Damp it
+      // instead of pretending it is a firm contact.
+      const intensity = overfold ? raw * 0.45 : raw;
       const prev = this.state.get(t.digit) || { active: false, since: null };
       let state = 'IDLE';
       let progress = 0;
