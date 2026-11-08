@@ -105,6 +105,22 @@ wss.on('connection',(socket,request)=>{
       osc('/pm/zone/'+data.zone+'/'+data.type.toLowerCase(),[data.hand,Number.isSafeInteger(data.seq)?data.seq:0,Number.isFinite(data.t_ms)?Math.round(data.t_ms):0]);
       return;
     }
+    if(data?.type==='atlas'){
+      if(!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
+      client.seq=data.seq;
+      const modes={music:['continuum','orbit','trace','dial'],
+        culture:['jian','river','bagua','stars']};
+      const kinds=['POSE_ON','POSE_OFF','PATH','COMPOSE','PAIR','LINE',
+        'STEP','COMPLETE','MORPH','CONTACT','GATE','STRIKE',
+        'DONE','RESET','SELECT','MUTE'];
+      if(!['music','culture'].includes(data.family)||!modes[data.family].includes(data.lab)
+        ||!kinds.includes(data.kind))return;
+      if(!Number.isInteger(data.id)||data.id<0||data.id>100)return;
+      if(![data.value,data.x,data.y].every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=0&&n<=1))return;
+      osc('/pm/atlas/'+data.family+'/'+data.lab+'/event',
+        [data.kind,data.id,data.value,data.x,data.y]);
+      return;
+    }
     if(data?.type==='study'){
       if(!Number.isSafeInteger(data.seq)||data.seq<=client.seq)return;
       client.seq=data.seq;
