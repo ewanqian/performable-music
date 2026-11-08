@@ -1,0 +1,259 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PHALANX APPROACH — Three Contact Strategies</title>
+<style>
+:root{color-scheme:dark;--bg:#090b0b;--fg:#ecefe9;--muted:#9aa7a0;--edge:#34403b;--ok:#9be8b6;--warn:#e8c07a;--bad:#e88a80}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+main{display:grid;grid-template-columns:minmax(0,1fr) 430px;align-items:start;min-height:100vh}
+.stage{position:sticky;top:0;height:100vh;background:#030606;min-height:520px}
+#palm{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+aside{border-left:1px solid var(--edge);padding:22px;overflow:auto}
+h1{font-size:clamp(24px,2.8vw,38px);font-weight:500;letter-spacing:-.05em;line-height:1;margin:10px 0 14px}
+p,small{font-size:11px;line-height:1.6;color:var(--muted)}
+.eyebrow{font-size:10px;color:#b2c1b7;letter-spacing:.15em}
+button{font:inherit;color:var(--fg);background:#18211d;border:1px solid #43564b;padding:9px;cursor:pointer}
+button:hover{border-color:#a8ceb3}
+button.active{background:#d1e5d2;color:#172019;border-color:#d1e5d2}
+.rule{border-top:1px solid var(--edge);margin:16px 0 10px;padding-top:8px;color:#a1aea6;font-size:10px;letter-spacing:.13em}
+.strategies{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.strategies button{font-size:10px;line-height:1.4;padding:9px 4px}
+table{width:100%;border-collapse:collapse;font-size:10px}
+th{text-align:left;color:#7d8c82;font-weight:400;padding:5px 3px;border-bottom:1px solid var(--edge)}
+td{padding:5px 3px;border-bottom:1px solid #1b2420;vertical-align:middle}
+tr.hit td{background:#1d3126;color:#d8f2e0}
+.bar{height:5px;background:#22332b;width:56px;display:inline-block;vertical-align:middle}
+.bar>i{display:block;height:5px;background:#dce7c8;width:0}
+.reason{font-size:10px;padding:10px;background:#101716;border:1px solid #3e5147;line-height:1.7;white-space:pre-wrap;margin-top:8px}
+#sequence{font-size:19px;letter-spacing:.16em;color:#e6e0b8;min-height:26px}
+#caption{position:absolute;left:18px;bottom:16px;font-size:10px;color:#8c9a90;pointer-events:none}
+#hint{position:absolute;left:18px;top:16px;font-size:10px;color:#8c9a90;pointer-events:none;line-height:1.7}
+label{display:block;font-size:10px;color:#c7d3ca;margin:8px 0}
+input[type=range]{width:100%;accent-color:#c7e1cf}
+a{color:#cbe9d2}
+@media(max-width:900px){main{grid-template-columns:1fr}.stage{position:relative;height:58vh;min-height:340px}aside{border:0;border-top:1px solid var(--edge)}}
+</style></head><body>
+<main>
+  <div class="stage">
+    <canvas id="palm" aria-label="Six phalanx targets; drag the thumb to approach them"></canvas>
+    <div id="hint">拖动拇指圆点接近任意指节
+DRAG THE THUMB TO APPROACH A JOINT</div>
+    <div id="caption">PHALANX APPROACH / THREE STRATEGIES / NO HEADSET CLAIM</div>
+  </div>
+  <aside>
+    <a href="https://ewanqian.site/#/apps" style="font-size:10px;text-decoration:none">← EWAN / APPLICATIONS</a>
+    <div class="eyebrow" style="margin-top:12px">PERFORMABLE MUSIC / SPATIAL INPUT / APPROACH 07</div>
+    <h1>PHALANX<br>APPROACH.</h1>
+    <p>同一个动作，三种判定策略。每个指节显示实际距离、它自己的阈值、确认进度，以及<strong>失败原因</strong>。目标不是让你猜，而是让你看见系统判断到了什么。</p>
+
+    <div class="rule">01 / STRATEGY</div>
+    <div class="strategies" id="strategies">
+      <button data-s="nearest">NEAREST<br>最近优先</button>
+      <button data-s="zoned">ZONED<br>按指长缩放</button>
+      <button data-s="velocity">VELOCITY<br>接近动作</button>
+    </div>
+    <div class="reason" id="strategy-note">zoned：每个指节的阈值按它到手腕的距离缩放，长手指不再被系统性惩罚。</div>
+
+    <div class="rule">02 / SIX JOINTS</div>
+    <table>
+      <thead><tr><th>#</th><th>指节</th><th>距离</th><th>阈值</th><th>进度</th><th>状态</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+
+    <div class="rule">03 / WHY</div>
+    <div class="reason" id="why">等待输入。</div>
+
+    <div class="rule">04 / OUTPUT</div>
+    <div id="sequence">—</div>
+    <p style="margin-top:6px">只有确认成功才会写入序列。追踪丢失时显示 LOST，不补数字。</p>
+
+    <div class="rule">05 / TUNING</div>
+    <label>接触阈值 <span id="onv">28</span> mm <input id="on" type="range" min="16" max="42" value="28"></label>
+    <label>抬起阈值 <span id="offv">46</span> mm <input id="off" type="range" min="30" max="70" value="46"></label>
+    <label>确认时间 <span id="dwellv">90</span> ms <input id="dwell" type="range" min="30" max="240" value="90"></label>
+    <label>歧义窗口 <span id="ambv">6</span> mm <input id="amb" type="range" min="0" max="16" value="6"></label>
+
+    <div class="rule">06 / NOTES</div>
+    <p>这三种策略都只在桌面用合成手型验证过，没有在 Quest 上验证遮挡与参考空间偏移。真实设备上，<strong>zoned + velocity 组合</strong>最可能减少误判，但需要实机数据才能确定参数。</p>
+    <p><a href="./sigil.html">指节模拟器</a> · <a href="./studies.html?lab=score">伴奏与 Studio</a> · <a href="./atlas-culture.html">文化符号研究</a></p>
+  </aside>
+</main>
+<script type="module">
+import { ApproachEngine, TARGETS, distance } from './approach-engine.mjs';
+
+const canvas = document.getElementById('palm');
+const ctx = canvas.getContext('2d');
+const engine = new ApproachEngine({ strategy: 'zoned' });
+
+// Synthetic 25-joint hand (metres). Palm plane is x/y, z is depth.
+const JOINTS = Array.from({ length: 25 }, () => [0, 0, -0.10]);
+JOINTS[0] = [0, -0.055, -0.05];
+JOINTS[4] = [-0.045, -0.010, -0.07];           // thumb tip, draggable
+const AT = {
+  1: [-0.040, -0.045, -0.06], 2: [-0.052, -0.030, -0.07], 3: [-0.058, -0.014, -0.07],
+  5: [-0.028, -0.010, -0.06], 6: [-0.030, 0.020, -0.08],
+  7: [-0.030, 0.010, -0.090], 8: [-0.034, 0.048, -0.115],
+  9: [-0.036, 0.072, -0.130],
+  10: [0.000, -0.008, -0.070], 11: [0.000, 0.028, -0.095],
+  12: [0.000, 0.052, -0.115], 13: [0.000, 0.082, -0.140], 14: [0.000, 0.100, -0.150],
+  15: [0.028, -0.006, -0.075], 16: [0.030, 0.026, -0.098],
+  17: [0.032, 0.048, -0.118], 18: [0.034, 0.072, -0.138], 19: [0.034, 0.088, -0.146],
+  20: [0.050, 0.000, -0.080], 21: [0.054, 0.024, -0.100],
+  22: [0.056, 0.042, -0.116], 23: [0.058, 0.058, -0.128], 24: [0.058, 0.070, -0.134]
+};
+for (const [k, v] of Object.entries(AT)) JOINTS[Number(k)] = v.slice();
+
+const BONES = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[8,9],[0,10],[10,11],[11,12],[12,13],[13,14],[0,15],[15,16],[16,17],[17,18],[18,19],[0,20],[20,21],[21,22],[22,23],[23,24],[5,10],[10,15],[15,20]];
+
+const state = { seq: '', active: null, rows: [], why: '等待输入。' };
+let dragging = false;
+
+function fit() {
+  const r = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+  const w = Math.max(1, Math.round(r.width * dpr)), h = Math.max(1, Math.round(r.height * dpr));
+  if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { w: r.width, h: r.height };
+}
+
+// World -> screen. Hand occupies roughly 0.13 m across; scale to fit.
+function project(w, h) {
+  const s = Math.min(w, h) * 0.95 / 0.20;
+  return {
+    x: p => w * 0.52 + p[0] * s,
+    y: p => h * 0.56 - (p[1] + 0.02) * s,
+    s
+  };
+}
+
+function toWorld(w, h, cx, cy) {
+  const s = Math.min(w, h) * 0.95 / 0.20;
+  return [ (cx - w * 0.52) / s, -(cy - h * 0.56) / s - 0.02, JOINTS[4][2] ];
+}
+
+function draw() {
+  const { w, h } = fit();
+  const P = project(w, h);
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#030606'; ctx.fillRect(0, 0, w, h);
+
+  // grid
+  ctx.strokeStyle = '#101a17'; ctx.lineWidth = 1;
+  for (let x = 0; x < w; x += 32) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+  for (let y = 0; y < h; y += 32) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+
+  // bones
+  ctx.strokeStyle = '#3c5c4a'; ctx.lineWidth = 1.6;
+  for (const [a, b] of BONES) {
+    ctx.beginPath(); ctx.moveTo(P.x(JOINTS[a]), P.y(JOINTS[a])); ctx.lineTo(P.x(JOINTS[b]), P.y(JOINTS[b])); ctx.stroke();
+  }
+
+  // joint dots
+  for (let i = 1; i < 25; i++) {
+    ctx.fillStyle = '#5d7f6a';
+    ctx.beginPath(); ctx.arc(P.x(JOINTS[i]), P.y(JOINTS[i]), 1.8, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // targets with per-joint state
+  for (const t of TARGETS) {
+    const row = state.rows.find(r => r.digit === t.digit);
+    const p = JOINTS[t.index];
+    const x = P.x(p), y = P.y(p);
+    const hit = state.active === t.digit;
+    const near = row && row.state === 'DWELL';
+    const blocked = row && row.state === 'BLOCKED';
+    const color = hit ? '#9be8b6' : near ? '#e8c07a' : blocked ? '#e88a80' : '#6ea38a';
+    ctx.strokeStyle = color; ctx.lineWidth = hit ? 2.6 : 1.3;
+    const r = hit ? 17 : 12;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+    if (row && row.progress > 0 && !hit) {
+      ctx.strokeStyle = '#e8c07a'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(x, y, r + 5, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * row.progress); ctx.stroke();
+    }
+    ctx.fillStyle = color; ctx.font = '10px ui-monospace,monospace'; ctx.textAlign = 'center';
+    ctx.fillText(String(t.digit), x, y + 3.5);
+    if (row && row.distance !== null) {
+      ctx.fillStyle = '#8fa89a'; ctx.font = '9px ui-monospace,monospace';
+      ctx.fillText((row.distance * 1000).toFixed(0) + 'mm', x, y - r - 6);
+    }
+  }
+
+  // thumb
+  const tx = P.x(JOINTS[4]), ty = P.y(JOINTS[4]);
+  ctx.fillStyle = '#f0d99a';
+  ctx.beginPath(); ctx.arc(tx, ty, 7, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#f0d99a'; ctx.globalAlpha = .35; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(tx, ty, 14, 0, Math.PI * 2); ctx.stroke();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = '#f0d99a'; ctx.font = '9px ui-monospace,monospace'; ctx.textAlign = 'left';
+  ctx.fillText('THUMB', tx + 12, ty + 3);
+}
+
+function renderRows(out) {
+  const tbody = document.getElementById('rows');
+  tbody.innerHTML = out.targets.map(r => {
+    const mm = r.distance === null ? '—' : (r.distance * 1000).toFixed(1);
+    const th = (r.threshold * 1000).toFixed(1);
+    const pct = Math.round((r.progress || 0) * 100);
+    const cls = r.state === 'CONTACT' ? 'hit' : '';
+    const label = r.state === 'CONTACT' ? '确认' : r.state === 'DWELL' ? '确认中' : r.state === 'BLOCKED' ? '阻止' : r.state === 'NO_DATA' ? '无数据' : '未达';
+    return `<tr class="${cls}"><td>${r.digit}</td><td>${r.label}</td><td>${mm}</td><td>${th}</td><td><span class="bar"><i style="width:${pct}%"></i></span></td><td>${label}</td></tr>`;
+  }).join('');
+  document.getElementById('why').textContent = out.nearest
+    ? engine.explain(out.nearest) + (out.nearest.distance !== null ? `\n候选 #${out.nearest.digit} · 阈值差 ${((out.nearest.threshold - out.nearest.distance) * 1000).toFixed(1)}mm` : '')
+    : '没有可用手部数据。';
+  document.getElementById('sequence').textContent = out.sequence || '—';
+}
+
+let last = performance.now();
+function frame(now) {
+  requestAnimationFrame(frame);
+  const out = engine.update(JOINTS, now);
+  state.active = out.active;
+  state.rows = out.targets;
+  for (const ev of out.events) {
+    if (ev.kind === 'DIGIT') state.seq = ev.sequence;
+  }
+  if (now - last > 33) { renderRows(out); last = now; }
+  draw();
+}
+
+canvas.addEventListener('pointerdown', e => {
+  dragging = true;
+  canvas.setPointerCapture?.(e.pointerId);
+  moveThumb(e);
+});
+canvas.addEventListener('pointermove', e => { if (dragging) moveThumb(e); });
+for (const ev of ['pointerup', 'pointercancel']) canvas.addEventListener(ev, () => { dragging = false; });
+
+function moveThumb(e) {
+  const r = canvas.getBoundingClientRect();
+  const p = toWorld(r.width, r.height, e.clientX - r.left, e.clientY - r.top);
+  JOINTS[4][0] = p[0]; JOINTS[4][1] = p[1];
+}
+
+const NOTES = {
+  nearest: 'nearest：所有指节共用一个阈值，永远选最近的一个。简单，但长手指更难够到，而且两个指节靠近时会误判。',
+  zoned: 'zoned：每个指节的阈值按它到手腕的距离缩放（0.8×–1.35×）。长手指不再被系统性惩罚，这是我认为最适合演出的一组。',
+  velocity: 'velocity：除了距离，还要求拇指正在靠近，或者已经非常接近（70% 阈值内）。能过滤"擦过去"造成的误触发。'
+};
+document.getElementById('strategies').addEventListener('click', e => {
+  const b = e.target.closest('button[data-s]'); if (!b) return;
+  const s = b.dataset.s;
+  engine.setStrategy(s);
+  engine.reset();
+  for (const el of document.querySelectorAll('#strategies button')) el.classList.toggle('active', el === b);
+  document.getElementById('strategy-note').textContent = NOTES[s];
+});
+document.querySelector('#strategies button[data-s="zoned"]').classList.add('active');
+
+for (const [id, key, label, scale] of [['on', 'onDistance', 'onv', 0.001], ['off', 'offDistance', 'offv', 0.001], ['dwell', 'dwellMs', 'dwellv', 1], ['amb', 'ambiguousMm', 'ambv', 0.001]]) {
+  document.getElementById(id).addEventListener('input', e => {
+    engine[key] = Number(e.target.value) * scale;
+    document.getElementById(label).textContent = e.target.value;
+  });
+}
+
+requestAnimationFrame(frame);
+</script>
+</body></html>

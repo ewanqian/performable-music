@@ -4,8 +4,8 @@
 <style>
 :root{color-scheme:dark;--bg:#090b0b;--fg:#ecefe9;--muted:#9aa7a0;--edge:#34403b;--accent:#c3e6cd}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-main{display:grid;grid-template-columns:minmax(0,1fr) 425px;min-height:100vh}
-.stage{position:relative;background:#010303;min-height:580px}
+main{display:grid;grid-template-columns:minmax(0,1fr) 425px;align-items:start;min-height:100vh}
+.stage{position:sticky;top:0;height:100vh;min-height:580px;background:#010303}
 canvas{width:100%;height:100%;position:absolute;inset:0;display:block;touch-action:none}
 .hud{position:absolute;left:24px;top:22px;font-size:11px;line-height:1.7;pointer-events:none;white-space:pre-line}
 .overlay-caption{position:absolute;left:24px;bottom:22px;font-size:11px;color:#9aa7a0}
@@ -24,7 +24,7 @@ input[type=range]{width:100%;accent-color:#c7e1cf}
 .row{display:flex;align-items:center;gap:10px}.row>*:first-child{flex:1}.metrics{font-size:10px;white-space:pre-wrap;line-height:1.65;background:#101512;padding:12px;border:1px solid var(--edge);min-height:136px;color:#b7c9bc}
 #log{max-height:126px;overflow:auto;min-height:92px}
 a{color:#cbe9d2}
-@media(max-width:900px){main{grid-template-columns:1fr}.stage{min-height:50vh}aside{border:0;border-top:1px solid var(--edge)}}
+@media(max-width:900px){main{grid-template-columns:1fr}.stage{position:relative;height:58vh;min-height:360px}aside{border:0;border-top:1px solid var(--edge)}}
 
 #study-pad{position:absolute;inset:0;z-index:2;touch-action:none;cursor:crosshair;background:rgba(2,5,6,.95)}
 .hud{z-index:3}.overlay-caption{z-index:3}
