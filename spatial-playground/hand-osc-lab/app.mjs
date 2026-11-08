@@ -65,7 +65,7 @@ function setupGL(){
     point:gl.getUniformLocation(program,'uPointSize'),dots:gl.getUniformLocation(program,'uDots')};
   gl.useProgram(program);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
   gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);
-  setupLabelRenderer();
+  if(document.documentElement.dataset.labels==='on')setupLabelRenderer();
   return true;
 }
 const segments=[],dots=[];
