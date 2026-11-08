@@ -1,0 +1,380 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEURO FIELD — 脑结构 · 电信号 · 手控三维</title>
+<style>
+:root{color-scheme:dark;--bg:#030506;--fg:#e9efe9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden}
+#view{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#gate{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,#07120f,#030506 72%);z-index:10}
+#gate[hidden],#exit[hidden]{display:none!important}
+#gate .box{max-width:580px;padding:28px;text-align:center}
+h1{font:400 clamp(28px,4.6vw,50px)/1 "Songti SC","Noto Serif CJK SC",serif;letter-spacing:.03em;margin:0 0 10px}
+p{font-size:12px;line-height:1.8;color:#8fa39a;margin:0 0 18px}
+#enter{font:13px ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:16px 28px;background:#a9e0c4;color:#0d1712;border:0;cursor:pointer}
+#enter:hover{background:#c8f0da}
+#enter:disabled{opacity:.4}
+#hint{margin-top:14px;font-size:11px;color:#6c8077;line-height:1.7}
+#hud{position:fixed;left:16px;bottom:14px;font-size:11px;line-height:1.7;color:#87a094;pointer-events:none;z-index:5;white-space:pre-line}
+#meter{position:fixed;right:16px;bottom:14px;width:180px;height:6px;background:#122019;z-index:5}
+#meter>i{display:block;height:6px;width:0;background:#9be8b6;transition:width .08s}
+#exit{position:fixed;right:16px;top:16px;z-index:11;font:11px ui-monospace,Menlo,monospace;background:#14211c;color:#cfdccf;border:1px solid #35544a;padding:8px 12px;cursor:pointer}
+</style></head><body>
+<canvas id="view"></canvas>
+<button id="exit" hidden>EXIT XR</button>
+<div id="hud"></div>
+<div id="meter"><i id="meter-fill"></i></div>
+<div id="gate"><div class="box">
+  <div style="font:10px ui-monospace,Menlo,monospace;letter-spacing:.22em;color:#7d9488">PERFORMABLE MUSIC / NEURO FIELD</div>
+  <h1>脑结构 · 电信号</h1>
+  <p>程序化生成的脑表面与神经元网络。电信号在节点之间传播，每一个脉冲都是一个声音。<br>桌面：拖动旋转、滚轮缩放、点击刺激。头显：捏合在指尖位置刺激。</p>
+  <button id="enter">进入 / ENTER</button>
+  <div id="hint">不是医学影像，不做诊断。这是一个可演奏的电信号场。</div>
+</div></div>
+<script type="module">
+import { createBrain, createNetwork, SpikeField, neuronVoice } from './neuro-engine.mjs';
+
+const canvas = document.getElementById('view');
+const gate = document.getElementById('gate');
+const enterBtn = document.getElementById('enter');
+const exitBtn = document.getElementById('exit');
+const hud = document.getElementById('hud');
+const meterFill = document.getElementById('meter-fill');
+
+const POINTS = 2200;
+const brain = createBrain({ count: POINTS, seed: 17 });
+const edges = createNetwork(brain, 3);
+const field = new SpikeField({ points: brain, edges, rate: 1.15, speed: 2.2 });
+
+// ---------------------------------------------------------------- audio
+class NeuroAudio {
+  constructor() { this.ctx = null; this.ready = false; this.budget = 0; }
+  build() {
+    if (this.ctx) return this.ctx;
+    const AC = globalThis.AudioContext || globalThis.webkitAudioContext;
+    if (!AC) return null;
+    const c = this.ctx = new AC({ latencyHint: 'interactive' });
+    this.master = c.createGain(); this.master.gain.value = 0;
+    const comp = c.createDynamicsCompressor();
+    comp.threshold.value = -20; comp.ratio.value = 10;
+    this.master.connect(comp); comp.connect(c.destination);
+
+    this.bed = c.createGain(); this.bed.gain.value = 0.10;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 300;
+    this.bed.connect(lp); lp.connect(this.master);
+    [41.2, 61.7, 82.4].forEach((f, i) => {
+      const o = c.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+      const g = c.createGain(); g.gain.value = 0.3 / (i + 1);
+      o.connect(g); g.connect(this.bed); o.start();
+    });
+    this.ready = true;
+    return c;
+  }
+  async unlock() {
+    const c = this.build(); if (!c) return false;
+    if (c.state !== 'running') { try { await c.resume(); } catch {} }
+    if (c.state === 'running') {
+      this.master.gain.cancelScheduledValues(c.currentTime);
+      this.master.gain.setTargetAtTime(0.85, c.currentTime, 0.5);
+    }
+    return c.state === 'running';
+  }
+  spike(freq, pan, amp) {
+    if (!this.ready || this.ctx.state !== 'running') return;
+    if (this.budget > 46) return;
+    this.budget++;
+    const c = this.ctx, t = c.currentTime + 0.005;
+    const o = c.createOscillator(), g = c.createGain(), p = c.createStereoPanner();
+    o.type = 'triangle';
+    o.frequency.setValueAtTime(freq, t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(60, freq * 0.72), t + 0.09);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.004, amp * 0.12), t + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+    p.pan.value = pan;
+    o.connect(g); g.connect(p); p.connect(this.master);
+    o.start(t); o.stop(t + 0.2);
+    o.onended = () => { this.budget = Math.max(0, this.budget - 1); try { o.disconnect(); g.disconnect(); p.disconnect(); } catch {} };
+  }
+  choke() { if (this.ready) this.master.gain.setTargetAtTime(0, this.ctx.currentTime, 0.03); }
+}
+const audio = new NeuroAudio();
+
+// ---------------------------------------------------------------- GL
+let gl, prog, buf, loc, pointProg, pointBuf, pointLoc;
+function compile(type, src) {
+  const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw Error(gl.getShaderInfoLog(s));
+  return s;
+}
+function initGL() {
+  gl = canvas.getContext('webgl2', { alpha: true, antialias: false, xrCompatible: true })
+    || canvas.getContext('webgl', { alpha: true, antialias: false, xrCompatible: true });
+  if (!gl) throw Error('WebGL 不可用');
+
+  prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, `
+    attribute vec3 aPos; attribute vec4 aColor; uniform mat4 uView,uProjection; varying vec4 vColor;
+    void main(){ gl_Position=uProjection*(uView*vec4(aPos,1.0)); vColor=aColor; }`));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, `
+    precision mediump float; varying vec4 vColor;
+    void main(){ gl_FragColor=vColor; }`));
+  gl.linkProgram(prog);
+  buf = gl.createBuffer();
+  loc = { pos: gl.getAttribLocation(prog, 'aPos'), color: gl.getAttribLocation(prog, 'aColor'),
+    view: gl.getUniformLocation(prog, 'uView'), proj: gl.getUniformLocation(prog, 'uProjection') };
+
+  pointProg = gl.createProgram();
+  gl.attachShader(pointProg, compile(gl.VERTEX_SHADER, `
+    attribute vec3 aPos; attribute vec4 aColor; uniform mat4 uView,uProjection; uniform float uSize;
+    varying vec4 vColor;
+    void main(){ gl_Position=uProjection*(uView*vec4(aPos,1.0)); gl_PointSize=uSize; vColor=aColor; }`));
+  gl.attachShader(pointProg, compile(gl.FRAGMENT_SHADER, `
+    precision mediump float; varying vec4 vColor;
+    void main(){ vec2 d=gl_PointCoord-vec2(0.5); float r=length(d); if(r>0.5) discard;
+      gl_FragColor=vec4(vColor.rgb, vColor.a*pow(1.0-r*2.0,1.8)); }`));
+  gl.linkProgram(pointProg);
+  pointBuf = gl.createBuffer();
+  pointLoc = { pos: gl.getAttribLocation(pointProg, 'aPos'), color: gl.getAttribLocation(pointProg, 'aColor'),
+    view: gl.getUniformLocation(pointProg, 'uView'), proj: gl.getUniformLocation(pointProg, 'uProjection'),
+    size: gl.getUniformLocation(pointProg, 'uSize') };
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+  gl.disable(gl.DEPTH_TEST);
+}
+
+// ---------------------------------------------------------------- camera
+const cam = { yaw: 0.4, pitch: 0.12, dist: 2.9, autoSpin: true };
+function viewMatrix() {
+  const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+  const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+  const eye = [sy * cp * cam.dist, sp * cam.dist, cy * cp * cam.dist];
+  const f = [-eye[0], -eye[1], -eye[2]];
+  const fl = Math.hypot(...f) || 1;
+  const F = f.map(v => v / fl);
+  let up = [0, 1, 0];
+  let R = [F[1] * up[2] - F[2] * up[1], F[2] * up[0] - F[0] * up[2], F[0] * up[1] - F[1] * up[0]];
+  const rl = Math.hypot(...R) || 1; R = R.map(v => v / rl);
+  const U = [R[1] * F[2] - R[2] * F[1], R[2] * F[0] - R[0] * F[2], R[0] * F[1] - R[1] * F[0]];
+  return new Float32Array([
+    R[0], U[0], -F[0], 0,
+    R[1], U[1], -F[1], 0,
+    R[2], U[2], -F[2], 0,
+    -(R[0] * eye[0] + R[1] * eye[1] + R[2] * eye[2]),
+    -(U[0] * eye[0] + U[1] * eye[1] + U[2] * eye[2]),
+    (F[0] * eye[0] + F[1] * eye[1] + F[2] * eye[2]), 1
+  ]);
+}
+function perspective(aspect) {
+  const f = 1 / Math.tan(60 * Math.PI / 360), n = 0.02, fa = 30, o = new Float32Array(16);
+  o[0] = f / aspect; o[5] = f; o[10] = (fa + n) / (n - fa); o[11] = -1; o[14] = 2 * fa * n / (n - fa);
+  return o;
+}
+
+// ---------------------------------------------------------------- draw
+const lineData = [];
+const pointData = [];
+function buildGeometry() {
+  lineData.length = 0; pointData.length = 0;
+  for (const [a, b] of edges) {
+    const ea = field.energy[a], eb = field.energy[b];
+    const e = Math.max(ea, eb);
+    if (e < 0.12) continue;
+    const alpha = Math.min(0.9, e * 0.55);
+    const p = brain[a], q = brain[b];
+    lineData.push(p[0], p[1], p[2], 0.45, 0.95, 0.75, alpha,
+      q[0], q[1], q[2], 0.45, 0.95, 0.75, alpha);
+  }
+  for (let i = 0; i < brain.length; i++) {
+    const e = field.energy[i];
+    const p = brain[i];
+    const base = 0.10 + Math.min(0.9, e * 0.8);
+    pointData.push(p[0], p[1], p[2], 0.35 + e * 0.6, 0.85, 0.62 + e * 0.2, base);
+  }
+}
+function draw(view, proj) {
+  gl.useProgram(prog);
+  gl.uniformMatrix4fv(loc.view, false, view);
+  gl.uniformMatrix4fv(loc.proj, false, proj);
+  if (lineData.length) {
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lineData), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(loc.pos); gl.vertexAttribPointer(loc.pos, 3, gl.FLOAT, false, 28, 0);
+    gl.enableVertexAttribArray(loc.color); gl.vertexAttribPointer(loc.color, 4, gl.FLOAT, false, 28, 12);
+    gl.drawArrays(gl.LINES, 0, lineData.length / 7);
+  }
+  gl.useProgram(pointProg);
+  gl.uniformMatrix4fv(pointLoc.view, false, view);
+  gl.uniformMatrix4fv(pointLoc.proj, false, proj);
+  gl.uniform1f(pointLoc.size, 3.2);
+  gl.bindBuffer(gl.ARRAY_BUFFER, pointBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pointData), gl.DYNAMIC_DRAW);
+  gl.enableVertexAttribArray(pointLoc.pos); gl.vertexAttribPointer(pointLoc.pos, 3, gl.FLOAT, false, 28, 0);
+  gl.enableVertexAttribArray(pointLoc.color); gl.vertexAttribPointer(pointLoc.color, 4, gl.FLOAT, false, 28, 12);
+  gl.drawArrays(gl.POINTS, 0, pointData.length / 7);
+}
+
+// ---------------------------------------------------------------- spikes to sound
+let lastStep = 0;
+function advance(now) {
+  const dt = lastStep ? now - lastStep : 16;
+  lastStep = now;
+  const events = field.step(dt, now);
+  for (const e of events) {
+    const v = neuronVoice(brain[e.node]);
+    audio.spike(v.freq, v.pan, e.amp);
+  }
+  return events.length;
+}
+
+// ---------------------------------------------------------------- input
+let dragging = false, lastX = 0, lastY = 0;
+canvas.addEventListener('pointerdown', e => {
+  if (state.session) return;
+  dragging = true; lastX = e.clientX; lastY = e.clientY;
+  canvas.setPointerCapture?.(e.pointerId);
+  stimulateAtScreen(e.clientX, e.clientY);
+});
+canvas.addEventListener('pointermove', e => {
+  if (state.session || !dragging) return;
+  cam.yaw -= (e.clientX - lastX) * 0.006;
+  cam.pitch = Math.max(-1.2, Math.min(1.2, cam.pitch + (e.clientY - lastY) * 0.005));
+  lastX = e.clientX; lastY = e.clientY;
+});
+for (const ev of ['pointerup', 'pointercancel']) canvas.addEventListener(ev, () => { dragging = false; });
+canvas.addEventListener('wheel', e => {
+  if (state.session) return;
+  cam.dist = Math.max(1.5, Math.min(6, cam.dist + Math.sign(e.deltaY) * 0.25));
+}, { passive: true });
+
+function stimulateAtScreen(cx, cy) {
+  // pick the neuron closest to the pointer ray, in camera space
+  const r = canvas.getBoundingClientRect();
+  const nx = ((cx - r.left) / r.width) * 2 - 1;
+  const ny = 1 - ((cy - r.top) / r.height) * 2;
+  const view = viewMatrix();
+  // inverse-rotate the ray into world space (view is orthonormal)
+  const dir = [view[0] * nx * 0.6 + view[1] * ny * 0.6 - view[2],
+               view[4] * nx * 0.6 + view[5] * ny * 0.6 - view[6],
+               view[8] * nx * 0.6 + view[9] * ny * 0.6 - view[10]];
+  const dl = Math.hypot(...dir) || 1;
+  let best = -1, bestDot = -2;
+  for (let i = 0; i < brain.length; i++) {
+    const p = brain[i];
+    const pl = Math.hypot(...p) || 1;
+    const d = (p[0] * dir[0] + p[1] * dir[1] + p[2] * dir[2]) / (pl * dl);
+    if (d > bestDot) { bestDot = d; best = i; }
+  }
+  if (best >= 0) field.stimulate(brain[best], 0.38, 1.8);
+}
+
+// ---------------------------------------------------------------- XR
+const state = { session: null, ref: null, hands: { left: null, right: null }, now: 0, lastPinch: 0 };
+
+function quatMatrix(m, off) { return [0, 0, 0, 1]; }
+function readHand(frame, source) {
+  if (!source.hand) return null;
+  const thumb = source.hand.get('thumb-tip'), index = source.hand.get('index-finger-tip');
+  if (!thumb || !index) return null;
+  const a = frame.getJointPose(thumb, state.ref), b = frame.getJointPose(index, state.ref);
+  if (!a || !b) return null;
+  const pa = a.transform.position, pb = b.transform.position;
+  const pinch = Math.hypot(pa.x - pb.x, pa.y - pb.y, pa.z - pb.z);
+  return { thumb: [pa.x, pa.y, pa.z], index: [pb.x, pb.y, pb.z], pinch };
+}
+
+function xrFrame(time, frame) {
+  if (!state.session) return;
+  state.session.requestAnimationFrame(xrFrame);
+  state.now = time;
+  state.hands.left = null; state.hands.right = null;
+  for (const src of state.session.inputSources) {
+    if (!src.hand) continue;
+    const h = readHand(frame, src);
+    if (h) state.hands[src.handedness || 'right'] = h;
+  }
+  const right = state.hands.right, left = state.hands.left;
+  if (right && right.pinch < 0.028 && time - state.lastPinch > 320) {
+    state.lastPinch = time;
+    field.stimulate(right.index, 0.36, 1.9);
+  }
+  if (left) {
+    cam.yaw += (left.index[0] - (left.thumb?.[0] ?? 0)) * 0.0; // head-tracked view, keep still
+  }
+  advance(time);
+  buildGeometry();
+  const pose = frame.getViewerPose(state.ref);
+  if (!pose) return;
+  const layer = state.session.renderState.baseLayer;
+  gl.bindFramebuffer(gl.FRAMEBUFFER, layer.framebuffer);
+  gl.enable(gl.SCISSOR_TEST);
+  for (const v of pose.views) {
+    const vp = layer.getViewport(v);
+    gl.viewport(vp.x, vp.y, vp.width, vp.height);
+    gl.scissor(vp.x, vp.y, vp.width, vp.height);
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    draw(v.transform.inverse.matrix, v.projectionMatrix);
+  }
+  gl.disable(gl.SCISSOR_TEST);
+}
+
+// ---------------------------------------------------------------- loop
+let lastFrame = 0;
+function loop(now) {
+  requestAnimationFrame(loop);
+  if (state.session) return;
+  if (cam.autoSpin && !dragging) cam.yaw += 0.0016;
+  if (now - lastFrame > 15) { advance(now); lastFrame = now; }
+  buildGeometry();
+  const dpr = Math.min(devicePixelRatio || 1, 1.5);
+  const w = Math.max(1, Math.floor(canvas.clientWidth * dpr)), h = Math.max(1, Math.floor(canvas.clientHeight * dpr));
+  if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, w, h);
+  gl.clearColor(0.008, 0.014, 0.016, 1);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  draw(viewMatrix(), perspective(w / h));
+  const act = field.activity();
+  meterFill.style.width = Math.min(100, act * 90) + '%';
+  hud.textContent = 'NEURO FIELD · ' + brain.length + ' 神经元 · ' + edges.length + ' 连接\n'
+    + 'activity ' + act.toFixed(3) + ' · spikes ' + field.events
+    + (state.session ? '' : '\n拖动旋转 / 滚轮缩放 / 点击刺激');
+}
+
+async function enter() {
+  enterBtn.disabled = true; enterBtn.textContent = '进入中…';
+  await audio.unlock();
+  if (!navigator.xr) { gate.hidden = true; enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER'; return; }
+  const ar = await navigator.xr.isSessionSupported('immersive-ar').catch(() => false);
+  const vr = await navigator.xr.isSessionSupported('immersive-vr').catch(() => false);
+  const type = ar ? 'immersive-ar' : vr ? 'immersive-vr' : null;
+  if (!type) { gate.hidden = true; enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER'; return; }
+  try {
+    const session = await navigator.xr.requestSession(type, { requiredFeatures: ['hand-tracking'] });
+    if (gl.makeXRCompatible) await gl.makeXRCompatible();
+    const layer = new XRWebGLLayer(session, gl, { alpha: true, antialias: false });
+    session.updateRenderState({ baseLayer: layer });
+    state.ref = await session.requestReferenceSpace('local');
+    state.session = session;
+    gate.hidden = true; exitBtn.hidden = false;
+    await audio.unlock();
+    session.addEventListener('select', () => audio.unlock());
+    session.addEventListener('end', () => {
+      state.session = null; audio.choke(); exitBtn.hidden = true; gate.hidden = false;
+      enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER';
+    });
+    session.requestAnimationFrame(xrFrame);
+  } catch (e) {
+    enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER';
+    hud.textContent = 'XR 启动失败：' + e.message;
+  }
+}
+enterBtn.addEventListener('click', enter);
+exitBtn.addEventListener('click', () => state.session?.end());
+
+initGL();
+requestAnimationFrame(loop);
+</script>
+</body></html>

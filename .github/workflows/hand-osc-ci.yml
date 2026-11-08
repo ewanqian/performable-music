@@ -58,9 +58,11 @@ jobs:
           node --check approach-engine.test.mjs
           node --check label-layout.mjs
           node --check label-layout.test.mjs
+          node --check neuro-engine.mjs
+          node --check neuro-engine.test.mjs
           node --check ../../protocols/show-score.mjs
           node --check ../../protocols/show-score.test.mjs
       - name: Test joint geometry and spatial zones
-        run: node --test engine.test.mjs instrument-gesture.test.mjs instrument-audio.test.mjs organic-engine.test.mjs studies-engine.test.mjs atlas-engine.test.mjs handseal-engine.test.mjs score-map.test.mjs approach-engine.test.mjs label-layout.test.mjs ../../protocols/show-score.test.mjs
+        run: node --test engine.test.mjs instrument-gesture.test.mjs instrument-audio.test.mjs organic-engine.test.mjs studies-engine.test.mjs atlas-engine.test.mjs handseal-engine.test.mjs score-map.test.mjs approach-engine.test.mjs label-layout.test.mjs neuro-engine.test.mjs ../../protocols/show-score.test.mjs
       - name: Check package dependency installation
         run: npm install --ignore-scripts --no-audit --no-fund
