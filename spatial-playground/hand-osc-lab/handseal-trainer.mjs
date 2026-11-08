@@ -352,7 +352,7 @@ window.__pmOrganicDraw=({line,spot,label})=>{
   label(lp,b.name,c,alpha,isCurrent?0.030:0.021);
   if(isCurrent||isCandidate||isActive){
    const fingerAxis=normalized([p[14][0]-p[11][0],p[14][1]-p[11][1],p[14][2]-p[11][2]]);
-   const radius=isCurrent?.024:.019;
+   const radius=isCurrent?0.024:0.019;
    const fraction=isCandidate?Math.max(.05,contactState?.progress||0):1;
    const count=Math.max(2,Math.ceil(28*fraction));
    for(let k=0;k<count;k++){
