@@ -1,0 +1,46 @@
+name: Spatial stage two-scene browser QA
+on:
+  pull_request:
+    paths:
+      - 'spatial-playground/hand-osc-lab/neural*'
+      - 'spatial-playground/hand-osc-lab/spatial-waves*'
+      - 'spatial-playground/hand-osc-lab/browser-spatial-stage.cjs'
+      - '.github/workflows/spatial-stage-browser.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'spatial-playground/hand-osc-lab/neural*'
+      - 'spatial-playground/hand-osc-lab/spatial-waves*'
+      - 'spatial-playground/hand-osc-lab/browser-spatial-stage.cjs'
+      - '.github/workflows/spatial-stage-browser.yml'
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Isolated browser QA dependency
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Serve repository by local HTTP
+        run: |
+          python3 -m http.server 8879 --bind 127.0.0.1 > /tmp/spatial-stage-http.log 2>&1 &
+          sleep 2
+          curl -f http://127.0.0.1:8879/spatial-playground/hand-osc-lab/neural.html >/dev/null
+      - name: Real desktop/mobile interaction QA
+        run: node spatial-playground/hand-osc-lab/browser-spatial-stage.cjs
+      - name: Save screenshots for artist review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spatial-stage-browser-qa
+          path: |
+            spatial-waves-desktop.png
+            spatial-waves-mobile.png
+            neural-field-desktop.png
+          if-no-files-found: ignore
+          retention-days: 14

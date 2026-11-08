@@ -1,0 +1,108 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SPATIAL WAVES 01 — Hand Instrument in Volumetric Sound</title>
+<style>
+:root{color-scheme:dark;--bg:#090b0b;--fg:#ecefe9;--muted:#9aa7a0;--edge:#34403b;--accent:#c3e6cd}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+main{display:grid;grid-template-columns:minmax(0,1fr) 410px;min-height:100vh}
+.stage{position:relative;background:#010303;min-height:580px}
+canvas{width:100%;height:100%;position:absolute;inset:0;display:block;touch-action:none}
+.hud{position:absolute;left:24px;top:22px;font-size:11px;line-height:1.7;pointer-events:none;white-space:pre-line}
+.overlay-caption{position:absolute;left:24px;bottom:22px;font-size:11px;color:#9aa7a0}
+aside{border-left:1px solid var(--edge);padding:23px;overflow:auto}
+h1{font-size:clamp(28px,3.4vw,49px);font-weight:500;letter-spacing:-.055em;line-height:.95;margin:12px 0 18px}
+p,small{font-size:11px;line-height:1.6;color:var(--muted)}
+.eyebrow{font-size:10px;color:#b2c1b7;letter-spacing:.15em}
+button,input,select{font:inherit}button{color:var(--fg);background:#18211d;border:1px solid #43564b;padding:11px;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}button:hover{border-color:#a8ceb3}button.primary{background:#d1e5d2;color:#172019}
+button.danger{color:#ffc8c4;border-color:#834c4a}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.rule{border-top:1px solid var(--edge);margin:18px 0 11px;padding-top:8px;color:#a1aea6;font-size:10px;letter-spacing:.13em}
+label{display:block;font-size:11px;color:#c7d3ca;line-height:1.6;margin:9px 0}
+input[type=text],input[type=password],input[type=number]{background:#0a0e0d;border:1px solid var(--edge);color:var(--fg);padding:9px;width:100%}
+input[type=range]{width:100%;accent-color:#c7e1cf}
+.row{display:flex;align-items:center;gap:10px}.row>*:first-child{flex:1}.metrics{font-size:10px;white-space:pre-wrap;line-height:1.65;background:#101512;padding:12px;border:1px solid var(--edge);min-height:136px;color:#b7c9bc}
+#log{max-height:126px;overflow:auto;min-height:92px}
+a{color:#cbe9d2}
+@media(max-width:900px){main{grid-template-columns:1fr}.stage{min-height:50vh}aside{border:0;border-top:1px solid var(--edge)}}
+
+body{background:#060808}
+.stage{position:sticky;top:0;height:100vh;background:#020605}
+#waves-pad{z-index:2;background:rgba(1,4,4,.96);touch-action:none;cursor:grab}
+#waves-pad.dragging{cursor:grabbing}
+.hud,.overlay-caption{z-index:3;pointer-events:none}
+#volumes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0}
+#volumes button{min-height:58px;text-align:left;font-size:11px;line-height:1.5}
+#volumes button.active{background:#a9ccb6;color:#08120d;border-color:#a9ccb6}
+#volumes button .val{font:10px ui-monospace,monospace;opacity:.75}
+#waves-status{min-height:150px}
+#waves-source{padding:10px 12px;border:1px solid #54695e;background:#101a16;font-size:11px;color:#cbdccd;line-height:1.65}
+#timeline{margin:8px 0;height:6px;background:#21362e;position:relative}
+#timeline div{height:6px;width:6.25%;background:#d6e8d4;transition:transform .09s linear}
+small a{color:#cbdccd}
+@media(max-width:900px){main{grid-template-columns:1fr}.stage{position:relative;height:59vh;min-height:470px}}
+</style></head><body>
+<main><div class="stage"><canvas id="view"></canvas><canvas id="waves-pad" aria-label="Four genuinely three-dimensional sound volumes projected into a rotatable viewpoint"></canvas><div class="hud" id="hud">HAND / SPACE / OSC
+DESKTOP SIMULATOR · NOT XR SENSOR DATA</div><div class="overlay-caption" id="caption">4 SOUND VOLUMES / HRTF / REAL XYZ / HAND-TO-GEOMETRY</div></div>
+<aside>
+<a href="https://ewanqian.site/#/apps" style="display:inline-block;margin-bottom:14px;font-size:10px;letter-spacing:.07em;color:#c7dbca;text-decoration:none">← EWAN / APPLICATIONS</a>
+<div class="eyebrow">SPATIAL HAND INSTRUMENT / PERFORMABLE MUSIC / LAB 08</div><h1>SPATIAL<br>WAVES.</h1>
+<p>借鉴 touch:waves 的<strong>动作—音色—视觉同步反馈</strong>，将二维可演奏区域升级为分布在真实 XYZ 坐标系里的四个声音体积。手进入体积、移动、捏合、退出会改变节奏、连续音色和三维结构。</p>
+<div id="waves-source">SOURCE: ORIGINAL SYNTH + 4 Web Audio HRTF PannerNodes<br>非 sascacci / ksmt 的声音、图形或预设复刻。</div>
+<div class="rule">01 / SOUND FIELD / 4 TRUE 3D VOLUMES</div>
+<div id="volumes">
+<button type="button" data-volume="pulse">01 / PULSE<br><span class="val">低频·节奏 / XY −0.29,−0.13 / Z −0.63m</span></button>
+<button type="button" data-volume="mineral">02 / MINERAL<br><span class="val">金属共振 / XY +0.27,−0.13 / Z −0.63m</span></button>
+<button type="button" data-volume="air">03 / AIR<br><span class="val">气流谱 / XY −0.22,+0.18 / Z −0.90m</span></button>
+<button type="button" data-volume="harmonic">04 / HARMONIC<br><span class="val">持续和声 / XY +0.24,+0.18 / Z −0.90m</span></button>
+</div>
+<p>桌面点击音体或上方按钮，可模拟一次 ENTER/EXIT；进入 Quest MR 时以食指尖真实三维位置判断。<strong>这是体积命中，不是投影平面里的点击圆圈。</strong></p>
+<div class="rule">02 / CONTINUOUS CONTROL</div>
+<label>FOCUS / 滤波频率 <span id="waves-focus-value">50%</span>
+<input id="waves-focus" type="range" min="0" max="100" value="50"></label>
+<label>SPREAD / 声源间距 <span id="waves-spread-value">50%</span>
+<input id="waves-spread" type="range" min="0" max="100" value="50"></label>
+<label>ENERGY / 低频与发声强度 <span id="waves-energy-value">40%</span>
+<input id="waves-energy" type="range" min="0" max="100" value="40"></label>
+<div class="rule">03 / AUDIBLE CONTROL & SCORE</div>
+<div class="btns"><button class="primary" id="waves-enable">ENABLE AUDIO</button><button id="waves-soundcheck">SOUND CHECK</button></div>
+<div class="btns" style="margin-top:7px"><button id="waves-play">PLAY 100 BPM</button><button class="danger" id="waves-panic">PANIC / MUTE</button></div>
+<div id="timeline"><div id="timeline-head"></div></div>
+<div class="btns"><button id="waves-test">SIMULATE 4 VOLUMES</button><button id="waves-reset">RESET MIX</button></div>
+<div class="btns" style="margin-top:7px"><button id="waves-export">EXPORT INPUT JSON</button><a href="./neural.html" style="display:flex;align-items:center;justify-content:center;border:1px solid #445e50;text-decoration:none;font-size:11px">NEURAL VISUAL STUDY →</a></div>
+<div class="rule">04 / IMPORT YOUR OWN 4-TRACK AUDIO</div>
+<p>如果程序化声音不够有质感，可以导入本人拥有使用权的 4 路等长 WAV/MP3：按 PULSE → MINERAL → AIR → HARMONIC 顺序选择。全部在本地浏览器解码，不上传。导入后以统一 AudioContext 时间戳同步循环，并继承空间声源。</p>
+<input id="waves-stems" type="file" accept=".wav,.mp3,.ogg,.aif,.aiff,audio/*" multiple>
+<div id="waves-stems-status" class="metrics" style="margin-top:6px;min-height:35px">NO STEMS / PROCEDURAL SYNTH FALLBACK</div>
+<div class="rule">04 / REAL-TIME DIAGNOSTICS</div>
+<div id="waves-status" class="metrics">Audio is locked until a real click. Desktop positions are simulated.</div>
+<p id="waves-event-log" class="metrics" style="min-height:65px;max-height:122px;overflow:auto"></p>
+<p><strong>说明：</strong>本页空间声场使用真实 Web Audio HRTF 声源，但浏览器 Listener 尚固定在原点，没有证明头显移动时的双耳音频姿态补偿，不能宣传为完整的 6DoF 音频系统。OSC/WSS 是可选外部控制，不参与网页本地发声。</p>
+<p><a href="https://www.ntticc.or.jp/ja/archive/works/touch-waves/" target="_blank" rel="noopener">参考：ICC · touch:waves</a>（概念机制参考；音色、形体、参数映射均为本项目原创）。</p>
+<details><summary class="rule" style="cursor:pointer">HEADSET / XR CONFIGURATION</summary>
+<div class="btns"><button id="ar" class="primary" disabled>ENTER MR / AR</button><button id="vr" disabled>ENTER VR</button></div>
+<p id="device">检测 WebXR…Quest 优先 immersive-ar；Vision Pro Safari 使用 immersive-vr。</p>
+</details><details><summary class="rule" style="cursor:pointer">WSS / OSC BRIDGE</summary>
+<label>桥接地址（从 HTTPS 页面连接时必须使用受信任的 WSS）
+<input id="endpoint" type="text" placeholder="wss://your-bridge.example.com" autocomplete="off" spellcheck="false"></label>
+<label>临时连接令牌（仅内存，不写入仓库）
+<input id="token" type="password" placeholder="token" autocomplete="off"></label>
+<div class="btns"><button id="connect">CONNECT</button><button id="arm" disabled>ARM OSC</button></div>
+<p id="wsstate">离线 · 骨架与区域判断可独立运行。</p>
+</details><details><summary class="rule" style="cursor:pointer">25-JOINT DIAGNOSTICS / BASELINE</summary>
+<div id="zoneinfo" class="metrics"></div><details style="margin-top:9px"><summary style="font-size:11px;cursor:pointer">EDIT ZONE XYZ / RADIUS BEFORE XR</summary><div id="zone-editor" style="display:grid;gap:8px;margin:12px 0"></div><button type="button" id="export-zones">EXPORT ZONES JSON</button></details>
+<label>进入/退出迟滞距离（毫米） <span id="hystvalue">9 / 14</span>
+<input id="hyst" type="range" min="4" max="24" value="9"></label>
+<label>事件确认时长（毫秒） <span id="dwellvalue">34</span>
+<input id="dwell" type="range" min="0" max="120" step="1" value="34"></label>
+<div class="row"><label style="margin:0">绘制关节局部坐标轴（更精细）</label><input id="axes" type="checkbox" checked></div>
+<div class="row"><label style="margin:0">OSC 发送全部关节与姿态</label><input id="full" type="checkbox"></div>
+<div class="rule">HAND / FINGER TELEMETRY</div>
+<div id="telemetry" class="metrics">等待设备；桌面移动鼠标可模拟右手。</div>
+<div class="rule">TEST / RECORD</div>
+<div class="btns"><button id="record">RECORD JSON</button><button id="download" disabled>EXPORT</button></div>
+<div class="btns" style="margin-top:7px"><button id="reset">RESET ZONES</button><button id="panic" class="danger">SOFT PANIC</button></div>
+<div id="log" class="metrics" style="margin-top:9px">事件日志：等待 ENTER / EXIT。</div>
+</details><p><strong>注意：</strong>桌面模拟不是实机追踪测试；WebXR 不能提供可靠的原生逐关节置信度；SOFT PANIC 不能替代不依赖 Wi-Fi/头显的物理音频急停。浏览器不能直接发 UDP OSC。<a href="https://github.com/ewanqian/performable-music/tree/main/spatial-playground/hand-osc-lab">代码与接线说明</a></p>
+</aside></main><script type="module" src="./app.mjs"></script>
+<script>document.documentElement.dataset.instrument='on';document.documentElement.dataset.organic='on';</script><script type="module" src="./spatial-waves-ui.mjs"></script></body></html>

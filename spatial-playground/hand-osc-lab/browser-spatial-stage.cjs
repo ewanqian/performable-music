@@ -1,0 +1,51 @@
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({headless:true,args:['--no-sandbox','--autoplay-policy=no-user-gesture-required']});
+ const base='http://127.0.0.1:8879/spatial-playground/hand-osc-lab/';
+ const failures=[];
+ try{
+  const ctx=await browser.newContext({viewport:{width:1400,height:900},acceptDownloads:true});
+  const waves=await ctx.newPage();
+  waves.on('pageerror',e=>failures.push('waves: '+e.message));
+  await waves.goto(base+'spatial-waves.html',{waitUntil:'domcontentloaded'});
+  await waves.locator('#waves-status').waitFor();
+  assert.equal(await waves.locator('#volumes button').count(),4);
+  await waves.locator('[data-volume=pulse]').click();
+  await waves.waitForTimeout(180);
+  assert.match(await waves.locator('#waves-event-log').innerText(),/ENTER pulse/);
+  await waves.locator('#waves-enable').click();await waves.waitForTimeout(500);
+  assert.match(await waves.locator('#waves-status').innerText(),/HRTF/);
+  await waves.locator('#waves-play').click();await waves.waitForTimeout(700);
+  assert.match(await waves.locator('#waves-play').innerText(),/STOP/);
+  await waves.locator('#waves-panic').click();await waves.waitForTimeout(150);
+  assert.match(await waves.locator('#waves-play').innerText(),/PLAY/);
+  await waves.screenshot({path:'spatial-waves-desktop.png'});
+  const neural=await ctx.newPage();
+  neural.on('pageerror',e=>failures.push('neural: '+e.message));
+  await neural.goto(base+'neural.html',{waitUntil:'domcontentloaded'});
+  await neural.locator('#neural-status').waitFor();
+  await neural.locator('[data-neural-mode=SECTION]').click();
+  await neural.waitForFunction(()=>document.querySelector('#neural-status').textContent.includes('MODE SECTION'));
+  await neural.locator('[data-neural-band=beta]').click();
+  await neural.locator('#neural-audio').click();
+  await neural.waitForTimeout(500);
+  assert.match(await neural.locator('#neural-source').innerText(),/SYNTHETIC/);
+  await neural.locator('#neural-panic').click();
+  await neural.screenshot({path:'neural-field-desktop.png'});
+  assert.deepEqual(failures,[]);
+  await ctx.close();
+  // Narrow mobile interaction check; desktop screenshot is separate and not an XR hardware test.
+  const mobile=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
+  const phone=await mobile.newPage();phone.on('pageerror',e=>failures.push('mobile: '+e.message));
+  await phone.goto(base+'spatial-waves.html',{waitUntil:'domcontentloaded'});
+  await phone.locator('[data-volume=air]').click();
+  await phone.waitForTimeout(180);
+  assert.match(await phone.locator('#waves-event-log').innerText(),/ENTER air/);
+  await phone.screenshot({path:'spatial-waves-mobile.png',fullPage:true});
+  assert.deepEqual(failures,[]);
+  await mobile.close();
+  console.log('PASS: 4 spatial controls, 3D desktop rendering source, audio transport, panic, Neural modes, mobile touch.');
+  console.log('NOT_TESTED: Quest/AVP hardware, true HRTF perceptual angle, external OSC/DAW, imported stems.');
+ }finally{await browser.close()}
+})().catch(e=>{console.error(e.stack||String(e));process.exit(1)});
