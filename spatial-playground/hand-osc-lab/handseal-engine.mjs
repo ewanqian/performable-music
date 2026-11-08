@@ -45,7 +45,7 @@ export const THUNDER_FORMS=Object.freeze([
   '检查各指是否形成稳定的闭合形态',
   '对照具体来源，不自行补写缺失的指间关系'
  ],note:'名称与原文保留为文献研究条目；不提供法术功效说明。'},
- {id:'doule i'.replace(' ',''),name:'斗雷诀',source:'小指从四指背上过，中指勾定，大指掐定子，四指押定，大指不得见甲，二指直向。',steps:[
+ {id:'doulei',name:'斗雷诀',source:'小指从四指背上过，中指勾定，大指掐定子，四指押定，大指不得见甲，二指直向。',steps:[
   '观察小指与无名指的交叉关系',
   '中指形成勾定形态，食指保持伸直',
   '拇指寻找无名指根部（子）'
@@ -91,6 +91,7 @@ export class PalmContactEngine{
    return {events,active:null,candidate:null,nearest:null,progress:0,tracking:false};
   }
   this.lastSeen=now;
+  let justSwitched=false;
   if(this.active){
    const current=distances.find(x=>x.id===this.active);
    const switched=nearest.id!==this.active&&nearest.distance<=this.onDistance&&
@@ -99,10 +100,11 @@ export class PalmContactEngine{
    if(released){
     const old=this.active;
     events.push({kind:'RELEASE',id:old,t_ms:now,distance:current?.distance??Infinity});
-    this.active=null;this.releasedAt=now;this.candidate=null;
+    this.active=null;this.releasedAt=now;this.candidate=null;justSwitched=switched;
    }
   }
-  if(!this.active&&nearest.distance<=this.onDistance&&now-this.releasedAt>=this.rearmMs){
+  if(!this.active&&nearest.distance<=this.onDistance&&
+     (justSwitched||now-this.releasedAt>=this.rearmMs)){
    if(this.candidate!==nearest.id){this.candidate=nearest.id;this.since=now;}
    else if(now-this.since>=this.dwellMs){
     this.active=nearest.id;this.candidate=null;
