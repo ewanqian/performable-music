@@ -26,7 +26,7 @@ const assert=require('node:assert/strict');
   await neural.goto(base+'neural.html',{waitUntil:'domcontentloaded'});
   await neural.locator('#neural-status').waitFor();
   await neural.locator('[data-neural-mode=SECTION]').click();
-  assert.match(await neural.locator('#neural-status').innerText(),/SECTION/);
+  await neural.waitForFunction(()=>document.querySelector('#neural-status').textContent.includes('MODE SECTION'));
   await neural.locator('[data-neural-band=beta]').click();
   await neural.locator('#neural-audio').click();
   await neural.waitForTimeout(500);
