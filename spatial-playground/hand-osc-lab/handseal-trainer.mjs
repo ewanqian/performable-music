@@ -342,12 +342,12 @@ window.__pmOrganicDraw=({line,spot,label})=>{
   const isCandidate=contactState?.candidate===b.id;
   const isActive=contactState?.active===b.id;
   const c=isActive?color.active:isCandidate?color.candidate:isCurrent?color.target:color.normal;
-  const alpha=isCurrent||isCandidate||isActive?.98:.70;
+  const alpha=(isCurrent||isCandidate||isActive)?0.98:0.70;
   const side=i%2===0?-1:1;
   const offset=[lateral[0]*.017*side,lateral[1]*.017*side+.008,lateral[2]*.017*side];
   const lp=[anchor[0]+offset[0],anchor[1]+offset[1],anchor[2]+offset[2]];
   line(anchor,lp,c,alpha*.65);spot(anchor,c,alpha);
-  label(lp,b.name,c,alpha,isCurrent?.030:.021);
+  label(lp,b.name,c,alpha,isCurrent?0.030:0.021);
  }
  if(point(thumb)&&nearest&&nearest.distance<.14){
   const target=p[nearest.joint];
