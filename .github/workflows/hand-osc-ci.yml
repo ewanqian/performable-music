@@ -50,7 +50,7 @@ jobs:
           node --check atlas-ui.mjs
           node --check score-map.mjs
           node --check score-map.test.mjs
-          node --check sigil-simulator.mjs
+          node --check archive/sigil-simulator.mjs
           node --check handseal-engine.mjs
           node --check handseal-engine.test.mjs
           node --check handseal-trainer.mjs

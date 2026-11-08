@@ -32,7 +32,7 @@ try {
   $lab = Join-Path $root 'spatial-playground/hand-osc-lab'
   if (Test-Path $lab) {
     Write-Host 'SOURCE FILE STATUS:'
-    foreach ($file in @('app.mjs','score-map.mjs','sigil-simulator.mjs','studies-ui.mjs','atlas-engine.mjs')) {
+    foreach ($file in @('app.mjs','score-map.mjs','archive/sigil-simulator.mjs','studies-ui.mjs','atlas-engine.mjs')) {
       Write-Host "$file : $(Test-Path (Join-Path $lab $file))"
     }
     if ($RunTests) {

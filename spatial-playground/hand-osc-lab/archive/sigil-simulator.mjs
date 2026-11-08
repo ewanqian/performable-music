@@ -1,7 +1,7 @@
 // Standalone six-phalanx dial: visible recognition process, not a blind sound button.
 // WebXR receives 25 canonical joint points from LAB02; desktop input is simulated.
-import {FingerDial,DIGIT_JOINTS} from './studies-engine.mjs';
-import {FieldSynth} from './instrument-audio.mjs';
+import {FingerDial,DIGIT_JOINTS} from '../studies-engine.mjs';
+import {FieldSynth} from '../instrument-audio.mjs';
 const $=id=>document.getElementById(id);
 const canvas=$('sigil-canvas'),ctx=canvas.getContext('2d',{alpha:false});
 const audio=new FieldSynth(),dial=new FingerDial();
