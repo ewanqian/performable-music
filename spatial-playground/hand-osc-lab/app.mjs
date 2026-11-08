@@ -16,6 +16,16 @@ if(document.documentElement.dataset.instrument==='on'){
     ws.send(JSON.stringify({type:'performance',seq:++seq,t_ms:Math.round(performance.now()),...packet}));
     return true;
   };
+  window.__pmSendAtlas=(event)=>{
+    const modes={
+      music:['continuum','orbit','trace','dial'],
+      culture:['jian','river','bagua','stars']
+    };
+    if(!armed||!authenticated||ws?.readyState!==WebSocket.OPEN)return false;
+    if(!event||!modes[event.family]?.includes(event.lab))return false;
+    ws.send(JSON.stringify({type:'atlas',seq:++seq,t_ms:Math.round(performance.now()),...event}));
+    return true;
+  };
   window.__pmSendStudy=(event)=>{
     if(!armed||!authenticated||ws?.readyState!==WebSocket.OPEN)return false;
     if(!event||!['score','tone','sigil'].includes(event.lab))return false;
