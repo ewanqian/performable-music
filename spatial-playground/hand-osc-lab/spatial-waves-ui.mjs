@@ -19,7 +19,7 @@ function applyEvents(events,source){
   if(ev.kind==='ENTER'){
    worldEvents++;
    highlights.set(ev.zone,performance.now()+370);
-   if(!audio.muted){audio.raise(ev.zone);audio.accent(ev.zone,.7);}
+   if(!audio.muted)audio.raise(ev.zone);
    say('ENTER '+ev.zone+' / '+source);
   }else if(ev.kind==='EXIT')say('EXIT '+ev.zone+' / '+source+' / '+ev.reason);
   recordEvent(ev,source);
@@ -51,6 +51,20 @@ $('waves-soundcheck').addEventListener('click',()=>{
  // Distinguish sound permissions from 3D hand hit testing.
  if(!audio.ready)void bootAudio().then(()=>audio.soundCheck()).catch(e=>say('SOUND ERROR '+e.message));
  else void audio.start().then(()=>audio.soundCheck()).catch(e=>say('SOUND ERROR '+e.message));
+});
+$('waves-stems').addEventListener('change',async e=>{
+ const files=[...e.target.files||[]];
+ const status=$('waves-stems-status');
+ if(files.length!==4){status.textContent='SELECT EXACTLY FOUR FILES';return;}
+ status.textContent='DECODING LOCAL STEMS / NOT UPLOADED';
+ try{
+  const duration=await audio.loadStems(files);
+  status.textContent='STEMS READY / '+duration.toFixed(2)+'s / 4 independent HRTF sources. Press PLAY 100 BPM.';
+  say('STEMS LOADED / VALIDATED EQUAL LENGTH / LOCAL ONLY');
+ }catch(err){
+  status.textContent='STEMS REJECTED / '+String(err.message||err);
+  say('STEM ERROR '+String(err.message||err));
+ }
 });
 function stopDemo(){
  if(simTimer!==null){clearInterval(simTimer);simTimer=null;}
@@ -249,7 +263,8 @@ function draw(t){
    'LAYER GAINS '+Object.entries(s.layers).map(([k,v])=>k+':'+v.toFixed(2)).join(' '),
    'LISTENER '+s.listener+' / REAL QUEST COMPOSITOR FPS: NOT MEASURED'
   ].join('\n');
-  $('timeline-head').style.transform='translateX('+(audio.step%16*100)+'%)';
+  $('timeline-head').style.position='absolute';
+  $('timeline-head').style.left=(audio.step%16*6.25)+'%';
  }
  if(audio.ready&&!audio.muted)audio.update(params);
 }
