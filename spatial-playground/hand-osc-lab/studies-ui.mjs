@@ -20,7 +20,7 @@ let mode='DESKTOP',ready=false,preferred='NATIVE',muted=false,mutedByUser=false;
 let lastPointer={x:.5,y:.5},lastFire=-Infinity,lastDialActive=null;
 let gestureCounter=0,scoreTimer=null,storyFlash=0,sealUntil=0,seq='',seqProgress=0,frameCount=0,maxFrameGap=0,lastFrame=0;
 let audioBoot=null,importing=false,seqTestTimer=null,clockPlayStart=null;
-let actualXRHands=0;
+let actualXRHands=0,scoreDemoTimer=null;
 const clamp01=x=>clamp(x,0,1);
 function log(message){
   const line=new Date().toLocaleTimeString()+'  '+message;
@@ -120,6 +120,7 @@ window.__pmXRAudioState=()=>{status();};
 function select(name){
   if(!valid.includes(name))return;
   if(seqTestTimer!==null){clearInterval(seqTestTimer);seqTestTimer=null;}
+  if(scoreDemoTimer!==null){clearInterval(scoreDemoTimer);scoreDemoTimer=null;}
   if(clock.running)stopScore();
   study=name;dial.reset();seq='';seqProgress=0;scoreMap.reset();scoreGridStep=0;
   // Study switching does not replace or reset the original sensor baseline.
@@ -217,6 +218,23 @@ function stopScore(){
 }
 $('score-play').addEventListener('click',()=>void startScore().catch(e=>log('PLAY FAILED '+e.message)));
 $('score-stop').addEventListener('click',stopScore);
+$('score-reset-mix')?.addEventListener('click',()=>{
+  resetScoreMix();
+  scoreHitUntil.pulse=scoreHitUntil.metal=scoreHitUntil.shimmer=scoreHitUntil.chord=0;
+  status();
+});
+$('score-demo')?.addEventListener('click',async()=>{
+  if(scoreDemoTimer!==null)return;
+  try{await enableAudio();if(!clock.running)await startScore();}
+  catch(e){log('DEMO ERROR '+String(e.message||e));return;}
+  let i=0;
+  scoreDemoTimer=setInterval(()=>{
+    const z=SCORE_ZONES[i%SCORE_ZONES.length];
+    scorePadEnter({id:z.id,x:z.x,y:z.y,intensity:.66});
+    if(++i>=12){clearInterval(scoreDemoTimer);scoreDemoTimer=null;}
+  },390);
+  log('DEMO / 12 synthetic pad crossings / NOT XR');
+});
 $('score-bpm').addEventListener('input',e=>{
   const bpm=Number(e.target.value);
   clock.setBpm(bpm,performance.now());tone.setBpm(bpm);
@@ -404,7 +422,12 @@ canvas.addEventListener('pointerdown',e=>{
       if(study==='score'&&scoreMap.active().length){
         const zone=scoreMap.active().at(-1);
         const item=SCORE_ZONES.find(z=>z.id===zone);
-        if(item)scorePadEnter({id:zone,x:item.x,y:item.y,intensity:.6});
+        if(item){
+          const bank=zone==='chord'?'orchestra':'electro';
+          const id=zone==='chord'?'strings':{pulse:'kick',metal:'snare',shimmer:'hat'}[zone];
+          native.engine.setMode(bank);
+          native.engine.trigger({kind:'ENTER',id,mode:bank,velocity:.70});
+        }
       }
     }).catch(err=>log('AUDIO BLOCKED '+err.message));
   }
@@ -555,6 +578,9 @@ function draw(now){
   if(frameCount%14===0)status();
   requestAnimationFrame(draw);
 }
-window.addEventListener('pagehide',()=>{muteAll();});
+window.addEventListener('pagehide',()=>{
+  muteAll();
+  if(scoreDemoTimer!==null)clearInterval(scoreDemoTimer);
+});
 select(study);traceGlyph('');
 requestAnimationFrame(draw);
