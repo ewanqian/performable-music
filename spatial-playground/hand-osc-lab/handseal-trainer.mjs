@@ -455,4 +455,6 @@ $('trainer-export').addEventListener('click',()=>{
  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 });
 renderWorkspace();
-setText('trainer-status','DESKTOP PREVIEW / 3D labels use the existing hand skeleton renderer. Enter MR on Quest to test real thumb contacts.');
+setText('trainer-status',window.__pmLabelRendererError?
+ 'CJK LABEL RENDERER ERROR / '+window.__pmLabelRendererError:
+ 'DESKTOP PREVIEW / 3D labels use the existing hand skeleton renderer. Enter MR on Quest to test real thumb contacts.');
