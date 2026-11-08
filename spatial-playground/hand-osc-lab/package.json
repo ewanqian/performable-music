@@ -6,7 +6,7 @@
   "description": "XR hand-joint region lab, browser->WSS->OSC bridge",
   "scripts": {
     "bridge": "node bridge.mjs",
-    "test": "node --test engine.test.mjs instrument-gesture.test.mjs instrument-audio.test.mjs organic-engine.test.mjs studies-engine.test.mjs atlas-engine.test.mjs handseal-engine.test.mjs score-map.test.mjs approach-engine.test.mjs label-layout.test.mjs neuro-engine.test.mjs neural-engine.test.mjs"
+    "test": "node --test engine.test.mjs instrument-gesture.test.mjs instrument-audio.test.mjs organic-engine.test.mjs studies-engine.test.mjs atlas-engine.test.mjs handseal-engine.test.mjs score-map.test.mjs approach-engine.test.mjs label-layout.test.mjs neuro-engine.test.mjs neural-engine.test.mjs spatial-waves-engine.test.mjs"
   },
   "engines": {
     "node": ">=20"
