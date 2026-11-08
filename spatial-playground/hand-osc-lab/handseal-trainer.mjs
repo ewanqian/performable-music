@@ -269,41 +269,33 @@ function processEvents(state,now){
 function updateBranchState(hand,now,paint){
  contactState=contact.update(hand?.positions||null,now);
  processEvents(contactState,now);
+ if(!paint)return;
  const state=contactState;
  if(state.tracking){
-  const nearest=state.nearest;
-  const b=branchById(nearest?.id);
+  const nearest=state.nearest,b=branchById(nearest?.id);
   const distanceMm=nearest?Math.round(nearest.distance*1000):null;
-  if(state.active){
-   setText('trainer-status','WEBXR / '+(selectedHand==='auto'?'AUTO':selectedHand.toUpperCase())+
-    ' / 已确认 '+branchById(state.active).name+' / 请抬起拇指后再触碰下一位。');
-  }else if(state.candidate){
-   setText('trainer-status','WEBXR / 候选 '+b?.name+' / '+Math.round(state.progress*100)+
-    '% / 距离 '+distanceMm+'mm / 保持不动。');
-  }else if(nearest){
-   setText('trainer-status','WEBXR / 最近 '+b?.name+' / '+distanceMm+'mm / 阈值 '+
-    Math.round(contact.onDistance*1000)+'mm / 尚未接触。');
-  }
- }else if(paint&&xrMode!=='DESKTOP'){
-  setText('trainer-status','WEBXR / 未检测到所选手部。请将手掌放在头显可见范围内。');
- }
- if(paint)updateCurrent();
+  if(state.active)setText('trainer-status','WEBXR / '+(selectedHand==='auto'?'AUTO':selectedHand.toUpperCase())+
+   ' / 已确认 '+branchById(state.active).name+' / 请抬起拇指后再触碰下一位。');
+  else if(state.candidate)setText('trainer-status','WEBXR / 候选 '+b?.name+' / '+
+   Math.round(state.progress*100)+'% / 距离 '+distanceMm+'mm / 保持不动。');
+  else if(nearest)setText('trainer-status','WEBXR / 最近 '+b?.name+' / '+distanceMm+
+   'mm / 阈值 '+Math.round(contact.onDistance*1000)+'mm / 尚未接触。');
+ }else setText('trainer-status','WEBXR / 未检测到所选手部。请将手掌放在头显可见范围内。');
+ updateCurrent();
 }
 function updateSwordState(hand,now,paint){
  poseState=swordCoach.update(hand?.positions||null,now);
  if(poseState.events.length){
   for(const e of poseState.events)record(e.kind,{t_ms:e.t_ms});
-  if(poseState.complete)setText('trainer-status','剑指姿势通过 / 五项条件同时满足并稳定保持 500ms。');
-  else setText('trainer-status','姿势变化 / 重新调整并保持。');
+  if(poseState.complete)lastEvent='剑指姿势通过 / 保持 500ms';
  }
- if(poseState.tracking){
-  const failed=poseState.checks.find(x=>!x.ok);
-  setText('trainer-status','WEBXR POSE / '+poseState.passed+'/'+poseState.total+
-   ' 项通过 / '+(poseState.complete?'保持完成':poseState.feedback));
- }
+ if(!paint)return;
+ if(poseState.tracking)setText('trainer-status','WEBXR POSE / '+poseState.passed+'/'+poseState.total+
+  ' 项通过 / '+(poseState.complete?'保持完成':poseState.feedback));
+ else setText('trainer-status','WEBXR / 等待完整的 25 关节数据。');
  renderSwordStatus();updateCurrent();
 }
-function updateThunderState(hand){
+function updateThunderState(hand,paint){
  if(!paint)return;
  if(!hand?.positions){
   setText('trainer-status','雷诀文献对照 / 等待手部数据；页面不自动认证科仪姿态。');return;
