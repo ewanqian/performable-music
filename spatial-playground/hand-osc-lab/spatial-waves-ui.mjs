@@ -183,9 +183,19 @@ window.__pmOrganicDraw=({line,spot,now})=>{
   for(let i=1;i<ring.points.length;i++)line(ring.points[i-1],ring.points[i],
     ring.color,strong?.85:hot?.7:.28);
  }
+ for(const shell of geo.shells){
+  const hot=active.includes(shell.zone);
+  for(let i=1;i<shell.points.length;i++)line(shell.points[i-1],shell.points[i],
+   shell.color,hot?.68:.28);
+ }
  for(const b of geo.bridges)
   for(let i=1;i<b.points.length;i++)
-   line(b.points[i-1],b.points[i],[.48,.61,.52],.18+params.spread*.33);
+   line(b.points[i-1],b.points[i],[.64,.79,.67],.35+params.spread*.30);
+ const sources=audio.status().positions;
+ for(const [id,position] of Object.entries(sources)){
+  // This point is the actual PannerNode source, not a decorative sound cursor.
+  spot(position,[.98,.91,.73],.92);
+ }
  for(const z of VOLUMES){
   const c=active.includes(z.id)?[.95,.95,.76]:z.color;
   spot(z.center,c,active.includes(z.id)?1:.65);
@@ -217,7 +227,7 @@ function draw(t){
  if(W<2||H<2)return;
  const dpr=Math.min(devicePixelRatio||1,1.5),w=Math.round(W*dpr),h=Math.round(H*dpr);
  if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
- ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#020706';ctx.fillRect(0,0,W,H);
+ ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#06110e';ctx.fillRect(0,0,W,H);
  ctx.strokeStyle='rgba(161,188,169,.085)';ctx.lineWidth=.7;
  for(let x=0;x<W;x+=35){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
  for(let y=0;y<H;y+=35){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
@@ -230,12 +240,16 @@ function draw(t){
    if(!i)ctx.moveTo(v.x,v.y);else ctx.lineTo(v.x,v.y);
   });ctx.stroke();ctx.globalAlpha=1;
  }
- for(const b of g.bridges)path(b.points,'#789b88',.20+params.spread*.3,1.1);
+ for(const b of g.bridges)path(b.points,'#91bba1',.37+params.spread*.25,1.4);
+ for(const shell of g.shells){
+  const on=active.includes(shell.zone);
+  path(shell.points,on?'#e5f1d5':'#729884',on?.78:.35,on?1.4:.85);
+ }
  for(const ring of g.rings){
   const z=VOLUMES.find(v=>v.id===ring.zone);
   const h=active.includes(z.id)||t<(highlights.get(z.id)||0);
-  const c=h?'#dcebd1':'#97b5a1';
-  path(ring.points,c,h?.86:.30,h?2.1:1);
+  const c=h?'#e9f3db':'#b9d4c1';
+  path(ring.points,c,h?.95:.58,h?2.8:1.35);
  }
  for(const z of VOLUMES){
   const p=project(z.center,W,H),on=active.includes(z.id)||t<(highlights.get(z.id)||0);
@@ -246,6 +260,16 @@ function draw(t){
   ctx.fillText(z.name,p.x,p.y-22);
   ctx.font='9px ui-monospace,monospace';
   ctx.fillText(z.center.map(n=>n.toFixed(2)).join(' / ')+'m',p.x,p.y+28);
+ }
+ // Mark *actual audio source coordinates* separately from outer gesture hit spheres.
+ for(const [id,p3] of Object.entries(audio.status().positions)){
+  const p=project(p3,W,H);
+  ctx.fillStyle='#f0dfa9';ctx.globalAlpha=.90;
+  ctx.beginPath();ctx.arc(p.x,p.y,3.8,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#f0dfa9';ctx.lineWidth=1.0;
+  ctx.beginPath();ctx.moveTo(p.x-8,p.y);ctx.lineTo(p.x+8,p.y);
+  ctx.moveTo(p.x,p.y-8);ctx.lineTo(p.x,p.y+8);ctx.stroke();
+  ctx.globalAlpha=1;
  }
  ctx.fillStyle='#bcd1c3';ctx.font='11px ui-monospace,monospace';ctx.textAlign='left';
  ctx.fillText('SPATIAL WAVES / TRUE XYZ + HRTF',22,40);
