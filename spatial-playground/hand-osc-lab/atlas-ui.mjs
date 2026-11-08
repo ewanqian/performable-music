@@ -19,7 +19,7 @@ let lastFrame=0,frameGaps=[],frameCount=0,lastSend=0,lastImpact=-1e9;
 let gate=false,handDetected=0,swordActive=false,filmBeat=0,filmTrace=0;
 let selectedPair=null,rayTarget='',sequence='',sequenceTarget='3142',lastPhrase='',progress=0;
 let lastXR={left:null,right:null},orbit=null,traceBank='metal',lastMotion={x:.5,y:.5,speed:.2};
-let flashUntil=0,demoTimer=null,needsStatus=true;
+let flashUntil=0,demoTimer=null,needsStatus=true,audioBoot=null;
 const distLocal=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
 
 function log(t){
@@ -64,11 +64,16 @@ $('atlas-enable').addEventListener('click',()=>void soundStart().catch(e=>log('A
 $('atlas-mute').addEventListener('click',stopAudio);
 window.__pmBeforeEnterXR=()=>{
  if(explicitMute){log('XR: audio intentionally muted');return;}
- void soundStart().catch(e=>log('XR AUDIO ERROR '+String(e.message||e)));
+ audioBoot=soundStart().catch(e=>{
+  log('XR AUDIO ERROR '+String(e.message||e));
+  return false;
+ });
 };
 window.__pmOnXRStart=mode=>{
  log('XR '+mode+' / Web Audio local / not OSC');
- if(field.ready&&!muted)field.soundCheck();
+ // This independent audio cue helps separate browser permissions from
+ // hand-pose recognition when checking the headset on real hardware.
+ audioBoot?.then(ok=>{if(ok!==false&&field.ready&&!muted)field.soundCheck();});
 };
 window.__pmOnXREnd=()=>{
  handDetected=0;gate=false;swordActive=false;
