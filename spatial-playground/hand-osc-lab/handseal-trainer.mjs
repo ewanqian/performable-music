@@ -132,6 +132,7 @@ function renderSword(parent){
   const row=add(box,'div','trainer-check');
   const dot=add(row,'span','', '○');dot.dataset.check=id;
   add(row,'span','',label+' / '+threshold);
+  const value=add(row,'span','', '—');value.dataset.value=id;
  }
  add(parent,'p','trainer-muted','姿势正确后需要稳定保持 500ms。手部丢失或任何条件不满足都会中断计时。检测器会指出第一项未通过的条件。');
 }
@@ -230,6 +231,11 @@ function renderSwordStatus(){
   const c=poseState.checks.find(x=>x.id===el.dataset.check);
   el.textContent=c?.ok?'●':'○';el.style.color=c?.ok?'#91e2a9':'#e7a178';
   el.title=c?c.label+' / '+(c.value===null?'—':c.value.toFixed(0)+c.unit):'';
+ }
+ for(const el of box.querySelectorAll('[data-value]')){
+  const c=poseState.checks.find(x=>x.id===el.dataset.value);
+  el.textContent=c&&Number.isFinite(c.value)?Math.round(c.value)+c.unit:'—';
+  el.style.color=c?.ok?'#91e2a9':'#d3a58a';
  }
 }
 function handleContact(id,source,now){
@@ -344,6 +350,22 @@ window.__pmOrganicDraw=({line,spot,label})=>{
   const lp=[anchor[0]+offset[0],anchor[1]+offset[1],anchor[2]+offset[2]];
   line(anchor,lp,c,alpha*.65);spot(anchor,c,alpha);
   label(lp,b.name,c,alpha,isCurrent?0.030:0.021);
+  if(isCurrent||isCandidate||isActive){
+   const fingerAxis=normalized([p[14][0]-p[11][0],p[14][1]-p[11][1],p[14][2]-p[11][2]]);
+   const radius=isCurrent?0.024:0.019;
+   const fraction=isCandidate?Math.max(.05,contactState?.progress||0):1;
+   const count=Math.max(2,Math.ceil(28*fraction));
+   for(let k=0;k<count;k++){
+    const a=k*Math.PI*2/28,bAngle=(k+1)*Math.PI*2/28;
+    const v0=[anchor[0]+lateral[0]*Math.cos(a)*radius+fingerAxis[0]*Math.sin(a)*radius,
+      anchor[1]+lateral[1]*Math.cos(a)*radius+fingerAxis[1]*Math.sin(a)*radius,
+      anchor[2]+lateral[2]*Math.cos(a)*radius+fingerAxis[2]*Math.sin(a)*radius];
+    const v1=[anchor[0]+lateral[0]*Math.cos(bAngle)*radius+fingerAxis[0]*Math.sin(bAngle)*radius,
+      anchor[1]+lateral[1]*Math.cos(bAngle)*radius+fingerAxis[1]*Math.sin(bAngle)*radius,
+      anchor[2]+lateral[2]*Math.cos(bAngle)*radius+fingerAxis[2]*Math.sin(bAngle)*radius];
+    line(v0,v1,c,alpha*.9);
+   }
+  }
  }
  if(point(thumb)&&nearest&&nearest.distance<.14){
   const target=p[nearest.joint];
@@ -433,4 +455,6 @@ $('trainer-export').addEventListener('click',()=>{
  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 });
 renderWorkspace();
-setText('trainer-status','DESKTOP PREVIEW / 3D labels use the existing hand skeleton renderer. Enter MR on Quest to test real thumb contacts.');
+setText('trainer-status',window.__pmLabelRendererError?
+ 'CJK LABEL RENDERER ERROR / '+window.__pmLabelRendererError:
+ 'DESKTOP PREVIEW / 3D labels use the existing hand skeleton renderer. Enter MR on Quest to test real thumb contacts.');
