@@ -58,12 +58,14 @@ export const STARS=Object.freeze([
  {id:7,name:'摇光',x:.83,y:.81}
 ]);
 export const TRACE_NODES=Object.freeze([
- {id:'SUB',x:.25,y:.33,r:.09},
- {id:'GLASS',x:.51,y:.19,r:.083},
- {id:'METAL',x:.74,y:.32,r:.09},
- {id:'BASS',x:.30,y:.65,r:.095},
- {id:'GRAIN',x:.68,y:.64,r:.095},
- {id:'CHORD',x:.51,y:.81,r:.08}
+ // Four corners are aligned with a natural 0.34 × 0.28 figure-eight path,
+ // while two center/right-low nodes reward exploring beyond that single shape.
+ {id:'SUB',x:.25,y:.25,r:.098},
+ {id:'GLASS',x:.50,y:.50,r:.087},
+ {id:'METAL',x:.75,y:.25,r:.098},
+ {id:'BASS',x:.25,y:.75,r:.098},
+ {id:'GRAIN',x:.75,y:.75,r:.098},
+ {id:'CHORD',x:.51,y:.83,r:.082}
 ]);
 const valid=p=>Array.isArray(p)&&p.length>=3&&p.slice(0,3).every(Number.isFinite);
 export const dist=(a,b)=>valid(a)&&valid(b)?
