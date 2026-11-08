@@ -35,6 +35,7 @@ function add(parent,tag,cls,text){
  if(text!==undefined)el.textContent=text;parent.append(el);return el;
 }
 function selectHand(hands){
+ if(xrMode==='DESKTOP')return hands.right||hands.left||null;
  if(selectedHand==='auto')return hands.right||hands.left||null;
  return hands[selectedHand]||null;
 }
@@ -265,7 +266,7 @@ function processEvents(state,now){
   }
  }
 }
-function updateBranchState(hand,now){
+function updateBranchState(hand,now,paint){
  contactState=contact.update(hand?.positions||null,now);
  processEvents(contactState,now);
  const state=contactState;
@@ -283,11 +284,12 @@ function updateBranchState(hand,now){
    setText('trainer-status','WEBXR / 最近 '+b?.name+' / '+distanceMm+'mm / 阈值 '+
     Math.round(contact.onDistance*1000)+'mm / 尚未接触。');
   }
- }else if(xrMode!=='DESKTOP'){
+ }else if(paint&&xrMode!=='DESKTOP'){
   setText('trainer-status','WEBXR / 未检测到所选手部。请将手掌放在头显可见范围内。');
  }
+ if(paint)updateCurrent();
 }
-function updateSwordState(hand,now){
+function updateSwordState(hand,now,paint){
  poseState=swordCoach.update(hand?.positions||null,now);
  if(poseState.events.length){
   for(const e of poseState.events)record(e.kind,{t_ms:e.t_ms});
@@ -302,6 +304,7 @@ function updateSwordState(hand,now){
  renderSwordStatus();updateCurrent();
 }
 function updateThunderState(hand){
+ if(!paint)return;
  if(!hand?.positions){
   setText('trainer-status','雷诀文献对照 / 等待手部数据；页面不自动认证科仪姿态。');return;
  }
@@ -321,10 +324,11 @@ window.__pmInstrumentFeed=({hands,now,mode})=>{
   return;
  }
  lastFrameTime=now;
- if(activeMode==='branches'||activeMode==='lesson')updateBranchState(hand,now);
- else if(activeMode==='sword')updateSwordState(hand,now);
- else if(activeMode==='thunder')updateThunderState(hand);
- if(now-lastUi>110){lastUi=now;renderTabs();}
+ const paint=now-lastUi>110;
+ if(paint)lastUi=now;
+ if(activeMode==='branches'||activeMode==='lesson')updateBranchState(hand,now,paint);
+ else if(activeMode==='sword')updateSwordState(hand,now,paint);
+ else if(activeMode==='thunder')updateThunderState(hand,paint);
 };
 function normalized(v){
  const n=Math.hypot(...v)||1;return v.map(x=>x/n);
