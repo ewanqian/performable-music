@@ -7,7 +7,7 @@
 body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden}
 #view{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
 #gate{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#0d1512,#040607 70%);z-index:10}
-#gate[hidden],#exit[hidden]{display:none!important}
+#gate[hidden],#exit[hidden],#export[hidden]{display:none!important}
 #gate .box{max-width:560px;padding:28px;text-align:center}
 h1{font:400 clamp(30px,5vw,54px)/1 "Songti SC","Noto Serif CJK SC",serif;letter-spacing:.04em;margin:0 0 10px}
 p{font-size:12px;line-height:1.8;color:#93a59a;margin:0 0 18px}
@@ -26,6 +26,7 @@ p{font-size:12px;line-height:1.8;color:#93a59a;margin:0 0 18px}
   <h1>星宿 · 十二辰 · 五行</h1>
   <p>戴上头显，按一次进入。声音在进入时自动开始。<br>左手十二辰、右手五行与八卦，四周是二十八宿，前方是四声部与手部图示。</p>
   <button id="enter">进入 / ENTER MR</button>
+  <button id="export" hidden style="margin-left:10px;font:12px ui-monospace,Menlo,monospace;padding:14px 20px;background:#14211c;color:#cfdccf;border:1px solid #35544a;cursor:pointer"></button>
   <div id="hint">Quest：选 immersive-ar（透视）。Vision Pro：自动回退到 immersive-vr。<br>没有头显时打开的是桌面预览。</div>
 </div></div>
 <script type="module">
@@ -281,6 +282,45 @@ class CastAudio {
   }
 }
 const audio = new CastAudio();
+
+// ---------------------------------------------------------------- device log
+// Everything needed to judge the first real headset run. Kept in memory and
+// exported from the gate after the session ends (DOM is not visible in XR).
+const devlog = {
+  t0: 0, events: [], frames: 0, lastFrameAt: 0, fpsSamples: [],
+  presence: { left: false, right: false }, losses: { left: 0, right: 0 },
+  pads: { pulse: 0, metal: 0, shimmer: 0, drone: 0 }, enteredAt: 0, audioReadyAt: 0
+};
+function ev(type, data = {}) {
+  devlog.events.push({ t: Math.round(performance.now() - devlog.t0), type, ...data });
+  if (devlog.events.length > 4000) devlog.events.shift();
+}
+function summarize() {
+  const fps = devlog.fpsSamples;
+  const avg = fps.length ? fps.reduce((a, b) => a + b, 0) / fps.length : 0;
+  const sorted = [...fps].sort((a, b) => a - b);
+  return {
+    format: 'pm-xr-cast-device-log-v1',
+    userAgent: navigator.userAgent,
+    enterToAudioMs: devlog.audioReadyAt && devlog.enteredAt ? Math.round(devlog.audioReadyAt - devlog.enteredAt) : null,
+    frames: devlog.frames,
+    fpsAvg: Math.round(avg * 10) / 10,
+    fpsP5: sorted.length ? Math.round(sorted[Math.floor(sorted.length * 0.05)] * 10) / 10 : null,
+    handLossLeft: devlog.losses.left,
+    handLossRight: devlog.losses.right,
+    padHits: devlog.pads,
+    audio: audio.ctx ? { state: audio.ctx.state, baseLatencyMs: Math.round((audio.ctx.baseLatency || 0) * 1000), outputLatencyMs: Math.round((audio.ctx.outputLatency || 0) * 1000), sampleRate: audio.ctx.sampleRate } : null,
+    events: devlog.events
+  };
+}
+function exportLog() {
+  const blob = new Blob([JSON.stringify(summarize(), null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'xr-cast-device-log-' + new Date().toISOString().slice(0, 19).replace(/:/g, '-') + '.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
 
 // ---------------------------------------------------------------- scene
 const state = {
@@ -540,6 +580,8 @@ function readHand(frame, source, side) {
 const PAD_NOTE = { pulse: 0, metal: 0, shimmer: 0, drone: 0 };
 function firePad(id) {
   const now = state.now;
+  devlog.pads[id] = (devlog.pads[id] || 0) + 1;
+  ev('pad', { id });
   state.padFlash.set(id, now + 260);
   state.padHit.set(id, now);
   if (id === 'pulse') audio.thump(96);
@@ -618,6 +660,21 @@ function xrFrame(time, frame) {
     state.hands[src.handedness] = readHand(frame, src, src.handedness);
   }
   state.now = time;
+  devlog.frames++;
+  if (devlog.lastFrameAt) {
+    const dt = time - devlog.lastFrameAt;
+    if (dt > 0 && dt < 500) devlog.fpsSamples.push(1000 / dt);
+    if (devlog.fpsSamples.length > 3000) devlog.fpsSamples.shift();
+  }
+  devlog.lastFrameAt = time;
+  for (const side of ['left', 'right']) {
+    const now_ = !!state.hands[side];
+    if (now_ !== devlog.presence[side]) {
+      ev('hand', { side, present: now_ });
+      if (!now_) devlog.losses[side]++;
+      devlog.presence[side] = now_;
+    }
+  }
   checkContacts(time);
   const pose = frame.getViewerPose(state.ref);
   if (!pose) return;
@@ -676,7 +733,15 @@ canvas.addEventListener('pointermove', e => {
 async function enter() {
   enterBtn.disabled = true;
   enterBtn.textContent = '进入中…';
+  devlog.enteredAt = performance.now();
+  devlog.t0 = devlog.enteredAt;
+  devlog.events = []; devlog.frames = 0; devlog.fpsSamples = []; devlog.lastFrameAt = 0;
+  devlog.losses = { left: 0, right: 0 }; devlog.presence = { left: false, right: false };
+  devlog.pads = { pulse: 0, metal: 0, shimmer: 0, drone: 0 };
+  ev('enter_pressed');
   await audio.unlock();
+  devlog.audioReadyAt = performance.now();
+  ev('audio_unlock', { state: audio.ctx?.state || 'none' });
   if (!navigator.xr) {
     gate.hidden = true; enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER MR';
     return;
@@ -699,11 +764,17 @@ async function enter() {
     state.mode = type === 'immersive-ar' ? 'QUEST MR' : 'VR';
     gate.hidden = true; exitBtn.hidden = false;
     await audio.unlock();
+    ev('xr_start', { mode: state.mode, audio: audio.ctx?.state || 'none' });
     session.addEventListener('select', () => audio.unlock());
     session.addEventListener('end', () => {
+      ev('xr_end', { frames: devlog.frames });
       state.session = null; state.hands.left = state.hands.right = null;
       audio.choke(); exitBtn.hidden = true; gate.hidden = false;
       enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER MR';
+      enterBtn.hidden = false;
+      const x = document.getElementById('export');
+      x.hidden = false;
+      x.textContent = '导出测试日志 / EXPORT LOG (' + devlog.events.length + ' events)';
     });
     session.requestAnimationFrame(xrFrame);
   } catch (e) {
@@ -714,6 +785,7 @@ async function enter() {
 }
 enterBtn.addEventListener('click', enter);
 exitBtn.addEventListener('click', () => state.session?.end());
+document.getElementById('export').addEventListener('click', exportLog);
 
 initGL();
 requestAnimationFrame(desktopLoop);
