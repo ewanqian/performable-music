@@ -1,0 +1,726 @@
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XR CAST — 星宿 · 十二辰 · 五行 · 四声部</title>
+<style>
+:root{color-scheme:dark;--bg:#040607;--fg:#ecefe9;--edge:#2c3a34;--gold:#e8cf9a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden}
+#view{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#gate{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#0d1512,#040607 70%);z-index:10}
+#gate[hidden],#exit[hidden]{display:none!important}
+#gate .box{max-width:560px;padding:28px;text-align:center}
+h1{font:400 clamp(30px,5vw,54px)/1 "Songti SC","Noto Serif CJK SC",serif;letter-spacing:.04em;margin:0 0 10px}
+p{font-size:12px;line-height:1.8;color:#93a59a;margin:0 0 18px}
+#enter{font:13px ui-monospace,Menlo,monospace;letter-spacing:.12em;padding:16px 28px;background:#d8c79a;color:#141a16;border:0;cursor:pointer}
+#enter:hover{background:#efe3bd}
+#enter:disabled{opacity:.4;cursor:wait}
+#hint{margin-top:14px;font-size:11px;color:#6f7f75;line-height:1.7}
+#hud{position:fixed;left:16px;bottom:14px;font-size:11px;line-height:1.6;color:#8fa298;pointer-events:none;z-index:5;white-space:pre-line}
+#exit{position:fixed;right:16px;top:16px;z-index:11;font:11px ui-monospace,Menlo,monospace;background:#1b2621;color:#cfdccf;border:1px solid #3d5146;padding:8px 12px;cursor:pointer}
+</style></head><body>
+<canvas id="view"></canvas>
+<button id="exit" hidden>EXIT XR</button>
+<div id="hud"></div>
+<div id="gate"><div class="box">
+  <div style="font:10px ui-monospace,Menlo,monospace;letter-spacing:.22em;color:#7d8f83">PERFORMABLE MUSIC / XR CAST</div>
+  <h1>星宿 · 十二辰 · 五行</h1>
+  <p>戴上头显，按一次进入。声音在进入时自动开始。<br>左手十二辰、右手五行与八卦，四周是二十八宿，前方是四声部与手部图示。</p>
+  <button id="enter">进入 / ENTER MR</button>
+  <div id="hint">Quest：选 immersive-ar（透视）。Vision Pro：自动回退到 immersive-vr。<br>没有头显时打开的是桌面预览。</div>
+</div></div>
+<script type="module">
+import { JOINTS, BONES } from './engine.mjs';
+import { BRANCHES } from './handseal-engine.mjs';
+import { ringSlots, assignSlots, radiusFor } from './label-layout.mjs';
+
+const canvas = document.getElementById('view');
+const gate = document.getElementById('gate');
+const enterBtn = document.getElementById('enter');
+const exitBtn = document.getElementById('exit');
+const hud = document.getElementById('hud');
+
+const BRANCH_CHARS = BRANCHES.map(b => b.name).join('');
+const ELEMENTS = [['土', 4], ['木', 9], ['火', 14], ['金', 19], ['水', 24]];
+const TRIGRAMS = ['☰', '☱', '☲', '☳', '☴', '☵', '☶', '☷'];
+const MANSIONS = '角亢氐房心尾箕斗牛女虚危室壁奎娄胃昴毕觜参井鬼柳星张翼轸'.split('');
+const PADS = [
+  { id: 'pulse', name: '脉冲', angle: -58, color: [0.55, 0.95, 0.78] },
+  { id: 'metal', name: '金属', angle: -19, color: [0.95, 0.80, 0.52] },
+  { id: 'shimmer', name: '微光', angle: 19, color: [0.62, 0.80, 1.00] },
+  { id: 'drone', name: '持续', angle: 58, color: [0.85, 0.72, 1.00] }
+];
+const GLYPHS = [...new Set([
+  ...BRANCH_CHARS, ...ELEMENTS.map(e => e[0]), ...TRIGRAMS, ...MANSIONS,
+  ...PADS.map(p => p.name[0]), ...PADS.map(p => p.name[1]),
+  '左', '右', '十', '二', '辰', '五', '行', '宿', '四', '声', '部', '图', '示', '掌'
+])];
+
+let gl, lineProg, labelProg, lineBuf, labelBuf;
+let lineLoc, labelLoc, labelTex, panelTex;
+const COLS = 10, TILE = 128, ROWS = Math.ceil(GLYPHS.length / COLS);
+const IDX = new Map(GLYPHS.map((g, i) => [g, i]));
+
+function compile(type, src) {
+  const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw Error(gl.getShaderInfoLog(s));
+  return s;
+}
+
+function makeGlyphAtlas() {
+  const c = document.createElement('canvas');
+  c.width = COLS * TILE; c.height = ROWS * TILE;
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, c.width, c.height);
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = '92px "Songti SC","Noto Serif CJK SC","Source Han Serif SC",STSong,SimSun,serif';
+  GLYPHS.forEach((ch, i) => {
+    const x = (i % COLS) * TILE + TILE / 2, y = Math.floor(i / COLS) * TILE + TILE / 2;
+    g.lineJoin = 'round'; g.lineWidth = 12; g.strokeStyle = 'rgba(2,6,5,.95)';
+    g.strokeText(ch, x, y);
+    g.fillStyle = '#f6e8c6'; g.fillText(ch, x, y);
+  });
+  return c;
+}
+
+// A drawn hand diagram instead of floating spheres: palm outline, twelve
+// anchor points, names and the path between them.
+function makePanelTexture() {
+  const W = 1024, H = 768;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d');
+  g.fillStyle = 'rgba(6,12,10,0.88)'; g.fillRect(0, 0, W, H);
+  g.strokeStyle = 'rgba(120,160,138,0.55)'; g.lineWidth = 2; g.strokeRect(8, 8, W - 16, H - 16);
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.font = '30px "Songti SC","Noto Serif CJK SC",serif';
+  g.fillStyle = '#d9e6d6';
+  g.fillText('十二辰 · 掌诀图示', W / 2, 54);
+
+  // palm
+  const cx = W / 2, cy = 400;
+  g.strokeStyle = 'rgba(150,200,175,0.75)'; g.lineWidth = 3;
+  g.beginPath();
+  g.moveTo(cx - 120, cy + 190);
+  g.quadraticCurveTo(cx - 175, cy + 40, cx - 120, cy - 70);
+  g.quadraticCurveTo(cx - 60, cy - 150, cx + 40, cy - 140);
+  g.quadraticCurveTo(cx + 160, cy - 120, cx + 165, cy + 40);
+  g.quadraticCurveTo(cx + 150, cy + 190, cx + 20, cy + 215);
+  g.closePath();
+  g.stroke();
+
+  // five fingers
+  const fingers = [
+    { x: cx - 108, y: cy - 70, dx: -62, dy: -150, name: '食指' },
+    { x: cx - 22, y: cy - 120, dx: -18, dy: -180, name: '中指' },
+    { x: cx + 62, y: cy - 118, dx: 26, dy: -168, name: '无名' },
+    { x: cx + 138, y: cy - 92, dx: 60, dy: -128, name: '小指' }
+  ];
+  g.strokeStyle = 'rgba(150,200,175,0.55)'; g.lineWidth = 14; g.lineCap = 'round';
+  for (const f of fingers) {
+    g.beginPath(); g.moveTo(f.x, f.y); g.lineTo(f.x + f.dx, f.y + f.dy); g.stroke();
+  }
+  // thumb
+  g.beginPath(); g.moveTo(cx - 128, cy + 70); g.lineTo(cx - 235, cy - 30); g.stroke();
+
+  // twelve anchors, in branch order
+  const pts = [
+    [cx + 120, cy + 30], [cx + 40, cy + 20], [cx - 78, cy + 40],
+    [cx - 100, cy - 30], [cx - 90, cy - 110], [cx - 80, cy - 190],
+    [cx - 12, cy - 250], [cx + 82, cy - 230], [cx + 168, cy - 175],
+    [cx + 168, cy - 120], [cx + 150, cy - 60], [cx + 138, cy - 6]
+  ];
+  g.strokeStyle = 'rgba(232,207,154,0.55)'; g.lineWidth = 2;
+  g.beginPath();
+  pts.forEach((p, i) => i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]));
+  g.stroke();
+
+  BRANCHES.forEach((b, i) => {
+    const [x, y] = pts[i];
+    g.beginPath(); g.arc(x, y, 15, 0, Math.PI * 2);
+    g.fillStyle = 'rgba(232,207,154,0.18)'; g.fill();
+    g.strokeStyle = 'rgba(232,207,154,0.9)'; g.lineWidth = 2; g.stroke();
+    g.font = '34px "Songti SC","Noto Serif CJK SC",serif'; g.fillStyle = '#f6e8c6';
+    g.fillText(b.name, x, y + 1);
+    g.font = '20px "Songti SC","Noto Serif CJK SC",serif'; g.fillStyle = 'rgba(190,210,195,0.8)';
+    g.fillText(b.finger.replace('指', ''), x, y + 34);
+  });
+
+  g.font = '22px "Songti SC","Noto Serif CJK SC",serif';
+  g.fillStyle = 'rgba(160,185,168,0.85)';
+  g.fillText('拇指依次接触十二位：接触 → 停留 → 松开', W / 2, H - 60);
+  return c;
+}
+
+function initGL() {
+  gl = canvas.getContext('webgl2', { alpha: true, antialias: false, xrCompatible: true })
+    || canvas.getContext('webgl', { alpha: true, antialias: false, xrCompatible: true });
+  if (!gl) throw Error('WebGL 不可用');
+
+  lineProg = gl.createProgram();
+  gl.attachShader(lineProg, compile(gl.VERTEX_SHADER, `
+    attribute vec3 aPos; attribute vec4 aColor; uniform mat4 uView,uProjection; uniform float uSize;
+    varying vec4 vColor;
+    void main(){ vec4 eye=uView*vec4(aPos,1.0); gl_Position=uProjection*eye; gl_PointSize=uSize; vColor=aColor; }`));
+  gl.attachShader(lineProg, compile(gl.FRAGMENT_SHADER, `
+    precision mediump float; uniform float uDot; varying vec4 vColor;
+    void main(){ if(uDot>0.5){ vec2 d=gl_PointCoord-vec2(0.5); float r=length(d);
+      if(r>0.5) discard; gl_FragColor=vec4(vColor.rgb, vColor.a*pow(1.0-r*2.0,2.0)); }
+      else gl_FragColor=vColor; }`));
+  gl.linkProgram(lineProg);
+  lineBuf = gl.createBuffer();
+  lineLoc = {
+    pos: gl.getAttribLocation(lineProg, 'aPos'), color: gl.getAttribLocation(lineProg, 'aColor'),
+    view: gl.getUniformLocation(lineProg, 'uView'), proj: gl.getUniformLocation(lineProg, 'uProjection'),
+    size: gl.getUniformLocation(lineProg, 'uSize'), dot: gl.getUniformLocation(lineProg, 'uDot')
+  };
+
+  labelProg = gl.createProgram();
+  gl.attachShader(labelProg, compile(gl.VERTEX_SHADER, `
+    attribute vec3 aPos; attribute vec2 aUv; attribute vec4 aColor;
+    uniform mat4 uView,uProjection; varying vec2 vUv; varying vec4 vColor;
+    void main(){ vec4 eye=uView*vec4(aPos,1.0); gl_Position=uProjection*eye; vUv=aUv; vColor=aColor; }`));
+  gl.attachShader(labelProg, compile(gl.FRAGMENT_SHADER, `
+    precision mediump float; uniform sampler2D uAtlas; varying vec2 vUv; varying vec4 vColor;
+    void main(){ vec4 t=texture2D(uAtlas,vUv); if(t.a<0.02) discard; gl_FragColor=vec4(t.rgb*vColor.rgb, t.a*vColor.a); }`));
+  gl.linkProgram(labelProg);
+  labelBuf = gl.createBuffer();
+  labelLoc = {
+    pos: gl.getAttribLocation(labelProg, 'aPos'), uv: gl.getAttribLocation(labelProg, 'aUv'),
+    color: gl.getAttribLocation(labelProg, 'aColor'), view: gl.getUniformLocation(labelProg, 'uView'),
+    proj: gl.getUniformLocation(labelProg, 'uProjection'), atlas: gl.getUniformLocation(labelProg, 'uAtlas')
+  };
+
+  const upload = (source) => {
+    const t = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, t);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    return t;
+  };
+  labelTex = upload(makeGlyphAtlas());
+  panelTex = upload(makePanelTexture());
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+  gl.disable(gl.DEPTH_TEST);
+}
+
+// ---------------------------------------------------------------- audio
+class CastAudio {
+  constructor() { this.ctx = null; this.ready = false; this.muted = false; }
+  build() {
+    if (this.ctx) return this.ctx;
+    const AC = globalThis.AudioContext || globalThis.webkitAudioContext;
+    if (!AC) return null;
+    const c = this.ctx = new AC({ latencyHint: 'interactive' });
+    this.master = c.createGain(); this.master.gain.value = 0;
+    const comp = c.createDynamicsCompressor();
+    comp.threshold.value = -22; comp.ratio.value = 8; comp.attack.value = 0.005; comp.release.value = 0.2;
+    this.master.connect(comp); comp.connect(c.destination);
+
+    this.droneGain = c.createGain(); this.droneGain.gain.value = 0.14;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 380; lp.Q.value = 0.7;
+    this.droneGain.connect(lp); lp.connect(this.master);
+    [55, 82.5, 110, 164.8].forEach((f, i) => {
+      const o = c.createOscillator(); o.type = i % 2 ? 'triangle' : 'sine';
+      o.frequency.value = f * (1 + (i - 1.5) * 0.0012);
+      const g = c.createGain(); g.gain.value = i === 0 ? 0.5 : 0.16;
+      o.connect(g); g.connect(this.droneGain); o.start();
+    });
+    this.ready = true;
+    return c;
+  }
+  async unlock() {
+    const c = this.build();
+    if (!c) return false;
+    if (c.state !== 'running') { try { await c.resume(); } catch {} }
+    if (c.state === 'running') {
+      this.master.gain.cancelScheduledValues(c.currentTime);
+      this.master.gain.setTargetAtTime(0.9, c.currentTime, 0.6);
+      this.muted = false;
+    }
+    return c.state === 'running';
+  }
+  bell(freq, gain = 0.2, dur = 1.6, type = 'sine') {
+    if (!this.ready || this.muted || this.ctx.state !== 'running') return;
+    const c = this.ctx, t = c.currentTime;
+    const car = c.createOscillator(), mod = c.createOscillator(), mg = c.createGain();
+    const env = c.createGain(), pan = c.createStereoPanner();
+    car.type = type; car.frequency.value = freq;
+    mod.type = 'sine'; mod.frequency.value = freq * 2.01; mg.gain.value = freq * 0.8;
+    mod.connect(mg); mg.connect(car.frequency);
+    env.gain.setValueAtTime(0.0001, t);
+    env.gain.exponentialRampToValueAtTime(gain, t + 0.008);
+    env.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    car.connect(env); env.connect(pan); pan.connect(this.master);
+    car.start(t); mod.start(t); car.stop(t + dur + 0.05); mod.stop(t + dur + 0.05);
+    car.onended = () => { try { car.disconnect(); mod.disconnect(); mg.disconnect(); env.disconnect(); pan.disconnect(); } catch {} };
+  }
+  thump(freq = 90) {
+    if (!this.ready || this.muted || this.ctx.state !== 'running') return;
+    const c = this.ctx, t = c.currentTime;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine'; o.frequency.setValueAtTime(freq, t);
+    o.frequency.exponentialRampToValueAtTime(42, t + 0.28);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.34, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+    o.connect(g); g.connect(this.master); o.start(t); o.stop(t + 0.45);
+    o.onended = () => { try { o.disconnect(); g.disconnect(); } catch {} };
+  }
+  choke() {
+    if (!this.ready) return;
+    const t = this.ctx.currentTime;
+    this.master.gain.cancelScheduledValues(t);
+    this.master.gain.setTargetAtTime(0, t, 0.03);
+  }
+}
+const audio = new CastAudio();
+
+// ---------------------------------------------------------------- scene
+const state = {
+  session: null, ref: null, mode: 'DESKTOP', now: 0,
+  hands: { left: null, right: null },
+  segments: [], labels: [], dots: [],
+  lastTrigger: new Map(), padFlash: new Map(),
+  padHit: new Map(), starLit: new Map()
+};
+
+const COL = {
+  left: [0.55, 0.95, 0.78], right: [0.98, 0.80, 0.52],
+  star: [0.82, 0.86, 0.70], gold: [0.95, 0.85, 0.62]
+};
+
+const PAD_POS = PADS.map(p => {
+  const a = p.angle * Math.PI / 180;
+  return [Math.sin(a) * 0.95, 1.02, -Math.cos(a) * 0.95];
+});
+
+function vertex(dst, p, c, a) { dst.push(p[0], p[1], p[2], c[0], c[1], c[2], a); }
+function line(dst, p, q, c, a) { vertex(dst, p, c, a); vertex(dst, q, c, a); }
+function spot(dst, p, c, a) { vertex(dst, p, c, a); }
+
+function ring(cx, cy, cz, radius, color, alpha, segments = 24) {
+  for (let i = 0; i < segments; i++) {
+    const a = (i / segments) * Math.PI * 2, b = ((i + 1) / segments) * Math.PI * 2;
+    line(state.segments,
+      [cx + Math.cos(a) * radius, cy + Math.sin(a) * radius, cz],
+      [cx + Math.cos(b) * radius, cy + Math.sin(b) * radius, cz], color, alpha);
+  }
+}
+
+function basis(view) {
+  const right = [view[0], view[4], view[8]];
+  const up = [view[1], view[5], view[9]];
+  const rn = Math.hypot(...right) || 1, un = Math.hypot(...up) || 1;
+  return { right: right.map(v => v / rn), up: up.map(v => v / un) };
+}
+
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const add = (a, b, s = 1) => [a[0] + b[0] * s, a[1] + b[1] * s, a[2] + b[2] * s];
+
+function centroid(points) {
+  const ok = points.filter(Boolean);
+  if (!ok.length) return null;
+  return [
+    ok.reduce((s, p) => s + p[0], 0) / ok.length,
+    ok.reduce((s, p) => s + p[1], 0) / ok.length,
+    ok.reduce((s, p) => s + p[2], 0) / ok.length
+  ];
+}
+
+// Ring layout: labels sit on a regular circle around the hand, each with a
+// leader line back to its joint. No arbitrary offsets, no overlap.
+function ringLabels({ center, items, radius, size, color, alpha = 0.9, basis: B }) {
+  if (!center || !items.length) return;
+  const slots = ringSlots({ count: items.length, radius });
+  const mapped = items.map(it => ({
+    id: it.id,
+    dx: dot(it.point, B.right) - dot(center, B.right),
+    dy: dot(it.point, B.up) - dot(center, B.up),
+    point: it.point,
+    text: it.text
+  }));
+  for (const m of assignSlots(slots, mapped)) {
+    const item = mapped.find(x => x.id === m.id);
+    const world = add(add(center, B.right, m.slot.x), B.up, m.slot.y);
+    line(state.segments, item.point, world, color, alpha * 0.45);
+    state.labels.push({ p: world, text: item.text, color, alpha, size });
+  }
+}
+
+function buildScene(view) {
+  const B = basis(view);
+  const now = state.now;
+  state.segments.length = 0; state.labels.length = 0; state.dots.length = 0;
+
+  // --- 28 mansions: text ring, no spheres
+  const spin = now * 0.00005;
+  MANSIONS.forEach((name, i) => {
+    const a = (i / MANSIONS.length) * Math.PI * 2 + spin;
+    const r = 1.75, y = 1.15 + Math.sin(i * 1.7) * 0.26;
+    const p = [Math.cos(a) * r, y, Math.sin(a) * r];
+    const lit = (state.starLit.get(name) || 0) > now;
+    const col = lit ? COL.gold : COL.star;
+    state.labels.push({ p, text: name, color: col, alpha: lit ? 1 : 0.34, size: lit ? 0.05 : 0.028 });
+    // a short tick marks the exact position without drawing a ball
+    line(state.segments, [p[0], p[1] - 0.012, p[2]], [p[0], p[1] + 0.012, p[2]], col, lit ? 0.9 : 0.25);
+  });
+
+  // --- four voices in front of the performer
+  PADS.forEach((pad, i) => {
+    const p = PAD_POS[i];
+    const flash = (state.padFlash.get(pad.id) || 0) > now;
+    const hit = (state.padHit.get(pad.id) || 0) > now - 200;
+    const col = flash ? COL.gold : pad.color;
+    ring(p[0], p[1], p[2], 0.115, col, flash ? 1 : 0.55, 28);
+    ring(p[0], p[1], p[2], 0.085, col, flash ? 0.7 : 0.22, 20);
+    state.labels.push({ p: [p[0], p[1] + 0.17, p[2]], text: pad.name, color: col, alpha: hit ? 1 : 0.85, size: hit ? 0.05 : 0.036 });
+  });
+
+  // --- hand diagrams + labels
+  for (const side of ['left', 'right']) {
+    const hand = state.hands[side];
+    if (!hand) continue;
+    const p = hand.positions;
+    const col = side === 'left' ? COL.left : COL.right;
+    for (const [a, b] of BONES) {
+      const pa = p[a], pb = p[b];
+      if (pa && pb) line(state.segments, pa, pb, col, 0.8);
+    }
+    for (let i = 0; i < JOINTS.length; i++) {
+      const q = p[i]; if (!q) continue;
+      if (JOINTS[i].endsWith('-tip')) {
+        line(state.segments, [q[0], q[1] - 0.008, q[2]], [q[0], q[1] + 0.008, q[2]], COL.gold, 0.9);
+        line(state.segments, [q[0] - 0.008, q[1], q[2]], [q[0] + 0.008, q[1], q[2]], COL.gold, 0.9);
+      }
+    }
+
+    const palm = centroid([p[5], p[10], p[15], p[20]]);
+    if (!palm) continue;
+
+    if (side === 'left') {
+      const items = BRANCHES.map(b => ({ id: b.id, point: p[b.joint], text: b.name })).filter(x => x.point);
+      ringLabels({ center: palm, items, radius: radiusFor(items.length, 0.03, 1.25), size: 0.03, color: COL.left, basis: B });
+    } else {
+      const items = ELEMENTS.map(([ch, joint]) => ({ id: 'e' + joint, point: p[joint], text: ch })).filter(x => x.point);
+      ringLabels({ center: palm, items, radius: radiusFor(items.length, 0.034, 1.3), size: 0.034, color: COL.right, basis: B });
+      const outer = ringSlots({ count: 8, radius: 0.14 });
+      TRIGRAMS.forEach((tr, i) => {
+        const world = add(add(palm, B.right, outer[i].x), B.up, outer[i].y);
+        state.labels.push({ p: world, text: tr, color: COL.right, alpha: 0.6, size: 0.024 });
+      });
+    }
+  }
+}
+
+// ---------------------------------------------------------------- panel quad
+function drawPanel(view, proj) {
+  const B = basis(view);
+  const center = [-0.62, 1.18, -1.15];
+  const w = 0.62, h = 0.465;
+  const TL = add(add(center, B.right, -w / 2), B.up, h / 2);
+  const TR = add(add(center, B.right, w / 2), B.up, h / 2);
+  const BL = add(add(center, B.right, -w / 2), B.up, -h / 2);
+  const BR = add(add(center, B.right, w / 2), B.up, -h / 2);
+  const data = [];
+  const push = (p, u, v) => data.push(p[0], p[1], p[2], u, v, 1, 1, 1, 0.92);
+  push(TL, 0, 1); push(BL, 0, 0); push(TR, 1, 1);
+  push(TR, 1, 1); push(BL, 0, 0); push(BR, 1, 0);
+
+  gl.useProgram(labelProg);
+  gl.bindBuffer(gl.ARRAY_BUFFER, labelBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.DYNAMIC_DRAW);
+  gl.enableVertexAttribArray(labelLoc.pos); gl.vertexAttribPointer(labelLoc.pos, 3, gl.FLOAT, false, 36, 0);
+  gl.enableVertexAttribArray(labelLoc.uv); gl.vertexAttribPointer(labelLoc.uv, 2, gl.FLOAT, false, 36, 12);
+  gl.enableVertexAttribArray(labelLoc.color); gl.vertexAttribPointer(labelLoc.color, 4, gl.FLOAT, false, 36, 20);
+  gl.uniformMatrix4fv(labelLoc.view, false, view);
+  gl.uniformMatrix4fv(labelLoc.proj, false, proj);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, panelTex);
+  gl.uniform1i(labelLoc.atlas, 0);
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+}
+
+function drawLabels(view, proj) {
+  if (!state.labels.length) return;
+  const B = basis(view);
+  const data = [];
+  for (const item of state.labels) {
+    for (const ch of item.text) {
+      const idx = IDX.get(ch); if (idx === undefined) continue;
+      const col = idx % COLS, row = Math.floor(idx / COLS);
+      const u0 = col / COLS, u1 = (col + 1) / COLS;
+      const v1 = 1 - row / ROWS, v0 = 1 - (row + 1) / ROWS;
+      const w = item.size, h = item.size, c = item.p;
+      const L = add(c, B.right, -w / 2), R = add(c, B.right, w / 2);
+      const TL = add(L, B.up, h / 2), TR = add(R, B.up, h / 2);
+      const BL = add(L, B.up, -h / 2), BR = add(R, B.up, -h / 2);
+      const push = (p, u, v) => data.push(p[0], p[1], p[2], u, v, item.color[0], item.color[1], item.color[2], item.alpha);
+      push(TL, u0, v1); push(BL, u0, v0); push(TR, u1, v1);
+      push(TR, u1, v1); push(BL, u0, v0); push(BR, u1, v0);
+    }
+  }
+  if (!data.length) return;
+  gl.useProgram(labelProg);
+  gl.bindBuffer(gl.ARRAY_BUFFER, labelBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.DYNAMIC_DRAW);
+  gl.enableVertexAttribArray(labelLoc.pos); gl.vertexAttribPointer(labelLoc.pos, 3, gl.FLOAT, false, 36, 0);
+  gl.enableVertexAttribArray(labelLoc.uv); gl.vertexAttribPointer(labelLoc.uv, 2, gl.FLOAT, false, 36, 12);
+  gl.enableVertexAttribArray(labelLoc.color); gl.vertexAttribPointer(labelLoc.color, 4, gl.FLOAT, false, 36, 20);
+  gl.uniformMatrix4fv(labelLoc.view, false, view);
+  gl.uniformMatrix4fv(labelLoc.proj, false, proj);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, labelTex);
+  gl.uniform1i(labelLoc.atlas, 0);
+  gl.drawArrays(gl.TRIANGLES, 0, data.length / 9);
+}
+
+function render(view, proj) {
+  gl.useProgram(lineProg);
+  gl.uniformMatrix4fv(lineLoc.view, false, view);
+  gl.uniformMatrix4fv(lineLoc.proj, false, proj);
+  gl.bindBuffer(gl.ARRAY_BUFFER, lineBuf);
+  if (state.segments.length) {
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(state.segments), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(lineLoc.pos); gl.vertexAttribPointer(lineLoc.pos, 3, gl.FLOAT, false, 28, 0);
+    gl.enableVertexAttribArray(lineLoc.color); gl.vertexAttribPointer(lineLoc.color, 4, gl.FLOAT, false, 28, 12);
+    gl.uniform1f(lineLoc.size, 1); gl.uniform1f(lineLoc.dot, 0);
+    gl.drawArrays(gl.LINES, 0, state.segments.length / 7);
+  }
+  drawPanel(view, proj);
+  drawLabels(view, proj);
+}
+
+// ---------------------------------------------------------------- input
+function quatMatrix(m, off) {
+  const m00 = m[off], m11 = m[off + 5], m22 = m[off + 10], tr = m00 + m11 + m22;
+  let x = 0, y = 0, z = 0, w = 1, s;
+  if (tr > 0) { s = 2 * Math.sqrt(tr + 1); w = .25 * s; x = (m[off + 6] - m[off + 9]) / s; y = (m[off + 8] - m[off + 2]) / s; z = (m[off + 1] - m[off + 4]) / s; }
+  else if (m00 > m11 && m00 > m22) { s = 2 * Math.sqrt(1 + m00 - m11 - m22); w = (m[off + 6] - m[off + 9]) / s; x = .25 * s; y = (m[off + 4] + m[off + 1]) / s; z = (m[off + 8] + m[off + 2]) / s; }
+  else if (m11 > m22) { s = 2 * Math.sqrt(1 + m11 - m00 - m22); w = (m[off + 8] - m[off + 2]) / s; x = (m[off + 4] + m[off + 1]) / s; y = .25 * s; z = (m[off + 9] + m[off + 6]) / s; }
+  else { s = 2 * Math.sqrt(1 + m22 - m00 - m11); w = (m[off + 1] - m[off + 4]) / s; x = (m[off + 8] + m[off + 2]) / s; y = (m[off + 9] + m[off + 6]) / s; z = .25 * s; }
+  const n = Math.hypot(x, y, z, w) || 1;
+  return [x / n, y / n, z / n, w / n];
+}
+
+const cache = { left: null, right: null };
+function readHand(frame, source, side) {
+  if (!source.hand) return null;
+  let c = cache[side];
+  if (!c || c.source !== source) {
+    const spaces = JOINTS.map(n => source.hand.get(n));
+    if (spaces.some(x => !x)) return null;
+    c = { source, spaces, mat: new Float32Array(JOINTS.length * 16), positions: JOINTS.map(() => [0, 0, 0]) };
+    cache[side] = c;
+  }
+  let ok = false;
+  if (typeof frame.fillPoses === 'function') { try { ok = frame.fillPoses(c.spaces, state.ref, c.mat); } catch { ok = false; } }
+  if (ok) {
+    for (let i = 0; i < JOINTS.length; i++) {
+      const k = i * 16, p = c.positions[i];
+      p[0] = c.mat[k + 12]; p[1] = c.mat[k + 13]; p[2] = c.mat[k + 14];
+      quatMatrix(c.mat, k);
+    }
+  } else {
+    for (let i = 0; i < JOINTS.length; i++) {
+      const pose = frame.getJointPose(c.spaces[i], state.ref);
+      if (!pose) return null;
+      const p = pose.transform.position;
+      c.positions[i][0] = p.x; c.positions[i][1] = p.y; c.positions[i][2] = p.z;
+    }
+  }
+  return { positions: c.positions };
+}
+
+// ---------------------------------------------------------------- contacts
+const PAD_NOTE = { pulse: 0, metal: 0, shimmer: 0, drone: 0 };
+function firePad(id) {
+  const now = state.now;
+  state.padFlash.set(id, now + 260);
+  state.padHit.set(id, now);
+  if (id === 'pulse') audio.thump(96);
+  else if (id === 'metal') audio.bell(659.25, 0.24, 1.1, 'triangle');
+  else if (id === 'shimmer') audio.bell(1318.5, 0.16, 1.6);
+  else audio.bell(164.8, 0.2, 2.6);
+}
+
+function checkContacts(now) {
+  const tips = [state.hands.left?.positions?.[9], state.hands.right?.positions?.[9]].filter(Boolean);
+  PADS.forEach((pad, i) => {
+    const p = PAD_POS[i];
+    for (const tip of tips) {
+      const d = Math.hypot(tip[0] - p[0], tip[1] - p[1], tip[2] - p[2]);
+      if (d < 0.13 && now - (state.padHit.get(pad.id) || 0) > 320) { firePad(pad.id); break; }
+    }
+  });
+  // stars react to a fingertip
+  const spin = now * 0.00005;
+  MANSIONS.forEach((name, i) => {
+    const a = (i / MANSIONS.length) * Math.PI * 2 + spin;
+    const p = [Math.cos(a) * 1.75, 1.15 + Math.sin(i * 1.7) * 0.26, Math.sin(a) * 1.75];
+    for (const tip of tips) {
+      const d = Math.hypot(tip[0] - p[0], tip[1] - p[1], tip[2] - p[2]);
+      if (d < 0.22 && now - (state.starLit.get(name) || 0) > 1200) {
+        state.starLit.set(name, now + 900);
+        audio.bell(523.25 * (1 + (i % 7) / 7), 0.12, 2.0);
+        break;
+      }
+    }
+  });
+  // twelve branches + five elements
+  const left = state.hands.left;
+  if (left) {
+    const thumb = left.positions[4];
+    BRANCHES.forEach((b, i) => {
+      const q = left.positions[b.joint];
+      if (!thumb || !q) return;
+      const d = Math.hypot(thumb[0] - q[0], thumb[1] - q[1], thumb[2] - q[2]);
+      const key = 'L:' + b.id;
+      if (d < 0.032 && now - (state.lastTrigger.get(key) || 0) > 420) {
+        state.lastTrigger.set(key, now);
+        audio.bell(220 * Math.pow(2, i / 12), 0.2, 1.8);
+      }
+    });
+  }
+  const right = state.hands.right;
+  if (right) {
+    ELEMENTS.forEach(([ch, joint], i) => {
+      const thumb = right.positions[4], q = right.positions[joint];
+      if (!thumb || !q) return;
+      const d = Math.hypot(thumb[0] - q[0], thumb[1] - q[1], thumb[2] - q[2]);
+      const key = 'E:' + joint;
+      if (d < 0.045 && now - (state.lastTrigger.get(key) || 0) > 420) {
+        state.lastTrigger.set(key, now);
+        audio.bell([261.6, 293.7, 329.6, 392, 440][i], 0.18, 1.6);
+      }
+    });
+  }
+}
+
+// ---------------------------------------------------------------- loops
+const identity = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
+function perspective(aspect) {
+  const f = 1 / Math.tan(62 * Math.PI / 360), n = 0.01, fa = 30, o = new Float32Array(16);
+  o[0] = f / aspect; o[5] = f; o[10] = (fa + n) / (n - fa); o[11] = -1; o[14] = 2 * fa * n / (n - fa);
+  return o;
+}
+
+function xrFrame(time, frame) {
+  if (!state.session) return;
+  state.session.requestAnimationFrame(xrFrame);
+  state.hands.left = null; state.hands.right = null;
+  for (const src of state.session.inputSources) {
+    if (!src.hand || !['left', 'right'].includes(src.handedness)) continue;
+    state.hands[src.handedness] = readHand(frame, src, src.handedness);
+  }
+  state.now = time;
+  checkContacts(time);
+  const pose = frame.getViewerPose(state.ref);
+  if (!pose) return;
+  const view = pose.views[0].transform.inverse.matrix;
+  buildScene(view);
+  const layer = state.session.renderState.baseLayer;
+  gl.bindFramebuffer(gl.FRAMEBUFFER, layer.framebuffer);
+  gl.enable(gl.SCISSOR_TEST);
+  for (const v of pose.views) {
+    const vp = layer.getViewport(v);
+    gl.viewport(vp.x, vp.y, vp.width, vp.height);
+    gl.scissor(vp.x, vp.y, vp.width, vp.height);
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    render(v.transform.inverse.matrix, v.projectionMatrix);
+  }
+  gl.disable(gl.SCISSOR_TEST);
+}
+
+let pointer = { x: 0.2, y: 0.0, z: -0.55 };
+function fakeHand(side) {
+  const base = side === 'left' ? -1 : 1;
+  const p = JOINTS.map((_, i) => [pointer.x + base * 0.13 + (i % 5) * 0.014, pointer.y + Math.floor(i / 5) * 0.012, pointer.z - (i % 3) * 0.004]);
+  p[0] = [pointer.x + base * 0.13, pointer.y - 0.06, pointer.z];
+  return { positions: p };
+}
+
+let lastFrame = 0;
+function desktopLoop(now) {
+  requestAnimationFrame(desktopLoop);
+  if (state.session) return;
+  state.hands.left = fakeHand('left');
+  state.hands.right = fakeHand('right');
+  state.now = now;
+  if (now - lastFrame > 32) { checkContacts(now); lastFrame = now; }
+  const dpr = Math.min(devicePixelRatio || 1, 1.5);
+  const w = Math.max(1, Math.floor(canvas.clientWidth * dpr)), h = Math.max(1, Math.floor(canvas.clientHeight * dpr));
+  if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
+  const proj = perspective(w / h);
+  buildScene(identity);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, w, h);
+  gl.clearColor(0.012, 0.02, 0.017, 1);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  render(identity, proj);
+  hud.textContent = 'DESKTOP PREVIEW · 鼠标模拟双手\n真实体验请用 Quest / Vision Pro 进入 MR';
+}
+canvas.addEventListener('pointermove', e => {
+  if (state.session) return;
+  const r = canvas.getBoundingClientRect();
+  pointer.x = ((e.clientX - r.left) / r.width - 0.5) * 1.1;
+  pointer.y = 0.05 - (e.clientY - r.top) / r.height * 0.6;
+});
+
+// ---------------------------------------------------------------- session
+async function enter() {
+  enterBtn.disabled = true;
+  enterBtn.textContent = '进入中…';
+  await audio.unlock();
+  if (!navigator.xr) {
+    gate.hidden = true; enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER MR';
+    return;
+  }
+  const ar = await navigator.xr.isSessionSupported('immersive-ar').catch(() => false);
+  const vr = await navigator.xr.isSessionSupported('immersive-vr').catch(() => false);
+  const type = ar ? 'immersive-ar' : vr ? 'immersive-vr' : null;
+  if (!type) {
+    gate.hidden = true; enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER MR';
+    hud.textContent = '此设备不支持 immersive-ar / immersive-vr\n已切换到桌面预览';
+    return;
+  }
+  try {
+    const session = await navigator.xr.requestSession(type, { requiredFeatures: ['hand-tracking'] });
+    if (gl.makeXRCompatible) await gl.makeXRCompatible();
+    const layer = new XRWebGLLayer(session, gl, { alpha: true, antialias: false });
+    session.updateRenderState({ baseLayer: layer });
+    state.ref = await session.requestReferenceSpace('local');
+    state.session = session;
+    state.mode = type === 'immersive-ar' ? 'QUEST MR' : 'VR';
+    gate.hidden = true; exitBtn.hidden = false;
+    await audio.unlock();
+    session.addEventListener('select', () => audio.unlock());
+    session.addEventListener('end', () => {
+      state.session = null; state.hands.left = state.hands.right = null;
+      audio.choke(); exitBtn.hidden = true; gate.hidden = false;
+      enterBtn.disabled = false; enterBtn.textContent = '进入 / ENTER MR';
+    });
+    session.requestAnimationFrame(xrFrame);
+  } catch (e) {
+    enterBtn.disabled = false;
+    enterBtn.textContent = '进入 / ENTER MR';
+    hud.textContent = 'XR 启动失败：' + e.message;
+  }
+}
+enterBtn.addEventListener('click', enter);
+exitBtn.addEventListener('click', () => state.session?.end());
+
+initGL();
+requestAnimationFrame(desktopLoop);
+navigator.xr?.isSessionSupported('immersive-ar').then(ok => {
+  document.getElementById('hint').textContent = ok
+    ? '检测到 immersive-ar：进入后是透视 MR。声音会自动开始。'
+    : '未检测到 immersive-ar；有 immersive-vr 会自动使用，否则进入桌面预览。';
+}).catch(() => {});
+</script>
+</body></html>
