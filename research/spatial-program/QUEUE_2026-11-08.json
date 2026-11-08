@@ -1,0 +1,85 @@
+{
+  "schema": "spatial-research-dispatch-v1",
+  "updated_at": "2026-11-08",
+  "timezone": "Asia/Shanghai",
+  "note": "Creating this file does NOT launch OpenCode Go or any subagents; states require actual session IDs and artifacts.",
+  "authority": [
+    "AGENTS.md",
+    "LOCAL_AGENT_TASK.json",
+    "research/agent-music/HAIKU55_ORCHESTRATOR_RUNBOOK_2026-11-05.md"
+  ],
+  "showP0": {
+    "owner": "one local DAW writer only",
+    "deadline": "2026-12-03",
+    "policy": "Do not replace existing author-edited audio session or create full new score without human approval."
+  },
+  "queue": [
+    {
+      "id": "QA-SCORE-SIGIL",
+      "repo": "ewanqian/performable-music",
+      "issue_url": "https://github.com/ewanqian/performable-music/issues/20",
+      "type": "real_hardware_qa",
+      "status": "QA_PENDING",
+      "priority": "P0",
+      "agent": "spatial-qa",
+      "session_id": null,
+      "base": "main",
+      "scope": "Score touches + Sigil real thumb-joint performance",
+      "pass": "Four pads audible; six joint distances verified; real Quest/iPad log and operator assessment",
+      "blocked_by": "human Quest/iPad real testing"
+    },
+    {
+      "id": "R-SONIC",
+      "repo": "ewanqian/performable-music",
+      "issue_url": "https://github.com/ewanqian/performable-music/issues/19",
+      "type": "read_only_research",
+      "status": "READY_NOT_STARTED",
+      "priority": "P1",
+      "agent": "research-audio",
+      "session_id": null,
+      "base": "main",
+      "scope": "PolyNodes v2.3, SPATAI v2, Needle web Panner, Strudel embed license",
+      "pass": "Five official sources + one viable independent 3D sound geometry prototype spec"
+    },
+    {
+      "id": "R-ENTROPY",
+      "repo": "ewanqian/atmospheric-escape-liveset",
+      "issue_url": "https://github.com/ewanqian/atmospheric-escape-liveset/issues/11",
+      "type": "read_only_source_asset_audit",
+      "status": "READY_NOT_STARTED",
+      "priority": "P1",
+      "agent": "research-entropy",
+      "session_id": null,
+      "base": "main",
+      "scope": "Inventory actual GLB and preserved W01/W02/W03/W04 sources for a 3D vertical slice",
+      "pass": "Model file path, content hash, stage mapping, original screenshots/controls and one validated implementation proposal"
+    },
+    {
+      "id": "R-LIGHT",
+      "repo": "ewanqian/performable-music",
+      "issue_url": "https://github.com/ewanqian/performable-music/issues/21",
+      "type": "read_only_research",
+      "status": "READY_NOT_STARTED",
+      "priority": "P1",
+      "agent": "research-lighting",
+      "session_id": null,
+      "base": "main",
+      "scope": "Separate audiovisual environment/lighting piece, author-assets-first and Show Score bridge",
+      "pass": "Three authored cues plus 30–60s storyboard, scene requirements and safety criteria"
+    }
+  ],
+  "acceptance_labels": [
+    "READY_NOT_STARTED",
+    "RUNNING:real_session_id",
+    "BLOCKED",
+    "QA_PENDING",
+    "ACCEPTED",
+    "REJECTED"
+  ],
+  "agent_tool_constraints": {
+    "no_assumed_spawn": true,
+    "independent_worktrees": true,
+    "private_repo_assets_private": true,
+    "hardware_claims_require_evidence": true
+  }
+}
