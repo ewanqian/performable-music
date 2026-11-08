@@ -69,7 +69,7 @@ export function controlFromHands(hands){
    focus:clamp((p[1]+.32)/.75),position:p.slice(0,3)};
 }
 export function visualGeometry(time,energy=0,spread=.5){
- const rings=[],bridges=[];
+ const rings=[],bridges=[],shells=[];
  for(const vol of VOLUMES){
   const R=vol.radius*(1+energy*.32),n=32;
   for(let layer=0;layer<3;layer++){
@@ -85,6 +85,33 @@ export function visualGeometry(time,energy=0,spread=.5){
    }
    rings.push({zone:vol.id,color:vol.color,points:pts});
   }
+  // Three-dimensional geodesic-like contours; not 2D screen-space overlays.
+  // Keep sparse enough to preserve real headset frame budget.
+  for(let latitude=1;latitude<=5;latitude++){
+   const theta=latitude*Math.PI/6,points=[];
+   for(let k=0;k<=28;k++){
+    const phi=k*2*Math.PI/28;
+    const pulse=1+energy*.055*Math.sin(time*.0007+phi*5+latitude);
+    points.push([
+     vol.center[0]+R*Math.sin(theta)*Math.cos(phi)*pulse,
+     vol.center[1]+R*Math.cos(theta)*pulse,
+     vol.center[2]+R*Math.sin(theta)*Math.sin(phi)*pulse
+    ]);
+   }
+   shells.push({zone:vol.id,color:vol.color,points,kind:'LATITUDE'});
+  }
+  for(let meridian=0;meridian<7;meridian++){
+   const phi=meridian*2*Math.PI/7,points=[];
+   for(let k=0;k<=22;k++){
+    const theta=k*Math.PI/22,phase=Math.sin(time*.0005+k*.25+meridian)*.017*energy;
+    points.push([
+     vol.center[0]+(R+phase)*Math.sin(theta)*Math.cos(phi),
+     vol.center[1]+(R+phase)*Math.cos(theta),
+     vol.center[2]+(R+phase)*Math.sin(theta)*Math.sin(phi)
+    ]);
+   }
+   shells.push({zone:vol.id,color:vol.color,points,kind:'MERIDIAN'});
+  }
  }
  const pair=[[0,2],[1,3],[0,1],[2,3]];
  for(const [a,b] of pair){
@@ -97,5 +124,5 @@ export function visualGeometry(time,energy=0,spread=.5){
   }
   bridges.push({a:VOLUMES[a].id,b:VOLUMES[b].id,points});
  }
- return {rings,bridges};
+ return {rings,bridges,shells};
 }
