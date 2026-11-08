@@ -13,7 +13,7 @@ export class SpatialWavesAudio{
   this.ctx=null;this.voices=new Map();this.layers=new Map(VOLUMES.map(v=>[v.id,v.id==='pulse'?.32:.10]));
   this.ready=false;this.muted=true;this.bpm=100;this.swing=0;this.active=new Set();
   this.transport=false;this.timer=null;this.nextBeat=0;this.step=0;this.attackCount=0;this.maxAttacks=18;
-  this.listenerPose='FIXED_ORIGIN_NOT_XR_TRACKED';
+  this.listenerPose='FIXED_ORIGIN_NOT_XR_TRACKED';this.stems=new Map();this.stemPlayers=[];this.stemGains=new Map();
  }
  async start(){
   if(this.ready){await this.ctx.resume();this.muted=false;this.master.gain.setTargetAtTime(.58,this.ctx.currentTime,.08);return;}
@@ -69,6 +69,8 @@ export class SpatialWavesAudio{
    v.panner.positionY.setTargetAtTime(pos[1]+(.08*energy),t,.08);
    v.panner.positionZ.setTargetAtTime(pos[2]-.15*spread,t,.08);
    v.position=[pos[0]*spatialScale,pos[1]+.08*energy,pos[2]-.15*spread];
+   const stemGain=this.stemGains.get(id);
+   if(stemGain)stemGain.gain.setTargetAtTime((this.layers.get(id)||0)*.30*(on?1:.38),t,.050);
   }
  }
  accent(id,velocity=.6,when=null){
@@ -89,12 +91,56 @@ export class SpatialWavesAudio{
   osc.onended=()=>{this.attackCount--;try{osc.disconnect();env.disconnect()}catch{}};
   return true;
  }
+ async loadStems(files){
+  if(!this.ready)await this.start();
+  if(!Array.isArray(files)||files.length!==4)throw Error('Choose exactly four files in PULSE / MINERAL / AIR / HARMONIC order');
+  if(this.transport)this.stop();
+  const decoded=[];
+  for(let i=0;i<4;i++){
+   const file=files[i];
+   if(!file||file.size>32*1024*1024)throw Error('Each local audio file must be 32 MB or smaller');
+   if(!/audio\/|\.wav$|\.mp3$|\.aif$|\.ogg$/i.test(file.type+' '+file.name))
+    throw Error('Unsupported file; choose WAV/MP3/AIFF/Ogg');
+   const bytes=await file.arrayBuffer();
+   decoded.push(await this.ctx.decodeAudioData(bytes));
+  }
+  const duration=decoded[0].duration;
+  if(!Number.isFinite(duration)||duration<.5||duration>360)
+   throw Error('Stems must be between 0.5 and 360 seconds');
+  if(decoded.some(buffer=>Math.abs(buffer.duration-duration)>.065))
+   throw Error('Four stems must have matching duration within 65ms');
+  this.stems.clear();
+  for(let i=0;i<4;i++)this.stems.set(VOLUMES[i].id,decoded[i]);
+  return duration;
+ }
+ startStems(time){
+  if(this.stems.size!==4)return;
+  this.stopStems();
+  for(const vol of VOLUMES){
+   const voice=this.voices.get(vol.id),buffer=this.stems.get(vol.id);
+   if(!voice||!buffer)continue;
+   const src=this.ctx.createBufferSource(),gain=this.ctx.createGain();
+   src.buffer=buffer;src.loop=true;gain.gain.value=(this.layers.get(vol.id)||0)*.33;
+   src.connect(gain);gain.connect(voice.panner);
+   src.start(time);
+   this.stemPlayers.push({src,gain,id:vol.id});
+   this.stemGains.set(vol.id,gain);
+  }
+ }
+ stopStems(){
+  for(const {src,gain} of this.stemPlayers){
+   try{src.stop()}catch{}
+   try{src.disconnect();gain.disconnect()}catch{}
+  }
+  this.stemPlayers=[];this.stemGains.clear();
+ }
  setBpm(bpm){this.bpm=bound(bpm,40,160);}
  play(){
   if(!this.ready||this.muted)return false;
   this.stop();
   this.transport=true;this.step=0;this.nextBeat=this.ctx.currentTime+.04;
   // AudioContext clock—not setInterval timing—owns each note onset.
+  this.startStems(this.nextBeat);
   this.timer=setInterval(()=>this.schedule(),25);
   return true;
  }
@@ -119,7 +165,7 @@ export class SpatialWavesAudio{
   this.layers=new Map([['pulse',.45],['mineral',.12],['air',.14],['harmonic',.16]]);
   this.active.clear();
  }
- stop(){if(this.timer!==null){clearInterval(this.timer);this.timer=null;}this.transport=false;}
+ stop(){if(this.timer!==null){clearInterval(this.timer);this.timer=null;}this.stopStems();this.transport=false;}
  panic(){
   this.stop();this.muted=true;this.active.clear();
   if(!this.ready)return;
@@ -134,6 +180,6 @@ export class SpatialWavesAudio{
  }
  status(){return {ready:this.ready,muted:this.muted,context:this.ctx?.state||'uninitialized',
    transport:this.transport,bpm:this.bpm,step:this.step,active:[...this.active],
-   listener:this.listenerPose,layers:Object.fromEntries(this.layers),
+   listener:this.listenerPose,stems:this.stems.size===4?'4 SYNCED LOCAL STEMS':'ORIGINAL SYNTH',layers:Object.fromEntries(this.layers),
    positions:Object.fromEntries([...this.voices].map(([key,v])=>[key,v.position]))};}
 }
