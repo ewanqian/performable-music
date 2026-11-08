@@ -378,44 +378,68 @@ $('study-test').addEventListener('click',()=>{
   for(let i=0;i<10000;i++)count+=bench.advance(i*11.11).length;
   log('10K SYNTHETIC CLOCK FRAMES / '+count+' scheduled events / NOT headset FPS');
 });
-function pointerMove(key,x,y,now){
+function pointerMove(key,x,y,now,{immediate=false}={}){
   const old=trails.get(key)||[],prev=old[old.length-1];
   const velocity=prev?Math.min(1,Math.hypot(x-prev.x,y-prev.y)*22):.5;
   old.push({x,y});if(old.length>36)old.shift();trails.set(key,old);
   moveSound(x,y,velocity);
-  if(study==='tone'&&now-lastFire>=130&&ready&&!muted){
+  if(study==='score'){
+    handleScoreEvents(scoreMap.move(key,x,y,now,{immediate}));
+  }else if(study==='tone'&&now-lastFire>=130&&ready&&!muted){
     playSound({x,y,energy:velocity});lastFire=now;
-  }else if(study==='score'&&now-lastFire>=300){
-    record({type:'MORPH',x,y,intensity:velocity});lastFire=now;
   }
 }
-canvas.addEventListener('pointerdown',async e=>{
+canvas.addEventListener('pointerdown',e=>{
   if(mode!=='DESKTOP')return;
-  e.preventDefault();canvas.setPointerCapture?.(e.pointerId);
-  if(!ready){try{await enableAudio()}catch(err){log('AUDIO BLOCKED '+err.message)}}
-  const r=canvas.getBoundingClientRect();
+  e.preventDefault();
+  canvas.setPointerCapture?.(e.pointerId);
+  // Immediate hit feedback. Never wait for a CDN/audio promise before
+  // registering pointer capture or hit testing a circle.
+  const r=canvas.getBoundingClientRect(),key='p'+e.pointerId;
   const x=clamp((e.clientX-r.left)/r.width),y=clamp((e.clientY-r.top)/r.height);
-  pointerMove('p'+e.pointerId,x,y,performance.now());
+  trails.set(key,[]);
+  pointerMove(key,x,y,performance.now(),{immediate:true});
+  if(!ready){
+    void enableAudio().then(()=>{
+      if(study==='score'&&scoreMap.active().length){
+        const zone=scoreMap.active().at(-1);
+        const item=SCORE_ZONES.find(z=>z.id===zone);
+        if(item)scorePadEnter({id:zone,x:item.x,y:item.y,intensity:.6});
+      }
+    }).catch(err=>log('AUDIO BLOCKED '+err.message));
+  }
 });
 canvas.addEventListener('pointermove',e=>{
   const key='p'+e.pointerId;if(!trails.has(key)||mode!=='DESKTOP')return;
+  e.preventDefault();
   const r=canvas.getBoundingClientRect();
   pointerMove(key,clamp((e.clientX-r.left)/r.width),
     clamp((e.clientY-r.top)/r.height),performance.now());
 });
 for(const event of ['pointerup','pointercancel','lostpointercapture']){
-  canvas.addEventListener(event,e=>trails.delete('p'+e.pointerId));
+  canvas.addEventListener(event,e=>{
+    const key='p'+e.pointerId;
+    if(study==='score')scoreMap.end(key,performance.now());
+    trails.delete(key);
+  });
 }
 window.__pmInstrumentFeed=({hands,now,mode:xrMode})=>{
   mode=xrMode;
   if(xrMode==='DESKTOP')return;
-  const hand=hands.right||hands.left;
-  const tip=hand?.positions?.[9];
-  if(tip?.length===3&&tip.every(Number.isFinite)){
-    const x=clamp(.5+tip[0]/1.2),y=clamp((.28-tip[1])/.72);
-    if(study!=='sigil')pointerMove('xr-hand',x,y,now);
-  }else trails.delete('xr-hand');
+  actualXRHands=(hands.left?1:0)+(hands.right?1:0);
+  for(const side of ['left','right']){
+    const hand=hands[side],key='xr-'+side;
+    const tip=hand?.positions?.[9];
+    const pos=getScorePositionFromXR(tip);
+    if(study==='score'){
+      if(pos)pointerMove(key,pos.x,pos.y,now);
+      else{scoreMap.end(key,now);trails.delete(key);}
+    }else if(study==='tone'&&pos){
+      pointerMove(key,pos.x,pos.y,now);
+    }else{trails.delete(key);}
+  }
   if(study==='sigil'){
+    const hand=hands.right||hands.left;
     const out=dial.update(hand?.positions||null,now);
     for(const ev of out.events){
       if(ev.kind==='DIGIT')enterDigit(ev.digit,false);
@@ -441,13 +465,27 @@ window.__pmOrganicDraw=({line,spot,now})=>{
     });
     return;
   }
-  const c=study==='tone'?[.84,.62,.99]:[.51,.91,.75];
-  for(let i=0;i<4;i++){
-    const x=(i-1.5)*.21,y=-.16,z=-.65,r=.052;
-    for(let n=0;n<16;n++){
-      const a=n*Math.PI/8,b=(n+1)*Math.PI/8;
-      line([x+r*Math.cos(a),y+r*Math.sin(a),z],
-        [x+r*Math.cos(b),y+r*Math.sin(b),z],c,.35);
+  if(study==='score'){
+    for(const z of SCORE_ZONES){
+      const [x,y,depth]=scoreWorldPosition(z);
+      const r=z.r*.84,c=z.id===scoreFocus?[.90,.97,.72]:[.50,.83,.72];
+      const alpha=scoreMap.active().includes(z.id)?.95:.53;
+      for(let n=0;n<28;n++){
+        const a=n*Math.PI/14,b=(n+1)*Math.PI/14;
+        line([x+Math.cos(a)*r*1.2,y+Math.sin(a)*r*.72,depth],
+          [x+Math.cos(b)*r*1.2,y+Math.sin(b)*r*.72,depth],c,alpha);
+      }
+      spot([x,y,depth],c,alpha);
+    }
+  }else{
+    const c=[.84,.62,.99];
+    for(let i=0;i<4;i++){
+      const x=(i-1.5)*.21,y=-.16,z=-.65,r=.052;
+      for(let n=0;n<16;n++){
+        const a=n*Math.PI/8,b=(n+1)*Math.PI/8;
+        line([x+r*Math.cos(a),y+r*Math.sin(a),z],
+          [x+r*Math.cos(b),y+r*Math.sin(b),z],c,.35);
+      }
     }
   }
 };
@@ -465,9 +503,37 @@ function draw(now){
     study==='tone'?['ABYSS','FERRO','CATHEDRAL','MORPH']:
       ['1','2','3','4','5','6'];
   const size=study==='sigil'?6:4;
-  for(let i=0;i<size;i++){
+  if(study==='score'){
+    const current=scoreMap.active(),timestamp=performance.now();
+    for(const z of SCORE_ZONES){
+      const x=z.x*W,y=z.y*H,r=z.r*Math.min(W,H);
+      const lit=current.includes(z.id),flashing=timestamp<(scoreHitUntil[z.id]||0);
+      const intensity=scoreMix[z.id];
+      pctx.strokeStyle=z.color;
+      pctx.globalAlpha=lit||flashing?1:.58;
+      pctx.lineWidth=lit?4:flashing?3:1.7;
+      pctx.beginPath();pctx.ellipse(x,y,z.r*W,z.r*H,0,0,Math.PI*2);pctx.stroke();
+      pctx.globalAlpha=.09+intensity*.22;pctx.fillStyle=z.color;pctx.fill();
+      pctx.globalAlpha=1;
+      pctx.fillStyle=z.color;pctx.font='600 14px ui-monospace,monospace';pctx.textAlign='center';
+      pctx.fillText(z.name,x,y-8);
+      pctx.font='10px ui-monospace,monospace';
+      pctx.fillText(z.sound+' / '+Math.round(intensity*100)+'%',x,y+14);
+      pctx.strokeStyle=z.color;pctx.globalAlpha=.4;
+      pctx.beginPath();pctx.arc(x,y+34,6+intensity*8,0,Math.PI*2);pctx.stroke();
+      pctx.globalAlpha=1;
+    }
+    const stepW=Math.min(W-48,520)/16;
+    for(let i=0;i<16;i++){
+      pctx.fillStyle=i===scoreGridStep?'#d9edcd':'#39564c';
+      pctx.fillRect(W/2-stepW*8+i*stepW,H*.87,stepW-3,6);
+    }
+    pctx.fillStyle='#e2eee5';pctx.font='11px ui-monospace,monospace';
+    pctx.textAlign='center';
+    pctx.fillText('ENTER PAD → SOUND ACCENT + LAYER IN  /  PLAY → ARRANGEMENT CLOCK',W/2,H*.80);
+  }else for(let i=0;i<size;i++){
     const x=(i+.5)/size*W,y=H*(.42+.1*Math.sin(i*1.3)),r=Math.min(W/size*.32,72);
-    const c=study==='tone'?'#d0b7ff':study==='sigil'?'#e2d5b8':'#b7dfc3';
+    const c=study==='tone'?'#d0b7ff':'#e2d5b8';
     pctx.strokeStyle=c;pctx.globalAlpha=.48;pctx.lineWidth=1.4;
     pctx.beginPath();pctx.arc(x,y,r,0,Math.PI*2);pctx.stroke();
     pctx.globalAlpha=.78;pctx.font='12px ui-monospace,monospace';pctx.textAlign='center';
