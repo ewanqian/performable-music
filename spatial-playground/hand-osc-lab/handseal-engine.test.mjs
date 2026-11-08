@@ -85,3 +85,12 @@ test('source guide includes six 雷诀 records and does not claim auto-certified
  assert.equal(PRACTICE_PATHS.length,3);
  assert.deepEqual(branchDistances(hand()).map(x=>x.id).slice(0,2),['zi','chou']);
 });
+test('cross-palm root branches get a wider acceptance band than tips',()=>{
+ const e=new PalmContactEngine({onDistance:.034,dwellMs:10,rearmMs:0});
+ const chou=BRANCHES.find(b=>b.id==='chou');   // middle finger root
+ const si=BRANCHES.find(b=>b.id==='si');       // index tip
+ assert.ok(e.thresholdFor(chou)>e.thresholdFor(si));
+ assert.ok(e.thresholdFor(chou)>0.040);        // 丑 is reachable at ~40mm
+ assert.equal(e.thresholdFor(si),0.034);
+ assert.ok(e.releaseFor(chou)>e.thresholdFor(chou));
+});

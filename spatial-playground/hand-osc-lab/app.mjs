@@ -106,7 +106,7 @@ function setupLabelRenderer(){
   const c=labelCanvas.getContext('2d');
   c.clearRect(0,0,labelCanvas.width,labelCanvas.height);
   c.textAlign='center';c.textBaseline='middle';
-  c.font='bold 84px "Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif';
+  c.font='84px "Songti SC","Noto Serif CJK SC","Source Han Serif SC","STSong","SimSun",serif';
   for(let i=0;i<LABEL_GLYPHS.length;i++){
     const x=(i%LABEL_COLS)*LABEL_TILE+LABEL_TILE/2;
     const y=Math.floor(i/LABEL_COLS)*LABEL_TILE+LABEL_TILE/2;

@@ -112,3 +112,48 @@ test('engine explains rejection in millimetres', () => {
   assert.match(text, /mm/);
   assert.match(text, /阈值/);
 });
+
+import { MultiContactEngine, ALL_TARGETS } from './approach-engine.mjs';
+
+test('multi-contact exposes 11 targets including palm and fingertips', () => {
+  assert.equal(ALL_TARGETS.length, 11);
+  assert.ok(ALL_TARGETS.some(t => t.palm));
+  assert.equal(ALL_TARGETS.filter(t => t.finger === 'pinky' && !t.palm).length, 1);
+});
+
+test('intensity falls off with distance instead of being binary', () => {
+  const e = new MultiContactEngine({ onDistance: 0.030 });
+  const near = e.update(hand([-0.030, -0.020, -0.085]), 0);
+  const far = e.update(hand([-0.030, -0.020, -0.075]), 0);
+  const a = near.targets.find(t => t.digit === 1).intensity;
+  const b = far.targets.find(t => t.digit === 1).intensity;
+  assert.ok(a > b);
+  assert.ok(a <= 1 && b >= 0);
+});
+
+test('two overlapping joints can confirm at the same time', () => {
+  const e = new MultiContactEngine({ onDistance: 0.045, dwellMs: 10, sustain: 0.30 });
+  // Midway between joint 7 and joint 8 so both are inside 45mm.
+  const pos = hand([-0.035, 0.005, -0.105]);
+  e.update(pos, 0);
+  const out = e.update(pos, 40);
+  const contacts = out.events.filter(v => v.kind === 'CONTACT').map(v => v.digit);
+  assert.ok(contacts.includes(1) && contacts.includes(2), 'expected both 1 and 2, got ' + contacts);
+});
+
+test('palm centre is a valid contact target', () => {
+  const e = new MultiContactEngine({ onDistance: 0.030, dwellMs: 10 });
+  const p = hand([0.015, 0.006, -0.09]); // near average of joints 5/10/15/20
+  e.update(p, 0);
+  const out = e.update(p, 40);
+  assert.ok(out.targets.find(t => t.digit === 11).intensity > 0);
+});
+
+test('multi-contact releases when the thumb moves away', () => {
+  const e = new MultiContactEngine({ onDistance: 0.030, dwellMs: 10 });
+  const on = hand([-0.030, -0.020, -0.090]);
+  e.update(on, 0); e.update(on, 40);
+  const away = e.update(hand([0, 0.3, 0]), 80);
+  assert.ok(away.events.some(v => v.kind === 'RELEASE'));
+  assert.equal(away.contacts.length, 0);
+});

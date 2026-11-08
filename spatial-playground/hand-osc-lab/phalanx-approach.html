@@ -53,6 +53,11 @@ DRAG THE THUMB TO APPROACH A JOINT</div>
       <button data-s="velocity">VELOCITY<br>接近动作</button>
     </div>
     <div class="reason" id="strategy-note">zoned：每个指节的阈值按它到手腕的距离缩放，长手指不再被系统性惩罚。</div>
+    <div class="strategies" id="modes" style="margin-top:8px">
+      <button data-m="single" class="active">SINGLE<br>单点判定</button>
+      <button data-m="multi">MULTI<br>重叠 / 渐变</button>
+    </div>
+    <div class="reason" id="mode-note">SINGLE：一次只确认一个指节。MULTI：11 个目标（6 指节 + 4 指尖 + 掌心）同时计算强度，重叠会同时触发。</div>
 
     <div class="rule">02 / SIX JOINTS</div>
     <table>
@@ -79,11 +84,13 @@ DRAG THE THUMB TO APPROACH A JOINT</div>
   </aside>
 </main>
 <script type="module">
-import { ApproachEngine, TARGETS, distance } from './approach-engine.mjs';
+import { ApproachEngine, MultiContactEngine, TARGETS, ALL_TARGETS, distance } from './approach-engine.mjs';
 
 const canvas = document.getElementById('palm');
 const ctx = canvas.getContext('2d');
 const engine = new ApproachEngine({ strategy: 'zoned' });
+const multi = new MultiContactEngine({ onDistance: 0.030, dwellMs: 90 });
+let contactMode = 'single';
 
 // Synthetic 25-joint hand (metres). Palm plane is x/y, z is depth.
 const JOINTS = Array.from({ length: 25 }, () => [0, 0, -0.10]);
@@ -178,6 +185,24 @@ function draw() {
     }
   }
 
+  // multi-contact targets: fingertips + palm centre, glow scaled by intensity
+  if (contactMode === 'multi') {
+    for (const t of ALL_TARGETS) {
+      const row = state.rows.find(r => r.digit === t.digit);
+      if (!row || !row.intensity) continue;
+      const p = t.palm ? palmPoint() : JOINTS[t.index];
+      const x = P.x(p), y = P.y(p);
+      const r = 8 + row.intensity * 16;
+      ctx.globalAlpha = 0.15 + row.intensity * 0.55;
+      ctx.fillStyle = row.state === 'CONTACT' ? '#9be8b6' : '#e8c07a';
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = row.state === 'CONTACT' ? '#9be8b6' : '#e8c07a';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+    }
+  }
+
   // thumb
   const tx = P.x(JOINTS[4]), ty = P.y(JOINTS[4]);
   ctx.fillStyle = '#f0d99a';
@@ -189,30 +214,55 @@ function draw() {
   ctx.fillText('THUMB', tx + 12, ty + 3);
 }
 
+function rowLabel(state){
+  return state==='CONTACT'?'确认':state==='CONFIRMING'?'确认中':state==='TOUCH'?'接近':state==='NO_DATA'?'无数据':'未达';
+}
 function renderRows(out) {
   const tbody = document.getElementById('rows');
-  tbody.innerHTML = out.targets.map(r => {
+  const rows = contactMode === 'multi'
+    ? out.targets.map(r => ({ ...r, progress: r.intensity, state: r.state === 'HELD' ? 'CONTACT' : r.state }))
+    : out.targets;
+  tbody.innerHTML = rows.map(r => {
     const mm = r.distance === null ? '—' : (r.distance * 1000).toFixed(1);
     const th = (r.threshold * 1000).toFixed(1);
     const pct = Math.round((r.progress || 0) * 100);
     const cls = r.state === 'CONTACT' ? 'hit' : '';
-    const label = r.state === 'CONTACT' ? '确认' : r.state === 'DWELL' ? '确认中' : r.state === 'BLOCKED' ? '阻止' : r.state === 'NO_DATA' ? '无数据' : '未达';
-    return `<tr class="${cls}"><td>${r.digit}</td><td>${r.label}</td><td>${mm}</td><td>${th}</td><td><span class="bar"><i style="width:${pct}%"></i></span></td><td>${label}</td></tr>`;
+    return `<tr class="${cls}"><td>${r.digit}</td><td>${r.label}</td><td>${mm}</td><td>${th}</td><td><span class="bar"><i style="width:${pct}%"></i></span></td><td>${rowLabel(r.state)}</td></tr>`;
   }).join('');
-  document.getElementById('why').textContent = out.nearest
-    ? engine.explain(out.nearest) + (out.nearest.distance !== null ? `\n候选 #${out.nearest.digit} · 阈值差 ${((out.nearest.threshold - out.nearest.distance) * 1000).toFixed(1)}mm` : '')
-    : '没有可用手部数据。';
+  if (contactMode === 'multi') {
+    const hot = rows.filter(r => r.state === 'CONTACT').map(r => r.label);
+    const why = hot.length
+      ? '同时接触：' + hot.join(' + ')
+      : (rows.find(r => r.state === 'CONFIRMING') ? '正在确认 ' + rows.find(r => r.state === 'CONFIRMING').label : '没有达到阈值的接触');
+    document.getElementById('why').textContent = why;
+  } else {
+    document.getElementById('why').textContent = out.nearest
+      ? engine.explain(out.nearest) + (out.nearest.distance !== null ? `\n候选 #${out.nearest.digit} · 阈值差 ${((out.nearest.threshold - out.nearest.distance) * 1000).toFixed(1)}mm` : '')
+      : '没有可用手部数据。';
+  }
   document.getElementById('sequence').textContent = out.sequence || '—';
+}
+
+function palmPoint(){
+  const ids=[5,10,15,20];
+  const pts=ids.map(i=>JOINTS[i]);
+  return [pts.reduce((a,p)=>a+p[0],0)/pts.length, pts.reduce((a,p)=>a+p[1],0)/pts.length, pts.reduce((a,p)=>a+p[2],0)/pts.length];
 }
 
 let last = performance.now();
 function frame(now) {
   requestAnimationFrame(frame);
-  const out = engine.update(JOINTS, now);
-  state.active = out.active;
-  state.rows = out.targets;
-  for (const ev of out.events) {
-    if (ev.kind === 'DIGIT') state.seq = ev.sequence;
+  let out;
+  if (contactMode === 'multi') {
+    out = multi.update(JOINTS, now);
+    state.rows = out.targets.map(r => ({ ...r, progress: r.intensity, state: r.state === 'HELD' ? 'CONTACT' : r.state }));
+    state.active = out.contacts[0] ?? null;
+    state.seq = out.sequence;
+  } else {
+    out = engine.update(JOINTS, now);
+    state.rows = out.targets;
+    state.active = out.active;
+    state.seq = out.sequence;
   }
   if (now - last > 33) { renderRows(out); last = now; }
   draw();
@@ -230,6 +280,15 @@ function moveThumb(e) {
   const r = canvas.getBoundingClientRect();
   const p = toWorld(r.width, r.height, e.clientX - r.left, e.clientY - r.top);
   JOINTS[4][0] = p[0]; JOINTS[4][1] = p[1];
+  // A flat 2D drag cannot express depth, so snap the thumb's z to the target
+  // nearest in the palm plane. This is a desktop affordance, not hand tracking.
+  let best = null, bd = Infinity;
+  const candidates = ALL_TARGETS.map(t => (t.palm ? palmPoint() : JOINTS[t.index]));
+  for (const j of candidates) {
+    const d = Math.hypot(j[0] - p[0], j[1] - p[1]);
+    if (d < bd) { bd = d; best = j; }
+  }
+  if (best) JOINTS[4][2] = best[2];
 }
 
 const NOTES = {
@@ -247,9 +306,24 @@ document.getElementById('strategies').addEventListener('click', e => {
 });
 document.querySelector('#strategies button[data-s="zoned"]').classList.add('active');
 
+const MODE_NOTES = {
+  single: 'SINGLE：一次只确认一个指节。适合严格的手诀识别，但相邻指节靠近时会互相压制。',
+  multi: 'MULTI：11 个目标（6 指节 + 4 指尖 + 掌心）各自计算强度，重叠会同时触发，强度是渐变的，不是开关。'
+};
+document.getElementById('modes').addEventListener('click', e => {
+  const b = e.target.closest('button[data-m]'); if (!b) return;
+  contactMode = b.dataset.m;
+  engine.reset(); multi.reset();
+  for (const el of document.querySelectorAll('#modes button')) el.classList.toggle('active', el === b);
+  document.getElementById('mode-note').textContent = MODE_NOTES[contactMode];
+  document.getElementById('why').textContent = '等待输入。';
+});
+
 for (const [id, key, label, scale] of [['on', 'onDistance', 'onv', 0.001], ['off', 'offDistance', 'offv', 0.001], ['dwell', 'dwellMs', 'dwellv', 1], ['amb', 'ambiguousMm', 'ambv', 0.001]]) {
   document.getElementById(id).addEventListener('input', e => {
     engine[key] = Number(e.target.value) * scale;
+    if (key === 'onDistance') multi.onDistance = Number(e.target.value) * scale;
+    if (key === 'dwellMs') multi.dwellMs = Number(e.target.value) * scale;
     document.getElementById(label).textContent = e.target.value;
   });
 }

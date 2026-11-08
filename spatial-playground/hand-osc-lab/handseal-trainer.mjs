@@ -345,8 +345,11 @@ window.__pmOrganicDraw=({line,spot,label})=>{
   const isActive=contactState?.active===b.id;
   const c=isActive?color.active:isCandidate?color.candidate:isCurrent?color.target:color.normal;
   const alpha=(isCurrent||isCandidate||isActive)?0.98:0.70;
-  const side=i%2===0?-1:1;
-  const offset=[lateral[0]*.017*side,lateral[1]*.017*side+.008,lateral[2]*.017*side];
+  // All labels on the same (ulnar) side, fanned along the finger by segment
+  // rank so proximal / middle / tip names never overlap each other.
+  const rank=b.segment==='根部'?0:b.segment==='指尖'?2:1;
+  const out=.020+rank*.011,lift=.007+rank*.004;
+  const offset=[lateral[0]*out,lateral[1]*out+lift,lateral[2]*out];
   const lp=[anchor[0]+offset[0],anchor[1]+offset[1],anchor[2]+offset[2]];
   line(anchor,lp,c,alpha*.65);spot(anchor,c,alpha);
   label(lp,b.name,c,alpha,isCurrent?0.030:0.021);

@@ -72,9 +72,19 @@ export function branchDistances(positions){
 }
 
 export class PalmContactEngine{
- constructor({onDistance=.034,offDistance=.052,dwellMs=140,rearmMs=55}={}){
+ constructor({onDistance=.034,offDistance=.052,dwellMs=140,rearmMs=55,adaptive=true}={}){
   this.onDistance=onDistance;this.offDistance=offDistance;
-  this.dwellMs=dwellMs;this.rearmMs=rearmMs;this.reset();
+  this.dwellMs=dwellMs;this.rearmMs=rearmMs;this.adaptive=adaptive;this.reset();
+ }
+ // Cross-palm branches (finger roots) sit farther from the thumb even when the
+ // contact is correct, so they get a wider acceptance band. Tips stay tight.
+ thresholdFor(branch){
+  if(!this.adaptive||!branch)return this.onDistance;
+  const mult=branch.segment==='根部'?1.25:branch.segment==='指尖'?1.0:1.12;
+  return this.onDistance*mult;
+ }
+ releaseFor(branch){
+  return Math.max(this.offDistance,this.thresholdFor(branch)*1.55);
  }
  reset(){this.active=null;this.candidate=null;this.since=0;this.releasedAt=-Infinity;this.lastSeen=0;}
  update(positions,now){
@@ -91,19 +101,22 @@ export class PalmContactEngine{
    return {events,active:null,candidate:null,nearest:null,progress:0,tracking:false};
   }
   this.lastSeen=now;
+  const nearestBranch=BRANCHES.find(x=>x.id===nearest.id)||null;
+  const nearThreshold=this.thresholdFor(nearestBranch);
   let justSwitched=false;
   if(this.active){
    const current=distances.find(x=>x.id===this.active);
-   const switched=nearest.id!==this.active&&nearest.distance<=this.onDistance&&
+   const currentBranch=BRANCHES.find(x=>x.id===this.active)||null;
+   const switched=nearest.id!==this.active&&nearest.distance<=nearThreshold&&
     nearest.distance+0.008<(current?.distance??Infinity);
-   const released=(current?.distance??Infinity)>this.offDistance||switched;
+   const released=(current?.distance??Infinity)>this.releaseFor(currentBranch)||switched;
    if(released){
     const old=this.active;
     events.push({kind:'RELEASE',id:old,t_ms:now,distance:current?.distance??Infinity});
     this.active=null;this.releasedAt=now;this.candidate=null;justSwitched=switched;
    }
   }
-  if(!this.active&&nearest.distance<=this.onDistance&&
+  if(!this.active&&nearest.distance<=nearThreshold&&
      (justSwitched||now-this.releasedAt>=this.rearmMs)){
    if(this.candidate!==nearest.id){this.candidate=nearest.id;this.since=now;}
    else if(now-this.since>=this.dwellMs){

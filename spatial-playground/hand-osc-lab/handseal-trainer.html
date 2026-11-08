@@ -4,8 +4,8 @@
 <style>
 :root{color-scheme:dark;--bg:#090b0b;--fg:#ecefe9;--muted:#9aa7a0;--edge:#34403b;--accent:#c3e6cd}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-main{display:grid;grid-template-columns:minmax(0,1fr) 430px;min-height:100vh}
-.stage{position:relative;background:#010303;min-height:580px}
+main{display:grid;grid-template-columns:minmax(0,1fr) 430px;align-items:start;min-height:100vh}
+.stage{position:sticky;top:0;height:100vh;background:#010303;min-height:560px}
 canvas{width:100%;height:100%;position:absolute;inset:0;display:block;touch-action:none}
 .hud{position:absolute;left:24px;top:22px;font-size:11px;line-height:1.7;pointer-events:none;white-space:pre-line}
 .overlay-caption{position:absolute;left:24px;bottom:22px;font-size:11px;color:#9aa7a0}
@@ -39,10 +39,10 @@ input[type=range]{width:100%;accent-color:#c7e1cf}
 .trainer-progress>div{height:7px;width:0;background:#e4d09e;transition:width .08s}
 #trainer-status{min-height:92px}
 #trainer-current{font-size:16px;color:#f0dfb9}
-@media(max-width:900px){main{grid-template-columns:1fr}.stage{min-height:56vh}aside{border:0;border-top:1px solid var(--edge)}}
+@media(max-width:900px){main{grid-template-columns:1fr}.stage{position:relative;height:58vh;min-height:340px}aside{border:0;border-top:1px solid var(--edge)}}
 #log{max-height:126px;overflow:auto;min-height:92px}
 a{color:#cbe9d2}
-@media(max-width:900px){main{grid-template-columns:1fr}.stage{min-height:50vh}aside{border:0;border-top:1px solid var(--edge)}}
+@media(max-width:900px){main{grid-template-columns:1fr}.stage{position:relative;height:58vh;min-height:340px}aside{border:0;border-top:1px solid var(--edge)}}
 </style></head><body>
 <main><div class="stage"><canvas id="view"></canvas><div class="hud" id="hud">HAND / SPACE / OSC
 DESKTOP SIMULATOR · NOT XR SENSOR DATA</div><div class="overlay-caption" id="caption">十二辰掌诀 / 25 JOINTS / THUMB CONTACT / POSE COACH</div></div>

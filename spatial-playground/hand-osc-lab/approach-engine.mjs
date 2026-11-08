@@ -217,3 +217,121 @@ export class ApproachEngine {
     }
   }
 }
+
+// ---------------------------------------------------------------------------
+// Multi-contact: overlapping contacts are allowed, each with a graded
+// intensity, and the palm centre plus fingertips are valid targets too.
+// A single thumb can therefore light two adjacent phalanges at once.
+// ---------------------------------------------------------------------------
+
+export const EXTRA_TARGETS = Object.freeze([
+  { digit: 7, index: 9, label: '食指 / 指尖', finger: 'index' },
+  { digit: 8, index: 14, label: '中指 / 指尖', finger: 'middle' },
+  { digit: 9, index: 19, label: '无名 / 指尖', finger: 'ring' },
+  { digit: 10, index: 24, label: '小指 / 指尖', finger: 'pinky' },
+  { digit: 11, index: null, palm: true, label: '掌心 / PALM', finger: 'palm' }
+]);
+
+export const ALL_TARGETS = Object.freeze([...TARGETS, ...EXTRA_TARGETS]);
+
+function palmCenter(positions) {
+  const ids = [5, 10, 15, 20];
+  const pts = ids.map(i => positions[i]).filter(finitePoint);
+  if (pts.length < 3) return null;
+  const n = pts.length;
+  return [
+    pts.reduce((s, p) => s + p[0], 0) / n,
+    pts.reduce((s, p) => s + p[1], 0) / n,
+    pts.reduce((s, p) => s + p[2], 0) / n
+  ];
+}
+
+export class MultiContactEngine {
+  constructor(options = {}) {
+    this.onDistance = options.onDistance ?? 0.030;
+    this.dwellMs = options.dwellMs ?? 90;
+    this.sustain = options.sustain ?? 0.45;   // intensity needed to start confirming
+    this.releaseAt = options.releaseAt ?? 0.20; // intensity below which it releases
+    this.reset();
+  }
+
+  reset() {
+    this.state = new Map(); // digit -> {active, since}
+    this.sequence = '';
+    this.count = 0;
+  }
+
+  update(positions, now) {
+    const lost = !Array.isArray(positions) || positions.length < 25 || !finitePoint(positions[4]);
+    if (lost) {
+      const events = [];
+      for (const [digit, s] of this.state) {
+        if (s.active) events.push({ kind: 'RELEASE', digit, reason: 'TRACKING_LOST', t_ms: now });
+      }
+      this.state.clear();
+      return {
+        events, contacts: [], sequence: this.sequence,
+        targets: ALL_TARGETS.map(t => ({
+          digit: t.digit, label: t.label, distance: null, threshold: this.onDistance,
+          intensity: 0, state: 'NO_DATA', progress: 0
+        }))
+      };
+    }
+
+    const thumb = positions[4];
+    const palm = palmCenter(positions);
+    const events = [];
+    const rows = [];
+
+    for (const t of ALL_TARGETS) {
+      const anchor = t.palm ? palm : positions[t.index];
+      const d = distance(thumb, anchor);
+      const threshold = this.onDistance;
+      const intensity = d === null ? 0 : Math.max(0, Math.min(1, 1 - d / threshold));
+      const prev = this.state.get(t.digit) || { active: false, since: null };
+      let state = 'IDLE';
+      let progress = 0;
+
+      if (prev.active) {
+        state = 'HELD';
+        progress = 1;
+        if (intensity < this.releaseAt) {
+          this.state.set(t.digit, { active: false, since: null });
+          events.push({ kind: 'RELEASE', digit: t.digit, t_ms: now });
+          state = intensity > 0 ? 'TOUCH' : 'IDLE';
+        }
+      } else if (intensity >= this.sustain) {
+        if (prev.since === null) prev.since = now;
+        const elapsed = now - prev.since;
+        progress = Math.min(1, elapsed / this.dwellMs);
+        if (progress >= 1) {
+          this.state.set(t.digit, { active: true, since: prev.since });
+          this.sequence = (this.sequence + String(t.digit)).slice(-32);
+          this.count++;
+          events.push({ kind: 'CONTACT', digit: t.digit, intensity, t_ms: now, sequence: this.sequence });
+          state = 'HELD';
+        } else {
+          this.state.set(t.digit, { active: false, since: prev.since });
+          state = 'CONFIRMING';
+        }
+      } else if (intensity > 0) {
+        state = 'TOUCH';
+        this.state.set(t.digit, { active: false, since: null });
+      } else {
+        this.state.set(t.digit, { active: false, since: null });
+      }
+
+      rows.push({
+        digit: t.digit, label: t.label, distance: d, threshold,
+        intensity, state, progress
+      });
+    }
+
+    return {
+      events,
+      contacts: rows.filter(r => r.state === 'HELD').map(r => r.digit),
+      sequence: this.sequence,
+      targets: rows
+    };
+  }
+}
