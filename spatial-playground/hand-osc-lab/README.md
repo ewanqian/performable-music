@@ -2,6 +2,15 @@
 
 **Status:** Three separate pages exist (sensor baseline / sustained Web Audio synth / Organic Fields sound maps). Code and source-level tests have been committed; real Quest/AVP audio, hand latency and stage quality are **NOT yet hardware-verified**. No raw camera access, no room-scale anchor persistence, no physical KILL.
 
+## P0 Stage Casting experiments (2026-11-08)
+
+- [Spatial Waves 01](./spatial-waves.html): touch:waves-inspired but original four XYZ sound volumes, four HRTF sources, optional user-owned same-length audio stems and 100 BPM arrangement. Audio is intended, not a sensor-only page. It uses the existing LAB02 WebXR 25-joint input adapter.
+- [Neural Field 01](./neural.html): schematic brain / section / sensor positions / synthetic signal stage, four hand-controlled modes, 60-second Show Score sketch and original audio. **Not real EEG or medically accurate reconstruction.**
+- [Existing Neuro Field](./neuro-field.html): earlier independent 2,200-node abstract art prototype, preserved unchanged.
+- [Spatial Stage V1 research and hardware gates](./SPATIAL_STAGE_V1.md): hardware, model license, local four stems, headset HRTF assumptions and Dec 3 stage priorities.
+
+**Source and browser CI tests are separate from real Quest, Vision Pro or live DAW acceptance.** Neither page claims hardware validation or a finished performer-approved sound mix.
+
 ## Start
 
 **Live page** (when GitHub Pages build succeeds):
