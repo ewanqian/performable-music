@@ -1,5 +1,5 @@
 // Spatial Instrument Studies 05: three standalone experiments on the LAB02 WebXR hand feed.
-import {FingerDial,ScoreClock,INCANTATION,DIGIT_JOINTS,TRACKS,strudelScore,clamp}
+import {FingerDial,ScoreTransport,INCANTATION,DIGIT_JOINTS,TRACKS,strudelScore,clamp}
   from './studies-engine.mjs';
 import {StemTransport,ProductionTone,NativeFallback} from './studies-audio.mjs';
 import {SCORE_ZONES,SpatialScoreMap,scoreWorldPosition,getScorePositionFromXR} from './score-map.mjs';
@@ -8,7 +8,7 @@ const $=id=>document.getElementById(id);
 const canvas=$('study-pad'),pctx=canvas.getContext('2d',{alpha:false});
 const glyph=$('glyph'),gctx=glyph.getContext('2d');
 const stem=new StemTransport(),tone=new ProductionTone(),native=new NativeFallback();
-const dial=new FingerDial(),clock=new ScoreClock({bpm:100,lookaheadMs:12});
+const dial=new FingerDial(),clock=new ScoreTransport({bpm:100,lookaheadMs:12});
 const scoreMap=new SpatialScoreMap(),scoreMix={pulse:.74,metal:.04,shimmer:.04,chord:.12};
 const scoreHitUntil=Object.create(null);
 let scoreFocus='pulse',scoreTouches=0,scoreGridStep=0,scoreLastMixUpdate=0;
@@ -198,7 +198,7 @@ function scoreNote(e){
 function scoreTick(){
   const now=performance.now(),events=clock.advance(now);
   if(clock.running){
-    scoreGridStep=((Math.floor(Math.max(0,now-clock.originMs)/(60000/clock.bpm/4)))%16+16)%16;
+    scoreGridStep=clock.position(now).step;
   }
   for(const e of events)scoreNote(e);
   if(events.length)status();

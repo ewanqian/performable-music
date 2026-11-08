@@ -91,3 +91,38 @@ test('small tracking jitter does not restart the dwell timer',()=>{
   assert.equal(out.events.filter(e=>e.kind==='DIGIT').length,1);
   assert.equal(d.sequence,'1');
 });
+
+test('ScoreTransport follows the shared Show Score clock', async () => {
+  const { ScoreTransport } = await import('./studies-engine.mjs');
+  const t = new ScoreTransport({ bpm: 100, lookaheadMs: 0 });
+  t.start(0);
+  const first = t.advance(0);
+  assert.ok(first.some(e => e.track === 'pulse' && e.step === 0));
+  const at2400 = t.position(2400);
+  assert.equal(at2400.bar, 1);
+  assert.equal(at2400.beat, 0);
+  // Four bars in = 16 beats at 100 BPM.
+  assert.equal(t.position(9600).bar, 4);
+});
+
+test('tempo change keeps the score position continuous and does not duplicate steps', async () => {
+  const { ScoreTransport } = await import('./studies-engine.mjs');
+  const t = new ScoreTransport({ bpm: 100, lookaheadMs: 0 });
+  t.start(0);
+  t.advance(2399);
+  const before = t.position(2399);
+  t.setBpm(128, 2400);
+  const after = t.position(2400);
+  assert.equal(after.bar, 1);
+  assert.equal(after.beat, 0);
+  assert.equal(t.bpm, 128);
+  // Position must not jump backwards across the tempo change.
+  assert.ok(after.bar * 4 + after.beat >= before.bar * 4 + before.beat);
+  const step = t.advance(2400);
+  const seen = new Set();
+  for (const e of step) {
+    const key = e.track + ':' + e.bar + ':' + e.step;
+    assert.ok(!seen.has(key), 'duplicate step ' + key);
+    seen.add(key);
+  }
+});

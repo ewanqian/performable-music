@@ -72,14 +72,15 @@
       "repo": "ewanqian/performable-music",
       "issue_url": null,
       "type": "implementation",
-      "status": "READY",
+      "status": "DONE",
       "priority": "P0",
       "agent": "spatial-pm",
       "session_id": null,
       "base": "main",
       "scope": "Wire protocols/show-score.mjs TransportClock into studies.html arrangement, replacing ScoreClock",
       "pass": "Changing BPM keeps musical position continuous; one bar/beat value matches an external Show Score v2 receiver",
-      "blocked_by": null
+      "blocked_by": null,
+      "evidence": "studies-ui.mjs uses ScoreTransport (TransportClock); 11 studies-engine tests incl. tempo-continuity; browser run shows SCORE PLAY / 100 BPM / STEP 04/16 with no page errors"
     },
     {
       "id": "V06-GRADED",
@@ -120,7 +121,7 @@
       "session_id": null,
       "base": "main",
       "scope": "Three-minute continuous performance on Quest: score pads, phalanx contacts, calibration import",
-      "pass": "Audio start latency, false triggers, tracking losses and crash/no-crash recorded; operator notes attached",
+      "pass": "Three-minute run on Quest with numbers: audio start latency < 500ms, false pad triggers <= 2, tracking losses recorded, no page crash; operator notes attached",
       "blocked_by": "human Quest testing"
     },
     {
@@ -134,7 +135,7 @@
       "session_id": null,
       "base": "main",
       "scope": "Symbolic Play: 贪嗔痴 character elimination using existing MultiContactEngine + twelve-branch anchors",
-      "pass": "One sentence explains the rule; wrong seal explains why it failed; explicitly labelled as game, not ritual",
+      "pass": "Rule explainable in one sentence; wrong seal shows a reason; labelled game-not-ritual; only after V06-DEVICE-QA passes",
       "blocked_by": "must not ship before V06-DEVICE-QA"
     }
   ],

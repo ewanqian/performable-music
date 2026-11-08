@@ -1,4 +1,5 @@
 // Spatial Instrument Studies — pure semantic layer. No DOM, audio, WebXR or network.
+import { TransportClock } from '../../protocols/show-score.mjs';
 export const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,Number.isFinite(x)?x:a));
 export const DIGIT_JOINTS=Object.freeze([
   {digit:1,index:7,label:'食指 / 中节'},
@@ -88,6 +89,50 @@ export class FingerDial{
     for(let n=Math.min(this.sequence.length,INCANTATION.length);n>=1;n--)
       if(this.sequence.endsWith(INCANTATION.slice(0,n)))return n;
     return 0;
+  }
+}
+// Adapter over the shared Show Score v2 clock. Same advance() contract as
+// ScoreClock, but bar/beat/step come from TransportClock so the browser and an
+// external receiver agree on musical position.
+export class ScoreTransport{
+  constructor({bpm=100,lookaheadMs=12}={}){
+    this.lookaheadMs=lookaheadMs;
+    this.clock=new TransportClock({bpm,beatsPerBar:4,stepsPerBeat:4});
+    this.running=false;this.lastIndex=-1;
+  }
+  get bpm(){return this.clock.bpm;}
+  get originMs(){return this.clock.originMs;}
+  start(nowMs=0){
+    this.clock=new TransportClock({bpm:this.clock.bpm,beatsPerBar:4,stepsPerBeat:4,originMs:nowMs});
+    this.running=true;this.lastIndex=-1;
+  }
+  stop(){this.running=false;}
+  setBpm(bpm,nowMs=0){
+    if(this.running)this.clock=this.clock.withTempo(clamp(bpm,45,220),nowMs);
+    else this.clock=new TransportClock({bpm:clamp(bpm,45,220),beatsPerBar:4,stepsPerBeat:4,originMs:this.clock.originMs});
+  }
+  indexAt(t){
+    const p=this.clock.position(t);
+    return p.bar*p.beats_per_bar*p.steps_per_beat+p.beat*p.steps_per_beat+p.step;
+  }
+  position(t){return this.clock.position(t);}
+  advance(nowMs){
+    if(!this.running)return [];
+    const upto=this.indexAt(nowMs+this.lookaheadMs);
+    const result=[];
+    const start=Math.max(this.lastIndex+1,upto-63);
+    for(let index=start;index<=upto;index++){
+      if(index<0)continue;
+      const step=index%16,bar=Math.floor(index/16);
+      const t_ms=this.clock.originMs+index*this.clock.stepMs(nowMs);
+      for(const track of TRACKS){
+        if(track.steps.includes(step)){
+          result.push({type:'NOTE',track:track.id,step,bar,t_ms,velocity:track.level});
+        }
+      }
+    }
+    this.lastIndex=Math.max(this.lastIndex,upto);
+    return result;
   }
 }
 export class ScoreClock{
