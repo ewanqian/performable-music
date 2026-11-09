@@ -77,10 +77,14 @@ jobs:
           node --check spellcraft-ui.mjs
           node --check gesture-stream-engine.mjs
           node --check gesture-stream-engine.test.mjs
+          node --check gesture-stability.mjs
+          node --check gesture-stability.test.mjs
+          node --check gesture-score-audio.mjs
+          node --check gesture-score-audio.test.mjs
           node --check gesture-dynamics-ui.mjs
           node --check ../../protocols/show-score.mjs
           node --check ../../protocols/show-score.test.mjs
       - name: Test joint geometry and spatial zones
-        run: node --test engine.test.mjs instrument-gesture.test.mjs instrument-audio.test.mjs organic-engine.test.mjs studies-engine.test.mjs atlas-engine.test.mjs handseal-engine.test.mjs score-map.test.mjs approach-engine.test.mjs label-layout.test.mjs neuro-engine.test.mjs neural-engine.test.mjs spatial-waves-engine.test.mjs gesture-dynamics-engine.test.mjs gesture-flight-engine.test.mjs spellcraft-engine.test.mjs gesture-stream-engine.test.mjs ../../protocols/show-score.test.mjs
+        run: node --test engine.test.mjs instrument-gesture.test.mjs instrument-audio.test.mjs organic-engine.test.mjs studies-engine.test.mjs atlas-engine.test.mjs handseal-engine.test.mjs score-map.test.mjs approach-engine.test.mjs label-layout.test.mjs neuro-engine.test.mjs neural-engine.test.mjs spatial-waves-engine.test.mjs gesture-dynamics-engine.test.mjs gesture-flight-engine.test.mjs spellcraft-engine.test.mjs gesture-stream-engine.test.mjs gesture-stability.test.mjs gesture-score-audio.test.mjs ../../protocols/show-score.test.mjs
       - name: Check package dependency installation
         run: npm install --ignore-scripts --no-audit --no-fund
