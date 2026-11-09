@@ -19,6 +19,16 @@ Two six-mechanic Quest 3 MR / VR browser experiments, implemented as original in
 4. For sword volley / fireball / shield / freeze, capture 10 valid trials each and count false detections and misses. Only increase visual complexity after gameplay is reliable.
 5. Confirm audio plays at safe level, no repeated loud trigger storms, sustained headset frame rate and independent XR exit/re-entry.
 
+## Gesture Dynamics V4 — Reliable Quest Hands + Original Music (2026-11-09)
+
+Current published page remains `gesture-dynamics.html`. V3 physical jet/stripe/vortex visuals are retained.
+
+**Improved detection.** `gesture-stability.mjs` reads joint bends plus index-middle tip separation, using different entry and retention margins (sword hold has a relaxed tolerance), 42 ms sword entry, 72 ms fist entry, 96 ms open-palm confirmation, and 340 ms neutral release. A 180 ms short occlusion holds the last valid pose to prevent abrupt stream stoppage; after that, engine receives no hand rather than fabricating an open/fist transition. Hard tracking loss is reset after 380 ms. The real fingertip point and direction are exponentially stabilized with 24/28 ms time constants: responsive enough to steer without single-frame jitter. Browser status reveals held/real tracked frames. Desktop has a POSE STABILITY slider (160–520 ms neutral release) for tuning; this cannot fix upstream XR tracking quality.
+
+**Original scored music.** `gesture-score-audio.mjs` is a self-contained 96 BPM four-bar audiovisual score, with evolving suspended pads, sub-bass pulse, light percussion, algorithmic arpeggios and a continuous filtered air layer; no licensed recordings or downloaded assets. Continuous sound follows jet/motion/charge while collected pulses and bursts add musical accents. It starts only from user interaction (MUSIC ON button, desktop gesture button/keyboard, or XR enter click), offers independent volume/mute, and explicitly reports WebAudio startup errors. Audio is entirely local: no streams, hand data uploads or remote calls. Quest autoplay/latency and actual sonic quality require in-headset listening tests.
+
+**Tests.** `node --test gesture-stability.test.mjs gesture-score-audio.test.mjs` covers pose jitter, missing tracking and deliberate transition, dynamic sound score invariants and autoplay safety. End-to-end desktop browser smoke must verify the actual Music On/Off user gesture and the WebGL scene. Device QA: sustained sword over 20 trials (lost pose frames and false palm activations), left/right tracking interruption, extreme wrist orientations and 96 BPM music output with hand-locked WebAudio.
+
 ## Gesture Dynamics V3 / Turbulent Energy Flow (2026-11-09)
 
 **Current live app:** [Gesture Dynamics](./gesture-dynamics.html). This V3 supersedes the V2 visually rigid orbital-leader effect and keeps the same URL/Portfolio launcher.
