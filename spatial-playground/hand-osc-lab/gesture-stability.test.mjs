@@ -5,7 +5,7 @@ const make=(kind='sword',override={})=>{
  const bends=kind==='sword'?{index:18,middle:22,ring:90,pinky:88}:
    kind==='open'?{index:12,middle:10,ring:19,pinky:22}:
    kind==='fist'?{index:86,middle:93,ring:87,pinky:91}:
-   {index:54,middle:58,ring:48,pinky:45};
+   {index:78,middle:74,ring:26,pinky:30};
  return {kind,point:[.1,.2,.4],direction:[0,0,-1],
    bends,tipGap:kind==='sword'?.027:kind==='open'?.24:.08,...override};
 };
