@@ -31,7 +31,7 @@ export class WarlockArena {
  summon(point=[.3,-.25,.1]){if(!this.equipped){this.equipped=true;this.emit('summon',{point:point.slice()});}this.started=true;this.note=this.spec.id==='stasis'?'冰杖已召出 · 剑指冻结目标':'已就绪 · 指向目标';}
  hit(t,amount,kind,point=t.p){if(t.dead>0)return;this.hits++;t.health-=amount;this.score+=Math.round(amount*100);this.emit('hit',{point:point.slice(),kind,target:t.id});if(this.spec.id==='prismatic'){if(kind==='light')this.light=clamp(this.light+.22,0,1);else this.dark=clamp(this.dark+.22,0,1);}if(t.health<=0){t.dead=2.8;t.freeze=0;this.emit('defeat',{point:t.p.slice(),kind});}}
  freeze(t){if(t.dead>0)return;t.freeze=6;this.emit('freeze',{point:t.p.slice(),target:t.id});this.note='已冻结 · 张掌碎冰';}
- spawn(kind,p,d,power=1,target=null){if(this.projectiles.length>=96)this.projectiles.shift();const speed=kind==='nova'?2.4:kind==='threadling'?3.3:kind==='needle'?5.7:5.1;const q={id:++this.serial,kind,p:p.slice(),previous:p.slice(),v:mul(norm(d),speed),speed,ttl:kind==='nova'?5:3.3,power,target,side:(this.alternate++%2===0?'light':'dark')};this.projectiles.push(q);return q;}
+ spawn(kind,p,d,power=1,target=null,ignoreId=null){if(this.projectiles.length>=96)this.projectiles.shift();const speed=kind==='nova'?2.4:kind==='threadling'?3.3:kind==='needle'?5.7:5.1;const q={id:++this.serial,kind,p:p.slice(),previous:p.slice(),v:mul(norm(d),speed),speed,ttl:kind==='nova'?5:3.3,age:0,power,target,ignoreId,side:(this.alternate++%2===0?'light':'dark')};this.projectiles.push(q);return q;}
  primary(origin=[.3,-.25,.1],direction=[0,0,-1],force=false){
  if(!valid(origin)||!valid(direction)||(!force&&this.cooldown>0))return false;
  this.summon(origin);const id=this.spec.id,power=1+this.charge*1.5,aim=aimAt(origin,direction,this.targets);this.charge=0;
@@ -76,22 +76,22 @@ export class WarlockArena {
  this.cooldown=Math.max(0,this.cooldown-dt);this.secondaryCD=Math.max(0,this.secondaryCD-dt);this.transcendent=Math.max(0,this.transcendent-dt);
  for(const t of this.targets){if(t.dead>0){t.dead=Math.max(0,t.dead-dt);if(!t.dead){t.health=1;t.burn=0;t.freeze=0;}continue;}t.freeze=Math.max(0,t.freeze-dt);t.burn=Math.max(0,t.burn-dt);if(t.burn>0)this.hit(t,dt*.045,'solar');if(!t.freeze)t.p=[t.home[0]+Math.sin(this.time*.65+t.id)*.09,t.home[1]+Math.cos(this.time*.55+t.id)*.06,t.home[2]];}
  const additions=[];
- for(const q of this.projectiles){q.ttl-=dt;if(q.ttl<=0)continue;q.previous=q.p.slice();
+ for(const q of this.projectiles){q.ttl-=dt;q.age+=dt;if(q.ttl<=0)continue;q.previous=q.p.slice();
  if(['needle','nova','threadling','prism'].includes(q.kind)){
-  let target=this.targets[q.target];if(!target||target.dead>0)target=aimAt(q.p,q.v,this.targets,.1).target;
+  let target=this.targets[q.target];if(!target||target.dead>0||target.id===q.ignoreId)target=aimAt(q.p,q.v,this.targets.filter(t=>t.id!==q.ignoreId),.1).target;
   if(target){q.target=target.id;const desired=mul(norm(sub(target.p,q.p)),q.speed);const a=1-Math.exp(-dt*(q.kind==='nova'?2.4:7));q.v=q.v.map((v,i)=>v+(desired[i]-v)*a);}
  }
  q.p=add(q.p,mul(q.v,dt));
- for(const t of this.targets){if(t.dead>0||segmentDistance(t.p,q.previous,q.p)>.2+(q.kind==='nova'?.13:0))continue;
+ for(const t of this.targets){if(t.dead>0||t.id===q.ignoreId||(q.kind==='threadling'&&q.age<.14)||segmentDistance(t.p,q.previous,q.p)>.2+(q.kind==='nova'?.13:0))continue;
   if(q.kind==='ice'){this.freeze(t);this.score+=5;}
   else if(q.kind==='nova')this.nova(q.p,q.power);
-  else {this.hit(t,q.kind==='blade'?.55:q.kind==='needle'?.19:q.kind==='threadling'?.26:.3,q.kind==='prism'?q.side:q.kind);if(q.kind==='blade')t.burn=2.5;if(q.kind==='needle')additions.push({p:q.p.slice(),d:q.v.slice(),target:this.targets.find(x=>x.dead<=0&&x.id!==t.id)?.id});}
+  else {this.hit(t,q.kind==='blade'?.55:q.kind==='needle'?.19:q.kind==='threadling'?.26:.3,q.kind==='prism'?q.side:q.kind);if(q.kind==='blade')t.burn=2.5;if(q.kind==='needle'){const target=this.targets.filter(x=>x.dead<=0&&x.id!==t.id).sort((a,b)=>dist(a.p,q.p)-dist(b.p,q.p))[0];additions.push({p:q.p.slice(),d:target?sub(target.p,q.p):q.v.slice(),target:target?.id,from:t.id});}}
   q.ttl=0;break;
  }
  }
- this.projectiles=this.projectiles.filter(q=>q.ttl>0);for(const a of additions)this.spawn('threadling',a.p,a.d,.6,a.target);
+ this.projectiles=this.projectiles.filter(q=>q.ttl>0);for(const a of additions){this.spawn('threadling',a.p,a.d,.6,a.target,a.from);this.emit('threadling',{point:a.p.slice()});}
  this.beams=this.beams.filter(b=>(b.ttl-=dt)>0);
- if(menu){this.prev='neutral';this.lastHand=null;return this.events;}
+ if(menu){if(hand&&!hand.stale)this.prev=hand.kind;this.lastHand=null;return this.events;}
  if(!hand||hand.stale||!valid(hand.point)||!valid(hand.direction)){this.lastHand=null;return this.events;}
  const kind=hand.kind;
  if(kind==='fist'){this.summon(hand.point);this.charge=clamp(this.charge+dt*.72,0,1);}
