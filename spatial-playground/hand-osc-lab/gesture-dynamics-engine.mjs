@@ -27,7 +27,7 @@ export function interpretHand(points) {
   const tip = [(points[9][0] + points[14][0]) * 0.5,
     (points[9][1] + points[14][1]) * 0.5, (points[9][2] + points[14][2]) * 0.5];
   return { kind: sword ? 'sword' : open ? 'open' : fist ? 'fist' : 'neutral',
-    point: sword ? tip : points[0], direction: normalize(tip.map((v, i) => v - start)) };
+    point: sword ? tip : points[0], direction: normalize(tip.map((v, i) => v - start[i])) };
 }
 
 export class GestureGate {
