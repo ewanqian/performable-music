@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07090c">
-<title>Gesture Dynamics V2 — Hand-Cast Particle Flight</title>
+<title>Gesture Dynamics V3 — Turbulent Energy Stream</title>
 <style>
 :root{color-scheme:dark;--bg:#07090c;--fg:#f1f0ec;--dim:#a3a8ae;--line:#30333a;--accent:#e6bc87}
 *{box-sizing:border-box}
@@ -26,37 +26,40 @@ button.xr{background:#e9ddca;color:#121315;font-weight:700;border-color:#e9ddca}
 button:disabled{opacity:.35;cursor:not-allowed}
 select{padding-right:18px;min-width:150px}
 #help{font-size:10px;color:#8d9298;line-height:1.75;margin:8px 0 0}
-a{color:inherit}
+a{color:inherit}.sliders{display:grid;gap:8px;margin-top:10px}.sliders label{display:grid;grid-template-columns:1fr auto;gap:4px;font-size:9px;color:#aeb1b5;letter-spacing:.05em}.sliders input{grid-column:1/-1;width:100%;accent-color:#e4c39d;cursor:pointer}.sliders output{color:#ebcfb0}
 @media(max-width:760px){header{left:14px;top:12px;max-width:70vw}header p{max-width:260px}#status{right:12px;top:14px;max-width:130px;font-size:9px}#controls{left:10px;right:10px;bottom:10px;gap:8px}.panel{padding:8px}.buttons{gap:4px}button,select{font-size:10px;padding:7px}#help{display:none}h1{font-size:28px}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"}}</script>
 </head><body>
 <canvas id="view" aria-label="三维空间粒子动力学预览"></canvas>
 <header>
-<div class="eyebrow">SPATIAL PLAYGROUND / EXPERIMENT 12</div>
+<div class="eyebrow">SPATIAL PLAYGROUND / EXPERIMENT 12 / V3 CONTINUOUS FLOW</div>
 <h1>Gesture<br>Dynamics.</h1>
-<p>手势生成真正的飞行体：剑指从指尖发射主粒子与随从粒子，张掌爆散；先右拳、再左拳，全部快速回到手中。不会自动弹回。</p>
+<p>挥手生出灵气尾迹；握拳吸取并蓄积能量；剑指从指尖连续喷射受紊流扰动的能量流；张掌引爆附近粒子。蓄力越久，喷涌越强。手部朝向和挥舞速度持续影响流动。</p>
 </header>
 <div id="status" role="status">INITIALIZING …</div>
 <div id="controls">
   <div class="panel">
-    <div class="label">DESKTOP MOCK / 1 发射 · 2 爆散 · 3 右拳 · 4 左拳 · 0 释放</div>
+    <div class="label">DESKTOP MOCK / 1 剑指流 · 2 张掌爆散 · 3 握拳蓄力 · 0 释放</div>
     <div class="buttons">
-      <button data-gesture="sword" aria-pressed="false">01 剑指 / CAST</button>
+      <button data-gesture="sword" aria-pressed="false">01 剑指 / STREAM</button>
       <button data-gesture="open" aria-pressed="false">02 张掌 / BURST</button>
-      <button data-gesture="right-fist" aria-pressed="false">03 右拳 / ARM</button>
-      <button data-gesture="left-fist" aria-pressed="false">04 左拳 / RECALL</button>
+      <button data-gesture="fist" aria-pressed="false">03 握拳 / CHARGE</button>
       <button data-gesture="neutral" aria-pressed="true">00 释放</button>
     </div>
-    <div id="help">鼠标控制发射方向 · 右拳后左拳回收（按 3 再 4） · R 重置 · 桌面模拟不等于 Quest 实测</div>
+    <div id="help">鼠标移动 = 挥手能量尾迹 · 按 3 持续蓄力 → 按 1 释放强喷涌并继续小流；按 2 爆散 · R 重置 · Quest 实测待验收</div>
   </div>
   <div class="panel">
-    <div class="label">FOLLOWER ORBIT / 粒子编队</div>
+    <div class="label">FLOW CHARACTER / 真实粒子流变体</div>
     <select id="shape" aria-label="粒子空间造型">
-      <option value="cloud">01 / VOLUMETRIC CLOUD</option>
-      <option value="torus">02 / TOROIDAL FIELD</option>
-      <option value="helix">03 / DOUBLE-WOUND SPIRAL</option>
+      <option value="jet">01 / CONTINUOUS JET</option>
+      <option value="ribbon">02 / STRIPE / RIBBON</option>
+      <option value="vortex">03 / TURBULENT VORTEX</option>
     </select>
+    <div class="sliders">
+      <label>TURBULENCE <output id="turbulence-value">0.65</output><input id="turbulence" type="range" min="0" max="2.2" step=".05" value=".65"></label>
+      <label>OUTPUT <output id="output-value">1.00</output><input id="output" type="range" min=".2" max="2" step=".05" value="1"></label>
+    </div>
   </div>
   <div class="panel">
     <div class="label">META QUEST 3 / WEBXR</div>

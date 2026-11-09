@@ -1,135 +1,208 @@
-// Gesture Dynamics V2: real-time 25-joint XR sampling, event combo and leader/follower flights.
-// One simulation core is shared by desktop MOCK and Quest WebXR hand tracking.
+// Gesture Dynamics V3 / Quest 3: continuous Lagrangian jet with curl turbulence.
+// Every rendered frame advances real particle positions, sampled hand pose and kinetic state.
+// Desktop is explicitly a mock. No hand coordinates leave the device.
 import * as THREE from 'three';
-import { JOINTS } from './engine.mjs';
-import { GestureGate, interpretHand } from './gesture-dynamics-engine.mjs';
-import { GestureCombo, FlightSwarm, FLIGHT_SLOTS } from './gesture-flight-engine.mjs';
-
-const $ = id => document.getElementById(id);
+import {JOINTS} from './engine.mjs';
+import {GestureGate,interpretHand} from './gesture-dynamics-engine.mjs';
+import {EnergyStream,MAX_PARTICLES,PARTICLE_KIND,POWER_MAX} from './gesture-stream-engine.mjs';
+const $=id=>document.getElementById(id);
 const canvas=$('view'),status=$('status'),shapeSelect=$('shape');
 const arButton=$('enter-ar'),vrButton=$('enter-vr'),exitButton=$('exit-xr');
-const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false,powerPreference:'high-performance'});
+const renderer=new THREE.WebGLRenderer({
+  canvas,alpha:true,antialias:false,powerPreference:'high-performance'
+});
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));
 renderer.setSize(innerWidth,innerHeight);
 renderer.setClearColor(0x000000,0);
+renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.xr.enabled=true;renderer.xr.setReferenceSpaceType('local');
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(64,innerWidth/innerHeight,.012,80);
-camera.position.set(0,0,2.7);
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.015,90);
+// Desktop is a close-up art preview; immersive WebXR supplies its own true head camera.
+camera.position.set(0,0,1.72);
 const group=new THREE.Group();scene.add(group);
-let swarm=new FlightSwarm(shapeSelect.value);
-let combo=new GestureCombo();
-const geometry=new THREE.BufferGeometry();
-geometry.setAttribute('position',new THREE.BufferAttribute(swarm.pos,3).setUsage(THREE.DynamicDrawUsage));
-const color=new Float32Array(swarm.pos.length);
-for(let i=0;i<swarm.pos.length/3;i++){
-  const t=i%120/120, j=i*3;
-  color[j]=.75+t*.23;color[j+1]=.83-t*.17;color[j+2]=.97-t*.28;
-}
-geometry.setAttribute('color',new THREE.BufferAttribute(color,3));
-function texture(){
+const flow=new EnergyStream('jet',727);
+const geo=new THREE.BufferGeometry();
+const colors=new Float32Array(MAX_PARTICLES*3);
+geo.setAttribute('position',new THREE.BufferAttribute(flow.pos,3).setUsage(THREE.DynamicDrawUsage));
+geo.setAttribute('color',new THREE.BufferAttribute(colors,3).setUsage(THREE.DynamicDrawUsage));
+geo.setDrawRange(0,MAX_PARTICLES);
+function pointTexture(){
   const c=document.createElement('canvas');c.width=c.height=64;
-  const ctx=c.getContext('2d'),g=ctx.createRadialGradient(32,32,0,32,32,32);
+  const x=c.getContext('2d'),g=x.createRadialGradient(32,32,0,32,32,32);
   g.addColorStop(0,'rgba(255,255,255,1)');
-  g.addColorStop(.2,'rgba(255,255,255,.96)');
-  g.addColorStop(.55,'rgba(255,255,255,.24)');
+  g.addColorStop(.18,'rgba(255,255,255,1)');
+  g.addColorStop(.50,'rgba(255,255,255,.45)');
   g.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.fillStyle=g;ctx.fillRect(0,0,64,64);
-  return new THREE.CanvasTexture(c);
+  x.fillStyle=g;x.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);
 }
-const particles=new THREE.Points(geometry,new THREE.PointsMaterial({
-  map:texture(),size:.046,vertexColors:true,transparent:true,opacity:.94,
+const particles=new THREE.Points(geo,new THREE.PointsMaterial({
+  map:pointTexture(),size:.070,transparent:true,opacity:1,vertexColors:true,
   depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true
 }));
 particles.frustumCulled=false;group.add(particles);
-const leaders=new THREE.InstancedMesh(
-  new THREE.IcosahedronGeometry(.044,1),
-  new THREE.MeshBasicMaterial({color:0xf5debd}),FLIGHT_SLOTS
-);
-leaders.frustumCulled=false;group.add(leaders);
-const dummy=new THREE.Object3D();
-const arrow=new THREE.ArrowHelper(new THREE.Vector3(0,0,-1),new THREE.Vector3(),.38,0xf0ac73,.06,.03);
-group.add(arrow);arrow.visible=false;
-// Inside XR the desktop DOM is not visible: place the state readout in the world.
-const hudCanvas=document.createElement('canvas');hudCanvas.width=1000;hudCanvas.height=230;
-const hudTexture=new THREE.CanvasTexture(hudCanvas);
-const hudMesh=new THREE.Mesh(new THREE.PlaneGeometry(1.10,.25),new THREE.MeshBasicMaterial({
-  map:hudTexture,transparent:true,side:THREE.DoubleSide,depthWrite:false
+const softGlow=new THREE.Points(geo,new THREE.PointsMaterial({
+  map:pointTexture(),size:.16,transparent:true,opacity:.27,vertexColors:true,
+  depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true
 }));
-hudMesh.position.set(0,-.83,.16);group.add(hudMesh);
-let hudLast='';
-function drawHud(line){
-  if(line===hudLast)return;hudLast=line;
-  const x=hudCanvas.getContext('2d');x.clearRect(0,0,1000,230);
-  x.fillStyle='rgba(8,11,16,.76)';x.fillRect(0,0,1000,230);
-  x.strokeStyle='#58616b';x.strokeRect(2,2,996,226);
-  x.fillStyle='#f1bf91';x.font='32px monospace';
-  x.fillText('GESTURE DYNAMICS / COMBO V2',25,62);
-  x.fillStyle='#f1f0ec';x.font='27px monospace';
-  x.fillText(line.slice(0,60),25,125);
-  x.fillStyle='#9da8b5';x.font='24px monospace';
-  x.fillText('SWORD: CAST   PALM: BURST   R FIST + L FIST: RECALL',25,187);
-  hudTexture.needsUpdate=true;
+softGlow.frustumCulled=false;group.add(softGlow);
+// Velocity streaks are actual previous-to-current particle motion, not a canned spiral.
+const streakCoords=new Float32Array(MAX_PARTICLES*6);
+const streakColor=new Float32Array(MAX_PARTICLES*6);
+const streakGeo=new THREE.BufferGeometry();
+streakGeo.setAttribute('position',new THREE.BufferAttribute(streakCoords,3).setUsage(THREE.DynamicDrawUsage));
+streakGeo.setAttribute('color',new THREE.BufferAttribute(streakColor,3).setUsage(THREE.DynamicDrawUsage));
+const streaks=new THREE.LineSegments(streakGeo,new THREE.LineBasicMaterial({
+  transparent:true,opacity:.65,vertexColors:true,depthWrite:false,
+  blending:THREE.AdditiveBlending
+}));
+streaks.frustumCulled=false;group.add(streaks);
+// Real broad ribbons: mesh quads derived from each sampled particle's current
+// velocity, so they bend, spread and break with the simulated stream, not a fixed VFX loop.
+const ribbonCoords=new Float32Array(MAX_PARTICLES*18);
+const ribbonGeo=new THREE.BufferGeometry();
+ribbonGeo.setAttribute('position',new THREE.BufferAttribute(ribbonCoords,3).setUsage(THREE.DynamicDrawUsage));
+ribbonGeo.setDrawRange(0,0);
+const ribbons=new THREE.Mesh(ribbonGeo,new THREE.MeshBasicMaterial({
+  color:0xeed8b8,transparent:true,opacity:.22,
+  side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending
+}));
+ribbons.frustumCulled=false;group.add(ribbons);
+// Only strong collected pulses get a leading flare. The primary visual is the flowing jet.
+const frontMeshes=new THREE.InstancedMesh(new THREE.OctahedronGeometry(.032,1),
+  new THREE.MeshBasicMaterial({color:0xffeccd,transparent:true,opacity:.92}),8);
+frontMeshes.frustumCulled=false;group.add(frontMeshes);
+const dummy=new THREE.Object3D();
+const arrow=new THREE.ArrowHelper(new THREE.Vector3(0,0,-1),new THREE.Vector3(),
+  .32,0xf3c692,.044,.02);
+arrow.visible=false;group.add(arrow);
+// Fist displays a compact local charging nucleus; it must physically follow the palm.
+const chargeViews={};
+for(const side of ['left','right']){
+  const core=new THREE.Mesh(new THREE.IcosahedronGeometry(.07,1),
+    new THREE.MeshBasicMaterial({color:0xffddb1,transparent:true,opacity:.1,
+      depthWrite:false,blending:THREE.AdditiveBlending}));
+  const halo=new THREE.Mesh(new THREE.TorusGeometry(.12,.0026,3,56),
+    new THREE.MeshBasicMaterial({color:0xe6d6b9,transparent:true,opacity:.25,
+      side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending}));
+  core.visible=halo.visible=false;
+  group.add(core,halo);chargeViews[side]={core,halo};
+}
+const shockwaves=[];
+function spawnShock(p,power){
+  const geo=new THREE.RingGeometry(.99,1,72);
+  const mat=new THREE.MeshBasicMaterial({
+    color:0xffd7af,transparent:true,opacity:.67,
+    depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending
+  });
+  const mesh=new THREE.Mesh(geo,mat);mesh.position.fromArray(p);
+  mesh.scale.setScalar(.08);group.add(mesh);
+  shockwaves.push({mesh,t:0,max:.38+power*.09});
+  if(shockwaves.length>10){
+    const old=shockwaves.shift();group.remove(old.mesh);
+    old.mesh.geometry.dispose();old.mesh.material.dispose();
+  }
+}
+function updateShock(dt){
+  for(let i=shockwaves.length-1;i>=0;i--){
+    const e=shockwaves[i];e.t+=dt;
+    const ratio=Math.min(1,e.t/e.max);
+    e.mesh.scale.setScalar(.10+(.72+e.max)*ratio);
+    e.mesh.material.opacity=(1-ratio)*.62;
+    if(ratio>=1){
+      group.remove(e.mesh);e.mesh.geometry.dispose();e.mesh.material.dispose();
+      shockwaves.splice(i,1);
+    }
+  }
 }
 
-const jointsCache={left:new Float32Array(JOINTS.length*16),right:new Float32Array(JOINTS.length*16)};
-const handState={
-  left:{gate:new GestureGate(42,45),measure:null,last:null,point:null},
-  right:{gate:new GestureGate(42,45),measure:null,last:null,point:null}
-};
-const tempA=new THREE.Vector3(),tempB=new THREE.Vector3(),worldDir=new THREE.Vector3();
-const q=new THREE.Quaternion(),up=new THREE.Vector3(0,1,0);
-let xrSession=null,anchored=false,lastTime=0,lastStatusTime=0,fps=0,fpsFrames=0,fpsStart=0;
-let cursor=[0,0],lastMessage='READY',lastEventTime=0,trackedHands=0;
-const desktop={right:'neutral',left:'neutral'};
-function setDesktopGesture(kind){
-  if(xrSession)return;
-  if(kind==='right-fist'){desktop.right='fist';desktop.left='neutral';}
-  else if(kind==='left-fist'){desktop.left='fist';}
-  else{desktop.right=kind;desktop.left='neutral';}
-  document.querySelectorAll('[data-gesture]').forEach(
-    b=>b.setAttribute('aria-pressed',String(b.dataset.gesture===kind)));
+// XR does not display the DOM: a lightweight in-scene test status is intentional.
+const hudCanvas=document.createElement('canvas');hudCanvas.width=1050;hudCanvas.height=250;
+const hudTex=new THREE.CanvasTexture(hudCanvas);
+const hud=new THREE.Mesh(new THREE.PlaneGeometry(1.18,.28),
+  new THREE.MeshBasicMaterial({map:hudTex,transparent:true,side:THREE.DoubleSide,
+    depthWrite:false}));
+hud.position.set(0,-.82,.18);group.add(hud);
+let lastHud='';
+function drawHud(s){
+  if(s===lastHud)return;lastHud=s;
+  const g=hudCanvas.getContext('2d');
+  g.clearRect(0,0,1050,250);
+  g.fillStyle='rgba(7,10,15,.8)';g.fillRect(0,0,1050,250);
+  g.strokeStyle='#555f68';g.strokeRect(2,2,1046,246);
+  g.fillStyle='#edc79f';g.font='31px monospace';
+  g.fillText('GESTURE DYNAMICS / TURBULENT ENERGY V3',25,62);
+  g.fillStyle='#f2f1e9';g.font='26px monospace';g.fillText(s.slice(0,72),25,126);
+  g.fillStyle='#aab1b8';g.font='23px monospace';
+  g.fillText('SWEEP: AURA   FIST: CHARGE   SWORD: FLOW   PALM: BLAST',25,196);
+  hudTex.needsUpdate=true;
 }
-document.querySelectorAll('[data-gesture]').forEach(
-  b=>b.addEventListener('click',()=>setDesktopGesture(b.dataset.gesture)));
+const matrixCache={left:new Float32Array(JOINTS.length*16),
+  right:new Float32Array(JOINTS.length*16)};
+const handState={left:{gate:new GestureGate(36,52)},
+  right:{gate:new GestureGate(36,52)}};
+const v0=new THREE.Vector3(),v1=new THREE.Vector3(),
+  forward=new THREE.Vector3(),q=new THREE.Quaternion(),
+  up=new THREE.Vector3(0,1,0);
+const THREE_WHITE=new THREE.Color(0xffffff);
+let session=null,anchored=false,tracked=0,cursor=[0,0];
+let lastTime=0,statusAt=-1,fpsAt=0,fps=0,fpsCount=0,lastMessage='READY / SWEEP YOUR HAND';
+let desktopKind='neutral';
+const gestureButtons=[...document.querySelectorAll('[data-gesture]')];
+function setDesktopKind(kind){
+  if(session)return;
+  desktopKind=kind;
+  for(const b of gestureButtons)b.setAttribute('aria-pressed',String(b.dataset.gesture===kind));
+}
+for(const b of gestureButtons)b.addEventListener('click',()=>setDesktopKind(b.dataset.gesture));
 document.addEventListener('keydown',e=>{
   if(e.repeat||/INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName||''))return;
-  const map={Digit1:'sword',Digit2:'open',Digit3:'right-fist',Digit4:'left-fist',Digit0:'neutral'};
-  if(map[e.code])setDesktopGesture(map[e.code]);
-  if(e.code==='KeyR')reset();
+  const key={Digit1:'sword',Digit2:'open',Digit3:'fist',Digit0:'neutral'};
+  if(key[e.code])setDesktopKind(key[e.code]);
+  if(e.code==='KeyR')resetFlow();
 });
 canvas.addEventListener('pointermove',e=>{
-  cursor=[(e.clientX/innerWidth-.5)*2,(0.5-e.clientY/innerHeight)*2];
+  cursor=[(e.clientX/innerWidth-.5)*2,(.5-e.clientY/innerHeight)*2];
 });
-function reset(){
-  swarm=new FlightSwarm(shapeSelect.value);
-  geometry.attributes.position.array=swarm.pos;geometry.attributes.position.needsUpdate=true;
-  combo=new GestureCombo();lastMessage='RESET / READY';
-  for(const h of Object.values(handState)){h.gate.reset();h.measure=null;h.last=null;h.point=null;}
-  desktop.right='neutral';desktop.left='neutral';
+shapeSelect.addEventListener('change',()=>resetFlow());
+function readSlider(id,defaultValue){
+  const element=$(id);
+  if(!element)return defaultValue;
+  const n=Number(element.value);
+  return Number.isFinite(n)?n:defaultValue;
 }
-shapeSelect.addEventListener('change',reset);
+function syncConfig(){
+  flow.configure({turbulence:readSlider('turbulence',.65),output:readSlider('output',1)});
+  if($('turbulence-value'))$('turbulence-value').textContent=flow.turbulence.toFixed(2);
+  if($('output-value'))$('output-value').textContent=flow.output.toFixed(2);
+}
+for(const id of ['turbulence','output'])$(id)?.addEventListener('input',syncConfig);
+syncConfig();
+function resetFlow(){
+  flow.reset(shapeSelect.value);
+  for(const h of Object.values(handState))h.gate.reset();
+  for(const e of shockwaves){group.remove(e.mesh);e.mesh.geometry.dispose();e.mesh.material.dispose();}
+  shockwaves.length=0;lastMessage='READY / SWEEP YOUR HAND';
+}
 addEventListener('resize',()=>{
   camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);
 });
-function readXRHand(source,frame,ref){
-  if(!source?.hand)return null;
-  const spaces=JOINTS.map(name=>source.hand.get(name));
+function readXR(source,frame,ref){
+  if(!source.hand)return null;
+  const spaces=JOINTS.map(j=>source.hand.get(j));
   if(spaces.some(s=>!s))return null;
-  const points=[];
-  if(typeof frame.fillPoses==='function'){
-    const matrices=jointsCache[source.handedness];
-    if(matrices){
-      let ok=false;try{ok=frame.fillPoses(spaces,ref,matrices);}catch{}
-      if(ok){
-        for(let i=0;i<25;i++){
-          const j=i*16,p=[matrices[j+12],matrices[j+13],matrices[j+14]];
-          if(!p.every(Number.isFinite))return null;points.push(p);
-        }
-        return points;
+  const matrix=matrixCache[source.handedness];
+  if(matrix&&typeof frame.fillPoses==='function'){
+    let ok=false;try{ok=frame.fillPoses(spaces,ref,matrix);}catch{}
+    if(ok){
+      const points=[];
+      for(let i=0;i<JOINTS.length;i++){
+        const j=i*16,p=[matrix[j+12],matrix[j+13],matrix[j+14]];
+        if(!p.every(Number.isFinite))return null;points.push(p);
       }
+      return points;
     }
   }
+  const points=[];
   for(const s of spaces){
     const p=frame.getJointPose(s,ref)?.transform.position;
     if(!p)return null;points.push([p.x,p.y,p.z]);
@@ -138,130 +211,199 @@ function readXRHand(source,frame,ref){
 }
 function anchor(frame,ref){
   if(anchored)return;
-  const pose=frame?.getViewerPose(ref);
-  if(!pose)return;
+  const pose=frame?.getViewerPose(ref);if(!pose)return;
   const p=pose.transform.position,r=pose.transform.orientation;
-  q.set(r.x,r.y,r.z,r.w);
-  worldDir.set(0,0,-1).applyQuaternion(q);
-  const yaw=Math.atan2(-worldDir.x,-worldDir.z);
-  group.quaternion.setFromAxisAngle(up,yaw);
-  group.position.set(p.x+worldDir.x*.95,p.y+worldDir.y*.95-.06,p.z+worldDir.z*.95);
+  q.set(r.x,r.y,r.z,r.w);forward.set(0,0,-1).applyQuaternion(q);
+  group.quaternion.setFromAxisAngle(up,Math.atan2(-forward.x,-forward.z));
+  group.position.set(p.x+forward.x*.95,p.y+forward.y*.95-.075,p.z+forward.z*.95);
   group.updateMatrixWorld(true);anchored=true;
 }
-function localSample(measure,side){
-  tempA.fromArray(measure.point);
-  tempB.fromArray(measure.point).add(worldDir.fromArray(measure.direction));
-  group.worldToLocal(tempA);group.worldToLocal(tempB);
-  return {hand:side,kind:measure.kind,point:tempA.toArray(),
-    direction:tempB.sub(tempA).normalize().toArray()};
+function localMeasure(measure){
+  v0.fromArray(measure.point);
+  v1.fromArray(measure.point).add(forward.fromArray(measure.direction));
+  group.worldToLocal(v0);group.worldToLocal(v1);
+  return {point:v0.toArray(),direction:v1.sub(v0).normalize().toArray()};
 }
 function xrHands(frame,time){
-  const result={left:null,right:null},seen=new Set();
-  trackedHands=0;
+  const hands={left:null,right:null},seen=new Set();tracked=0;
   const ref=renderer.xr.getReferenceSpace();
-  if(!frame||!ref)return result;
-  anchor(frame,ref);if(!anchored)return result;
-  for(const input of xrSession?.inputSources||[]){
-    const side=input.handedness;
-    if(!['left','right'].includes(side)||!input.hand)continue;
+  if(!frame||!ref)return hands;
+  anchor(frame,ref);if(!anchored)return hands;
+  for(const source of session?.inputSources||[]){
+    const side=source.handedness;
+    if(!source.hand||!['left','right'].includes(side))continue;
     seen.add(side);
-    const points=readXRHand(input,frame,ref);
-    const measurement=interpretHand(points);
-    const record=handState[side];
-    const state=record.gate.update(measurement,time);
-    if(!measurement){record.measure=null;continue;}
-    trackedHands++;
-    const local=localSample(measurement,side);
-    record.measure={...local,kind:state.kind};
-    result[side]=record.measure;
+    const p=readXR(source,frame,ref),measurement=interpretHand(p);
+    const gate=handState[side].gate.update(measurement,time);
+    if(!measurement)continue; // Do not emit phantom blasts on a lost hand.
+    tracked++;
+    const transformed=localMeasure(measurement);
+    hands[side]={...transformed,kind:gate.kind,hand:side};
   }
-  for(const side of ['left','right'])if(!seen.has(side)){
-    handState[side].gate.update(null,time);handState[side].measure=null;
-  }
-  return result;
+  for(const side of ['left','right'])if(!seen.has(side))handState[side].gate.update(null,time);
+  return hands;
 }
 function desktopHands(){
-  const p=[cursor[0]*.45,cursor[1]*.35,.4];
-  const d=new THREE.Vector3(cursor[0]*.32,cursor[1]*.25,-1).normalize().toArray();
-  return {
-    right:{hand:'right',kind:desktop.right,point:p,direction:d},
-    left:{hand:'left',kind:desktop.left,
-      point:[p[0]-.32,p[1],p[2]],direction:d}
-  };
-}
-function applyEvents(events){
-  for(const e of events){
-    if(e.type==='cast'){swarm.launch(e.point,e.direction);lastMessage='CAST / 6.2 M/S';}
-    if(e.type==='burst'){swarm.burst(e.point);lastMessage='BURST / SCATTER';}
-    if(e.type==='ready')lastMessage='RIGHT FIST READY · NOW LEFT FIST';
-    if(e.type==='recall'){swarm.recall();lastMessage='RECALL / RETURN TO HAND';}
-    lastEventTime=performance.now();
-  }
+  const p=[cursor[0]*.53,cursor[1]*.38,.48];
+  const d=new THREE.Vector3(cursor[0]*.36,cursor[1]*.27,-1).normalize().toArray();
+  return {right:{kind:desktopKind,point:p,direction:d,hand:'right'},left:null};
 }
 async function enterXR(mode){
-  if(!navigator.xr||xrSession)return;
+  if(!navigator.xr||session)return;
   try{
-    const session=await navigator.xr.requestSession(mode,{optionalFeatures:['hand-tracking']});
-    xrSession=session;anchored=false;reset();
-    session.addEventListener('end',()=>{
-      xrSession=null;anchored=false;reset();
+    const s=await navigator.xr.requestSession(mode,{optionalFeatures:['hand-tracking']});
+    session=s;anchored=false;resetFlow();lastTime=0;
+    s.addEventListener('end',()=>{
+      session=null;anchored=false;resetFlow();
       group.position.set(0,0,0);group.quaternion.identity();group.updateMatrixWorld(true);
-      arButton.hidden=false;vrButton.hidden=false;exitButton.hidden=true;
+      arButton.hidden=false;vrButton.hidden=false;exitButton.hidden=true;lastTime=0;
     },{once:true});
-    await renderer.xr.setSession(session);
+    await renderer.xr.setSession(s);
     arButton.hidden=true;vrButton.hidden=true;exitButton.hidden=false;
-  }catch(err){status.textContent='XR START FAILED\n'+String(err?.message||err);xrSession=null;}
+  }catch(error){
+    status.textContent='XR FAILED\n'+String(error?.message||error);session=null;
+  }
 }
 arButton.addEventListener('click',()=>enterXR('immersive-ar'));
 vrButton.addEventListener('click',()=>enterXR('immersive-vr'));
-exitButton.addEventListener('click',()=>xrSession?.end());
+exitButton.addEventListener('click',()=>session?.end());
 async function detectXR(){
-  if(!navigator.xr){$('help-xr').textContent='WebXR unavailable — open HTTPS in Quest Browser';return;}
+  if(!navigator.xr){$('help-xr').textContent='请使用 Quest Browser 打开 HTTPS 网址';return;}
   try{
     const [ar,vr]=await Promise.all([
-      navigator.xr.isSessionSupported('immersive-ar'),navigator.xr.isSessionSupported('immersive-vr')]);
+      navigator.xr.isSessionSupported('immersive-ar'),
+      navigator.xr.isSessionSupported('immersive-vr')]);
     arButton.disabled=!ar;vrButton.disabled=!vr;
-    $('help-xr').textContent=ar?'Quest MR possible · grant hand tracking':
-      vr?'VR supported · AR unavailable':'No immersive XR available';
-  }catch(err){$('help-xr').textContent='XR support check failed: '+String(err);}
+    $('help-xr').textContent=ar?'MR 可用 · 需要启用手部追踪':vr?'仅 VR 可用':'未检测到沉浸式 XR';
+  }catch(e){$('help-xr').textContent='XR 检查失败: '+String(e.message||e);}
 }
 detectXR();
+function updateGeometry(){
+  let ribbonCount=0;
+  const ribbonMode=flow.mode==='ribbon';
+  const p=flow.pos,v=flow.vel,prev=flow.previous;
+  const t=flow.age,ttl=flow.ttl,live=flow.live,kind=flow.kind;
+  for(let i=0;i<MAX_PARTICLES;i++){
+    const j=3*i,k=6*i;
+    if(!live[i]){
+      colors[j]=colors[j+1]=colors[j+2]=0;
+      streakCoords[k]=streakCoords[k+3]=0;
+      streakCoords[k+1]=streakCoords[k+4]=-999;
+      streakCoords[k+2]=streakCoords[k+5]=0;
+      continue;
+    }
+    const fade=Math.max(.07,1-t[i]/ttl[i]);
+    const energy=flow.energy[i]*fade;
+    const aura=kind[i]===PARTICLE_KIND.AURA;
+    const inhale=kind[i]===PARTICLE_KIND.INTAKE;
+    const pulse=kind[i]===PARTICLE_KIND.PULSE;
+    const flash=kind[i]===PARTICLE_KIND.BURST;
+    const white=pulse||flash;
+    colors[j]=Math.min(1.0,energy*(white?1.15:aura?.84:inhale?.58:.93));
+    colors[j+1]=Math.min(1.0,energy*(white?.91:aura?.61:inhale?.78:.76));
+    colors[j+2]=Math.min(1.0,energy*(white?.72:aura?.42:inhale?1.04:.45));
+    streakCoords[k]=p[j];streakCoords[k+1]=p[j+1];streakCoords[k+2]=p[j+2];
+    // A velocity aligned streak: the elongated rear follows the actual trajectory.
+    const speed=Math.hypot(v[j],v[j+1],v[j+2]);
+    const tail=Math.min(.36,.046+speed*.034);
+    const inv=tail/Math.max(speed,.1);
+    streakCoords[k+3]=p[j]-v[j]*inv;
+    streakCoords[k+4]=p[j+1]-v[j+1]*inv;
+    streakCoords[k+5]=p[j+2]-v[j+2]*inv;
+    for(let a=0;a<3;a++){
+      streakColor[k+a]=colors[j+a]*.14;
+      streakColor[k+3+a]=colors[j+a]*.75;
+    }
+    if(ribbonMode && i%2===0 && speed>.8 &&
+      (kind[i]===PARTICLE_KIND.STREAM||kind[i]===PARTICLE_KIND.PULSE) &&
+      ribbonCount<MAX_PARTICLES){
+      const inv=1/speed;
+      const dx=v[j]*inv,dy=v[j+1]*inv,dz=v[j+2]*inv;
+      // Lateral vector in stream space, not a camera-facing flat screenshot.
+      let nx=-dz,ny=0,nz=dx;
+      let nn=Math.hypot(nx,ny,nz);
+      if(nn<.12){nx=0;ny=dz;nz=-dy;nn=Math.hypot(nx,ny,nz);}
+      nx/=nn||1;ny/=nn||1;nz/=nn||1;
+      const width=.012+Math.min(.07,speed*.004);
+      const span=.13+Math.min(.35,speed*.043);
+      const px=p[j],py=p[j+1],pz=p[j+2];
+      const tailx=px-dx*span,taily=py-dy*span,tailz=pz-dz*span;
+      const ax=px+nx*width,ay=py+ny*width,az=pz+nz*width;
+      const bx=px-nx*width,by=py-ny*width,bz=pz-nz*width;
+      const cx=tailx+nx*width,cy=taily+ny*width,cz=tailz+nz*width;
+      const ex=tailx-nx*width,ey=taily-ny*width,ez=tailz-nz*width;
+      const o=ribbonCount*18;
+      ribbonCoords.set([ax,ay,az,bx,by,bz,cx,cy,cz,cx,cy,cz,bx,by,bz,ex,ey,ez],o);
+      ribbonCount++;
+    }
+  }
+  geo.attributes.position.needsUpdate=true;geo.attributes.color.needsUpdate=true;
+  streakGeo.attributes.position.needsUpdate=true;streakGeo.attributes.color.needsUpdate=true;
+  ribbonGeo.setDrawRange(0,ribbonCount*6);
+  ribbonGeo.attributes.position.needsUpdate=true;
+}
+function updateCharge(time){
+  for(const side of ['left','right']){
+    const h=flow.hands[side],view=chargeViews[side];
+    const visible=Boolean(h.present&&h.point&&
+      (h.kind==='fist'||h.charge>.15||h.motion>.22));
+    view.core.visible=view.halo.visible=visible;
+    if(!visible)continue;
+    const level=Math.min(1,h.charge/POWER_MAX+h.motion*.12);
+    view.core.position.fromArray(h.point);view.halo.position.fromArray(h.point);
+    view.core.scale.setScalar(.35+level*1.75);
+    view.core.material.opacity=.18+level*.65;
+    view.halo.scale.setScalar(.65+level*1.8);
+    view.halo.material.opacity=.20+level*.60;
+    view.halo.rotation.set(time*.0002,time*.00047,time*.00035);
+  }
+}
+function drawFronts(){
+  for(let i=0;i<frontMeshes.count;i++){
+    const f=flow.fronts[i];
+    if(f){
+      dummy.position.fromArray(f.point);
+      dummy.scale.setScalar(.68+Math.min(2.0,f.strength)*.36);
+      dummy.rotation.set(.2,0,0);
+    }else{dummy.position.set(0,-999,0);dummy.scale.setScalar(.0001);}
+    dummy.updateMatrix();frontMeshes.setMatrixAt(i,dummy.matrix);
+  }
+  frontMeshes.instanceMatrix.needsUpdate=true;
+}
 function draw(time,frame){
   const dt=lastTime?Math.min(Math.max((time-lastTime)/1000,0),.05):1/90;
   lastTime=time;
-  const hands=xrSession?xrHands(frame,time):desktopHands();
-  const live=swarm.activeCount>0;
-  applyEvents(combo.update(hands,time,live));
-  const recallTarget=hands.right?.point||hands.left?.point||[0,0,.2];
-  swarm.step(dt,recallTarget);
-  geometry.attributes.position.needsUpdate=true;
-  for(let i=0;i<FLIGHT_SLOTS;i++){
-    const f=swarm.flights[i];
-    dummy.position.fromArray(f.position);
-    dummy.scale.setScalar(f.active && f.mode!=='recall' ? 1.0 : .0001);
-    dummy.updateMatrix();
-    leaders.setMatrixAt(i,dummy.matrix);
+  const hands=session?xrHands(frame,time):desktopHands();
+  const events=flow.step(dt,hands);
+  for(const event of events){
+    if(event.type==='pulse')lastMessage='CHARGED JET '+event.power.toFixed(1)+' / '+event.count+' PARTICLES';
+    if(event.type==='collect')lastMessage='FIST / COLLECT ENERGY';
+    if(event.type==='blast'){
+      spawnShock(flow.hands[event.side].point||[0,0,0],event.power);
+      lastMessage='PALM BLAST '+event.power.toFixed(1);
+    }
   }
-  leaders.instanceMatrix.needsUpdate=true;
+  updateGeometry();updateCharge(time);drawFronts();updateShock(dt);
+  hud.visible=Boolean(session);
   const sword=hands.right?.kind==='sword'?hands.right:hands.left?.kind==='sword'?hands.left:null;
   arrow.visible=Boolean(sword);
-  if(sword){
-    arrow.position.fromArray(sword.point);
-    arrow.setDirection(new THREE.Vector3().fromArray(sword.direction));
-  }
-  fpsFrames++;
-  if(time-fpsStart>=1000){fps=fpsFrames;fpsFrames=0;fpsStart=time;}
-  if(time-lastStatusTime>145){
-    lastStatusTime=time;
-    const mode=xrSession?'QUEST XR / REAL JOINTS':'DESKTOP / MOCK';
+  if(sword){arrow.position.fromArray(sword.point);arrow.setDirection(
+    new THREE.Vector3(...sword.direction));}
+  fpsCount++;
+  if(time-fpsAt>1000){fps=fpsCount;fpsCount=0;fpsAt=time;}
+  if(time-statusAt>145){
+    statusAt=time;
     const right=hands.right?.kind?.toUpperCase()||'NO HAND';
     const left=hands.left?.kind?.toUpperCase()||'NO HAND';
-    const statusLine=mode+'\nR '+right+'  /  L '+left+
-      '\nACTIVE '+swarm.activeCount+' / '+FLIGHT_SLOTS+'  ·  FPS '+fps+
-      (xrSession?'\nTRACKED HANDS '+trackedHands:'')+
+    const power=flow.hands.right.charge.toFixed(1)+' / '+flow.hands.left.charge.toFixed(1);
+    const mode=session?'REAL XR':'DESKTOP MOCK';
+    const hudLine='R '+right+' / L '+left+' / CHARGE '+power;
+    status.textContent=mode+'\nRIGHT '+right+' · LEFT '+left+
+      '\nENERGY '+power+' / '+POWER_MAX+
+      '\nPARTICLES '+flow.alive+' / '+MAX_PARTICLES+
+      '\nFPS '+fps+(session?' · TRACKED '+tracked:'')+
       '\n'+lastMessage;
-    status.textContent=statusLine;
-    drawHud('R '+right+' / L '+left+' · '+lastMessage);
+    drawHud(hudLine);
   }
   renderer.render(scene,camera);
 }
