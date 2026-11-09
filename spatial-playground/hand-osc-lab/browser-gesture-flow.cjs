@@ -24,7 +24,7 @@ const assert=require('node:assert/strict');
   await page.locator('#music-toggle').click();
   await page.waitForFunction(()=>document.querySelector('#music-status').textContent.includes('LIVE GESTURE'),
     {timeout:7000});
-  await page.locator('#tracking-tolerance').fill('460');
+  await page.locator('#tracking-tolerance').evaluate(el=>{el.value='460';el.dispatchEvent(new Event('input',{bubbles:true}));});
   assert.match(await page.locator('#tracking-tolerance-value').innerText(),/460ms/);
   await page.locator('[data-gesture=fist]').click();
   await page.mouse.move(790,430);
