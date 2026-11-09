@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090c0b">
+<title>SPATIAL MORPHOLOGY LAB / 54 × 3D STUDIES</title>
+<style>
+:root{color-scheme:dark;--bg:#090c0b;--panel:#111513;--line:#303832;--fg:#e2e5df;--muted:#8d9b91;--soft:#b2c4b8;--accent:#d5d4c8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,"Noto Sans SC",system-ui,Arial,sans-serif;font-size:13px}
+button,input,select{font:inherit}button{cursor:pointer}a{color:var(--fg);text-decoration:underline;text-decoration-color:#526d5a;text-underline-offset:3px}
+#shell{height:100dvh;min-height:740px;display:grid;grid-template-columns:250px minmax(350px,1fr) 308px;grid-template-rows:56px 1fr}
+header{grid-column:1/4;grid-row:1;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:0 21px;border-bottom:1px solid var(--line);background:#0c0f0d}
+.brand{font:600 12px ui-monospace,monospace;letter-spacing:.14em;white-space:nowrap}
+.meta{font:10px ui-monospace,monospace;color:var(--muted);display:flex;gap:15px;align-items:center}
+.side{border-right:1px solid var(--line);overflow:auto;min-height:0;background:#101411;padding:22px 14px}
+.inspector{border-right:0;border-left:1px solid var(--line);padding:22px 18px;background:#0e1210}
+.kicker{font:10px ui-monospace,monospace;letter-spacing:.16em;color:var(--muted)}
+h1{font-size:28px;font-weight:400;line-height:1.05;letter-spacing:-.06em;margin:12px 4px 15px}
+.lede{font-size:11px;line-height:1.8;color:var(--muted);margin:10px 4px 17px}
+.rule{font:10px ui-monospace,monospace;color:#b2c0b4;letter-spacing:.12em;margin:21px 0 9px;padding-top:10px;border-top:1px solid var(--line)}
+.families{display:grid;gap:4px;margin-bottom:12px}
+.family{width:100%;border:1px solid transparent;background:transparent;color:var(--soft);display:grid;grid-template-columns:25px 1fr 30px;align-items:center;gap:7px;text-align:left;padding:12px 7px;font-size:11px}
+.family .number,.family .amount{font:10px ui-monospace,monospace;color:#7b8f80}
+.family:hover,.family[aria-pressed=true]{background:#202d24;color:#f1f3eb}
+.family[aria-pressed=true]{border-color:#718373}
+.variants{display:grid;gap:2px}
+.variant{width:100%;display:grid;grid-template-columns:25px 1fr 25px;gap:5px;align-items:center;text-align:left;background:transparent;color:#b9c6bc;border:0;border-bottom:1px solid #2b352d;padding:10px 6px;font-size:11px}
+.variant small{color:#7d8f84;font:10px ui-monospace,monospace}
+.variant:hover,.variant[aria-pressed=true]{background:#2c382e;color:white}
+.variant[aria-pressed=true]{box-shadow:inset 2px 0 #d8d9c7}
+.center{position:relative;overflow:hidden;min-height:540px;background:radial-gradient(ellipse at 50% 35%,#1a221c,#070a08 70%)}
+#world{display:block;width:100%;height:100%;touch-action:none}
+.stage-top{position:absolute;pointer-events:none;top:20px;left:22px;right:22px;display:flex;justify-content:space-between;gap:10px}
+.stage-label{padding:8px 9px;border:1px solid #34443a;background:#0c130ecc;font:10px ui-monospace,monospace;letter-spacing:.07em}
+.stage-bottom{position:absolute;bottom:18px;left:22px;right:22px;display:flex;justify-content:space-between;gap:12px;align-items:end;pointer-events:none}
+.stage-bottom .stage-label{max-width:390px;font-size:9px;line-height:1.65;white-space:pre-wrap}
+.stage-actions{display:flex;gap:7px;position:absolute;top:73px;left:22px}
+.action{color:#edf0e9;border:1px solid #526155;background:#151f18ed;padding:8px 10px;font:10px ui-monospace,monospace}
+.action:hover{background:#29382e}
+.action.active{color:#19251a;background:#dfe5dc}
+#mode-title{font-size:24px;line-height:1.15;letter-spacing:-.04em;font-weight:450;margin:7px 0}
+#method{font:11px ui-monospace,monospace;color:#cfdfcf;letter-spacing:.06em}
+#hypothesis{font-size:12px;line-height:1.85;color:#b6c5b8;min-height:72px}
+.label{display:flex;justify-content:space-between;font:11px ui-monospace,monospace;margin:15px 0 7px;color:#b9c9bb}
+input[type=range]{width:100%;accent-color:#c8d7c5;cursor:pointer}
+#metric,#audit{white-space:pre-wrap;line-height:1.7;background:#0b0f0d;border:1px solid #2f3c33;padding:12px;color:#b7c7b9;font:10px ui-monospace,monospace;min-height:88px}
+.gridbuttons{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.gridbuttons button{background:transparent;border:1px solid #435747;color:#c6d9c9;padding:10px 5px;font-size:10px}
+.gridbuttons button:hover{background:#233327}
+.note{font-size:10px;line-height:1.8;color:#7d8c80;margin-top:15px}
+#state{color:#bacdbd}
+@media(max-width:1050px){#shell{grid-template-columns:208px minmax(290px,1fr) 265px}.side{padding:14px 9px}.inspector{padding:14px}.meta{gap:6px}}
+@media(max-width:850px){#shell{height:auto;display:flex;flex-direction:column;min-height:0}header{min-height:56px}.meta{font-size:9px;flex-wrap:wrap}.center{order:1;height:58vh;min-height:430px}.side{order:2;border-right:0;border-top:1px solid var(--line);height:auto}.inspector{order:3;border:0;border-top:1px solid var(--line)}.families{grid-template-columns:repeat(2,1fr)}.variants{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:530px){header{padding:10px}.meta a{display:none}.stage-top{left:10px;right:10px;top:9px}.stage-actions{top:54px;left:9px}.stage-bottom{left:9px;right:9px;bottom:8px}.stage-bottom .stage-label{max-width:210px;font-size:8px}.variants{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"}}
+</script>
+</head><body>
+<div id="shell">
+ <header><div class="brand">SPATIAL MORPHOLOGY LAB / 54</div>
+ <div class="meta"><span>3D RESEARCH · 100 BPM REFERENCE · NO STROBE</span>
+ <a href="../hand-osc-lab/spatial-waves.html">PERFORMANCE INSTRUMENT</a>
+ <a href="../hand-osc-lab/neural.html">NEURAL FIELD</a></div></header>
+ <aside class="side">
+  <div class="kicker">06 FAMILIES / 09 CONTROLLED VARIANTS EACH</div>
+  <h1>空间形态研究<br>Visual Research</h1>
+  <p class="lede">这不是 54 张图片，而是六类可旋转的真实三维结构、54 组可比对的参数实验。先筛选有效机制，再发展成演出视觉作品。</p>
+  <div id="families" class="families" aria-label="六组研究类别"></div>
+  <div class="rule">EXPERIMENTS / CURRENT FAMILY</div>
+  <div id="variants" class="variants" aria-label="当前九种实验"></div>
+ </aside>
+ <main class="center" id="stage">
+  <canvas id="world" aria-label="真实可旋转 Three.js WebGL 三维对象"></canvas>
+  <div class="stage-top"><div class="stage-label" id="stage-name">SPATIAL / 3D</div><div class="stage-label" id="stage-counter">01 / 54</div></div>
+  <div class="stage-actions"><button class="action" id="compare">A / SAVE REF</button>
+   <button class="action" id="toggle">PAUSE</button>
+   <button class="action" id="camera">RESET CAMERA</button></div>
+  <div class="stage-bottom">
+   <div class="stage-label">DRAG → ROTATE  ·  WHEEL → ZOOM
+    SAME CAMERA FOR A/B  ·  WEBGL THREE.JS
+    SIMULATED MOTION  ·  NO EEG OR PHYSIOLOGY DEVICE</div>
+   <div class="stage-label" id="state">WEBGL INITIALIZING</div>
+  </div>
+ </main>
+ <aside class="side inspector">
+  <div class="kicker">EXPERIMENT NOTE / TESTABLE HYPOTHESIS</div>
+  <div id="mode-title">—</div><div id="method">—</div>
+  <p id="hypothesis">—</p>
+  <div class="rule">GLOBAL PARAMETERS / SHARED BASELINE</div>
+  <label class="label" for="energy">ENERGY / 声画控制量 <span id="energy-v">52%</span></label>
+  <input id="energy" type="range" min="0" max="100" value="52">
+  <label class="label" for="depth">DEPTH / 空间层次 <span id="depth-v">62%</span></label>
+  <input id="depth" type="range" min="0" max="100" value="62">
+  <label class="label" for="complexity">DENSITY / 复杂度 <span id="complexity-v">56%</span></label>
+  <input id="complexity" type="range" min="0" max="100" value="56">
+  <div class="rule">A / B RESEARCH PROTOCOL</div>
+  <div class="gridbuttons">
+   <button id="restore">RESTORE A</button><button id="next">NEXT EXPERIMENT</button>
+   <button id="capture">PNG SCREENSHOT</button><button id="export">JSON REPORT</button>
+  </div>
+  <div id="audit" style="margin-top:9px">Capture A to begin an identical-camera comparison.</div>
+  <div class="rule">RENDER COUNTS / SCENE METRICS</div><div id="metric">—</div>
+  <div class="rule">SOURCE & SAFETY</div>
+  <p class="note">神经元类仅为原创三维分枝示意；真实细胞请导入带来源的 SWC。粘菌类为三维路径追逐的艺术近似，不是已验证的生物模拟。樱花为程序化枝条与实体花瓣。</p>
+  <p class="note">灯光只使用连续、有限亮度包络，不进行全屏快速高反差闪烁；现场灯光、DMX 和头显光敏安全仍需独立验收。</p>
+  <p class="note">Three-Live 应只作独立资产导出与 XR A/B 验证；本页使用固定版本 Three.js 渲染，不迁移现有演出输入链路。</p>
+ </aside>
+</div>
+<script type="module" src="./app.mjs"></script>
+</body></html>
