@@ -1,0 +1,30 @@
+{
+  "contract_id": "CRITICAL_FIELD_REVERSE_NEURAL_STUDY",
+  "media_path": "audition/critical-field-longform-A.wav",
+  "sha256": "NOT_YET_RECORDED",
+  "artist_final_decision": "PENDING",
+  "assessments": [
+    {
+      "perspective": "LONG_FORM",
+      "reviewer": "MODEL",
+      "observed_media": "NONE",
+      "judgement": "UNDECIDED",
+      "reason": "Need actual audible sixty-to-ninety-second continuity evidence before judging."
+    },
+    {
+      "perspective": "SOUND_IDENTITY",
+      "reviewer": "ARTIST",
+      "observed_media": "MIDI_OR_PLAN",
+      "judgement": "UNDECIDED",
+      "reason": "Artist must listen to a real render without visual distraction before selection."
+    },
+    {
+      "perspective": "TECHNICAL",
+      "reviewer": "TECHNICAL_ANALYZER",
+      "observed_media": "MIDI_OR_PLAN",
+      "judgement": "UNDECIDED",
+      "reason": "Source shape is checked but native Waveform save/reopen is not yet verified."
+    }
+  ],
+  "hypothesis_to_test_next": "Same source recording, compare two different resonance evolution trajectories at matched loudness; keep spatial pressure fixed."
+}
