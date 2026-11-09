@@ -1,7 +1,7 @@
 <!doctype html><html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a0b0e">
-<title>Spellcraft Atelier — Twelve Playable Spatial Gestures</title>
+<title>Spellcraft Atelier V2 — Palm Menu, Eight-way Fist and Precise Casting</title>
 <style>
 :root{color-scheme:dark;--ink:#f0eee9;--muted:#a0a4a9;--stroke:#3a3c43;--accent:#e4bc8b}
 *{box-sizing:border-box}body{margin:0;background:#090a0e;color:var(--ink);overflow:hidden;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace}
@@ -27,6 +27,8 @@ button:disabled{opacity:.35;cursor:not-allowed}
 #bottom{position:fixed;left:20px;right:20px;bottom:18px;display:flex;justify-content:space-between;align-items:end;gap:12px;pointer-events:none}
 .controls{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:9px;background:rgba(7,9,14,.89);border:1px solid #343941;pointer-events:auto;max-width:min(900px,90vw)}
 .controls label{font-size:9px;color:#aaa;letter-spacing:.1em}
+#mock-palm[aria-pressed=true]{background:#e8d7bb;color:#15161b;border-color:#e8d7bb}
+#mock-west,#mock-east{border-color:#595864;color:#d6c5a8}
 button.cta{background:#ede1d2;color:#14151a;font-weight:bold;border-color:#ede1d2}
 #instructions{font-size:10px;color:#b4b5b9;max-width:310px;line-height:1.6;text-align:right;padding:9px;background:rgba(9,10,14,.65)}
 #elements{display:none;gap:5px;margin-top:10px;flex-wrap:wrap}
@@ -49,17 +51,20 @@ h1{font-size:25px}.tabs{margin:9px 0}#spell-list{display:grid;grid-template-colu
 <aside id="left-panel">
 <div class="eyebrow">SPATIAL PLAYGROUND / SPELLCRAFT ATELIER / 12 STUDIES</div>
 <h1>Spellcraft<br>Atelier.</h1>
-<p>不是悬浮符号陈列。每个动作都必须发生事情：生成、控制、命中、反馈与重新施放。</p>
+<p>双手选技能与施法分离。左掌朝向头显打开门派菜单，左滑巫师、右滑术师；右拳移动八个方向，松拳确认技能，随后右手负责瞄准和施法。</p>
 <div class="tabs"><button id="west" aria-pressed="true">WEST / 巫师</button><button id="east" aria-pressed="false">EAST / 术师</button></div>
 <nav id="spell-list" aria-label="十二项手势施法玩法中的六项"></nav>
 <section id="detail"><h2 id="spell-name"></h2><div id="how"></div><p id="spell-detail"></p></section>
 <div id="elements" aria-label="选择五行元素"></div>
-<p id="help">Quest：左右手实时追踪，左手拇指食指轻捏可切换下一个技能（五行模式除外）。桌面：选择技能，用下面的按钮触发或直接测试。</p>
+<p id="help">Quest：左掌朝向自己并保持约 0.2 秒 → 左右移动选择门派；保持左掌展开 → 右拳向八方向之一移动（六技能、切换门派、重置）→ 松拳确认。放下左掌后用剑指或掌心瞄准发射，黄色射线和环形准星代表已锁定目标。</p>
 </aside>
 <div id="right-panel" role="status" aria-live="off"></div>
 <div id="bottom">
 <div class="controls">
-<label>MOCK</label>
+<label>DESKTOP MOCK</label>
+<button id="mock-palm" aria-pressed="false">左掌菜单 / PRESENT</button>
+<button id="mock-west">← 巫师</button>
+<button id="mock-east">术师 →</button>
 <button data-gesture="sword" aria-pressed="false">1 剑指</button>
 <button data-gesture="open" aria-pressed="false">2 张掌</button>
 <button data-gesture="fist" aria-pressed="false">3 握拳</button>
@@ -71,7 +76,7 @@ h1{font-size:25px}.tabs{margin:9px 0}#spell-list{display:grid;grid-template-colu
 <button id="enter-vr" disabled>ENTER VR</button>
 <button id="exit-xr" hidden>EXIT</button>
 </div>
-<div id="instructions">先用桌面测试 12 种玩法，再用 Quest 3 Browser 进入 MR。画符和空间门需要完整画圈，再次剑指或前推发射。未完成 Quest 实机验收。</div>
+<div id="instructions">桌面选“左掌菜单”，然后按住三维画面并拖动鼠标进入八方向，松开确认；放下左掌再施法。键盘 M 打开／收起左掌，Q/E 左右选门派。头显中由真实的左掌与右拳完成。画符需要闭合轨迹后重新剑指；Quest 3 手部精度待实测。</div>
 </div>
 <script type="module" src="./spellcraft-ui.mjs"></script>
 </body></html>
