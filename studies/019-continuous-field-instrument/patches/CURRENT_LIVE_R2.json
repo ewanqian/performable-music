@@ -1,0 +1,1713 @@
+{
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Midi Input",
+      "uuid": "fbf21126-3d13-45f8-86dd-e8a52f92e3b2",
+      "params": {},
+      "position": {
+        "x": 0.0,
+        "y": 0.0
+      }
+    },
+    {
+      "id": 2,
+      "type": "Audio Output",
+      "uuid": "e76adba2-e3ec-4ebe-9491-4f1776c27274",
+      "params": {},
+      "position": {
+        "x": 310.0,
+        "y": 0.0
+      }
+    },
+    {
+      "id": 3,
+      "type": "Poly MIDI",
+      "uuid": "2d8e7432-2e93-4ff7-a9b7-d4c844910d7e",
+      "params": {
+        "bypassed": false,
+        "voiceSteal": "Oldest",
+        "velToGate": false
+      },
+      "position": {
+        "x": 620.0,
+        "y": 0.0
+      }
+    },
+    {
+      "id": 4,
+      "type": "Oscillator",
+      "uuid": "1972fb5f-ca31-44e4-93c1-39098f8f298e",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "waveform": "Sine",
+        "octave": 2.0,
+        "coarse": 0.0,
+        "fine": 0.0,
+        "level": 0.540000021457672,
+        "poly": true,
+        "unison": 1.0,
+        "detune": 0.0,
+        "pan": 0.0,
+        "pulseWidth": 50.0,
+        "glide": 0.0,
+        "muted": false,
+        "phase": 0.0,
+        "randomPhase": 0.0,
+        "blend": 1.0,
+        "width": 0.0,
+        "glideMode": "Always",
+        "glideCurve": "Linear",
+        "legato": false,
+        "rateMode": "Follow notes",
+        "fixedRate": 49.999977111816406
+      },
+      "position": {
+        "x": 930.0,
+        "y": 0.0
+      }
+    },
+    {
+      "id": 5,
+      "type": "Oscillator",
+      "uuid": "63172772-4724-499a-931f-b55766f5f1c8",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "waveform": "Sine",
+        "octave": 0.0,
+        "coarse": 0.0,
+        "fine": 0.0,
+        "level": 1.0,
+        "poly": true,
+        "unison": 1.0,
+        "detune": 0.0,
+        "pan": 0.0,
+        "pulseWidth": 50.0,
+        "glide": 0.0,
+        "muted": false,
+        "phase": 0.0,
+        "randomPhase": 0.0,
+        "blend": 1.0,
+        "width": 0.0,
+        "glideMode": "Always",
+        "glideCurve": "Linear",
+        "legato": false,
+        "rateMode": "Follow notes",
+        "fixedRate": 49.999977111816406
+      },
+      "position": {
+        "x": 1240.0,
+        "y": 0.0
+      }
+    },
+    {
+      "id": 6,
+      "type": "Math",
+      "uuid": "80fbb7b8-cc26-4cd8-b9fe-f3dd6ea6008d",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 1550.0,
+        "y": 0.0
+      }
+    },
+    {
+      "id": 7,
+      "type": "Math",
+      "uuid": "1040ade1-3259-4d06-aa7d-0f58acc72852",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 1860.0,
+        "y": 0.0
+      }
+    },
+    {
+      "id": 8,
+      "type": "Attenuverter",
+      "uuid": "ce12b99b-e0b3-47b4-a71d-09b4ef740a9b",
+      "params": {
+        "bypassed": false,
+        "amount": 0.120000004768372
+      },
+      "position": {
+        "x": 0.0,
+        "y": 680.0
+      }
+    },
+    {
+      "id": 9,
+      "type": "Math",
+      "uuid": "8437e09e-0149-4444-832b-a45b59ca1338",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 2170.0,
+        "y": 0.0
+      }
+    },
+    {
+      "id": 10,
+      "type": "Math",
+      "uuid": "3926ba70-ce26-4f5f-9e54-db041ad03639",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 0.0,
+        "y": 340.0
+      }
+    },
+    {
+      "id": 11,
+      "type": "Oscillator",
+      "uuid": "678422c3-7cb6-439b-96ab-fe873dae7a96",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "waveform": "Saw",
+        "octave": -1.0,
+        "coarse": 0.0,
+        "fine": 0.0,
+        "level": 0.104999996721745,
+        "poly": false,
+        "unison": 3.0,
+        "detune": 4.700000286102295,
+        "pan": 0.0,
+        "pulseWidth": 50.0,
+        "glide": 0.0,
+        "muted": false,
+        "phase": 0.0,
+        "randomPhase": 0.0,
+        "blend": 0.379999995231628,
+        "width": 0.449999988079071,
+        "glideMode": "Always",
+        "glideCurve": "Linear",
+        "legato": false,
+        "rateMode": "Follow notes",
+        "fixedRate": 49.999977111816406
+      },
+      "position": {
+        "x": 310.0,
+        "y": 680.0
+      }
+    },
+    {
+      "id": 12,
+      "type": "Ring Modulator",
+      "uuid": "7158179a-1309-47ea-8424-39abcf441b3e",
+      "params": {
+        "bypassed": false,
+        "dualIO": false,
+        "drive": 1.350000023841858,
+        "mix": 0.035000000149012,
+        "character": 0.239999994635582,
+        "oversampling": "4x",
+        "outputLevel": 1.0,
+        "muted": false,
+        "pan": 0.0
+      },
+      "position": {
+        "x": 620.0,
+        "y": 680.0
+      }
+    },
+    {
+      "id": 13,
+      "type": "Distortion",
+      "uuid": "5f27ce72-ed6e-4e66-9a53-7ed1d2080152",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "drive": 1.149999976158142,
+        "mix": 0.079999998211861,
+        "type": "Foldback",
+        "oversampling": "4x",
+        "outputLevel": 0.879999995231628,
+        "muted": false,
+        "pan": 0.0
+      },
+      "position": {
+        "x": 930.0,
+        "y": 680.0
+      }
+    },
+    {
+      "id": 14,
+      "type": "Filter",
+      "uuid": "db1af1f6-7de0-4ba6-b0c0-66be21b29c43",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "cutoff": 48.0,
+        "resonance": 0.054999999701977,
+        "drive": 1.0,
+        "filterType": "HPF12",
+        "poly": false,
+        "keyTrack": 0.0,
+        "morphX": 0.5,
+        "morphY": 0.5,
+        "shift": 0.0,
+        "depth": 1.0,
+        "outputLevel": 1.0,
+        "muted": false,
+        "mix": 1.0,
+        "pan": 0.0
+      },
+      "position": {
+        "x": 1240.0,
+        "y": 680.0
+      }
+    },
+    {
+      "id": 15,
+      "type": "Filter",
+      "uuid": "0d6fd248-718f-42f9-96c2-45afc9150fa7",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "cutoff": 1250.0,
+        "resonance": 0.159999996423721,
+        "drive": 1.100000023841858,
+        "filterType": "LPF12",
+        "poly": false,
+        "keyTrack": 0.0,
+        "morphX": 0.5,
+        "morphY": 0.5,
+        "shift": 0.0,
+        "depth": 1.0,
+        "outputLevel": 0.899999976158142,
+        "muted": false,
+        "mix": 1.0,
+        "pan": 0.0
+      },
+      "position": {
+        "x": 1550.0,
+        "y": 680.0
+      }
+    },
+    {
+      "id": 20,
+      "type": "LFO",
+      "uuid": "db434b20-db45-4ff2-8cfc-8768494f9677",
+      "params": {
+        "bypassed": false,
+        "shape": "Sine",
+        "mode": false,
+        "bipolar": false,
+        "rateHz": 4.199999332427979,
+        "rateSync": "1/4",
+        "retrig": false,
+        "level": 1.0,
+        "glide": 0.0,
+        "phase": 0.0,
+        "fadeIn": 0.0,
+        "morphX": 0.5,
+        "morphY": 0.5,
+        "muted": false
+      },
+      "position": {
+        "x": 1860.0,
+        "y": 680.0
+      }
+    },
+    {
+      "id": 21,
+      "type": "Attenuverter",
+      "uuid": "826e37ef-84a3-4ae2-a14a-7003eadbde13",
+      "params": {
+        "bypassed": false,
+        "amount": 0.079999923706055
+      },
+      "position": {
+        "x": 2170.0,
+        "y": 680.0
+      }
+    },
+    {
+      "id": 22,
+      "type": "Math",
+      "uuid": "555d6c36-3ac5-410e-93a6-636ea7c1ef07",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 310.0,
+        "y": 340.0
+      }
+    },
+    {
+      "id": 23,
+      "type": "Math",
+      "uuid": "2d7754eb-9542-47b2-978a-9c7ee99f66a2",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 620.0,
+        "y": 340.0
+      }
+    },
+    {
+      "id": 24,
+      "type": "Amp Env",
+      "uuid": "f6f99efe-15c1-4893-9f7f-4da67aa610cd",
+      "params": {
+        "bypassed": false,
+        "attack": 0.649999976158142,
+        "decay": 2.299999952316284,
+        "sustain": 0.839999973773956,
+        "release": 4.599999904632568,
+        "hold": 0.0,
+        "attackCurve": 0.0,
+        "decayCurve": 0.649999976158142,
+        "releaseCurve": 0.649999976158142,
+        "tempoSync": false,
+        "attackDiv": "1/32",
+        "holdDiv": "1/32",
+        "decayDiv": "1/2",
+        "releaseDiv": "1/32",
+        "gateThreshold": 0.5,
+        "poly": false,
+        "velocity": 0.0,
+        "muted": false,
+        "legato": false
+      },
+      "position": {
+        "x": 0.0,
+        "y": 1020.0
+      }
+    },
+    {
+      "id": 25,
+      "type": "VCA",
+      "uuid": "92431ec6-ee7e-4a7c-b66d-49e3a08a4320",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "gain": 0.670000016689301,
+        "poly": false,
+        "muted": false
+      },
+      "position": {
+        "x": 310.0,
+        "y": 1020.0
+      }
+    },
+    {
+      "id": 26,
+      "type": "Delay",
+      "uuid": "3b3544ed-432a-480e-a952-2c8b74754f85",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "time": 137.0,
+        "feedback": 0.229999989271164,
+        "mix": 0.090000003576279,
+        "tempoSync": false,
+        "timeDiv": "1/4",
+        "pingPong": true,
+        "outputLevel": 0.970000028610229,
+        "muted": false,
+        "pan": 0.0
+      },
+      "position": {
+        "x": 1240.0,
+        "y": 1020.0
+      }
+    },
+    {
+      "id": 27,
+      "type": "Reverb",
+      "uuid": "fe1a7568-6b44-4e44-85cd-4d2b7bbbebca",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "roomSize": 0.550000011920929,
+        "damping": 0.479999989271164,
+        "wet": 0.046000000089407,
+        "dry": 0.5,
+        "width": 0.740000009536743,
+        "preDelay": 18.0,
+        "outputLevel": 0.939999997615814,
+        "muted": false,
+        "pan": 0.0
+      },
+      "position": {
+        "x": 1550.0,
+        "y": 1020.0
+      }
+    },
+    {
+      "id": 28,
+      "type": "LFO",
+      "uuid": "1f865ec3-21eb-454d-ab35-3c607181a354",
+      "params": {
+        "bypassed": false,
+        "shape": "Sine",
+        "mode": false,
+        "bipolar": true,
+        "rateHz": 0.109999999403954,
+        "rateSync": "1/4",
+        "retrig": false,
+        "level": 1.0,
+        "glide": 0.0,
+        "phase": 37.0,
+        "fadeIn": 0.0,
+        "morphX": 0.5,
+        "morphY": 0.5,
+        "muted": false
+      },
+      "position": {
+        "x": 1860.0,
+        "y": 1020.0
+      }
+    },
+    {
+      "id": 29,
+      "type": "LFO",
+      "uuid": "5a17c1bb-282e-40d0-864e-308bea1556f9",
+      "params": {
+        "bypassed": false,
+        "shape": "Triangle",
+        "mode": false,
+        "bipolar": true,
+        "rateHz": 0.170000001788139,
+        "rateSync": "1/4",
+        "retrig": false,
+        "level": 1.0,
+        "glide": 0.0,
+        "phase": 123.0,
+        "fadeIn": 0.0,
+        "morphX": 0.5,
+        "morphY": 0.5,
+        "muted": false
+      },
+      "position": {
+        "x": 2170.0,
+        "y": 1020.0
+      }
+    },
+    {
+      "id": 30,
+      "type": "Macros",
+      "uuid": "a77ac47b-edd2-4eae-9bce-38ed0a8cca63",
+      "params": {
+        "bypassed": false,
+        "macroCount": 2.0,
+        "macroBipolar": false,
+        "macro1": 0.660000026226044,
+        "macro2": 0.100000001490116,
+        "macro3": 0.0,
+        "macro4": 0.0,
+        "macro5": 0.0,
+        "macro6": 0.0,
+        "macro7": 0.0,
+        "macro8": 0.0,
+        "macro9": 0.0,
+        "macro10": 0.0,
+        "macro11": 0.0,
+        "macro12": 0.0,
+        "macro13": 0.0,
+        "macro14": 0.0,
+        "macro15": 0.0,
+        "macro16": 0.0,
+        "muted": false
+      },
+      "position": {
+        "x": 0.0,
+        "y": 1360.0
+      }
+    },
+    {
+      "id": 31,
+      "type": "Macros",
+      "uuid": "c60ba5ef-1571-4381-b1f1-c755c0bfd2de",
+      "params": {
+        "bypassed": false,
+        "macroCount": 4.0,
+        "macroBipolar": false,
+        "macro1": 0.239999994635582,
+        "macro2": 0.100000001490116,
+        "macro3": 0.379999995231628,
+        "macro4": 0.159999996423721,
+        "macro5": 0.0,
+        "macro6": 0.0,
+        "macro7": 0.0,
+        "macro8": 0.0,
+        "macro9": 0.0,
+        "macro10": 0.0,
+        "macro11": 0.0,
+        "macro12": 0.0,
+        "macro13": 0.0,
+        "macro14": 0.0,
+        "macro15": 0.0,
+        "macro16": 0.0,
+        "muted": false
+      },
+      "position": {
+        "x": 310.0,
+        "y": 1360.0
+      }
+    },
+    {
+      "id": 32,
+      "type": "Math",
+      "uuid": "495f0604-20d4-41c0-925a-a92e8aa1fb5f",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 930.0,
+        "y": 340.0
+      }
+    },
+    {
+      "id": 33,
+      "type": "Math",
+      "uuid": "0246ee43-800e-441c-99b2-a5529d13b697",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 1240.0,
+        "y": 340.0
+      }
+    },
+    {
+      "id": 34,
+      "type": "Math",
+      "uuid": "484ee663-6db6-458f-abe8-f7845fb77961",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 1550.0,
+        "y": 340.0
+      }
+    },
+    {
+      "id": 35,
+      "type": "Math",
+      "uuid": "9bc107d9-eedf-4acb-98ce-7bb82d15eada",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 1860.0,
+        "y": 340.0
+      }
+    },
+    {
+      "id": 36,
+      "type": "Math",
+      "uuid": "48a08057-37d6-4ba4-9cc3-d0917f34bf2b",
+      "params": {
+        "bypassed": false,
+        "clip": "Off",
+        "muted": false
+      },
+      "position": {
+        "x": 2170.0,
+        "y": 340.0
+      }
+    },
+    {
+      "id": 37,
+      "type": "VCA",
+      "uuid": "ee52aafd-51ba-43e6-9144-150bd87598ee",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "gain": 0.189999997615814,
+        "poly": false,
+        "muted": false
+      },
+      "position": {
+        "x": 620.0,
+        "y": 1020.0
+      }
+    },
+    {
+      "id": 38,
+      "type": "Filter",
+      "uuid": "aaf2d82d-4d85-4088-a117-2e27612262e6",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "cutoff": 680.0000610351562,
+        "resonance": 0.075000002980232,
+        "drive": 1.0,
+        "filterType": "LPF24",
+        "poly": false,
+        "keyTrack": 0.0,
+        "morphX": 0.5,
+        "morphY": 0.5,
+        "shift": 0.0,
+        "depth": 1.0,
+        "outputLevel": 1.0,
+        "muted": false,
+        "mix": 1.0,
+        "pan": 0.0
+      },
+      "position": {
+        "x": 930.0,
+        "y": 1020.0
+      }
+    },
+    {
+      "id": 100,
+      "type": "Attenuverter",
+      "uuid": "c9517052-2754-4838-9539-f12f2884302d",
+      "params": {
+        "bypassed": false,
+        "amount": 0.449999928474426
+      },
+      "position": {
+        "x": 620.0,
+        "y": 1360.0
+      }
+    },
+    {
+      "id": 101,
+      "type": "Attenuverter",
+      "uuid": "68ba47ec-72f0-4fd2-b57d-489fb7a56018",
+      "params": {
+        "bypassed": false,
+        "amount": 0.700000047683716
+      },
+      "position": {
+        "x": 930.0,
+        "y": 1360.0
+      }
+    },
+    {
+      "id": 102,
+      "type": "Attenuverter",
+      "uuid": "f072c9b4-1cca-4099-9509-279690a7115e",
+      "params": {
+        "bypassed": false,
+        "amount": 0.220000028610229
+      },
+      "position": {
+        "x": 1240.0,
+        "y": 1360.0
+      }
+    },
+    {
+      "id": 103,
+      "type": "Attenuverter",
+      "uuid": "ed1db58e-67fc-4615-85fa-fa170cfd40d8",
+      "params": {
+        "bypassed": false,
+        "amount": 0.279999971389771
+      },
+      "position": {
+        "x": 1550.0,
+        "y": 1360.0
+      }
+    },
+    {
+      "id": 104,
+      "type": "Attenuverter",
+      "uuid": "2aaef254-9785-40ff-ae56-e039f6f40477",
+      "params": {
+        "bypassed": false,
+        "amount": 0.740000009536743
+      },
+      "position": {
+        "x": 1860.0,
+        "y": 1360.0
+      }
+    },
+    {
+      "id": 105,
+      "type": "Attenuverter",
+      "uuid": "a85c4ba0-6662-48ea-81eb-081c32ec484d",
+      "params": {
+        "bypassed": false,
+        "amount": 0.460000038146973
+      },
+      "position": {
+        "x": 2170.0,
+        "y": 1360.0
+      }
+    },
+    {
+      "id": 106,
+      "type": "Attenuverter",
+      "uuid": "a18120d2-4e4b-4190-b1d9-ac7232628d2b",
+      "params": {
+        "bypassed": false,
+        "amount": 0.700000047683716
+      },
+      "position": {
+        "x": 0.0,
+        "y": 1700.0
+      }
+    },
+    {
+      "id": 107,
+      "type": "Attenuverter",
+      "uuid": "55057056-0155-4b02-b4f9-e62aee619e0f",
+      "params": {
+        "bypassed": false,
+        "amount": 0.129999995231628
+      },
+      "position": {
+        "x": 310.0,
+        "y": 1700.0
+      }
+    },
+    {
+      "id": 108,
+      "type": "Attenuverter",
+      "uuid": "5e121cb4-8fd7-4504-9d27-876afac32d13",
+      "params": {
+        "bypassed": false,
+        "amount": 0.059999942779541
+      },
+      "position": {
+        "x": 620.0,
+        "y": 1700.0
+      }
+    },
+    {
+      "id": 109,
+      "type": "Attenuverter",
+      "uuid": "0dd2128e-0a00-414a-a966-9112061bc7a2",
+      "params": {
+        "bypassed": false,
+        "amount": 0.240000009536743
+      },
+      "position": {
+        "x": 930.0,
+        "y": 1700.0
+      }
+    },
+    {
+      "id": 110,
+      "type": "Attenuverter",
+      "uuid": "7dd48d55-d054-436c-b2f1-15595732cb54",
+      "params": {
+        "bypassed": false,
+        "amount": 0.159999966621399
+      },
+      "position": {
+        "x": 1240.0,
+        "y": 1700.0
+      }
+    },
+    {
+      "id": 111,
+      "type": "Attenuverter",
+      "uuid": "145dfc36-48af-4007-a221-fb33218393a9",
+      "params": {
+        "bypassed": false,
+        "amount": 0.240000009536743
+      },
+      "position": {
+        "x": 1550.0,
+        "y": 1700.0
+      }
+    },
+    {
+      "id": 112,
+      "type": "Attenuverter",
+      "uuid": "78bb6897-3335-4900-856e-f0ab2af6de7e",
+      "params": {
+        "bypassed": false,
+        "amount": 0.899999976158142
+      },
+      "position": {
+        "x": 1860.0,
+        "y": 1700.0
+      }
+    },
+    {
+      "id": 113,
+      "type": "Attenuverter",
+      "uuid": "6ab2be53-d4e1-4bdf-9fdf-a5f85d14b74c",
+      "params": {
+        "bypassed": false,
+        "amount": 1.0
+      },
+      "position": {
+        "x": 2170.0,
+        "y": 1700.0
+      }
+    },
+    {
+      "id": 114,
+      "type": "Attenuverter",
+      "uuid": "5382ce0f-3ee9-426a-8e30-a5b49e831d70",
+      "params": {
+        "bypassed": false,
+        "amount": 1.0
+      },
+      "position": {
+        "x": 0.0,
+        "y": 2040.0
+      }
+    },
+    {
+      "id": 115,
+      "type": "Attenuverter",
+      "uuid": "bf35d600-9288-4d8f-b15f-fafea898469c",
+      "params": {
+        "bypassed": false,
+        "amount": 0.159999966621399
+      },
+      "position": {
+        "x": 310.0,
+        "y": 2040.0
+      }
+    },
+    {
+      "id": 116,
+      "type": "Attenuverter",
+      "uuid": "fd67f7f1-eb49-4855-85b5-942f8ceb7bee",
+      "params": {
+        "bypassed": false,
+        "amount": 0.0
+      },
+      "position": {
+        "x": 620.0,
+        "y": 2040.0
+      }
+    },
+    {
+      "id": 117,
+      "type": "Attenuverter",
+      "uuid": "0c97eb61-3787-4587-993e-bf55989349c3",
+      "params": {
+        "bypassed": false,
+        "amount": 0.079999923706055
+      },
+      "position": {
+        "x": 930.0,
+        "y": 2040.0
+      }
+    },
+    {
+      "id": 118,
+      "type": "Attenuverter",
+      "uuid": "52f69972-ee32-4255-9def-9818ac7ec0e9",
+      "params": {
+        "bypassed": false,
+        "amount": 0.179999947547913
+      },
+      "position": {
+        "x": 1240.0,
+        "y": 2040.0
+      }
+    }
+  ],
+  "connections": [
+    {
+      "src": 1,
+      "srcPort": -1,
+      "dst": 3,
+      "dstPort": -1,
+      "isMidi": true
+    },
+    {
+      "src": 1,
+      "srcPort": -1,
+      "dst": 11,
+      "dstPort": -1,
+      "isMidi": true
+    },
+    {
+      "src": 1,
+      "srcPort": -1,
+      "dst": 24,
+      "dstPort": -1,
+      "isMidi": true
+    },
+    {
+      "src": 3,
+      "srcPort": 0,
+      "dst": 6,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 3,
+      "srcPort": 0,
+      "dst": 7,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 3,
+      "srcPort": 0,
+      "dst": 9,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 3,
+      "srcPort": 0,
+      "dst": 10,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 4,
+      "srcPort": 0,
+      "dst": 12,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 5,
+      "srcPort": 0,
+      "dst": 8,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 5,
+      "srcPort": 0,
+      "dst": 12,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 6,
+      "srcPort": 4,
+      "dst": 7,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 7,
+      "srcPort": 0,
+      "dst": 5,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 8,
+      "srcPort": 0,
+      "dst": 9,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 9,
+      "srcPort": 4,
+      "dst": 10,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 10,
+      "srcPort": 0,
+      "dst": 34,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 10,
+      "srcPort": 0,
+      "dst": 34,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 11,
+      "srcPort": 0,
+      "dst": 38,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 11,
+      "srcPort": 14,
+      "dst": 38,
+      "dstPort": 11,
+      "isMidi": false
+    },
+    {
+      "src": 12,
+      "srcPort": 0,
+      "dst": 13,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 12,
+      "srcPort": 1,
+      "dst": 13,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 13,
+      "srcPort": 0,
+      "dst": 14,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 13,
+      "srcPort": 1,
+      "dst": 14,
+      "dstPort": 11,
+      "isMidi": false
+    },
+    {
+      "src": 14,
+      "srcPort": 0,
+      "dst": 15,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 14,
+      "srcPort": 11,
+      "dst": 15,
+      "dstPort": 11,
+      "isMidi": false
+    },
+    {
+      "src": 15,
+      "srcPort": 0,
+      "dst": 25,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 15,
+      "srcPort": 11,
+      "dst": 25,
+      "dstPort": 16,
+      "isMidi": false
+    },
+    {
+      "src": 20,
+      "srcPort": 0,
+      "dst": 21,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 21,
+      "srcPort": 0,
+      "dst": 22,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 22,
+      "srcPort": 0,
+      "dst": 23,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 23,
+      "srcPort": 4,
+      "dst": 33,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 23,
+      "srcPort": 4,
+      "dst": 114,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 24,
+      "srcPort": 0,
+      "dst": 23,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 25,
+      "srcPort": 0,
+      "dst": 26,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 25,
+      "srcPort": 16,
+      "dst": 26,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 26,
+      "srcPort": 0,
+      "dst": 27,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 26,
+      "srcPort": 1,
+      "dst": 27,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 27,
+      "srcPort": 0,
+      "dst": 2,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 27,
+      "srcPort": 1,
+      "dst": 2,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 28,
+      "srcPort": 0,
+      "dst": 109,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 29,
+      "srcPort": 0,
+      "dst": 108,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 29,
+      "srcPort": 0,
+      "dst": 116,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 30,
+      "srcPort": 0,
+      "dst": 22,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 30,
+      "srcPort": 1,
+      "dst": 32,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 36,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 36,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 100,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 101,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 102,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 103,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 104,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 105,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 2,
+      "dst": 106,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 0,
+      "dst": 107,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 1,
+      "dst": 110,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 1,
+      "dst": 111,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 3,
+      "dst": 115,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 3,
+      "dst": 117,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 31,
+      "srcPort": 3,
+      "dst": 118,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 32,
+      "srcPort": 0,
+      "dst": 33,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 33,
+      "srcPort": 4,
+      "dst": 113,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 34,
+      "srcPort": 0,
+      "dst": 35,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 34,
+      "srcPort": 0,
+      "dst": 35,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 35,
+      "srcPort": 0,
+      "dst": 4,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 36,
+      "srcPort": 4,
+      "dst": 112,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 37,
+      "srcPort": 0,
+      "dst": 26,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 37,
+      "srcPort": 16,
+      "dst": 26,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 38,
+      "srcPort": 0,
+      "dst": 37,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 38,
+      "srcPort": 11,
+      "dst": 37,
+      "dstPort": 16,
+      "isMidi": false
+    },
+    {
+      "src": 100,
+      "srcPort": 0,
+      "dst": 6,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 101,
+      "srcPort": 0,
+      "dst": 8,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 102,
+      "srcPort": 0,
+      "dst": 12,
+      "dstPort": 2,
+      "isMidi": false
+    },
+    {
+      "src": 103,
+      "srcPort": 0,
+      "dst": 12,
+      "dstPort": 4,
+      "isMidi": false
+    },
+    {
+      "src": 104,
+      "srcPort": 0,
+      "dst": 13,
+      "dstPort": 2,
+      "isMidi": false
+    },
+    {
+      "src": 105,
+      "srcPort": 0,
+      "dst": 13,
+      "dstPort": 3,
+      "isMidi": false
+    },
+    {
+      "src": 106,
+      "srcPort": 0,
+      "dst": 15,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 107,
+      "srcPort": 0,
+      "dst": 15,
+      "dstPort": 2,
+      "isMidi": false
+    },
+    {
+      "src": 108,
+      "srcPort": 0,
+      "dst": 15,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 109,
+      "srcPort": 0,
+      "dst": 15,
+      "dstPort": 34,
+      "isMidi": false
+    },
+    {
+      "src": 110,
+      "srcPort": 0,
+      "dst": 20,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 111,
+      "srcPort": 0,
+      "dst": 21,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 112,
+      "srcPort": 0,
+      "dst": 32,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 113,
+      "srcPort": 0,
+      "dst": 25,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 114,
+      "srcPort": 0,
+      "dst": 37,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 115,
+      "srcPort": 0,
+      "dst": 26,
+      "dstPort": 4,
+      "isMidi": false
+    },
+    {
+      "src": 116,
+      "srcPort": 0,
+      "dst": 26,
+      "dstPort": 2,
+      "isMidi": false
+    },
+    {
+      "src": 117,
+      "srcPort": 0,
+      "dst": 27,
+      "dstPort": 4,
+      "isMidi": false
+    },
+    {
+      "src": 118,
+      "srcPort": 0,
+      "dst": 27,
+      "dstPort": 6,
+      "isMidi": false
+    }
+  ],
+  "modulations": [
+    {
+      "source": 5,
+      "sourcePort": 0,
+      "dest": 9,
+      "destPort": 1,
+      "amount": 0.120000004768372,
+      "bypass": false
+    },
+    {
+      "source": 20,
+      "sourcePort": 0,
+      "dest": 22,
+      "destPort": 1,
+      "amount": 0.079999923706055,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 0,
+      "dest": 6,
+      "destPort": 1,
+      "amount": 0.449999928474426,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 0,
+      "dest": 8,
+      "destPort": 1,
+      "amount": 0.700000047683716,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 0,
+      "dest": 12,
+      "destPort": 2,
+      "amount": 0.220000028610229,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 0,
+      "dest": 12,
+      "destPort": 4,
+      "amount": 0.279999971389771,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 0,
+      "dest": 13,
+      "destPort": 2,
+      "amount": 0.740000009536743,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 0,
+      "dest": 13,
+      "destPort": 3,
+      "amount": 0.460000038146973,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 2,
+      "dest": 15,
+      "destPort": 1,
+      "amount": 0.700000047683716,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 0,
+      "dest": 15,
+      "destPort": 2,
+      "amount": 0.129999995231628,
+      "bypass": false
+    },
+    {
+      "source": 29,
+      "sourcePort": 0,
+      "dest": 15,
+      "destPort": 1,
+      "amount": 0.059999942779541,
+      "bypass": false
+    },
+    {
+      "source": 28,
+      "sourcePort": 0,
+      "dest": 15,
+      "destPort": 34,
+      "amount": 0.240000009536743,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 1,
+      "dest": 20,
+      "destPort": 0,
+      "amount": 0.159999966621399,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 1,
+      "dest": 21,
+      "destPort": 1,
+      "amount": 0.240000009536743,
+      "bypass": false
+    },
+    {
+      "source": 36,
+      "sourcePort": 4,
+      "dest": 32,
+      "destPort": 1,
+      "amount": 0.899999976158142,
+      "bypass": false
+    },
+    {
+      "source": 33,
+      "sourcePort": 4,
+      "dest": 25,
+      "destPort": 1,
+      "amount": 1.0,
+      "bypass": false
+    },
+    {
+      "source": 23,
+      "sourcePort": 4,
+      "dest": 37,
+      "destPort": 1,
+      "amount": 1.0,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 3,
+      "dest": 26,
+      "destPort": 4,
+      "amount": 0.159999966621399,
+      "bypass": false
+    },
+    {
+      "source": 29,
+      "sourcePort": 0,
+      "dest": 26,
+      "destPort": 2,
+      "amount": 0.0,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 3,
+      "dest": 27,
+      "destPort": 4,
+      "amount": 0.079999923706055,
+      "bypass": false
+    },
+    {
+      "source": 31,
+      "sourcePort": 3,
+      "dest": 27,
+      "destPort": 6,
+      "amount": 0.179999947547913,
+      "bypass": false
+    }
+  ]
+}

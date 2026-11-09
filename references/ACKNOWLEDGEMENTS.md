@@ -100,3 +100,11 @@ Studying an architecture or technique does not require copying its implementatio
 - Pedalboard0.9.26, Spotify, GPL-3.0: https://github.com/spotify/pedalboard — isolated local VST3 audition/preparation host and standard EQ/compression; not represented as a Waveform DAW.
 - JUCE state serialization reference: https://github.com/juce-framework/JUCE/blob/master/modules/juce_core/memory/juce_MemoryBlock.cpp — original interoperability encoder follows the public state format; no JUCE source vendored.
 - Tracktion Waveform Free14, Tracktion Software Corporation, proprietary zero-purchase-cost edition: https://www.tracktion.com/products/waveform-free — selected final DAW; install/save/export not yet verified. Prepared Edit XML properties inspected against https://github.com/Tracktion/tracktion_engine (GPL/commercial engine); no engine source vendored or compiled. CLI reference https://tracktion.github.io/waveform_manual/14.1.22-beta/rendering-and-stems/ is version-specific and not proof that installed stable Free14 supports it.
+
+
+## Agent Synth native production — 2026-11-09
+
+- Agent Synth 0.588.1, Tal (Diabl0269), MIT: https://github.com/Diabl0269/agentsynth/tree/v0.588.1 ; license https://github.com/Diabl0269/agentsynth/blob/v0.588.1/LICENSE . Official arm64 VST3/AU installed locally; unmodified signed binaries stay outside Git. Study018 contains original native patch graphs and music, not vendor DSP source. Built-in hosted AI is not used. This is a separate project from The Agent Patch by Manabe/Bokesoy/sonicLAB.
+- Agent Synth patch/state and module-port documentation consulted for interoperability: https://github.com/Diabl0269/agentsynth/blob/v0.588.1/docs/ai/patch-format.md . The shallow Fine-input FM and the linear-Hz Poly MIDI/Math FM are labelled separately in study018.
+- Artist-supplied PM_MIDI_COMPOSER_V1.zip: used locally as a MIDI-only baseline tool. No license file supplied, so no third-party tool source redistributed. Example generations are not presented as finished compositions. Original study018 scores preserve authored MIDI revisions independently.
+- Waveform 14.1.24: study018 now records an actual VST3 scan, real MIDI-to-audio CLI export, and an isolated GUI Save As/close/reopen test. This does not establish AU rendering, standalone Agent Synth deployment, hardware MIDI, stage reliability, or the product entitlement.
