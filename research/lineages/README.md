@@ -1,3 +1,5 @@
+> **2026-11-09 METHODS INDEX:** [Global Artist Method Atlas](GLOBAL_ARTIST_METHOD_ATLAS_2026-11-09.md) · [21 method records](../music-production/2026-11-09-ARTIST-METHOD-ATLAS.json) · [Agent composition decisions](../music-production/2026-11-09-AGENT-COMPOSITION-LAB.md). See existing period/lineage research below; do not treat a research reference as a documented collaboration.
+
 # Lineages — Working Map
 
 This file separates **documented influence** from **analytical genealogy**.
