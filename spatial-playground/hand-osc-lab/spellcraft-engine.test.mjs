@@ -111,6 +111,16 @@ test('east 6: ordered seven-star route reaches constellation finale',()=>{
   assert.ok(has(a.events,'constellation'));assert.equal(a.route,0);
   assert.ok(a.score>=70);
 });
+test('fast projectile crossing a target between frames still scores via swept collision',()=>{
+  const a=new SpellArena('west');
+  const t=a.targets[2];
+  t.base=[0,0,-.96];t.position=t.base.slice();t.phase=0;
+  const p=a.cast('fireball',[0,0,.22],[0,0,-1]);
+  p.velocity=[0,0,-38]; // A single 50ms step travels nearly 2 metres.
+  const before=a.score;
+  a.step(.05,[]);
+  assert.ok(a.score>before,'swept collision should register the crossed target');
+});
 test('projectiles and hit feedback remain bounded during 6,000 frames',()=>{
   const a=new SpellArena('east');a.select(1);
   for(let i=0;i<6000;i++){
