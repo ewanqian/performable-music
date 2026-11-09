@@ -232,14 +232,14 @@ function visualHandMenu(snapshot,hands,time){
   const right=hands.find(x=>x.hand==='right');
   palmPanel.visible=Boolean(snapshot.active&&left?.point);
   if(palmPanel.visible){
-    palmPanel.position.set(left.point[0],left.point[1]+.22,left.point[2]-.09);
+    palmPanel.position.set(left.point[0]-.18,left.point[1]+.31,left.point[2]-.09);
     paintPalm();
   }
   wheelPanel.visible=Boolean(snapshot.active&&snapshot.wheel&&right?.point);
   menuOrb.visible=Boolean(snapshot.active&&snapshot.wheel&&right?.point);
   if(wheelPanel.visible){
     const anchor=snapshot.wheel.anchor;
-    wheelPanel.position.set(anchor[0]+.18,anchor[1]+.15,anchor[2]-.19);
+    wheelPanel.position.set(anchor[0]+.29,anchor[1]+.24,anchor[2]-.19);
     paintWheel(snapshot.wheel.selected,snapshot.wheel.candidate);
     menuOrb.position.fromArray(anchor);
     menuOrb.rotation.set(time*.0007,time*.0003,0);
