@@ -49,9 +49,10 @@ test('Solar Daybreak requires actual fast arm slash, not held sword finger',()=>
   for(let t=40;t<360;t+=40){
     assert.equal(events(step(m,t,h('sword',[0,0,.25])),'sword-slash'),false);
   }
-  for(let i=0;i<5;i++)step(m,400+i*30,h('open',[i*.09,0,.25]));
-  const e=step(m,550,h('open',[.47,0,.25]));
-  assert.ok(events(e,'sword-slash'));
+  const swingEvents=[];
+  for(let i=0;i<5;i++)swingEvents.push(...step(m,400+i*30,h('open',[i*.09,0,.25])));
+  swingEvents.push(...step(m,550,h('open',[.47,0,.25])));
+  assert.equal(swingEvents.filter(e=>e.type==='sword-slash').length,1);
   assert.equal(events(step(m,580,h('open',[.54,0,.25])),'sword-slash'),false);
 });
 test('Arc Stormtrance continuously follows open hands, not rapid one-shot projectiles',()=>{
