@@ -19,6 +19,21 @@ Two six-mechanic Quest 3 MR / VR browser experiments, implemented as original in
 4. For sword volley / fireball / shield / freeze, capture 10 valid trials each and count false detections and misses. Only increase visual complexity after gameplay is reliable.
 5. Confirm audio plays at safe level, no repeated loud trigger storms, sustained headset frame rate and independent XR exit/re-entry.
 
+## Gesture Dynamics V3 / Turbulent Energy Flow (2026-11-09)
+
+**Current live app:** [Gesture Dynamics](./gesture-dynamics.html). This V3 supersedes the V2 visually rigid orbital-leader effect and keeps the same URL/Portfolio launcher.
+
+- **Sweep** — pose velocity continuously emits local spatial sparks/trails, preserving inertial velocity. In XR, pose and aim are sampled every XR animation frame, not from the slow HUD state.
+- **Fist** — attracts previously flying particles into the palm and emits intake filaments. Charge increases with actual time and speed and is capped; a solo fist is sufficient. Left and right charges are independent.
+- **Sword** — continuous small jet from actual index/middle fingertips, dynamically steered by latest finger direction and hand sweep. Previously accumulated charge fires one larger/faster impulse at sword entry; streaming continues until the pose ends.
+- **Open palm** — one burst on entering open pose, with a charge-scaled wave and outward impulse on nearby particles. No phantom burst on tracking loss.
+- **Simulation** — finite-lifetime Lagrangian 3D particles, drag, velocity-integrated streaks and analytic divergence-free curl forcing. This is **not a full Navier–Stokes fluid solve**. The default representation is *jet*, plus wide *ribbon/stripe* and stronger *vortex* presets. Turbulence and output are independently adjustable.
+- **Performance** — bounded 1,536 CPU particles, typed arrays, pooled draw buffers, mobile resolution cap and no per-frame shape creation. Actual frame rate and perceptual quality still require physical Quest 3 testing.
+- **Desktop fallback:** mouse movement models a hand sweep; press `3` for sustained fist charge, `1` for charged release/continuous stream, `2` for palm burst, `0` to release; `R` to reset. Desktop gestures are **MOCK**, not computer-vision tracking. Debug status shows both per-hand charges and simulated particle count.
+- **Behavioral QA:** `node --test gesture-stream-engine.test.mjs`. Acceptance on Quest 3: fingertip vector left/right, rapid hand sweep (false trigger count), rate of sustained stream, charge duration versus emitted energy, near-hand steering in 3 axes, open-palm one-shot burst, hand loss and XR enter/exit.
+
+Earlier V2 experimental leader/follower code and tests remain in `gesture-flight-engine.mjs` for reproducibility, but are not the runtime for the public app. No pose/audio data leaves the headset.
+
 ## Gesture Dynamics V2 / Fast Cast Flight (2026-11-09)
 
 **This replaces the initial spring-home field behavior.** The original technical test lab remains available, but the public `gesture-dynamics.html` now uses `gesture-flight-engine.mjs`: each sword pose spawns a moving lead particle followed by 120 orbiting points. A held sword can cast subsequent volleys at 580 ms intervals. The leader speed is 6.2 m/s; flight has no spring back to the original world position. Open palm sends the followers into ballistic scattering. Right fist arms a short recall window (2.6 seconds), then a later left fist recalls all active particles to the tracked right hand in ~230ms along direct straight paths. No automatic return or ring orbit on recall.
