@@ -77,6 +77,7 @@ jobs:
           node --check spellcraft-ui.mjs
           node --check gesture-stream-engine.mjs
           node --check gesture-stream-engine.test.mjs
+          node --check gesture-dynamics-ui.mjs
           node --check ../../protocols/show-score.mjs
           node --check ../../protocols/show-score.test.mjs
       - name: Test joint geometry and spatial zones
