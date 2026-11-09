@@ -1,0 +1,32 @@
+[
+  {
+    "file": "/Users/ewanqian/Downloads/CRITICAL_FIELD_THREE_COMPOSITIONS_2026-11-09/01_PRISM_RUN.wav",
+    "returncode": 0,
+    "wall_seconds": 72.3910956250038,
+    "playback_level_linear": 0.15,
+    "stderr": "",
+    "acoustic_monitoring": "NOT_TESTED",
+    "human_listening": "PENDING",
+    "music_acceptance": "PENDING"
+  },
+  {
+    "file": "/Users/ewanqian/Downloads/CRITICAL_FIELD_THREE_COMPOSITIONS_2026-11-09/02_HINGE.wav",
+    "returncode": 0,
+    "wall_seconds": 78.84997983404901,
+    "playback_level_linear": 0.15,
+    "stderr": "",
+    "acoustic_monitoring": "NOT_TESTED",
+    "human_listening": "PENDING",
+    "music_acceptance": "PENDING"
+  },
+  {
+    "file": "/Users/ewanqian/Downloads/CRITICAL_FIELD_THREE_COMPOSITIONS_2026-11-09/03_AIR_CURRENT.wav",
+    "returncode": 0,
+    "wall_seconds": 84.51968962501269,
+    "playback_level_linear": 0.15,
+    "stderr": "",
+    "acoustic_monitoring": "NOT_TESTED",
+    "human_listening": "PENDING",
+    "music_acceptance": "PENDING"
+  }
+]
