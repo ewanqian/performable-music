@@ -1,0 +1,46 @@
+name: Spellcraft two-line actual browser QA
+on:
+  pull_request:
+    paths:
+      - 'spatial-playground/hand-osc-lab/spellcraft*'
+      - 'spatial-playground/hand-osc-lab/browser-spellcraft.cjs'
+      - '.github/workflows/spellcraft-browser.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'spatial-playground/hand-osc-lab/spellcraft*'
+      - 'spatial-playground/hand-osc-lab/browser-spellcraft.cjs'
+      - '.github/workflows/spellcraft-browser.yml'
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Browser-only dev dependency
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Local dev server
+        run: |
+          python3 -m http.server 8879 --bind 127.0.0.1 > /tmp/spellcraft-http.log 2>&1 &
+          sleep 2
+          curl -f http://127.0.0.1:8879/spatial-playground/hand-osc-lab/spellcraft.html >/dev/null
+      - name: Twelve desktop behaviors and narrow mobile QA
+        run: node spatial-playground/hand-osc-lab/browser-spellcraft.cjs
+      - name: Reviewable screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spellcraft-12-browser-qa
+          path: |
+            spellcraft-west-desktop.png
+            spellcraft-east-desktop.png
+            spellcraft-east-mobile.png
+          if-no-files-found: ignore
+          retention-days: 14
