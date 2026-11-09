@@ -95,7 +95,7 @@ export class SpellArena {
     this.targets=targetSet();this.projectiles=[];this.events=[];this.score=0;this.combo=0;
     this.life=5;this.time=0;this.charge=0;this.cooldown=0;this.shield=0;
     this.armed=false;this.armedTime=0;this.formation=0;this.element=0;
-    this.route=0;this.routeHold=0;this.trace=[];this.circle=null;this.frozenCount=0;
+    this.route=0;this.routeHold=0;this.trace=[];this.circle=null;this.frozenCount=0;this.readyToFire=false;
     this.prev={left:'neutral',right:'neutral'};this.note='准备好开始';
     this.lastCast=-9;this.lastIncoming=0;this.heldTime=0;this._lastPinch=-9;
     return this.spec;
@@ -180,9 +180,9 @@ export class SpellArena {
     if(this.trace.length && distance(point,this.trace[this.trace.length-1])<.006)return null;
     this.trace.push(point.slice());if(this.trace.length>100)this.trace.shift();
     const evidence=circleEvidence(this.trace);
-    if(evidence){this.trace.length=0;this.circle=evidence;this.armed=true;
+    if(evidence){this.trace.length=0;this.circle=evidence;this.armed=true;this.readyToFire=false;
       this.armedTime=this.time;this.emit('circle',{point:evidence.centre,radius:evidence.radius});
-      this.hint(this.spec.id==='talisman'?'符成 · 剑指前推放出':'空间门已开 · 指向放出');
+      this.hint(this.spec.id==='talisman'?'符成 · 松开后再次剑指或前推发遣':'空间门已开 · 再次剑指或快速前推');
     }
     return evidence;
   }
@@ -263,15 +263,18 @@ export class SpellArena {
         this.charge=clamp(this.charge+dt*.9,0,1);
         this.emit('gravity',{point:h.point,level:this.charge});
         for(const t of this.targets){if(t.respawn===0){
-          t.position=add(t.position,scale(sub(h.point,t.position),Math.min(.04,dt*.75)));
+          t.base=add(t.base,scale(sub(h.point,t.base),Math.min(.065,dt*.95)));
         }}
       }
       if(fromFist&&this.charge>.22){this._fireVolley(h.point,h.direction,3);this.charge=0;}
     }else if(id==='rift'||id==='talisman'){
       if(sword&&!this.armed)this.record(h.point);
-      if(this.armed&&sword&&this.time-this.armedTime>.5&&this.cooldown<=0){
+      if(this.armed&&!sword)this.readyToFire=true;
+      if(this.armed&&sword&&this.cooldown<=0&&this.time-this.armedTime>.20&&
+          ((this.readyToFire&&prev!=='sword')||h.speed>.9)){
         this.cast(id==='rift'?'rift':'talisman',h.point,h.direction);
-        this.armed=false;this.cooldown=.8;this.hint('已发射 · 再画一次');
+        this.armed=false;this.readyToFire=false;this.trace.length=0;
+        this.cooldown=.7;this.hint('已发射 · 再画一次');
       }
     }else if(id==='sword'){
       if(sword){this.charge=clamp(this.charge+dt*.85,0,1);
