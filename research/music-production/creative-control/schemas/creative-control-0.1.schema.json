@@ -1,0 +1,415 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Performable Music / Creative Control Institution / Contract 0.1",
+  "description": "Offline design contract: project problem, search, evaluation, and cues; agent cannot approve its own audio.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "contract_version": {
+      "const": "creative-control-0.1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{2,63}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "const": "DESIGN_ONLY"
+    },
+    "problem_space": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audience_experience": {
+          "type": "string",
+          "minLength": 1
+        },
+        "non_goals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "maxItems": 12
+        }
+      },
+      "required": [
+        "question",
+        "audience_experience",
+        "non_goals"
+      ]
+    },
+    "search_space": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_trials": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "minItems": 2,
+                "maxItems": 4
+              }
+            },
+            "required": [
+              "name",
+              "values"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 4
+        }
+      },
+      "required": [
+        "max_trials",
+        "dimensions"
+      ]
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "human_audio": {
+          "const": "PENDING"
+        },
+        "perspectives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "enum": [
+                  "LONG_FORM",
+                  "SOUND_IDENTITY",
+                  "ARTISTIC_MEANING",
+                  "TECHNICAL"
+                ]
+              },
+              "question": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "question"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 4
+        }
+      },
+      "required": [
+        "human_audio",
+        "perspectives"
+      ]
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "time_mode": {
+          "type": "string",
+          "enum": [
+            "FREE_TIME",
+            "METERED"
+          ]
+        },
+        "reference_bpm": {
+          "type": "number",
+          "minimum": 20,
+          "maximum": 320
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 10000,
+          "maximum": 1200000
+        },
+        "cues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]+$"
+              },
+              "t_ms": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "scene": {
+                "type": "string",
+                "enum": [
+                  "INITIAL_CONDITION",
+                  "FIELD",
+                  "OVERRIDE",
+                  "AFTERIMAGE"
+                ]
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "IDLE",
+                  "SEED",
+                  "BUILD",
+                  "HOLD",
+                  "PEAK",
+                  "RELEASE",
+                  "SAFE"
+                ]
+              },
+              "event_type": {
+                "type": "string",
+                "enum": [
+                  "ADVANCE",
+                  "OVERRIDE",
+                  "FREEZE",
+                  "RELEASE",
+                  "RESET"
+                ]
+              },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "system",
+                  "foot",
+                  "hand",
+                  "button",
+                  "osc",
+                  "clock"
+                ]
+              },
+              "musical_reason": {
+                "type": "string",
+                "minLength": 12
+              },
+              "controls": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "energy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "density": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "tension": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "space": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "pressure": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "fracture": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              }
+            },
+            "required": [
+              "id",
+              "t_ms",
+              "scene",
+              "state",
+              "event_type",
+              "source",
+              "musical_reason",
+              "controls"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "time_mode",
+        "reference_bpm",
+        "duration_ms",
+        "cues"
+      ]
+    },
+    "midi_phrases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "start_ms": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "step_ms": {
+            "type": "integer",
+            "minimum": 15,
+            "maximum": 5000
+          },
+          "steps_per_cycle": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 128
+          },
+          "repeat": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "linear",
+              "repeat",
+              "reverse",
+              "pingpong"
+            ]
+          },
+          "channel": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "pitch": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 127
+                },
+                "step": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "duration_steps": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 128
+                },
+                "velocity": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 127
+                }
+              },
+              "required": [
+                "pitch",
+                "step",
+                "duration_steps",
+                "velocity"
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 128
+          }
+        },
+        "required": [
+          "id",
+          "start_ms",
+          "step_ms",
+          "steps_per_cycle",
+          "repeat",
+          "mode",
+          "channel",
+          "notes"
+        ]
+      },
+      "minItems": 0,
+      "maxItems": 8
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_kind": {
+          "type": "string",
+          "enum": [
+            "SYNTHETIC",
+            "OWNED",
+            "LICENSED",
+            "UNVERIFIED"
+          ]
+        },
+        "source_urls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 7
+          },
+          "minItems": 0,
+          "maxItems": 20
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "input_kind",
+        "source_urls",
+        "note"
+      ]
+    }
+  },
+  "required": [
+    "contract_version",
+    "id",
+    "title",
+    "status",
+    "problem_space",
+    "search_space",
+    "evaluation",
+    "performance",
+    "midi_phrases",
+    "provenance"
+  ]
+}

@@ -1,0 +1,182 @@
+{
+  "contract_version": "creative-control-0.1",
+  "id": "CRITICAL_FIELD_REVERSE_NEURAL_STUDY",
+  "title": "Critical Field / Resonance and Neural Expectation",
+  "status": "DESIGN_ONLY",
+  "problem_space": {
+    "question": "Can a sustained resonance accumulate imagined listening-memory until a deliberate gesture causes a single high-energy rupture?",
+    "audience_experience": "A spacious slow-building sound-world with one authored transformation and an audible memory trace.",
+    "non_goals": [
+      "Do not force club groove",
+      "Do not infer real EEG",
+      "Do not generate a stock techno beat"
+    ]
+  },
+  "search_space": {
+    "max_trials": 6,
+    "dimensions": [
+      {
+        "name": "harmonic_motion",
+        "values": [
+          0.25,
+          0.7
+        ]
+      },
+      {
+        "name": "material_granularity",
+        "values": [
+          0.2,
+          0.65
+        ]
+      },
+      {
+        "name": "spatial_pressure",
+        "values": [
+          0.3,
+          0.8
+        ]
+      }
+    ]
+  },
+  "evaluation": {
+    "human_audio": "PENDING",
+    "perspectives": [
+      {
+        "id": "LONG_FORM",
+        "question": "Does time feel purposeful even when sound is sparse?"
+      },
+      {
+        "id": "SOUND_IDENTITY",
+        "question": "Would the timbre be recognizable without the visuals?"
+      },
+      {
+        "id": "ARTISTIC_MEANING",
+        "question": "Is the imagined neural response actually related to a musical decision?"
+      },
+      {
+        "id": "TECHNICAL",
+        "question": "Is the recorded output replayable and free of accidental discontinuities?"
+      }
+    ]
+  },
+  "performance": {
+    "time_mode": "FREE_TIME",
+    "reference_bpm": 100,
+    "duration_ms": 90000,
+    "cues": [
+      {
+        "id": "SEED_RESONANCE",
+        "t_ms": 0,
+        "scene": "INITIAL_CONDITION",
+        "state": "SEED",
+        "event_type": "ADVANCE",
+        "source": "system",
+        "musical_reason": "Introduce an authored harmonic seed with audible decay and measurable spatial depth.",
+        "controls": {
+          "energy": 0.1,
+          "density": 0.1,
+          "space": 0.6
+        }
+      },
+      {
+        "id": "FIELD_ACCUMULATE",
+        "t_ms": 22000,
+        "scene": "FIELD",
+        "state": "BUILD",
+        "event_type": "ADVANCE",
+        "source": "system",
+        "musical_reason": "Slowly reveal two interacting resonance contours without introducing decorative drum loops.",
+        "controls": {
+          "energy": 0.3,
+          "density": 0.3,
+          "tension": 0.5,
+          "space": 0.8
+        }
+      },
+      {
+        "id": "SUSPEND",
+        "t_ms": 48000,
+        "scene": "FIELD",
+        "state": "HOLD",
+        "event_type": "FREEZE",
+        "source": "system",
+        "musical_reason": "Keep a sustained spectral anchor while the apparent activity recedes and expectation grows.",
+        "controls": {
+          "energy": 0.28,
+          "density": 0.06,
+          "tension": 0.9
+        }
+      },
+      {
+        "id": "GESTURAL_OVERRIDE",
+        "t_ms": 66500,
+        "scene": "OVERRIDE",
+        "state": "PEAK",
+        "event_type": "OVERRIDE",
+        "source": "foot",
+        "musical_reason": "A single performed decision releases accumulated resonance into a short dense musical rupture.",
+        "controls": {
+          "energy": 0.96,
+          "density": 0.85,
+          "tension": 0.75,
+          "pressure": 0.9
+        }
+      },
+      {
+        "id": "AFTERIMAGE",
+        "t_ms": 78000,
+        "scene": "AFTERIMAGE",
+        "state": "RELEASE",
+        "event_type": "RELEASE",
+        "source": "system",
+        "musical_reason": "Return the initial interval in altered form and complete an audible ending instead of abruptly cutting audio.",
+        "controls": {
+          "energy": 0.2,
+          "density": 0.13,
+          "space": 0.8
+        }
+      }
+    ]
+  },
+  "midi_phrases": [
+    {
+      "id": "RESONANCE_MOTIF",
+      "start_ms": 0,
+      "step_ms": 600,
+      "steps_per_cycle": 16,
+      "repeat": 4,
+      "mode": "pingpong",
+      "channel": 1,
+      "notes": [
+        {
+          "pitch": 48,
+          "step": 0,
+          "duration_steps": 6,
+          "velocity": 55
+        },
+        {
+          "pitch": 55,
+          "step": 7,
+          "duration_steps": 4,
+          "velocity": 43
+        },
+        {
+          "pitch": 59,
+          "step": 12,
+          "duration_steps": 3,
+          "velocity": 47
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "input_kind": "SYNTHETIC",
+    "source_urls": [
+      "https://projects.daito.ws/beyond-generation/",
+      "https://github.com/daitomanabe/midi_data_generator",
+      "https://github.com/daitomanabe/vjbake",
+      "https://github.com/daitomanabe/objectspat-js-qwen"
+    ],
+    "note": "Only an original design example. No copyrighted audio, actual EEG, plugin settings or real stage evidence."
+  }
+}

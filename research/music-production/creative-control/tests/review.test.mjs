@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {inspectReview} from '../review.mjs';
+import fs from 'node:fs';
+const plan=JSON.parse(fs.readFileSync(new URL('../example/review-pending.json',import.meta.url),'utf8'));
+const ok=inspectReview(plan);
+assert.equal(ok.ok,true);
+assert.equal(ok.decision_status,'NEEDS_ARTIST_DECISION');
+const forged=structuredClone(plan);
+forged.assessments[0].judgement='KEEP';
+assert.equal(inspectReview(forged).ok,false);
+const unsupported=structuredClone(plan);
+unsupported.artist_final_decision='KEEP';
+assert.equal(inspectReview(unsupported).ok,false);
+const mixed=structuredClone(plan);mixed.assessments[0].reviewer='ARTIST';mixed.assessments[0].observed_media='REAL_WAV';mixed.assessments[0].judgement='KEEP';
+mixed.assessments[1].reviewer='OTHER_HUMAN';mixed.assessments[1].observed_media='REAL_WAV';mixed.assessments[1].judgement='REJECT';
+assert.equal(inspectReview(mixed).disagreement,true);
+console.log('PASS: review disagreements preserved; no model self-approval');
