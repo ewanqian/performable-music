@@ -90,8 +90,8 @@ export class EnergyStream {
   // Stream emits EVERY frame while sword is detected: not one detached orbiting ball.
   emitStream(side,h,count,charged=false){
     const rnd=this.rng;
-    const wide=this.mode==='ribbon'?1.5:this.mode==='vortex'?1.65:.8;
-    const speed=4.9+this.output*1.6+h.motion*.58;
+    const wide=this.mode==='ribbon'?1.75:this.mode==='vortex'?1.50:1;
+    const speed=3.7+this.output*1.35+h.motion*.72;
     const dir=h.direction;
     const right=normalize(Math.abs(dir[1])>.84?[1,0,0]:[dir[2],0,-dir[0]]);
     const up=[dir[1]*right[2]-dir[2]*right[1],
@@ -99,8 +99,8 @@ export class EnergyStream {
       dir[0]*right[1]-dir[1]*right[0]];
     for(let n=0;n<count;n++){
       const b=(rnd()-.5)*.018;
-      const transverse=(rnd()-.5)*(.38*wide);
-      const transverse2=(rnd()-.5)*(.26*wide);
+      const transverse=(rnd()-.5)*(this.mode==='ribbon'?4.5:2.65*wide);
+      const transverse2=(rnd()-.5)*(this.mode==='ribbon'?.38:1.72*wide);
       const p=[
         h.point[0]+dir[0]*b+right[0]*b,
         h.point[1]+dir[1]*b+right[1]*b,
@@ -110,7 +110,7 @@ export class EnergyStream {
         dir[1]*(speed+rnd()*2.1)+right[1]*transverse+up[1]*transverse2+h.velocity[1]*.35,
         dir[2]*(speed+rnd()*2.1)+right[2]*transverse+up[2]*transverse2+h.velocity[2]*.35];
       this.sample(p,v,charged?PARTICLE_KIND.PULSE:PARTICLE_KIND.STREAM,
-        side==='right'?1:0,charged?1.65+rnd()*.85:1.35+rnd()*.7,
+        side==='right'?1:0,charged?1.8+rnd()*.8:1.32+rnd()*.68,
         charged?1.4:.92);
     }
   }
@@ -187,7 +187,7 @@ export class EnergyStream {
     h.point=p.slice();h.kind=next;h.present=true;
     h.motion=clamp(h.motion*Math.exp(-1.2*dt)+Math.max(0,h.speed-.35)*dt*.85,0,1.8);
     if(h.speed>.34){
-      h.emitAura+=dt*clamp(14+h.speed*24,0,110)*this.output;
+      h.emitAura+=dt*clamp(29+h.speed*38,0,180)*this.output;
       const count=Math.min(12,Math.floor(h.emitAura));h.emitAura-=count;
       this.emitAura(side,h,count);
       if(h.speed>1.1)this.events.push({type:'motion',side,speed:h.speed});
@@ -195,7 +195,7 @@ export class EnergyStream {
     if(next==='fist'){
       // 0.4 s produces a small charge; ~2.5 s gives a strong jet.
       h.charge=clamp(h.charge+dt*(.51+h.speed*.25+h.motion*.25),0,POWER_MAX);
-      h.emitIntake+=dt*(70+h.speed*14)*this.output;
+      h.emitIntake+=dt*(90+h.speed*24)*this.output;
       const count=Math.min(12,Math.floor(h.emitIntake));h.emitIntake-=count;
       this.emitIntake(side,h,count);
       if(old!=='fist')this.events.push({type:'collect',side});
@@ -205,8 +205,8 @@ export class EnergyStream {
         if(old!=='sword' && h.charge>.14){
           this.pulse(side,h,h.charge);h.charge=0;h.emitStream=0;
         }
-        h.emitStream+=dt*(118+h.speed*44+this.output*35)*this.output;
-        const count=Math.min(20,Math.floor(h.emitStream));
+        h.emitStream+=dt*(280+h.speed*60+this.output*55)*this.output;
+        const count=Math.min(26,Math.floor(h.emitStream));
         h.emitStream-=count;this.emitStream(side,h,count);
       }else{
         h.emitStream=0;
@@ -231,8 +231,8 @@ export class EnergyStream {
       let x=this.pos[j],y=this.pos[j+1],z=this.pos[j+2];
       let vx=this.vel[j],vy=this.vel[j+1],vz=this.vel[j+2];
       // Divergence-free 3D curl field (components depend on other axes).
-      const k=this.mode==='vortex'?4.1:3.0;
-      const strength=this.turbulence*(this.mode==='vortex'?2.7:1.45);
+      const k=this.mode==='vortex'?4.1:3.5;
+      const strength=this.turbulence*(this.mode==='vortex'?4.2:2.3);
       let ax=-Math.cos(k*z-this.time*1.9)*strength;
       let ay=-Math.cos(k*x+this.time*1.6)*strength;
       let az=-Math.cos(k*y-this.time*1.4)*strength;
