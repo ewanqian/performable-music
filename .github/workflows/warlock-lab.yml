@@ -1,0 +1,48 @@
+name: Warlock six-element WebXR fan study QA
+on:
+  pull_request:
+    paths:
+      - 'spatial-playground/warlock-lab/**'
+      - '.github/workflows/warlock-lab.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'spatial-playground/warlock-lab/**'
+      - '.github/workflows/warlock-lab.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and six-element behavioral tests
+        run: |
+          for f in spatial-playground/warlock-lab/*.mjs; do node --check "$f"; done
+          node --test spatial-playground/warlock-lab/engine.test.mjs
+      - name: Isolated browser test dependencies
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Serve static scene
+        run: |
+          python3 -m http.server 8879 --bind 127.0.0.1 >/tmp/warlock-server.log 2>&1 &
+          sleep 2
+          curl -f http://127.0.0.1:8879/spatial-playground/warlock-lab/ >/dev/null
+      - name: Actual six-school browser playthrough and sound signal
+        run: node spatial-playground/warlock-lab/browser-qa.cjs
+      - name: Reviewable screenshots and inspectable source
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: warlock-six-element-qa
+          path: |
+            warlock-qa/
+            spatial-playground/warlock-lab/
+          if-no-files-found: warn
+          retention-days: 14
