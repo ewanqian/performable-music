@@ -14,6 +14,18 @@ const assert=require('node:assert/strict');
   await page.waitForFunction(()=>document.querySelector('#status').textContent.includes('DESKTOP MOCK'),
     {timeout:18000});
   assert.equal(await page.locator('#shape option').count(),3);
+  // A real browser user gesture unlocks the original WebAudio score, not just UI text.
+  await page.locator('#music-toggle').click();
+  await page.waitForFunction(()=>document.querySelector('#music-status').textContent.includes('LIVE GESTURE'),
+    {timeout:7000});
+  await page.waitForTimeout(410);
+  await page.locator('#music-toggle').click();
+  assert.match(await page.locator('#music-toggle').innerText(),/MUSIC ON/);
+  await page.locator('#music-toggle').click();
+  await page.waitForFunction(()=>document.querySelector('#music-status').textContent.includes('LIVE GESTURE'),
+    {timeout:7000});
+  await page.locator('#tracking-tolerance').evaluate(el=>{el.value='460';el.dispatchEvent(new Event('input',{bubbles:true}));});
+  assert.match(await page.locator('#tracking-tolerance-value').innerText(),/460ms/);
   await page.locator('[data-gesture=fist]').click();
   await page.mouse.move(790,430);
   for(let i=0;i<15;i++){await page.mouse.move(700+i*9,420+(i%4)*6);await page.waitForTimeout(60);}

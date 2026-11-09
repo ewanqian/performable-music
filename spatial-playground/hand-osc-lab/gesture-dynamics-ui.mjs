@@ -3,7 +3,9 @@
 // Desktop is explicitly a mock. No hand coordinates leave the device.
 import * as THREE from 'three';
 import {JOINTS} from './engine.mjs';
-import {GestureGate,interpretHand} from './gesture-dynamics-engine.mjs';
+import {interpretHand} from './gesture-dynamics-engine.mjs';
+import {StableHand} from './gesture-stability.mjs';
+import {GestureMusic} from './gesture-score-audio.mjs';
 import {EnergyStream,MAX_PARTICLES,PARTICLE_KIND,POWER_MAX} from './gesture-stream-engine.mjs';
 const $=id=>document.getElementById(id);
 const canvas=$('view'),status=$('status'),shapeSelect=$('shape');
@@ -21,6 +23,31 @@ const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(65,innerWidth/i
 camera.position.set(0,0,1.72);
 const group=new THREE.Group();scene.add(group);
 const flow=new EnergyStream('jet',727);
+const music=new GestureMusic();
+let soundMutedByUser=false;
+function reflectMusic(){
+  const btn=$('music-toggle'),hint=$('music-status');
+  if(btn){
+    btn.textContent=music.enabled?'暂停配乐 / MUTE':'开启配乐 / MUSIC ON';
+    btn.setAttribute('aria-pressed',String(music.enabled));
+  }
+  if(hint)hint.textContent=music.lastError?('音频启动失败：'+music.lastError):
+    music.enabled?'ORIGINAL SCORE · 96 BPM / LIVE GESTURE MIX':'点击开启原创实时配乐 · Quest 进入 MR 时自动尝试播放';
+  if($('music-volume-label'))$('music-volume-label').textContent=
+    Math.round(music.gain*100)+'%';
+}
+async function toggleMusic(){
+  if(music.enabled){soundMutedByUser=true;music.stop();reflectMusic();return;}
+  soundMutedByUser=false;
+  await music.start();reflectMusic();
+}
+$('music-toggle')?.addEventListener('click',()=>void toggleMusic());
+$('music-volume')?.addEventListener('input',e=>{music.setVolume(Number(e.target.value));reflectMusic();});
+music.setVolume(Number($('music-volume')?.value||.65));
+reflectMusic();
+function startSoundOnGesture(){
+  if(!music.enabled&&!soundMutedByUser)void music.start().then(reflectMusic);
+}
 const geo=new THREE.BufferGeometry();
 const colors=new Float32Array(MAX_PARTICLES*3);
 geo.setAttribute('position',new THREE.BufferAttribute(flow.pos,3).setUsage(THREE.DynamicDrawUsage));
@@ -138,8 +165,14 @@ function drawHud(s){
 }
 const matrixCache={left:new Float32Array(JOINTS.length*16),
   right:new Float32Array(JOINTS.length*16)};
-const handState={left:{gate:new GestureGate(36,52)},
-  right:{gate:new GestureGate(36,52)}};
+const handState={left:{tracker:new StableHand()},
+  right:{tracker:new StableHand()}};
+let heldHands=0;
+$('tracking-tolerance')?.addEventListener('input',event=>{
+  const ms=Number(event.target.value);
+  for(const h of Object.values(handState))h.tracker.cfg.neutralExitMs=ms;
+  if($('tracking-tolerance-value'))$('tracking-tolerance-value').textContent=ms+'ms';
+});
 const v0=new THREE.Vector3(),v1=new THREE.Vector3(),
   forward=new THREE.Vector3(),q=new THREE.Quaternion(),
   up=new THREE.Vector3(0,1,0);
@@ -153,11 +186,11 @@ function setDesktopKind(kind){
   desktopKind=kind;
   for(const b of gestureButtons)b.setAttribute('aria-pressed',String(b.dataset.gesture===kind));
 }
-for(const b of gestureButtons)b.addEventListener('click',()=>setDesktopKind(b.dataset.gesture));
+for(const b of gestureButtons)b.addEventListener('click',()=>{startSoundOnGesture();setDesktopKind(b.dataset.gesture);});
 document.addEventListener('keydown',e=>{
   if(e.repeat||/INPUT|SELECT|TEXTAREA/.test(document.activeElement?.tagName||''))return;
   const key={Digit1:'sword',Digit2:'open',Digit3:'fist',Digit0:'neutral'};
-  if(key[e.code])setDesktopKind(key[e.code]);
+  if(key[e.code]){startSoundOnGesture();setDesktopKind(key[e.code]);}
   if(e.code==='KeyR')resetFlow();
 });
 canvas.addEventListener('pointermove',e=>{
@@ -179,7 +212,7 @@ for(const id of ['turbulence','output'])$(id)?.addEventListener('input',syncConf
 syncConfig();
 function resetFlow(){
   flow.reset(shapeSelect.value);
-  for(const h of Object.values(handState))h.gate.reset();
+  for(const h of Object.values(handState))h.tracker.reset();
   for(const e of shockwaves){group.remove(e.mesh);e.mesh.geometry.dispose();e.mesh.material.dispose();}
   shockwaves.length=0;lastMessage='READY / SWEEP YOUR HAND';
 }
@@ -225,7 +258,7 @@ function localMeasure(measure){
   return {point:v0.toArray(),direction:v1.sub(v0).normalize().toArray()};
 }
 function xrHands(frame,time){
-  const hands={left:null,right:null},seen=new Set();tracked=0;
+  const hands={left:null,right:null},seen=new Set();tracked=0;heldHands=0;
   const ref=renderer.xr.getReferenceSpace();
   if(!frame||!ref)return hands;
   anchor(frame,ref);if(!anchored)return hands;
@@ -234,13 +267,20 @@ function xrHands(frame,time){
     if(!source.hand||!['left','right'].includes(side))continue;
     seen.add(side);
     const p=readXR(source,frame,ref),measurement=interpretHand(p);
-    const gate=handState[side].gate.update(measurement,time);
-    if(!measurement)continue; // Do not emit phantom blasts on a lost hand.
-    tracked++;
-    const transformed=localMeasure(measurement);
-    hands[side]={...transformed,kind:gate.kind,hand:side};
+    if(measurement)tracked++;
+    const transformed=measurement?{...localMeasure(measurement),
+      kind:measurement.kind,bends:measurement.bends,tipGap:measurement.tipGap}:null;
+    const stable=handState[side].tracker.update(transformed,time);
+    if(stable){
+      hands[side]={point:stable.point,direction:stable.direction,kind:stable.kind,
+        stale:stable.stale,hand:side};
+      if(stable.stale)heldHands++;
+    }
   }
-  for(const side of ['left','right'])if(!seen.has(side))handState[side].gate.update(null,time);
+  for(const side of ['left','right'])if(!seen.has(side)){
+    const stable=handState[side].tracker.update(null,time);
+    if(stable){hands[side]={...stable,hand:side};if(stable.stale)heldHands++;}
+  }
   return hands;
 }
 function desktopHands(){
@@ -251,7 +291,11 @@ function desktopHands(){
 async function enterXR(mode){
   if(!navigator.xr||session)return;
   try{
-    const s=await navigator.xr.requestSession(mode,{optionalFeatures:['hand-tracking']});
+    // XR request is initiated synchronously by the actual click. Music unlock is
+    // started in that same user activation, before either asynchronous result.
+    const request=navigator.xr.requestSession(mode,{optionalFeatures:['hand-tracking']});
+    if(!soundMutedByUser && !music.enabled)void music.start().then(reflectMusic);
+    const s=await request;
     session=s;anchored=false;resetFlow();lastTime=0;
     s.addEventListener('end',()=>{
       session=null;anchored=false;resetFlow();
@@ -375,7 +419,9 @@ function draw(time,frame){
   lastTime=time;
   const hands=session?xrHands(frame,time):desktopHands();
   const events=flow.step(dt,hands);
+  music.update(flow.hands);
   for(const event of events){
+    music.react(event);
     if(event.type==='pulse')lastMessage='CHARGED JET '+event.power.toFixed(1)+' / '+event.count+' PARTICLES';
     if(event.type==='collect')lastMessage='FIST / COLLECT ENERGY';
     if(event.type==='blast'){
@@ -401,7 +447,7 @@ function draw(time,frame){
     status.textContent=mode+'\nRIGHT '+right+' · LEFT '+left+
       '\nENERGY '+power+' / '+POWER_MAX+
       '\nPARTICLES '+flow.alive+' / '+MAX_PARTICLES+
-      '\nFPS '+fps+(session?' · TRACKED '+tracked:'')+
+      '\nFPS '+fps+(session?' · TRACKED '+tracked+' · HELD '+heldHands:'')+
       '\n'+lastMessage;
     drawHud(hudLine);
   }

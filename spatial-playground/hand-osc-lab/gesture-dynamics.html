@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07090c">
-<title>Gesture Dynamics V3 — Turbulent Energy Stream</title>
+<title>Gesture Dynamics V4 — Stable Hands + Original Music</title>
 <style>
 :root{color-scheme:dark;--bg:#07090c;--fg:#f1f0ec;--dim:#a3a8ae;--line:#30333a;--accent:#e6bc87}
 *{box-sizing:border-box}
@@ -13,7 +13,7 @@ body::before{content:"";pointer-events:none;position:fixed;inset:0;background:ra
 header{position:fixed;top:22px;left:25px;pointer-events:none;max-width:min(60vw,520px)}
 .eyebrow{font-size:10px;letter-spacing:.19em;color:var(--accent)}
 h1{font:400 clamp(25px,4vw,54px)/1.04 Georgia,"Times New Roman",serif;letter-spacing:-.035em;margin:11px 0 12px}
-header p{color:var(--dim);max-width:370px;font-size:11px;line-height:1.8}
+header p{color:var(--dim);max-width:400px;font-size:11px;line-height:1.8}
 #status{position:fixed;right:22px;top:22px;max-width:270px;color:var(--accent);font-size:11px;text-align:right;pointer-events:none;white-space:pre-line}
 #controls{position:fixed;left:25px;bottom:23px;right:25px;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between}
 .panel{background:rgba(10,13,18,.86);border:1px solid var(--line);padding:11px 13px;backdrop-filter:blur(16px)}
@@ -33,9 +33,9 @@ a{color:inherit}.sliders{display:grid;gap:8px;margin-top:10px}.sliders label{dis
 </head><body>
 <canvas id="view" aria-label="三维空间粒子动力学预览"></canvas>
 <header>
-<div class="eyebrow">SPATIAL PLAYGROUND / EXPERIMENT 12 / V3 CONTINUOUS FLOW</div>
+<div class="eyebrow">SPATIAL PLAYGROUND / EXPERIMENT 12 / V4 HAND + SOUND</div>
 <h1>Gesture<br>Dynamics.</h1>
-<p>挥手生出灵气尾迹；握拳吸取并蓄积能量；剑指从指尖连续喷射受紊流扰动的能量流；张掌引爆附近粒子。蓄力越久，喷涌越强。手部朝向和挥舞速度持续影响流动。</p>
+<p>挥手生灵气，握拳蓄能，剑指持续喷射，张掌爆散。V4 增加剑指识别容错、短时遮挡保持与原创 96 BPM 实时配乐，视觉与音乐同时响应手势。</p>
 </header>
 <div id="status" role="status">INITIALIZING …</div>
 <div id="controls">
@@ -59,6 +59,21 @@ a{color:inherit}.sliders{display:grid;gap:8px;margin-top:10px}.sliders label{dis
     <div class="sliders">
       <label>TURBULENCE <output id="turbulence-value">0.65</output><input id="turbulence" type="range" min="0" max="2.2" step=".05" value=".65"></label>
       <label>OUTPUT <output id="output-value">1.00</output><input id="output" type="range" min=".2" max="2" step=".05" value="1"></label>
+      <label>POSE STABILITY <output id="tracking-tolerance-value">340ms</output><input id="tracking-tolerance" type="range" min="160" max="520" step="20" value="340"></label>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="label">ORIGINAL LIVE SCORE / 96 BPM</div>
+    <div class="buttons">
+      <button id="music-toggle" aria-pressed="false">开启配乐 / MUSIC ON</button>
+    </div>
+    <div class="sliders">
+      <label>MUSIC LEVEL <output id="music-volume-label">70%</output>
+        <input id="music-volume" type="range" min="0" max="1" step=".05" value=".70">
+      </label>
+    </div>
+    <div id="music-status" role="status" style="font-size:9px;color:#a3a8ae;margin-top:7px">
+      点击开启原创配乐；Quest 进入 MR 时自动尝试播放
     </div>
   </div>
   <div class="panel">
