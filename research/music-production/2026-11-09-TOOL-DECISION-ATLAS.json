@@ -1,0 +1,324 @@
+{
+  "title": "Tool and method decision atlas for Performable Music 2026",
+  "as_of": "2026-11-09",
+  "status": "EXTERNAL_RESEARCH_NO_LOCAL_INSTALL_VERIFICATION",
+  "units": 35,
+  "principle": "Audio arrangement and listening first; existing Waveform/Surge/plugdata prioritized. Tool names/quantitative benchmarks alone never imply aesthetic acceptance.",
+  "tools": [
+    {
+      "id": "T01",
+      "name": "Magenta Groove MIDI Dataset",
+      "url": "https://magenta.withgoogle.com/datasets/groove",
+      "role": "human drum microtiming and velocity",
+      "priority": "P0",
+      "caveat": "midi reference analysis only; 3.11MB MIDI-only; CC BY 4.0; not a direct club-techno corpus",
+      "local_test": "Extract timing/velocity distributions from human performances; compare to original groove"
+    },
+    {
+      "id": "T02",
+      "name": "Essentia",
+      "url": "https://essentia.upf.edu/python_examples.html",
+      "role": "music information retrieval and QC",
+      "priority": "P0",
+      "caveat": "onsets, beat/loudness, tonal/spectral features, dropouts; license/check installation separately",
+      "local_test": "Machine-check gaps, tonal changes, transient coverage; NOT perceived musical quality"
+    },
+    {
+      "id": "T03",
+      "name": "FluCoMa",
+      "url": "https://www.flucoma.org/download/",
+      "role": "sound corpus slicing and feature-driven instrument",
+      "priority": "P0",
+      "caveat": "Max/SC/Pd and CLI; verify local build and corpus permissions",
+      "local_test": "Create one 30-60-source original percussion corpus with 3 distinct sound states"
+    },
+    {
+      "id": "T04",
+      "name": "Surge XT",
+      "url": "https://surge-synthesizer.github.io/",
+      "role": "production synth / editable MIDI",
+      "priority": "P0",
+      "caveat": "Local agent previously reported install; re-inventory actual version and factory state",
+      "local_test": "Build differentiated low-end/percussion sources with saved editable presets"
+    },
+    {
+      "id": "T05",
+      "name": "Waveform Free / Pro",
+      "url": "https://www.tracktion.com/products/waveform-free",
+      "role": "DAW arrangement and actual audio export",
+      "priority": "P0",
+      "caveat": "Prior local report opened Waveform 14 and exported WAV; GUI save/reopen, license remain unverified",
+      "local_test": "One writer. Prove native session open/reopen, stems and 24-bit WAV"
+    },
+    {
+      "id": "T06",
+      "name": "plugdata",
+      "url": "https://plugdata.org/",
+      "role": "focused DSP patch and state machine",
+      "priority": "P0",
+      "caveat": "Previously reported installed; verify version, patch state and export",
+      "local_test": "One unique custom delay / resonant instrument; keep to four semantic macros"
+    },
+    {
+      "id": "T07",
+      "name": "GrooVAE / Magenta Groove",
+      "url": "https://magenta.withgoogle.com/groovae",
+      "role": "groove transfer and humanization baseline",
+      "priority": "P1",
+      "caveat": "historical implementation; compatibility with Waveform or current Ableton not established",
+      "local_test": "A/B quantized vs human performance vs manually designed timing"
+    },
+    {
+      "id": "T08",
+      "name": "vjbake",
+      "url": "https://github.com/daitomanabe/vjbake",
+      "role": "offline audio-to-visual event bake",
+      "priority": "P1",
+      "caveat": "Apple Silicon macOS13+; 60fps JSON/ProRes data video; requires BPM input; unrelated to sound generation",
+      "local_test": "Once an approved WAV exists, bake exactly calibrated LinkOSC-like offline data"
+    },
+    {
+      "id": "T09",
+      "name": "LinkOSC",
+      "url": "https://github.com/daitomanabe/link-osc-app",
+      "role": "live audio features to OSC",
+      "priority": "P1",
+      "caveat": "GPL-2.0-or-later; latency and controls; no exact live kick/snare identity; `/beat` OFF by default",
+      "local_test": "Compare offline baked streams to live analysis on original approved audio"
+    },
+    {
+      "id": "T10",
+      "name": "Magenta RealTime 2 SMALL",
+      "url": "https://github.com/magenta/magenta-realtime",
+      "role": "real-time guided AI instrument",
+      "priority": "P1",
+      "caveat": "mrt2_small 230M works real-time on M1 Pro per model matrix, base 2.4B does not; actual host load test required; weights CC BY 4.0, code Apache-2.0",
+      "local_test": "Audio-only 60s steering with MIDI/hand control, no primary sound dependency on stage"
+    },
+    {
+      "id": "T11",
+      "name": "ACE-Step 1.5",
+      "url": "https://github.com/ace-step/ACE-Step-1.5",
+      "role": "full-track/timbre moodboard and offline source generation",
+      "priority": "P1",
+      "caveat": "MIT project; verify individual model weight licenses and actual outputs; likely Windows 4080S optional; do not claim commercial quality from benchmarks",
+      "local_test": "Use only as A/B ideas; rebuild accepted material in editable DAW and user-owned original sources"
+    },
+    {
+      "id": "T12",
+      "name": "Stable Audio 3 Small/Medium",
+      "url": "https://stability.ai/news-updates/meet-stable-audio-3-the-model-family-built-for-artistic-experimentation-with-open-weight-models",
+      "role": "offline music/sound source generation",
+      "priority": "P1",
+      "caveat": "model-dependent Community License and revenue/use restrictions, terms and memory to be verified",
+      "local_test": "Use to test one-shot/timbre hypothesis, not as a replacement for compositional audition"
+    },
+    {
+      "id": "T13",
+      "name": "CLAP",
+      "url": "https://github.com/LAION-AI/CLAP",
+      "role": "audio embedding and coarse similarity triage",
+      "priority": "P1",
+      "caveat": "embedding similarity is not proof of duplicated composition, style copying, or musical quality",
+      "local_test": "Flag strongly similar candidate sound worlds and request blind ear review"
+    },
+    {
+      "id": "T14",
+      "name": "librosa",
+      "url": "https://librosa.org/doc/latest/index.html",
+      "role": "portable Python audio features",
+      "priority": "P1",
+      "caveat": "onsets, tempo/spectral features; must measure against fixed samples",
+      "local_test": "Find long unexplained silence, rhythm density and timbral novelty"
+    },
+    {
+      "id": "T15",
+      "name": "Magenta RealTime 2 BASE",
+      "url": "https://github.com/magenta/magenta-realtime/blob/main/docs/models.md",
+      "role": "higher-quality generative stream",
+      "priority": "HOLD",
+      "caveat": "official matrix M1 Pro no real-time, though may run offline; don't deploy live",
+      "local_test": "Test offline only if a later dedicated need exists"
+    },
+    {
+      "id": "T16",
+      "name": "Syntheon",
+      "url": "https://github.com/daitomanabe/syntheon",
+      "role": "audio -> synthesizer preset inference",
+      "priority": "P2",
+      "caveat": "README confirms Vital, Dexed WIP; **not** Surge XT support; dependency audit first",
+      "local_test": "Resynthesize a user-owned novel percussion sound into editable Vital preset"
+    },
+    {
+      "id": "T17",
+      "name": "RAVE",
+      "url": "https://github.com/acids-ircam/RAVE",
+      "role": "neural source resynthesis / custom timbral instrument",
+      "priority": "P2",
+      "caveat": "training/packaging and beta VST work; not fast enough to depend on this week's stage score without test",
+      "local_test": "Train on short original sound corpus only if time and rights permit"
+    },
+    {
+      "id": "T18",
+      "name": "Somax2",
+      "url": "https://github.com/DYCI2/Somax2",
+      "role": "corpus-memory improvisation in Max",
+      "priority": "P2",
+      "caveat": "Max integration and nontrivial setup; licenses and real Mac test needed",
+      "local_test": "Record a phrase, generate a constrained response, compare to hand-edited answer"
+    },
+    {
+      "id": "T19",
+      "name": "TidalCycles",
+      "url": "https://tidalcycles.org/docs/",
+      "role": "symbolic rhythm transformations",
+      "priority": "P2",
+      "caveat": "Haskell/Tidal current source on Codeberg; GPLv3 code; output OSC/MIDI; not a final mixer",
+      "local_test": "Export controllable rhythmic patterns that are rendered through professional local sources"
+    },
+    {
+      "id": "T20",
+      "name": "Strudel",
+      "url": "https://strudel.cc/technical-manual/project-start/",
+      "role": "browser pattern grammar for ideation",
+      "priority": "P2",
+      "caveat": "current upstream on Codeberg; do not confuse WebAudio sounds with mature production",
+      "local_test": "Generate candidate note-event scores and export, not synth-only masters"
+    },
+    {
+      "id": "T21",
+      "name": "Sardine",
+      "url": "https://sardine.raphaelforment.fr/",
+      "role": "Python pattern/MIDI/OSC livecoding",
+      "priority": "P2",
+      "caveat": "can be a local composition tool; additional runtime maintenance",
+      "local_test": "Generate controllable counter-rhythm while main clock remains DAW"
+    },
+    {
+      "id": "T22",
+      "name": "beat-link-cpp",
+      "url": "https://github.com/daitomanabe/beat-link-cpp",
+      "role": "Pioneer DJ hardware beat/bar tracking",
+      "priority": "CONDITIONAL",
+      "caveat": "EPL-2.0; not needed for Ableton-only; must have actual CDJ/DJM hardware",
+      "local_test": "Only enable when show includes Pioneer DJ Link gear"
+    },
+    {
+      "id": "T23",
+      "name": "beatlink-max",
+      "url": "https://github.com/daitomanabe/beatlink-max",
+      "role": "Max external for Pioneer DJ beat info",
+      "priority": "CONDITIONAL",
+      "caveat": "depends on beat-link-cpp; real Pioneer gear required",
+      "local_test": "Tempo/beat messages into Max only when DJ hardware present"
+    },
+    {
+      "id": "T24",
+      "name": "oflike-metal",
+      "url": "https://github.com/daitomanabe/oflike-metal",
+      "role": "Metal C++ creative coding interface",
+      "priority": "HOLD",
+      "caveat": "macOS13+/Xcode; source notes MIT; use only after native renderer compile issue solved",
+      "local_test": "One tiny isolated 1080p experiment; not alternative music engine"
+    },
+    {
+      "id": "T25",
+      "name": "GLIC Metal SDK",
+      "url": "https://github.com/daitomanabe/glic-metal-sdk",
+      "role": "post-process image texture",
+      "priority": "HOLD",
+      "caveat": "28 certified live presets, not full original 144; effects are separate from music creation",
+      "local_test": "After music pass, one selective visual effect using same Show Score"
+    },
+    {
+      "id": "T26",
+      "name": "Syphon26",
+      "url": "https://github.com/daitomanabe/syphon26",
+      "role": "Metal-to-Metal video transfer",
+      "priority": "HOLD",
+      "caveat": "BSD-3; developer preview; not classic Syphon compatible",
+      "local_test": "No urgency unless native inter-app transport is actually needed"
+    },
+    {
+      "id": "T27",
+      "name": "ObjectSpat JS Qwen",
+      "url": "https://github.com/daitomanabe/objectspat-js-qwen",
+      "role": "LLM -> constrained math functions with schemas",
+      "priority": "P1_METHOD",
+      "caveat": "Ollama/Qwen for production, Claude offline dataset; original system controls actual lights, not music",
+      "local_test": "Adapt prompt-to-validated-action+evaluation pattern to musical states; do not run generated code unsandboxed"
+    },
+    {
+      "id": "T28",
+      "name": "Midi Data Generator",
+      "url": "https://github.com/daitomanabe/midi_data_generator",
+      "role": "symbolic sequencer/pattern code example",
+      "priority": "P2",
+      "caveat": "archived lightweight C++ source; no evidence it produced any named current set",
+      "local_test": "Extract scheduling and phrase morph principles; avoid same-rule loop generation"
+    },
+    {
+      "id": "T29",
+      "name": "MusicGen AudioCraft",
+      "url": "https://github.com/facebookresearch/audiocraft",
+      "role": "audio-to-music experiment/reference",
+      "priority": "RESEARCH_ONLY",
+      "caveat": "source MIT but model weights CC BY-NC 4.0; no default commercial stage reuse",
+      "local_test": "No performance usage without specific licensing review"
+    },
+    {
+      "id": "T30",
+      "name": "IDyOM",
+      "url": "https://www.marcus-pearce.com/idyom/",
+      "role": "computational melodic expectation",
+      "priority": "P2_RESEARCH",
+      "caveat": "probabilistic symbolic prediction; not real brain responses; specialized setup",
+      "local_test": "Compare motif predictability vs withheld answer C44; artist listening decides"
+    },
+    {
+      "id": "T31",
+      "name": "Groove feature note export",
+      "url": "https://magenta.withgoogle.com/datasets/e-gmd",
+      "role": "expanded human drumming dataset",
+      "priority": "P2",
+      "caveat": "E-GMD 444h; dataset usage/license needs independent recheck; larger than needed",
+      "local_test": "Use only a small authorized subset if initial GMD inadequate"
+    },
+    {
+      "id": "T32",
+      "name": "ReaScript",
+      "url": "https://www.reaper.fm/sdk/reascript/reascript.php",
+      "role": "scriptable arrangement/export automation",
+      "priority": "CONDITIONAL",
+      "caveat": "REAPER is not free indefinitely; do not swap working Waveform just for automation",
+      "local_test": "Only if objective Waveform automation dead-end is verified"
+    },
+    {
+      "id": "T33",
+      "name": "Ableton Live Max for Live API",
+      "url": "https://help.ableton.com/hc/en-us/articles/5402681764242-Controlling-Live-using-Max-for-Live",
+      "role": "native clip, devices and mixer control",
+      "priority": "CONDITIONAL",
+      "caveat": "requires lawfully authorized Live/Max, not guaranteed installed or saved",
+      "local_test": "When available, exactly scoped DAW scene control + Show Score"
+    },
+    {
+      "id": "T34",
+      "name": "Demucs",
+      "url": "https://github.com/facebookresearch/demucs",
+      "role": "audio stem decomposition for analysis",
+      "priority": "RESEARCH_ONLY",
+      "caveat": "archived and unmaintained; separation does not create sampling rights",
+      "local_test": "Study owned audio arrangements; do not publish stems from protected reference"
+    },
+    {
+      "id": "T35",
+      "name": "James Holden Group Humanizer concept",
+      "url": "https://www.ableton.com/en/blog/james-holden-modular-mind/",
+      "role": "correlated microtiming across instruments",
+      "priority": "P1_METHOD",
+      "caveat": "interview describes method; no verified current distributable patch here",
+      "local_test": "Design original correlated microtiming that respects an anchor, no raw random humanize"
+    }
+  ]
+}

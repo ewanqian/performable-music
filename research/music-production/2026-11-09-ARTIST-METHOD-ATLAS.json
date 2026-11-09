@@ -1,0 +1,363 @@
+{
+  "as_of": "2026-11-09",
+  "scope": "Non-exhaustive evidence-led research atlas; public methods and original transfer exercises, not claims of direct endorsement, identical equipment today, or authorization to use samples.",
+  "classification": "FACT_INTERVIEW or ARTIST_PROJECT=reported documented fact; INFERENCE_TRANSFER=our original adaptation hypothesis.",
+  "cards": [
+    {
+      "id": "A01",
+      "artist": "Jeff Mills",
+      "category": "club-rhythm",
+      "documented_method": "two drum machines; programmed core plus manually performed second machine",
+      "transfer_experiment": "two complementary drum lanes with explicit hand-controlled fills",
+      "related_composition_cards": [
+        "C01",
+        "C09"
+      ],
+      "source": "https://www.musicradar.com/news/jeff-mills-interview",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P0",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A02",
+      "artist": "Surgeon",
+      "category": "live-composition",
+      "documented_method": "eight compatible open-ended sequencer groups matured by touring; then multitrack arrangement in Ableton",
+      "transfer_experiment": "bank of compatible 8/16-bar phrases, record long rehearsals and edit strong takes",
+      "related_composition_cards": [
+        "C02",
+        "C37",
+        "C40"
+      ],
+      "source": "https://www.musicradar.com/news/surgeon-interview",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P0",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A03",
+      "artist": "Blawan",
+      "category": "timbre-as-instrument",
+      "documented_method": "percussion from oscillators and low-pass gates; spectral processing of sounds",
+      "transfer_experiment": "one three-state designed drum sound before new arrangement layers",
+      "related_composition_cards": [
+        "C17",
+        "C20",
+        "C23"
+      ],
+      "source": "https://www.musicradar.com/news/blawan-i-put-the-why-they-hide-their-bodies-track-out-and-was-totally-shocked-by-how-popular-it-was-i-was-kind-of-like-f-ive-made-a-big-mistake-here",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P0",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A04",
+      "artist": "Four Tet",
+      "category": "studio-dj-hybrid",
+      "documented_method": "minimal ingredient selection and sample-first quick composition; live loops anchored in Ableton",
+      "transfer_experiment": "select a strong loop and bassline before adding chains; preserve dance-floor time",
+      "related_composition_cards": [
+        "C02",
+        "C05",
+        "C35"
+      ],
+      "source": "https://www.musicradar.com/news/four-tet-tape-notes",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P0",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A05",
+      "artist": "Max Cooper",
+      "category": "music-to-multimedia",
+      "documented_method": "Ableton master controls events; OSC/MIDI into Resolume, lasers and external visual systems; music may start from emotional premise",
+      "transfer_experiment": "one audio-authored scene with note-to-OSC cue plus separate music-only A/B",
+      "related_composition_cards": [
+        "C41",
+        "C45",
+        "C46"
+      ],
+      "source": "https://www.ableton.com/en/blog/max-cooper-speaking-the-unspoken/",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P0",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A06",
+      "artist": "Robert Henke",
+      "category": "atomic-av-events",
+      "documented_method": "Lumiere binds visual shapes to MIDI notes and dedicated FM sounds; historical improvisation revision",
+      "transfer_experiment": "build an audiovisual note with one common envelope and test composition-first sound",
+      "related_composition_cards": [
+        "C45",
+        "C47",
+        "C48"
+      ],
+      "source": "https://roberthenke.com/concerts/lumiere.html",
+      "evidence": "FACT_ARTIST_PROJECT",
+      "priority": "P0",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A07",
+      "artist": "Daito Manabe",
+      "category": "process-club-hybrid",
+      "documented_method": "2026 dm studies joins mathematical-process questions and physically structured club music; sonicPlanet plugins credited",
+      "transfer_experiment": "groove-first rhythm with one evolving process; never assume public code is show code",
+      "related_composition_cards": [
+        "C33",
+        "C41",
+        "C42"
+      ],
+      "source": "https://daito.ws/en/music/dm-studies-000-004/",
+      "evidence": "FACT_ARTIST_RELEASE",
+      "priority": "P0",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A08",
+      "artist": "Amon Tobin",
+      "category": "source-material-resynthesis",
+      "documented_method": "recorded physical/foley sounds made into manipulable playable synthesized instruments, spatial AV show",
+      "transfer_experiment": "one owned physical recording -> three pitched/percussive states -> signature musical idea",
+      "related_composition_cards": [
+        "C18",
+        "C29",
+        "C46"
+      ],
+      "source": "https://musictech.com/features/interviews/amon-tobin-get-lost-in-the-power-of-your-limitations/",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P0",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A09",
+      "artist": "Caterina Barbieri",
+      "category": "ecstatic-repetition",
+      "documented_method": "modular into Ableton for multilayered delay; algorithmic alternative tunings; subtraction",
+      "transfer_experiment": "long-process rhythmic motif with timed harmonic changes rather than random drum breaks",
+      "related_composition_cards": [
+        "C25",
+        "C26",
+        "C33"
+      ],
+      "source": "https://www.ableton.com/zh-cn/blog/caterina-barbieri-minimalism-modular-and-live/",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P1",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A10",
+      "artist": "James Holden",
+      "category": "human-correlated-timing",
+      "documented_method": "software sequences in Max; responsive humanized timing, live recorded takes; balance patch improvisation with form",
+      "transfer_experiment": "couple microtiming of voices and test structured 32-bar arrangement",
+      "related_composition_cards": [
+        "C12",
+        "C34",
+        "C36"
+      ],
+      "source": "https://www.ableton.com/en/blog/james-holden-modular-mind/",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P1",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A11",
+      "artist": "Nicolas Jaar",
+      "category": "spontaneous-source-processing",
+      "documented_method": "records physical materials and transforms in Ableton; improvisation responds to room and participation",
+      "transfer_experiment": "one live recording session then artist edits one coherent musical arc",
+      "related_composition_cards": [
+        "C30",
+        "C32",
+        "C38"
+      ],
+      "source": "https://ra.co/features/3672",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P1",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A12",
+      "artist": "Floating Points",
+      "category": "sound-nuclei-to-composition",
+      "documented_method": "developed touring synth system and combined separate sonic, melodic and rhythmic nuclei into larger pieces",
+      "transfer_experiment": "pair two contrasting motifs; test if interaction adds a new musical function",
+      "related_composition_cards": [
+        "C26",
+        "C28",
+        "C42"
+      ],
+      "source": "https://kaput-mag.com/stories_en/floating-points_im-finding-myself-listening-to-my-own-album-and-kind-of-enjoying-it-because-it-doesnt-actually-feel-like-i-made-it/",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P1",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A13",
+      "artist": "Jon Hopkins",
+      "category": "large-scale-contrast",
+      "documented_method": "abrupt hard/high-pressure tracks alternate with restorative tracks; many micro-layers have structural purpose",
+      "transfer_experiment": "write 2 contrasting energy arcs and ensure transition is earned not abrupt",
+      "related_composition_cards": [
+        "C15",
+        "C24",
+        "C43"
+      ],
+      "source": "https://www.ableton.com/en/blog/jon-hopkins/",
+      "evidence": "FACT_EDITORIAL_PROFILE",
+      "priority": "P1",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A14",
+      "artist": "Holly Herndon",
+      "category": "human-ai-ensemble",
+      "documented_method": "PROTO trained Spawn via call-response live voices and artistic participation",
+      "transfer_experiment": "human call response and authored corpus consent, not replace ensemble with prompt-only output",
+      "related_composition_cards": [
+        "C32",
+        "C37",
+        "C38"
+      ],
+      "source": "https://hollyherndon.bandcamp.com/album/proto",
+      "evidence": "FACT_ARTIST_RELEASE",
+      "priority": "P1",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A15",
+      "artist": "KASHIWA Daisuke",
+      "category": "long-form-narrative",
+      "documented_method": "program music and TITAN provide a long-form/timbre/melodic research lineage; detailed music mechanism requires close listening",
+      "transfer_experiment": "transformed motif across three sections with bass and electronics as structure",
+      "related_composition_cards": [
+        "C27",
+        "C43",
+        "C44"
+      ],
+      "source": "https://kashiwadaisuke.com/2024/10/19/titan-kashiwa-daisuke-11th-new-album/",
+      "evidence": "FACT_WORK_ANCHOR_INFERENCE_TRANSFER",
+      "priority": "P1",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A16",
+      "artist": "Ryoji Ikeda",
+      "category": "perception-and-digital-precision",
+      "documented_method": "precise minimal audiovisual signal relations and perceptual extremes (test pattern)",
+      "transfer_experiment": "one 60-second contrast experiment, prioritize audio continuity and accessibility",
+      "related_composition_cards": [
+        "C45",
+        "C47",
+        "C48"
+      ],
+      "source": "https://www.ryojiikeda.com/project/testpattern/",
+      "evidence": "FACT_PROJECT_INFERENCE_TRANSFER",
+      "priority": "P2",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A17",
+      "artist": "Ryoichi Kurokawa",
+      "category": "spatiotemporal-form",
+      "documented_method": "works such as rheo recompose sound and image with aligned temporal/spatial structure",
+      "transfer_experiment": "single compositional event mapped into space as meaningful transformation",
+      "related_composition_cards": [
+        "C31",
+        "C45",
+        "C46"
+      ],
+      "source": "https://www.ycam.jp/asset/pdf/press-release/2011/scopic-measure-13_en.pdf",
+      "evidence": "FACT_PROJECT_INFERENCE_TRANSFER",
+      "priority": "P2",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A18",
+      "artist": "Alva Noto",
+      "category": "digital-material-concentration",
+      "documented_method": "industrial digital sound materials, degradation and microstructure",
+      "transfer_experiment": "limit to three original signal classes, compose through relative time and absence",
+      "related_composition_cards": [
+        "C04",
+        "C23",
+        "C47"
+      ],
+      "source": "https://www.alvanoto.com/?a1=discography&a2=album",
+      "evidence": "FACT_CATALOG_INFERENCE_TRANSFER",
+      "priority": "P2",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A19",
+      "artist": "Byetone",
+      "category": "sparse-muscular-electronics",
+      "documented_method": "minimal rhythmic electronics with graphic/industrial aesthetic",
+      "transfer_experiment": "derive groove force from sparse pulse and a single transformation",
+      "related_composition_cards": [
+        "C02",
+        "C19",
+        "C22"
+      ],
+      "source": "https://raster-media.net/artist/byetone/",
+      "evidence": "FACT_ARTIST_CONTEXT_INFERENCE_TRANSFER",
+      "priority": "P2",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A20",
+      "artist": "Autechre",
+      "category": "modular-algorithmic-systems",
+      "documented_method": "the duo discuss compositional systems, Max/MSP patching and limits of describing rules externally",
+      "transfer_experiment": "bounded patch is not a composition; record/compare real long takes",
+      "related_composition_cards": [
+        "C34",
+        "C36",
+        "C40"
+      ],
+      "source": "https://www.tinymixtapes.com/features/autechre",
+      "evidence": "FACT_INTERVIEW",
+      "priority": "P2",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    },
+    {
+      "id": "A21",
+      "artist": "Nosaj Thing",
+      "category": "collaborative-av",
+      "documented_method": "NO REALITY with Manabe combined real-time image/3D scanning with music",
+      "transfer_experiment": "research simultaneous authored audiovisual gestures, not unverified 2026 setup",
+      "related_composition_cards": [
+        "C31",
+        "C41",
+        "C45"
+      ],
+      "source": "https://research.rhizomatiks.com/en/works/nosaj_thing_coachella.html",
+      "evidence": "FACT_PROJECT_INFERENCE_TRANSFER",
+      "priority": "P1",
+      "rights": "REFERENCE_ONLY; do not sample/copy without authorization",
+      "stage_relevance": "Independent audition; no evidence of user hardware test"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "contract_version": "performable-music-composition-v1",
+  "concept_id": "C02",
+  "name": "LOW END LOCK / 独创低频锁扣研究",
+  "record_status": "PLAN_NOT_RENDERED",
+  "owner": "Ewan Qian / artist approval pending",
+  "source_reference": "research/music-production/2026-11-09-48-compositional-mechanisms.json",
+  "intent": "Create an original four-on-floor club low-end phrase whose kick/bass interlock has identifiable movement even without visuals.",
+  "bpm": 128,
+  "meter": [
+    4,
+    4
+  ],
+  "target_bars": 32,
+  "sources": [
+    {
+      "role": "kick",
+      "kind": "original_or_licensed",
+      "instrument": "verified local drum source pending",
+      "license_status": "NOT_VERIFIED"
+    },
+    {
+      "role": "bass",
+      "kind": "synth",
+      "instrument": "Surge XT proposed",
+      "license_status": "REQUIRES_LOCAL_CHECK"
+    },
+    {
+      "role": "percussion",
+      "kind": "synth_or_owned_recording",
+      "instrument": "pending",
+      "license_status": "REQUIRES_LOCAL_CHECK"
+    }
+  ],
+  "groove": {
+    "anchor": "kick four-to-floor; bass has independent answer on offbeats",
+    "humanization_policy": "NO_GLOBAL_RANDOM_TIMING",
+    "failure": "if kick + bass alone does not move listener, REVISE"
+  },
+  "main_musical_question": "Will the bass answer the same kick gap or move to another position?",
+  "sections": [
+    {
+      "bar_start": 1,
+      "bar_end": 8,
+      "role": "STATE_QUESTION",
+      "musical_action": "establish original kick/bass relationship",
+      "must_remain_audible": "kick and bass"
+    },
+    {
+      "bar_start": 9,
+      "bar_end": 16,
+      "role": "DEVELOP",
+      "musical_action": "change bass reply length/register, not master level",
+      "must_remain_audible": "kick"
+    },
+    {
+      "bar_start": 17,
+      "bar_end": 24,
+      "role": "WITHHOLD_EXPECTATION",
+      "musical_action": "substitute one answer in the next phrase while rhythm stays continuous",
+      "must_remain_audible": "kick plus a perceptible groove anchor"
+    },
+    {
+      "bar_start": 25,
+      "bar_end": 32,
+      "role": "ANSWER",
+      "musical_action": "return with transformed recognizable original bass idea",
+      "must_remain_audible": "kick and bass"
+    }
+  ],
+  "arrangement_contract": "One musical idea → two full phrase cycles → contrast → answer. Do not use fixed bar-12 full-band mute.",
+  "performance": {
+    "event": "AUTHOR_QUANTIZED_FOOT",
+    "musical_effect": "enable alternate bass response at next bar",
+    "visual_effect": "none until music-only pass",
+    "clock": "DAW_MASTER"
+  },
+  "render": {
+    "stereo_wav": "NOT_GENERATED",
+    "stems": [
+      "drums",
+      "bass",
+      "other_percussion",
+      "harmonic_or_texture"
+    ],
+    "sample_rate_hz": 48000,
+    "bit_depth": 24,
+    "daW_save_reopen": "NOT_TESTED"
+  },
+  "audition": {
+    "status": "HUMAN_AUDITION_PENDING",
+    "groove": null,
+    "identity": null,
+    "form": null,
+    "replay_desire": null,
+    "critique_timestamps": [],
+    "verdict": null
+  },
+  "what_is_new": "Bass fills gaps that kick deliberately creates rather than mirroring its rhythm",
+  "forbidden_shortcuts": [
+    "visual masking",
+    "preset-only swap",
+    "global silence at hard-coded bar",
+    "random fill every four bars"
+  ]
+}
