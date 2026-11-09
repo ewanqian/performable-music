@@ -49,6 +49,13 @@ test('hand sweeping emits independent aura and leaves a spatial trail',()=>{
   assert.ok(f.hands.right.motion>.1);
   assert.ok(countKind(f,PARTICLE_KIND.AURA)>0);
 });
+test('fast neutral sweep banks usable kinetic energy without fist',()=>{
+  const f=new EnergyStream('jet',109);
+  for(let i=0;i<80;i++)f.step(1/90,{right:hand('neutral',[i*.025,0,.25])});
+  assert.ok(f.hands.right.charge>.2,'hand sweep should store energy');
+  const out=f.step(1/90,{right:hand('sword',[2.05,0,.25])});
+  assert.ok(out.some(e=>e.type==='pulse'&&e.power>.2));
+});
 test('real-time sword pointing changes velocity of near particles',()=>{
   const base=new EnergyStream('jet',2),sweep=new EnergyStream('jet',2);
   const first=hand('sword',[0,0,.25],[0,0,-1]);
