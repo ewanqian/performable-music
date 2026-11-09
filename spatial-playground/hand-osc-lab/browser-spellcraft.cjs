@@ -25,6 +25,7 @@ const assert=require('node:assert/strict');
       await page.waitForTimeout(170);
       await page.mouse.move(1060,490,{steps:9});
       await page.waitForTimeout(140);
+      await page.screenshot({path:'spellcraft-'+line+'-eight-way-wheel.png',animations:'disabled'});
       await page.mouse.up();
       await page.waitForFunction(()=>document.querySelector('#spell-list .spell:nth-child(3)').getAttribute('aria-pressed')==='true',{timeout:5000});
       // Select traditions using the raised left palm's horizontal movement.
