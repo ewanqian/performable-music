@@ -1,0 +1,57 @@
+name: Spatial Morphology 54 — source and real 3D browser
+on:
+  pull_request:
+    paths:
+      - 'spatial-playground/morphology-lab/**'
+      - '.github/workflows/morphology-lab.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'spatial-playground/morphology-lab/**'
+      - '.github/workflows/morphology-lab.yml'
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Source syntax
+        run: |
+          node --check spatial-playground/morphology-lab/experiments.mjs
+          node --check spatial-playground/morphology-lab/scene.mjs
+          node --check spatial-playground/morphology-lab/app.mjs
+          node --check spatial-playground/morphology-lab/browser-smoke.cjs
+      - name: Validate 54 independent modes
+        run: node --test spatial-playground/morphology-lab/experiments.test.mjs
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Isolated Chromium QA dependency
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Serve local repository
+        run: |
+          python3 -m http.server 8893 --bind 127.0.0.1 > /tmp/morphology-http.log 2>&1 &
+          sleep 2
+          curl -f http://127.0.0.1:8893/spatial-playground/morphology-lab/index.html >/dev/null
+      - name: Test 54 WebGL presets and compare user actions
+        run: node spatial-playground/morphology-lab/browser-smoke.cjs
+      - name: Keep research screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: morphology-54-research-screens
+          path: |
+            morphology-*-desktop.png
+            morphology-sakura-mobile.png
+          retention-days: 14
+          if-no-files-found: ignore
