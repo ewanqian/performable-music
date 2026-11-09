@@ -3,7 +3,7 @@
 set -u
 echo "=== Performable Music / host audit (read only) ==="
 date -u
-uname -a
+uname -m
 echo "--- Hardware (no serial shown) ---"
 if command -v system_profiler >/dev/null; then
   system_profiler SPHardwareDataType 2>/dev/null | grep -E 'Chip:|Processor Name:|Memory:|Total Number of Cores:|Number of Cores:' || true

@@ -16,7 +16,8 @@ For **FREE_TIME** music, the reference BPM is only a serialization coordinate to
 - `core.mjs`: independent validator, one-factor trial matrix, Show Score v2 adaptor, original MIDI sketch writer, vjbake metadata inspector.
 - `cli.mjs`: validate/trials/compile/inspect-vjbake commands. Never invokes the model or plays a sound.
 - `example/critical-field-study.json`: a design-only 90-second ambient→rupture→afterimage sample, **not a finished work**.
-- `tests/test.mjs`: programmatic smoke tests.
+- `tests/test.mjs` and `tests/review.test.mjs`: programmatic smoke tests.
+- `review.mjs` + `example/review-pending.json`: divergent evaluations and data provenance, no automatic musical approval.
 - `QWEN-CODEX-HANDOFF.md`: local human/agent division, structured prompt and actual tool usage.
 - `tools/mac-audit.sh`: read-only inventory. Do not paste license tokens, serial numbers or personal data into a public PR.
 - `SOURCES.md`: verified third-party references and limitations.
@@ -27,12 +28,19 @@ From the repository root:
 
 ```bash
 node research/music-production/creative-control/tests/test.mjs
+node research/music-production/creative-control/tests/review.test.mjs
 node research/music-production/creative-control/cli.mjs validate research/music-production/creative-control/example/critical-field-study.json
 node research/music-production/creative-control/cli.mjs trials research/music-production/creative-control/example/critical-field-study.json
 node research/music-production/creative-control/cli.mjs compile research/music-production/creative-control/example/critical-field-study.json /tmp/critical-field-control-study-001
 ```
 
 Compilation creates a **new output directory**, refusing to overwrite any previous evidence. Outputs: `show-score-v2.jsonl`, `cue-ledger.json`, `control-midi.mid`, `trial-matrix.json`, `manifest.json`. The MIDI is a **sketch or control carrier only**. Not a final music file; not tested in Waveform unless separately documented.
+
+To review divergent assessments without collapsing them into one arbitrary score:
+
+```bash
+node research/music-production/creative-control/cli.mjs review research/music-production/creative-control/example/review-pending.json
+```
 
 To check an actual upstream vjbake JSON:
 

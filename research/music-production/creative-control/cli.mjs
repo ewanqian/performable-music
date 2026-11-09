@@ -4,14 +4,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {validateContract, makeTrialMatrix, compileCueTimeline, makeMidiSkeleton, inspectVJBake} from './core.mjs';
+import {inspectReview} from './review.mjs';
 const [command,inputPath,outDir]=process.argv.slice(2);
-function usage() {console.error('Usage: node cli.mjs validate|trials|compile|inspect-vjbake <json> [new-output-folder]');process.exit(2)}
-if(!command || !inputPath || !['validate','trials','compile','inspect-vjbake'].includes(command))usage();
+function usage() {console.error('Usage: node cli.mjs validate|trials|compile|inspect-vjbake|review <json> [new-output-folder]');process.exit(2)}
+if(!command || !inputPath || !['validate','trials','compile','inspect-vjbake','review'].includes(command))usage();
 let input;
 try {input=fs.readFileSync(inputPath,'utf8')}catch(e){console.error('READ_ERROR '+e.message);process.exit(2)}
 let data;
 try {data=JSON.parse(input)}catch(e){console.error('JSON_PARSE_ERROR '+e.message);process.exit(2)}
-if(command==='inspect-vjbake') {
+if(command==='review') {
+  const result=inspectReview(data);
+  console.log(JSON.stringify(result,null,2));
+  if(!result.ok)process.exitCode=1;
+} else if(command==='inspect-vjbake') {
   const result=inspectVJBake(data);
   console.log(JSON.stringify(result,null,2));
   if(!result.ok)process.exitCode=1;
