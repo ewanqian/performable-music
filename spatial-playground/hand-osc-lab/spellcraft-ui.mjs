@@ -2,7 +2,9 @@
 // Works without OSC or remote services; all visuals and sounds are original procedural studies.
 import * as THREE from 'three';
 import {JOINTS} from './engine.mjs';
-import {GestureGate,interpretHand} from './gesture-dynamics-engine.mjs';
+import {interpretHand} from './gesture-dynamics-engine.mjs';
+import {StableHand} from './gesture-stability.mjs';
+import {SpellHandMenu,assistedAim,palmAim} from './spellcraft-controls.mjs';
 import {SpellArena,SPELLS,ELEMENTS,STAR_POINTS,fingerContact} from './spellcraft-engine.mjs';
 
 const $=id=>document.getElementById(id);
@@ -10,10 +12,12 @@ const canvas=$('view'),state=$('right-panel');
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const norm=p=>{const d=Math.hypot(...p)||1;return p.map(x=>x/d);};
 const getLine=()=>new URL(location.href).searchParams.get('line')==='east'?'east':'west';
-let line=getLine(),arena=new SpellArena(line);
+let line=getLine(),arena=new SpellArena(line),handMenu=new SpellHandMenu();
+let menuSnapshot=handMenu.snapshot(),currentAim=null,mockLeftPalm=false,mockLeftShift=0,mockMenuGrip=false;
+let nowHands=[];
 let xrSession=null,anchored=false,desktopGesture='neutral',lastTime=0;
-let fps=0,frames=0,fpsStart=0,statsAt=0,tracked=0,lastNext=0,castCount=0;
-let cursor=[0,0],lastSpellName='',lastStatus='',audio=null,pointing=null;
+let fps=0,frames=0,fpsStart=0,statsAt=0,tracked=0,castCount=0;
+let cursor=[0,0],lastStatus='',audio=null,pointing=null;
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));
 renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x000000,0);
