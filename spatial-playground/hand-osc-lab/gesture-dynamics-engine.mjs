@@ -14,20 +14,28 @@ export function interpretHand(points) {
   const a = handAngles(points);
   const bend = (name) => a[name];
   if (['index-pip', 'middle-pip', 'ring-pip', 'pinky-pip'].some(name => !Number.isFinite(bend(name)))) return null;
-  const extended = name => bend(name + '-pip') < 44;
-  const curled = name => bend(name + '-pip') > 62;
+  // Comfortable thresholds for Quest hand occlusion; state hysteresis is downstream.
+  const extended = name => bend(name + '-pip') < 58;
+  const curled = name => bend(name + '-pip') > 52;
   const sword = extended('index') && extended('middle') &&
-    curled('ring') && curled('pinky') && dist(points[9], points[14]) < 0.092;
+    curled('ring') && curled('pinky') && dist(points[9], points[14]) < 0.084;
   const open = ['index', 'middle', 'ring', 'pinky'].every(extended) &&
-    dist(points[9], points[24]) > 0.09;
+    dist(points[9], points[24]) > 0.073;
   const fist = ['index', 'middle', 'ring', 'pinky'].every(curled);
-  // Use BOTH extended fingers, not Quest's generic targetRay (usually aimed at UI).
-  const start = [(points[7][0] + points[12][0]) * 0.5,
-    (points[7][1] + points[12][1]) * 0.5, (points[7][2] + points[12][2]) * 0.5];
-  const tip = [(points[9][0] + points[14][0]) * 0.5,
-    (points[9][1] + points[14][1]) * 0.5, (points[9][2] + points[14][2]) * 0.5];
-  return { kind: sword ? 'sword' : open ? 'open' : fist ? 'fist' : 'neutral',
-    point: sword ? tip : points[0], direction: normalize(tip.map((v, i) => v - start[i])) };
+  // Real XR joint coordinates, not the UI targetRay. Base-to-tip axis resists
+  // distal-joint jitter, with a small fingertip component for fine aiming.
+  const base = points[6].map((v,i)=>(v+points[11][i])*.5);
+  const mid = points[7].map((v,i)=>(v+points[12][i])*.5);
+  const tip = points[9].map((v,i)=>(v+points[14][i])*.5);
+  const longAxis=normalize(tip.map((v,i)=>v-base[i]));
+  const tipAxis=normalize(tip.map((v,i)=>v-mid[i]));
+  const direction=normalize(longAxis.map((v,i)=>v*.82+tipAxis[i]*.18));
+  const palm=points[5].map((v,i)=>(v+points[10][i]+points[15][i]+points[20][i])*.25);
+  return {kind:sword?'sword':open?'open':fist?'fist':'neutral',
+    point:sword?tip:palm,direction,
+    bends:{index:bend('index-pip'),middle:bend('middle-pip'),
+      ring:bend('ring-pip'),pinky:bend('pinky-pip')},
+    tipGap:dist(points[9],points[14])};
 }
 
 export class GestureGate {
