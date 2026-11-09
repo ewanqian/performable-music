@@ -344,14 +344,14 @@ addEventListener('resize',()=>{
 
 const cache={left:new Float32Array(25*16),right:new Float32Array(25*16)};
 const handState={
-  left:{gate:new GestureGate(42,45),last:null,point:null,time:0,pinch:false},
-  right:{gate:new GestureGate(42,45),last:null,point:null,time:0,pinch:false}
+  left:{tracker:new StableHand(),point:null,time:0},
+  right:{tracker:new StableHand(),point:null,time:0}
 };
 function readJoints(source,frame,ref){
-  if(!source.hand)return null;
+  if(!source?.hand)return null;
   const js=JOINTS.map(j=>source.hand.get(j));if(js.some(x=>!x))return null;
   const out=[];
-  if(frame.fillPoses){
+  if(typeof frame.fillPoses==='function'){
     const matrices=cache[source.handedness];let ok=false;
     try{ok=frame.fillPoses(js,ref,matrices);}catch{}
     if(ok){
@@ -365,7 +365,8 @@ function readJoints(source,frame,ref){
   for(const joint of js){
     const t=frame.getJointPose(joint,ref)?.transform.position;
     if(!t)return null;out.push([t.x,t.y,t.z]);
-  }return out;
+  }
+  return out;
 }
 function anchor(frame,ref){
   if(anchored)return;
@@ -377,46 +378,73 @@ function anchor(frame,ref){
   group.updateMatrixWorld(true);anchored=true;
 }
 function toLocal(sample,side){
-  temp.fromArray(sample.point);tmp2.fromArray(sample.point).add(look.fromArray(sample.direction));
+  temp.fromArray(sample.point);
+  tmp2.fromArray(sample.point).add(look.fromArray(sample.direction));
   group.worldToLocal(temp);group.worldToLocal(tmp2);
   return {hand:side,kind:sample.kind,point:temp.toArray(),
     direction:tmp2.sub(temp).normalize().toArray()};
 }
 function getHands(frame,time){
   const hands=[];tracked=0;
-  const ref=renderer.xr.getReferenceSpace();if(!frame||!ref)return hands;
+  const ref=renderer.xr.getReferenceSpace();
+  if(!frame||!ref)return hands;
   anchor(frame,ref);if(!anchored)return hands;
+  const viewerPose=frame.getViewerPose(ref);
+  if(!viewerPose)return hands;
+  const vp=viewerPose.transform.position,vr=viewerPose.transform.orientation;
+  orient.set(vr.x,vr.y,vr.z,vr.w);
+  look.set(0,0,-1).applyQuaternion(orient);
+  const viewer={position:[vp.x,vp.y,vp.z],forward:look.toArray()};
   const found=new Set();
   for(const source of xrSession?.inputSources||[]){
-    const side=source.handedness;if(!source.hand||!['left','right'].includes(side))continue;
-    found.add(side);const s=handState[side],points=readJoints(source,frame,ref);
+    const side=source.handedness;
+    if(!source.hand||!['left','right'].includes(side))continue;
+    found.add(side);
+    const state=handState[side],points=readJoints(source,frame,ref);
     const base=interpretHand(points);
-    if(!base){s.gate.update(null,time);continue;}
-    tracked++;
-    const tip=fingerContact(points);
-    if(base.kind==='neutral'&&tip!==null)base.kind='pinch';
-    const stable=s.gate.update(base,time).kind;
-    const p=toLocal(base,side);
-    p.kind=stable;p.finger=tip;
-    p.speed=s.point&&time>s.time?Math.min(4,Math.hypot(...p.point.map((v,i)=>v-s.point[i]))*1000/(time-s.time)):0;
-    s.point=p.point.slice();s.time=time;
-    hands.push(p);
-    // Index pinch on the left is a tactile way to cycle spell choices inside XR.
-    const toggled=stable==='pinch'&&tip===0;
-    if(side==='left'&&arena.spec.id!=='elements'&&toggled&&!s.pinch&&time-lastNext>850){
-      lastNext=time;selectSpell((arena.index+1)%6);
+    if(!base){
+      const stale=state.tracker.update(null,time);
+      if(stale)hands.push({...stale,hand:side,inView:false,palmFacingViewer:false});
+      continue;
     }
-    s.pinch=toggled;
+    tracked++;
+    // During a one-frame failed sword classification, preserve the fingertip
+    // origin as well as the sword pose; do not jump to the wrist/palm.
+    const pose=palmAim(points,{kind:state.tracker.kind==='sword'?'sword':base.kind},viewer);
+    const local=toLocal(pose||base,side);
+    const stable=state.tracker.update({...local,kind:base.kind,
+      bends:base.bends,tipGap:base.tipGap},time);
+    if(!stable)continue;
+    const tip=fingerContact(points);
+    const sample={...stable,hand:side,
+      inView:Boolean(pose?.inView),palmFacingViewer:Boolean(pose?.palmFacingViewer),
+      aimKind:stable.kind==='sword'?'FINGER':'PALM',finger:tip};
+    if(sample.kind==='neutral'&&tip!==null)sample.kind='pinch';
+    sample.speed=state.point&&time>state.time?
+      Math.min(4,Math.hypot(...sample.point.map((v,i)=>v-state.point[i]))*1000/(time-state.time)):0;
+    state.point=sample.point.slice();state.time=time;
+    hands.push(sample);
   }
   for(const side of ['left','right'])if(!found.has(side)){
-    const s=handState[side];s.gate.update(null,time);s.point=null;s.pinch=false;
+    const state=handState[side];
+    const stale=state.tracker.update(null,time);
+    state.point=null;
+    if(stale)hands.push({...stale,hand:side,inView:false,palmFacingViewer:false});
   }
   return hands;
 }
 function mockHands(){
   const p=[cursor[0]*.48,cursor[1]*.40,.5];
   const d=norm([cursor[0]*.44,cursor[1]*.34,-1]);
-  return [{hand:'right',kind:desktopGesture,point:p,direction:d,speed:0}];
+  const hands=[{hand:'right',kind:mockMenuGrip?'fist':desktopGesture,
+    point:p,direction:d,aimKind:'FINGER',inView:true,
+    palmFacingViewer:false,stale:false,speed:0}];
+  if(mockLeftPalm){
+    hands.push({hand:'left',kind:'open',point:[-.26+mockLeftShift,.04,.32],
+      direction:[0,0,-1],aimKind:'PALM',
+      palmFacingViewer:true,inView:true,stale:false,speed:0});
+  }
+  return hands;
 }
 async function enterXR(mode){
   if(!navigator.xr||xrSession)return;
