@@ -1,5 +1,17 @@
 # HAND / SPACE / OSC · Spatial Playground Lab 02
 
+## Spellcraft Atelier V2 — Palm-hand UI and Unified Aim (2026-11-09)
+
+**Live entrypoint after merge:** \`spellcraft.html?line=west\` / \`spellcraft.html?line=east\`. Both traditions remain six playable mechanics; this update changes their controller, not their concept.
+
+**Quest hand navigation (two separate modes):** Present the LEFT open palm so it faces the headset, in the user's field of view, for ~0.2 s. A compact world-space class picker appears above it. Move the left palm left (~12.5 cm) for European fantasy **Wizard**, right for Chinese fantasy **Sorcerer**. While holding the left palm up, close the RIGHT fist to summon an eight-direction skill wheel near that hand. Move fist up, up-right, right, down-right, down, down-left for skills 1–6, left to switch tradition, up-left to reset. Hold a direction for ~70 ms, then deliberately release the right fist to confirm. Lower the left palm to return to **PLAY**. The menu isolates gameplay while active; a missing hand or interrupted track cancels release selection rather than selecting a random spell.
+
+**Aim without guessing:** The right sword-finger firing ray is formed from the **actual index/middle proximal joints to both fingertips** (not UI targetRay). Open-palm/fist attacks use the palm plane normal, oriented into the play scene. A world-space ray and illuminated ring show the aim target. A forward angular soft lock helps correct Quest joint-angle noise; a swept-segment collision test prevents fast projectiles passing through target meshes between frames. Menus are visible *inside* immersive XR as Three.js CanvasTexture planes, and all 12 gameplay rules remain intact.
+
+**Desktop mock:** Click "左掌菜单 / PRESENT" to simulate a left palm, choose west/east via the dedicated swipe buttons (or Q/E) and hold the mouse down over the 3D canvas, drag into one of eight directions and release to confirm. Switch the mock palm off to aim and cast. Existing six-item cards and CAST button remain accessible. Desktop mock is not evidence of Quest input recognition.
+
+Tests: \`node --test spellcraft-controls.test.mjs spellcraft-engine.test.mjs\`. Browser tests cover menu open, eight-way selection, 12 desktop spells and mobile UX. Actual Quest 3 testing remains necessary for palm-facing thresholds, wrist orientation, false releases, occlusion and pointing precision.
+
 ## Spellcraft Atelier / Two Game Lines (2026-11-09)
 
 Two six-mechanic Quest 3 MR / VR browser experiments, implemented as original interactions (not game asset reproduction or verified religious ritual):
