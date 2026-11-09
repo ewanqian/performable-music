@@ -17,7 +17,8 @@ renderer.setClearColor(0x000000,0);
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.xr.enabled=true;renderer.xr.setReferenceSpaceType('local');
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.015,90);
-camera.position.set(0,0,2.7);
+// Desktop is a close-up art preview; immersive WebXR supplies its own true head camera.
+camera.position.set(0,0,1.72);
 const group=new THREE.Group();scene.add(group);
 const flow=new EnergyStream('jet',727);
 const geo=new THREE.BufferGeometry();
@@ -35,10 +36,15 @@ function pointTexture(){
   x.fillStyle=g;x.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);
 }
 const particles=new THREE.Points(geo,new THREE.PointsMaterial({
-  map:pointTexture(),size:.039,transparent:true,opacity:.93,vertexColors:true,
+  map:pointTexture(),size:.070,transparent:true,opacity:1,vertexColors:true,
   depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true
 }));
 particles.frustumCulled=false;group.add(particles);
+const softGlow=new THREE.Points(geo,new THREE.PointsMaterial({
+  map:pointTexture(),size:.16,transparent:true,opacity:.27,vertexColors:true,
+  depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true
+}));
+softGlow.frustumCulled=false;group.add(softGlow);
 // Velocity streaks are actual previous-to-current particle motion, not a canned spiral.
 const streakCoords=new Float32Array(MAX_PARTICLES*6);
 const streakColor=new Float32Array(MAX_PARTICLES*6);
@@ -46,10 +52,21 @@ const streakGeo=new THREE.BufferGeometry();
 streakGeo.setAttribute('position',new THREE.BufferAttribute(streakCoords,3).setUsage(THREE.DynamicDrawUsage));
 streakGeo.setAttribute('color',new THREE.BufferAttribute(streakColor,3).setUsage(THREE.DynamicDrawUsage));
 const streaks=new THREE.LineSegments(streakGeo,new THREE.LineBasicMaterial({
-  transparent:true,opacity:.42,vertexColors:true,depthWrite:false,
+  transparent:true,opacity:.65,vertexColors:true,depthWrite:false,
   blending:THREE.AdditiveBlending
 }));
 streaks.frustumCulled=false;group.add(streaks);
+// Real broad ribbons: mesh quads derived from each sampled particle's current
+// velocity, so they bend, spread and break with the simulated stream, not a fixed VFX loop.
+const ribbonCoords=new Float32Array(MAX_PARTICLES*18);
+const ribbonGeo=new THREE.BufferGeometry();
+ribbonGeo.setAttribute('position',new THREE.BufferAttribute(ribbonCoords,3).setUsage(THREE.DynamicDrawUsage));
+ribbonGeo.setDrawRange(0,0);
+const ribbons=new THREE.Mesh(ribbonGeo,new THREE.MeshBasicMaterial({
+  color:0xeed8b8,transparent:true,opacity:.22,
+  side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending
+}));
+ribbons.frustumCulled=false;group.add(ribbons);
 // Only strong collected pulses get a leading flare. The primary visual is the flowing jet.
 const frontMeshes=new THREE.InstancedMesh(new THREE.OctahedronGeometry(.032,1),
   new THREE.MeshBasicMaterial({color:0xffeccd,transparent:true,opacity:.92}),8);
@@ -262,6 +279,8 @@ async function detectXR(){
 }
 detectXR();
 function updateGeometry(){
+  let ribbonCount=0;
+  const ribbonMode=flow.mode==='ribbon';
   const p=flow.pos,v=flow.vel,prev=flow.previous;
   const t=flow.age,ttl=flow.ttl,live=flow.live,kind=flow.kind;
   for(let i=0;i<MAX_PARTICLES;i++){
@@ -286,7 +305,7 @@ function updateGeometry(){
     streakCoords[k]=p[j];streakCoords[k+1]=p[j+1];streakCoords[k+2]=p[j+2];
     // A velocity aligned streak: the elongated rear follows the actual trajectory.
     const speed=Math.hypot(v[j],v[j+1],v[j+2]);
-    const tail=Math.min(.19,.022+speed*.012);
+    const tail=Math.min(.36,.046+speed*.034);
     const inv=tail/Math.max(speed,.1);
     streakCoords[k+3]=p[j]-v[j]*inv;
     streakCoords[k+4]=p[j+1]-v[j+1]*inv;
@@ -295,9 +314,33 @@ function updateGeometry(){
       streakColor[k+a]=colors[j+a]*.14;
       streakColor[k+3+a]=colors[j+a]*.75;
     }
+    if(ribbonMode && i%2===0 && speed>.8 &&
+      (kind[i]===PARTICLE_KIND.STREAM||kind[i]===PARTICLE_KIND.PULSE) &&
+      ribbonCount<MAX_PARTICLES){
+      const inv=1/speed;
+      const dx=v[j]*inv,dy=v[j+1]*inv,dz=v[j+2]*inv;
+      // Lateral vector in stream space, not a camera-facing flat screenshot.
+      let nx=-dz,ny=0,nz=dx;
+      let nn=Math.hypot(nx,ny,nz);
+      if(nn<.12){nx=0;ny=dz;nz=-dy;nn=Math.hypot(nx,ny,nz);}
+      nx/=nn||1;ny/=nn||1;nz/=nn||1;
+      const width=.012+Math.min(.07,speed*.004);
+      const span=.13+Math.min(.35,speed*.043);
+      const px=p[j],py=p[j+1],pz=p[j+2];
+      const tailx=px-dx*span,taily=py-dy*span,tailz=pz-dz*span;
+      const ax=px+nx*width,ay=py+ny*width,az=pz+nz*width;
+      const bx=px-nx*width,by=py-ny*width,bz=pz-nz*width;
+      const cx=tailx+nx*width,cy=taily+ny*width,cz=tailz+nz*width;
+      const ex=tailx-nx*width,ey=taily-ny*width,ez=tailz-nz*width;
+      const o=ribbonCount*18;
+      ribbonCoords.set([ax,ay,az,bx,by,bz,cx,cy,cz,cx,cy,cz,bx,by,bz,ex,ey,ez],o);
+      ribbonCount++;
+    }
   }
   geo.attributes.position.needsUpdate=true;geo.attributes.color.needsUpdate=true;
   streakGeo.attributes.position.needsUpdate=true;streakGeo.attributes.color.needsUpdate=true;
+  ribbonGeo.setDrawRange(0,ribbonCount*6);
+  ribbonGeo.attributes.position.needsUpdate=true;
 }
 function updateCharge(time){
   for(const side of ['left','right']){
@@ -341,6 +384,7 @@ function draw(time,frame){
     }
   }
   updateGeometry();updateCharge(time);drawFronts();updateShock(dt);
+  hud.visible=Boolean(session);
   const sword=hands.right?.kind==='sword'?hands.right:hands.left?.kind==='sword'?hands.left:null;
   arrow.visible=Boolean(sword);
   if(sword){arrow.position.fromArray(sword.point);arrow.setDirection(
