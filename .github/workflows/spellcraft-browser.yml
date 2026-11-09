@@ -41,6 +41,8 @@ jobs:
           path: |
             spellcraft-west-desktop.png
             spellcraft-east-desktop.png
+            spellcraft-east-eight-way-wheel.png
+            spellcraft-west-eight-way-wheel.png
             spellcraft-east-mobile.png
           if-no-files-found: ignore
           retention-days: 14

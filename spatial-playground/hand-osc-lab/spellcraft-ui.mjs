@@ -2,7 +2,9 @@
 // Works without OSC or remote services; all visuals and sounds are original procedural studies.
 import * as THREE from 'three';
 import {JOINTS} from './engine.mjs';
-import {GestureGate,interpretHand} from './gesture-dynamics-engine.mjs';
+import {interpretHand} from './gesture-dynamics-engine.mjs';
+import {StableHand} from './gesture-stability.mjs';
+import {SpellHandMenu,assistedAim,palmAim} from './spellcraft-controls.mjs';
 import {SpellArena,SPELLS,ELEMENTS,STAR_POINTS,fingerContact} from './spellcraft-engine.mjs';
 
 const $=id=>document.getElementById(id);
@@ -10,10 +12,12 @@ const canvas=$('view'),state=$('right-panel');
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const norm=p=>{const d=Math.hypot(...p)||1;return p.map(x=>x/d);};
 const getLine=()=>new URL(location.href).searchParams.get('line')==='east'?'east':'west';
-let line=getLine(),arena=new SpellArena(line);
+let line=getLine(),arena=new SpellArena(line),handMenu=new SpellHandMenu();
+let menuSnapshot=handMenu.snapshot(),currentAim=null,mockLeftPalm=false,mockLeftShift=0,mockMenuGrip=false;
+let nowHands=[];
 let xrSession=null,anchored=false,desktopGesture='neutral',lastTime=0;
-let fps=0,frames=0,fpsStart=0,statsAt=0,tracked=0,lastNext=0,castCount=0;
-let cursor=[0,0],lastSpellName='',lastStatus='',audio=null,pointing=null;
+let fps=0,frames=0,fpsStart=0,statsAt=0,tracked=0,castCount=0;
+let cursor=[0,0],lastStatus='',audio=null,pointing=null;
 const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:false,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));
 renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0x000000,0);
@@ -145,6 +149,116 @@ function paintPanel(){
   g.fillText(('SCORE '+arena.score+'  ·  '+arena.note).slice(0,72),26,222);
   uiTexture.needsUpdate=true;
 }
+// This pair of UI planes is readable *inside* the headset, unlike HTML overlays.
+// Left: palm-held tradition selector. Right: eight-way fist-controlled spell wheel.
+function textCanvas(width,height){
+  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+  return {canvas,texture:new THREE.CanvasTexture(canvas)};
+}
+const palmPaint=textCanvas(1024,360),wheelPaint=textCanvas(1024,1024);
+const palmPanel=new THREE.Mesh(new THREE.PlaneGeometry(.78,.28),
+  new THREE.MeshBasicMaterial({map:palmPaint.texture,transparent:true,
+    side:THREE.DoubleSide,depthWrite:false}));
+const wheelPanel=new THREE.Mesh(new THREE.PlaneGeometry(.89,.89),
+  new THREE.MeshBasicMaterial({map:wheelPaint.texture,transparent:true,
+    side:THREE.DoubleSide,depthWrite:false}));
+group.add(palmPanel,wheelPanel);palmPanel.visible=wheelPanel.visible=false;
+const menuOrb=new THREE.Mesh(new THREE.IcosahedronGeometry(.067,1),
+  new THREE.MeshBasicMaterial({color:0xe8bd90,wireframe:true,
+    transparent:true,opacity:.85,depthWrite:false}));
+group.add(menuOrb);menuOrb.visible=false;
+const aimGeo=new THREE.BufferGeometry();
+aimGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(6),3).setUsage(THREE.DynamicDrawUsage));
+const aimRay=new THREE.Line(aimGeo,new THREE.LineBasicMaterial({
+  color:0xf7d49d,transparent:true,opacity:.62,depthWrite:false
+}));
+aimRay.frustumCulled=false;group.add(aimRay);
+const aimRing=new THREE.Mesh(new THREE.TorusGeometry(.13,.003,3,64),
+  new THREE.MeshBasicMaterial({color:0xf3d09e,transparent:true,opacity:.88,depthWrite:false}));
+group.add(aimRing);aimRing.visible=aimRay.visible=false;
+let lastWheelKey='',lastPalmKey='';
+function paintPalm(){
+  const key=line;if(lastPalmKey===key)return;lastPalmKey=key;
+  const ctx=palmPaint.canvas.getContext('2d');
+  ctx.clearRect(0,0,1024,360);
+  ctx.fillStyle='rgba(8,10,14,.90)';ctx.fillRect(0,0,1024,360);
+  ctx.strokeStyle='#b59972';ctx.strokeRect(4,4,1016,352);
+  ctx.textAlign='center';
+  ctx.fillStyle='#e6bd8b';ctx.font='bold 37px sans-serif';
+  ctx.fillText('LEFT PALM / CHOOSE YOUR PATH',512,78);
+  const choices=[['← WIZARD','west',254],['SORCERER →','east',770]];
+  for(const [text,mode,x] of choices){
+    const active=mode===line;
+    ctx.fillStyle=active?'#e6bd8b':'#3a3b42';
+    ctx.fillRect(x-224,115,448,115);
+    ctx.fillStyle=active?'#131313':'#ddd4c9';
+    ctx.font='bold 43px sans-serif';ctx.fillText(text,x,186);
+  }
+  ctx.fillStyle='#bbb5aa';ctx.font='27px sans-serif';
+  ctx.fillText('PRESENT PALM · SWIPE LEFT / RIGHT · HOLD RIGHT FIST',512,310);
+  palmPaint.texture.needsUpdate=true;
+}
+function paintWheel(selected=-1,candidate=-1){
+  const key=line+'|'+selected+'|'+candidate;
+  if(lastWheelKey===key)return;lastWheelKey=key;
+  const ctx=wheelPaint.canvas.getContext('2d'),w=1024;
+  ctx.clearRect(0,0,w,w);
+  ctx.fillStyle='rgba(7,9,13,.86)';
+  ctx.beginPath();ctx.arc(512,512,483,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#9b886d';ctx.lineWidth=4;
+  ctx.beginPath();ctx.arc(512,512,474,0,Math.PI*2);ctx.stroke();
+  ctx.beginPath();ctx.arc(512,512,148,0,Math.PI*2);ctx.stroke();
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  for(let i=0;i<8;i++){
+    const angle=Math.PI/2-i*Math.PI/4;
+    const cx=512+Math.cos(angle)*305,cy=512-Math.sin(angle)*305;
+    const active=selected===i||candidate===i;
+    ctx.beginPath();ctx.arc(cx,cy,138,0,Math.PI*2);
+    ctx.fillStyle=active?'#e6bd8b':'rgba(52,60,68,.84)';ctx.fill();
+    ctx.strokeStyle=active?'#fff0d9':'#6c7580';ctx.lineWidth=3;ctx.stroke();
+    const text=i<6?SPELLS[line][i].zh:i===6?'切换门派':'重置关卡';
+    ctx.fillStyle=active?'#12131a':'#f1ede5';
+    ctx.font='bold 33px sans-serif';ctx.fillText(text,cx,cy+17,260);
+    ctx.fillStyle=active?'#363a41':'#dac5a7';ctx.font='bold 27px sans-serif';
+    ctx.fillText(String(i+1).padStart(2,'0'),cx,cy-34);
+  }
+  ctx.fillStyle='#e6bd8b';ctx.font='bold 35px sans-serif';
+  ctx.fillText('MOVE FIST',512,483);
+  ctx.font='29px sans-serif';ctx.fillText('RELEASE TO SELECT',512,537);
+  wheelPaint.texture.needsUpdate=true;
+}
+function visualHandMenu(snapshot,hands,time){
+  const left=hands.find(x=>x.hand==='left');
+  const right=hands.find(x=>x.hand==='right');
+  palmPanel.visible=Boolean(snapshot.active&&left?.point);
+  if(palmPanel.visible){
+    palmPanel.position.set(left.point[0]-.18,left.point[1]+.31,left.point[2]-.09);
+    paintPalm();
+  }
+  wheelPanel.visible=Boolean(snapshot.active&&snapshot.wheel&&right?.point);
+  menuOrb.visible=Boolean(snapshot.active&&snapshot.wheel&&right?.point);
+  if(wheelPanel.visible){
+    const anchor=snapshot.wheel.anchor;
+    wheelPanel.position.set(anchor[0]+.29,anchor[1]+.24,anchor[2]-.19);
+    paintWheel(snapshot.wheel.selected,snapshot.wheel.candidate);
+    menuOrb.position.fromArray(anchor);
+    menuOrb.rotation.set(time*.0007,time*.0003,0);
+    menuOrb.scale.setScalar(1+.16*Math.sin(time*.006));
+  }
+}
+function visualAim(hand,aim,time){
+  const on=Boolean(hand&&aim);
+  aimRay.visible=on;aimRing.visible=on&&Boolean(aim.lock);
+  if(!on)return;
+  const a=hand.point,b=aim.point,arr=aimGeo.attributes.position.array;
+  for(let i=0;i<3;i++){arr[i]=a[i];arr[i+3]=b[i];}
+  aimGeo.attributes.position.needsUpdate=true;
+  aimRing.position.fromArray(b);
+  aimRing.scale.setScalar(1+.10*Math.sin(time*.006));
+  aimRay.material.color.setHex(aim.lock?0xffd89e:0x8e969e);
+  aimRay.material.opacity=aim.lock?.74:.36;
+}
+
 function updateMenu(){
   $('west').setAttribute('aria-pressed',String(line==='west'));
   $('east').setAttribute('aria-pressed',String(line==='east'));
@@ -167,7 +281,7 @@ function updateMenu(){
     b.setAttribute('aria-pressed',String(arena.element===i));b.addEventListener('click',()=>{
       audioEnable();arena.setElement(i);updateMenu();});$('elements').append(b);
   });
-  lastPanel='';paintPanel();
+  lastPanel='';lastWheelKey='';lastPalmKey='';paintPanel();
 }
 function selectSpell(i){
   arena.select(i);clearEffects();updateMenu();lastStatus='';
@@ -179,6 +293,13 @@ function switchLine(next){
 $('west').addEventListener('click',()=>switchLine('west'));
 $('east').addEventListener('click',()=>switchLine('east'));
 $('next').addEventListener('click',()=>selectSpell((arena.index+1)%6));
+$('mock-palm')?.addEventListener('click',()=>{
+  mockLeftPalm=!mockLeftPalm;mockLeftShift=0;mockMenuGrip=false;
+  $('mock-palm').setAttribute('aria-pressed',String(mockLeftPalm));
+  $('mock-palm').textContent=mockLeftPalm?'左掌已展开 / CLOSE':'左掌菜单 / PRESENT';
+});
+$('mock-west')?.addEventListener('click',()=>{mockLeftShift=-.20;});
+$('mock-east')?.addEventListener('click',()=>{mockLeftShift=.20;});
 $('reset').addEventListener('click',()=>{arena.reset();clearEffects();updateMenu();});
 $('cast').addEventListener('click',()=>{
   audioEnable();
@@ -197,11 +318,25 @@ document.addEventListener('keydown',e=>{
     b.setAttribute('aria-pressed',String(b.dataset.gesture===desktopGesture));}
   if(e.code==='Space'){e.preventDefault();$('cast').click();}
   if(e.code==='KeyN')selectSpell((arena.index+1)%6);
+  if(e.code==='KeyM')$('mock-palm')?.click();
+  if(e.code==='KeyQ')mockLeftShift=-.20;
+  if(e.code==='KeyE')mockLeftShift=.20;
 });
 canvas.addEventListener('pointermove',e=>{
   cursor=[(e.clientX/innerWidth-.5)*2,(.5-e.clientY/innerHeight)*2];
 });
-canvas.addEventListener('pointerdown',()=>{$('cast').click();});
+canvas.addEventListener('pointerdown',event=>{
+  if(!mockLeftPalm){$('cast').click();return;}
+  mockMenuGrip=true;desktopGesture='fist';
+  try{canvas.setPointerCapture(event.pointerId);}catch{}
+});
+canvas.addEventListener('pointerup',event=>{
+  if(mockMenuGrip){mockMenuGrip=false;desktopGesture='neutral';}
+  try{canvas.releasePointerCapture(event.pointerId);}catch{}
+});
+canvas.addEventListener('pointercancel',()=>{
+  if(mockMenuGrip){mockMenuGrip=false;desktopGesture='neutral';}
+});
 updateMenu();
 addEventListener('resize',()=>{
   camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);
@@ -209,14 +344,14 @@ addEventListener('resize',()=>{
 
 const cache={left:new Float32Array(25*16),right:new Float32Array(25*16)};
 const handState={
-  left:{gate:new GestureGate(42,45),last:null,point:null,time:0,pinch:false},
-  right:{gate:new GestureGate(42,45),last:null,point:null,time:0,pinch:false}
+  left:{tracker:new StableHand(),point:null,time:0},
+  right:{tracker:new StableHand(),point:null,time:0}
 };
 function readJoints(source,frame,ref){
-  if(!source.hand)return null;
+  if(!source?.hand)return null;
   const js=JOINTS.map(j=>source.hand.get(j));if(js.some(x=>!x))return null;
   const out=[];
-  if(frame.fillPoses){
+  if(typeof frame.fillPoses==='function'){
     const matrices=cache[source.handedness];let ok=false;
     try{ok=frame.fillPoses(js,ref,matrices);}catch{}
     if(ok){
@@ -230,7 +365,8 @@ function readJoints(source,frame,ref){
   for(const joint of js){
     const t=frame.getJointPose(joint,ref)?.transform.position;
     if(!t)return null;out.push([t.x,t.y,t.z]);
-  }return out;
+  }
+  return out;
 }
 function anchor(frame,ref){
   if(anchored)return;
@@ -242,46 +378,73 @@ function anchor(frame,ref){
   group.updateMatrixWorld(true);anchored=true;
 }
 function toLocal(sample,side){
-  temp.fromArray(sample.point);tmp2.fromArray(sample.point).add(look.fromArray(sample.direction));
+  temp.fromArray(sample.point);
+  tmp2.fromArray(sample.point).add(look.fromArray(sample.direction));
   group.worldToLocal(temp);group.worldToLocal(tmp2);
   return {hand:side,kind:sample.kind,point:temp.toArray(),
     direction:tmp2.sub(temp).normalize().toArray()};
 }
 function getHands(frame,time){
   const hands=[];tracked=0;
-  const ref=renderer.xr.getReferenceSpace();if(!frame||!ref)return hands;
+  const ref=renderer.xr.getReferenceSpace();
+  if(!frame||!ref)return hands;
   anchor(frame,ref);if(!anchored)return hands;
+  const viewerPose=frame.getViewerPose(ref);
+  if(!viewerPose)return hands;
+  const vp=viewerPose.transform.position,vr=viewerPose.transform.orientation;
+  orient.set(vr.x,vr.y,vr.z,vr.w);
+  look.set(0,0,-1).applyQuaternion(orient);
+  const viewer={position:[vp.x,vp.y,vp.z],forward:look.toArray()};
   const found=new Set();
   for(const source of xrSession?.inputSources||[]){
-    const side=source.handedness;if(!source.hand||!['left','right'].includes(side))continue;
-    found.add(side);const s=handState[side],points=readJoints(source,frame,ref);
+    const side=source.handedness;
+    if(!source.hand||!['left','right'].includes(side))continue;
+    found.add(side);
+    const state=handState[side],points=readJoints(source,frame,ref);
     const base=interpretHand(points);
-    if(!base){s.gate.update(null,time);continue;}
-    tracked++;
-    const tip=fingerContact(points);
-    if(base.kind==='neutral'&&tip!==null)base.kind='pinch';
-    const stable=s.gate.update(base,time).kind;
-    const p=toLocal(base,side);
-    p.kind=stable;p.finger=tip;
-    p.speed=s.point&&time>s.time?Math.min(4,Math.hypot(...p.point.map((v,i)=>v-s.point[i]))*1000/(time-s.time)):0;
-    s.point=p.point.slice();s.time=time;
-    hands.push(p);
-    // Index pinch on the left is a tactile way to cycle spell choices inside XR.
-    const toggled=stable==='pinch'&&tip===0;
-    if(side==='left'&&arena.spec.id!=='elements'&&toggled&&!s.pinch&&time-lastNext>850){
-      lastNext=time;selectSpell((arena.index+1)%6);
+    if(!base){
+      const stale=state.tracker.update(null,time);
+      if(stale)hands.push({...stale,hand:side,inView:false,palmFacingViewer:false});
+      continue;
     }
-    s.pinch=toggled;
+    tracked++;
+    // During a one-frame failed sword classification, preserve the fingertip
+    // origin as well as the sword pose; do not jump to the wrist/palm.
+    const pose=palmAim(points,{kind:state.tracker.kind==='sword'?'sword':base.kind},viewer);
+    const local=toLocal(pose||base,side);
+    const stable=state.tracker.update({...local,kind:base.kind,
+      bends:base.bends,tipGap:base.tipGap},time);
+    if(!stable)continue;
+    const tip=fingerContact(points);
+    const sample={...stable,hand:side,
+      inView:Boolean(pose?.inView),palmFacingViewer:Boolean(pose?.palmFacingViewer),
+      aimKind:stable.kind==='sword'?'FINGER':'PALM',finger:tip};
+    if(sample.kind==='neutral'&&tip!==null)sample.kind='pinch';
+    sample.speed=state.point&&time>state.time?
+      Math.min(4,Math.hypot(...sample.point.map((v,i)=>v-state.point[i]))*1000/(time-state.time)):0;
+    state.point=sample.point.slice();state.time=time;
+    hands.push(sample);
   }
   for(const side of ['left','right'])if(!found.has(side)){
-    const s=handState[side];s.gate.update(null,time);s.point=null;s.pinch=false;
+    const state=handState[side];
+    const stale=state.tracker.update(null,time);
+    state.point=null;
+    if(stale)hands.push({...stale,hand:side,inView:false,palmFacingViewer:false});
   }
   return hands;
 }
 function mockHands(){
   const p=[cursor[0]*.48,cursor[1]*.40,.5];
   const d=norm([cursor[0]*.44,cursor[1]*.34,-1]);
-  return [{hand:'right',kind:desktopGesture,point:p,direction:d,speed:0}];
+  const hands=[{hand:'right',kind:mockMenuGrip?'fist':desktopGesture,
+    point:p,direction:d,aimKind:'FINGER',inView:true,
+    palmFacingViewer:false,stale:false,speed:0}];
+  if(mockLeftPalm){
+    hands.push({hand:'left',kind:'open',point:[-.26+mockLeftShift,.04,.32],
+      direction:[0,0,-1],aimKind:'PALM',
+      palmFacingViewer:true,inView:true,stale:false,speed:0});
+  }
+  return hands;
 }
 async function enterXR(mode){
   if(!navigator.xr||xrSession)return;
@@ -289,9 +452,10 @@ async function enterXR(mode){
   try{
     const session=await navigator.xr.requestSession(mode,{optionalFeatures:['hand-tracking']});
     xrSession=session;anchored=false;arena.reset();
-    for(const h of Object.values(handState)){h.gate.reset();h.point=null;h.pinch=false;}
+    for(const h of Object.values(handState)){h.tracker.reset();h.point=null;h.time=0;}
+    handMenu.reset();
     session.addEventListener('end',()=>{
-      xrSession=null;anchored=false;arena.reset();
+      xrSession=null;anchored=false;arena.reset();handMenu.reset();
       group.position.set(0,0,0);group.quaternion.identity();
       clearEffects();updateMenu();
       $('enter-ar').hidden=false;$('enter-vr').hidden=false;$('exit-xr').hidden=true;
@@ -315,8 +479,35 @@ support();
 function render(time,frame){
   const dt=lastTime?clamp((time-lastTime)/1000,0,.05):1/90;lastTime=time;
   const hands=xrSession?getHands(frame,time):mockHands();
-  const events=arena.step(dt,hands);
+  nowHands=hands;
+  const left=hands.find(h=>h.hand==='left')||null;
+  const right=hands.find(h=>h.hand==='right')||null;
+  menuSnapshot=handMenu.update({left,right,now:time});
+  for(const event of menuSnapshot.events){
+    if(event.type==='line'){switchLine(event.line);blip(700,.14);}
+    if(event.type==='toggle-line'){switchLine(line==='west'?'east':'west');blip(760,.16);}
+    if(event.type==='skill'){selectSpell(event.index);blip(580+event.index*45,.16);}
+    if(event.type==='reset'){arena.reset();clearEffects();updateMenu();blip(350,.14);}
+    if(event.type==='menu-open'){blip(425,.22);arena.note='左掌左右选择门派 · 右拳八方向选技能';}
+    if(event.type==='wheel-open')blip(520,.12);
+    if(event.type==='menu-close'){
+      arena.prev.left=arena.prev.right='neutral';
+      arena.note='瞄准目标后施法';
+    }
+  }
+  const playable=(!menuSnapshot.suppress&&time>=menuSnapshot.cooldownUntil)?hands:[];
+  const candidate=playable.find(h=>h.hand==='right'&&['sword','open','fist'].includes(h.kind))||
+    playable.find(h=>['sword','open','fist'].includes(h.kind))||null;
+  currentAim=candidate?assistedAim(candidate.point,candidate.direction,arena.targets):null;
+  const controlled=playable.map(h=>{
+    if(!['sword','open','fist'].includes(h.kind))return h;
+    const aim=assistedAim(h.point,h.direction,arena.targets);
+    return aim?{...h,direction:aim.direction}:h;
+  });
+  const events=arena.step(dt,controlled);
   onEvents(events);effectStep(dt);
+  visualHandMenu(menuSnapshot,hands,time);
+  visualAim(candidate,currentAim,time);
   // Target and projectile meshes are real world-space objects, not 2D HUD art.
   for(let i=0;i<5;i++){
     const t=arena.targets[i],active=t.respawn<=0;
@@ -341,10 +532,12 @@ function render(time,frame){
   }
   projectiles.instanceMatrix.needsUpdate=true;
   if(projectiles.instanceColor)projectiles.instanceColor.needsUpdate=true;
-  pointing=hands.find(h=>h.kind==='sword')||null;
-  cursorArrow.visible=Boolean(pointing);
-  if(pointing){cursorArrow.position.fromArray(pointing.point);
-    cursorArrow.setDirection(new THREE.Vector3(...pointing.direction));}
+  pointing=candidate?.kind==='sword'?candidate:null;
+  cursorArrow.visible=Boolean(pointing)&&!menuSnapshot.active;
+  if(pointing){
+    cursorArrow.position.fromArray(pointing.point);
+    cursorArrow.setDirection(new THREE.Vector3(...(currentAim?.direction||pointing.direction)));
+  }
   frames++;if(time-fpsStart>1000){fps=frames;frames=0;fpsStart=time;}
   if(time-statsAt>160){
     statsAt=time;paintPanel();
@@ -352,7 +545,11 @@ function render(time,frame){
       '\n'+(line==='east'?'CHINESE FANTASY / 术师':'EUROPEAN FANTASY / 巫师')+
       '\n'+arena.spec.en+'\nSCORE '+arena.score+'  COMBO '+arena.combo+
       '  HP '+arena.life+'  FPS '+fps+(xrSession?'\nHANDS '+tracked:'')+
-      '\n'+arena.note;
+      '\n'+arena.note+
+      (menuSnapshot.active?'\nMENU · '+(menuSnapshot.wheel?
+        'FIST WHEEL '+(menuSnapshot.wheel.selected>=0?menuSnapshot.wheel.selected+1:'MOVE TO A DIRECTION'):
+        'SWIPE LEFT/RIGHT · GRIP RIGHT HAND'):
+        (currentAim?.lock?'\nAIM LOCK '+String(currentAim.target+1):'\nAIM: FOLLOW THE RAY'));
     if(msg!==lastStatus){state.textContent=msg;lastStatus=msg;}
   }
   renderer.render(scene,camera);

@@ -35,6 +35,11 @@ const length=v=>Math.hypot(...v);
 const norm=v=>scale(v,1/(length(v)||1));
 const dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0);
 const distance=(a,b)=>length(sub(a,b));
+export function segmentDistance(point,a,b){
+  const ab=sub(b,a),den=dot(ab,ab);
+  const fraction=den>1e-10?clamp(dot(sub(point,a),ab)/den,0,1):0;
+  return distance(point,add(a,scale(ab,fraction)));
+}
 const valid=p=>Array.isArray(p)&&p.length===3&&p.every(Number.isFinite);
 export const STAR_POINTS=Object.freeze([
   [-.49,.36,-.94],[-.24,.54,-1.00],[.01,.32,-1.06],
@@ -113,7 +118,7 @@ export class SpellArena {
       hands.find(h=>h.kind!=='neutral')||hands[0]||copyHand(null);
   }
   _aim(p,d){
-    let best=null,cos=.70;
+    let best=null,cos=.56; // visible broad-cone aim support for Quest joint jitter
     for(const t of this.targets){
       if(t.respawn>0)continue;
       const v=norm(sub(t.position,p)),c=dot(v,norm(d));
@@ -157,10 +162,11 @@ export class SpellArena {
     }
     for(const p of this.projectiles){
       p.life-=dt;
+      const previous=p.position.slice();
       p.position=add(p.position,scale(p.velocity,dt));
       if(p.life<=0)continue;
       for(const t of this.targets){
-        if(t.respawn>0||distance(p.position,t.position)>(p.type==='sword'?.17:.22))continue;
+        if(t.respawn>0||segmentDistance(t.position,previous,p.position)>(p.type==='sword'?.17:.22))continue;
         if(p.type==='elemental'){
           this.strike(t,'elemental');
           if(this.element===0)t.restrained=2.4;
