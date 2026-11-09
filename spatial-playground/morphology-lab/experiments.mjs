@@ -118,7 +118,7 @@ export const FAMILIES=Object.freeze([
       [
         "距离衰减",
         "Distance Falloff",
-        "区分物体前后表面的衰减轮廓",
+        "比较物体前后两个表面的照明衰减与轮廓清晰度",
         "distance",
         {
           "field": 0,
@@ -178,7 +178,7 @@ export const FAMILIES=Object.freeze([
       [
         "遮蔽阴影",
         "Occlusion Study",
-        "遮挡后的亮度与可见轮廓变化",
+        "测试光源被结构遮挡后可见边缘与暗部层次如何变化",
         "occlusion",
         {
           "field": 6,
@@ -236,7 +236,7 @@ export const FAMILIES=Object.freeze([
       [
         "肋骨构架",
         "Rib Structure",
-        "连续骨架节距形成深度与遮挡",
+        "连续骨架节距对前后空间层次与遮挡关系的影响",
         "ribs",
         {
           "topology": 2,
@@ -325,7 +325,7 @@ export const FAMILIES=Object.freeze([
       [
         "树突分支",
         "Dendritic Arbor",
-        "分枝角度与长度的层级差异",
+        "研究不同分枝角度与长度形成的可辨识树突层级",
         "arbor",
         {
           "branch": 0.72,
@@ -421,7 +421,7 @@ export const FAMILIES=Object.freeze([
       [
         "单源寻食",
         "Single Attractor",
-        "从单个生长中心向目标趋近",
+        "单一营养目标如何引导三维线状结构的偏转与聚集",
         "single",
         {
           "attract": 0.9,
@@ -432,7 +432,7 @@ export const FAMILIES=Object.freeze([
       [
         "双源竞争",
         "Dual Nutrient",
-        "两处目标竞争路线，比较分枝",
+        "两处营养目标争夺路线时是否形成多路径与分枝差异",
         "dual",
         {
           "attract": 0.8,
@@ -487,7 +487,7 @@ export const FAMILIES=Object.freeze([
       [
         "衰退收缩",
         "Retraction",
-        "弱连接逐渐退场，保留主干",
+        "弱连接逐渐消退后，保留下来的主干结构是否更清晰",
         "retract",
         {
           "attract": 0.72,
@@ -550,7 +550,7 @@ export const FAMILIES=Object.freeze([
       [
         "花朵聚簇",
         "Bloom Cluster",
-        "花朵集中在枝尖与向光区域",
+        "将花朵优先分布在枝尖和向光区域，观察真实冠层厚度",
         "blossom",
         {
           "branch": 0.75,
@@ -561,7 +561,7 @@ export const FAMILIES=Object.freeze([
       [
         "双层花瓣",
         "Petal Layers",
-        "前后两层花瓣产生体积与遮挡",
+        "花瓣在前后空间两层分布，对体积感与遮挡的影响",
         "layers",
         {
           "branch": 0.8,
@@ -594,7 +594,7 @@ export const FAMILIES=Object.freeze([
       [
         "环流花雨",
         "Petal Vortex",
-        "局部旋涡而非全屏粒子贴图",
+        "以局部三维涡流推动花瓣，而不制作平面的贴图雪花",
         "vortex",
         {
           "branch": 0.65,
