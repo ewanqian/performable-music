@@ -1,0 +1,40 @@
+name: Warlock fan immersion QA
+on:
+  pull_request:
+    paths: ['spatial-playground/warlock-immersion/**', '.github/workflows/warlock-immersion.yml']
+  push:
+    branches: [main]
+    paths: ['spatial-playground/warlock-immersion/**', '.github/workflows/warlock-immersion.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse modules and test six distinct mechanisms
+        run: |
+          for f in spatial-playground/warlock-immersion/*.mjs; do node --check "$f"; done
+          node --test spatial-playground/warlock-immersion/core.test.mjs
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Run actual WebGL interactions
+        run: |
+          python3 -m http.server 8879 --bind 127.0.0.1 > /tmp/warlock-server.log 2>&1 &
+          sleep 1
+          node spatial-playground/warlock-immersion/browser.cjs
+      - name: Save inspectable evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: warlock-six-qa
+          path: warlock-qa/
+          if-no-files-found: ignore
+          retention-days: 14
