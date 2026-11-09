@@ -17,7 +17,7 @@ Read before acting:
 
 Do NOT generate 48 tracks. Treat 48 designs as a search space. In parallel, read research notes and assess musical differences. Deliver a compact *novelty shortlist of 12*, then create only **four** music-first high-quality short proof candidates, emphasizing tangible groove, one original sound identity, and a full phrase/answer. The user should not have to choose an M number merely to let you begin.
 
-The 4 starter choices should cover DJ locomotion, syncopated club movement, signature material-derived percussion, and distinct form/anticipation. Agent may choose based on source availability, but must log why each is audibly different and what repeated alternatives it rejects.
+**Default first four research prototypes (do not ask user to choose):** C02 = kick/Bass interlock (DJ steady), C05 = two-step bounce (broken club), C17 = FM metallic pitched percussion (material identity), C44 = withheld expected answer (neural/AV narrative). If real source availability blocks one, swap within the 12-card shortlist and document why. These are *research starting choices*, not human-approved tracks. The 4 cover body locomotion, skewed movement, sound identity and musical expectation. Log how each differs and which repetitive ideas you reject.
 
 ## Required outputs and decision gates
 

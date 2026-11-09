@@ -8,7 +8,7 @@ if(d.cards?.length!==48)errors.push("Expected exactly 48 cards");
 const ids=new Set(),signatures=new Set(),mechanisms=new Set();
 const count={}; 
 for(const c of (d.cards||[])){
- if(ids.has(c.id))errors.push("Duplicate ID "+c.id); ids.add(c.id);
+ if(!/^C[0-9]{2}$/.test(c.id))errors.push("Bad concept ID (must be C01-C48): "+c.id); if(ids.has(c.id))errors.push("Duplicate ID "+c.id); ids.add(c.id);
  if(signatures.has(c.unique_musical_promise))errors.push("Duplicate unique promise "+c.id);signatures.add(c.unique_musical_promise);
  const signature=[c.groove_core,c.source_and_timbre,c.tension_development,c.phrase_story,c.performer_decision].join("|");
  if(mechanisms.has(signature))errors.push("Duplicate full mechanism "+c.id);mechanisms.add(signature);
