@@ -33,6 +33,8 @@ function reflectMusic(){
   }
   if(hint)hint.textContent=music.lastError?('音频启动失败：'+music.lastError):
     music.enabled?'ORIGINAL SCORE · 96 BPM / LIVE GESTURE MIX':'点击开启原创实时配乐 · Quest 进入 MR 时自动尝试播放';
+  if($('music-volume-label'))$('music-volume-label').textContent=
+    Math.round(music.gain*100)+'%';
 }
 async function toggleMusic(){
   if(music.enabled){soundMutedByUser=true;music.stop();reflectMusic();return;}
@@ -40,7 +42,7 @@ async function toggleMusic(){
   await music.start();reflectMusic();
 }
 $('music-toggle')?.addEventListener('click',()=>void toggleMusic());
-$('music-volume')?.addEventListener('input',e=>music.setVolume(Number(e.target.value)));
+$('music-volume')?.addEventListener('input',e=>{music.setVolume(Number(e.target.value));reflectMusic();});
 music.setVolume(Number($('music-volume')?.value||.65));
 reflectMusic();
 function startSoundOnGesture(){
