@@ -155,37 +155,32 @@ export class FlightSwarm {
       f.age+=dt;
       // Projectiles are intentionally not home-constrained: >12m after 2s.
       f.position=add(f.position,scale(f.direction,f.speed*dt));
-      const first=slot*FLIGHT_PER_SLOT;
+      const first=slot*FLIGHT_PER_SLOT, scatter=f.mode==='scatter';
+      const drag=Math.exp(-.18*dt),alpha=1-Math.exp(-24*dt);
+      // Basis is constant for a flight, not recomputed 120 times per frame.
+      const ref=Math.abs(f.direction[1])>.85?[1,0,0]:[0,1,0];
+      const a=unit([f.direction[1]*ref[2]-f.direction[2]*ref[1],
+        f.direction[2]*ref[0]-f.direction[0]*ref[2],
+        f.direction[0]*ref[1]-f.direction[1]*ref[0]]);
+      const b=[f.direction[1]*a[2]-f.direction[2]*a[1],
+        f.direction[2]*a[0]-f.direction[0]*a[2],
+        f.direction[0]*a[1]-f.direction[1]*a[0]];
       for(let i=first;i<first+FLIGHT_PER_SLOT;i++){
         const j=i*3,k=i-first;
-        if(f.mode==='scatter'){
-          const drag=Math.exp(-.18*dt);
-          for(let a=0;a<3;a++){
-            this.velocity[j+a]*=drag;
-            this.pos[j+a]+=this.velocity[j+a]*dt;
+        if(scatter){
+          for(let axis=0;axis<3;axis++){
+            this.velocity[j+axis]*=drag;
+            this.pos[j+axis]+=this.velocity[j+axis]*dt;
           }
           continue;
         }
         const theta=k*2.3999632+f.age*4.5;
         const radius=this.shape==='torus'?.32:this.shape==='helix'?.18+(k/FLIGHT_PER_SLOT)*.16:.10+Math.sqrt(k/FLIGHT_PER_SLOT)*.15;
         const axial=this.shape==='helix'?(k/FLIGHT_PER_SLOT-.5)*.64:(k/FLIGHT_PER_SLOT-.5)*.20;
-        const ref=Math.abs(f.direction[1])>.85?[1,0,0]:[0,1,0];
-        const a=unit([
-          f.direction[1]*ref[2]-f.direction[2]*ref[1],
-          f.direction[2]*ref[0]-f.direction[0]*ref[2],
-          f.direction[0]*ref[1]-f.direction[1]*ref[0]
-        ]);
-        const b=[
-          f.direction[1]*a[2]-f.direction[2]*a[1],
-          f.direction[2]*a[0]-f.direction[0]*a[2],
-          f.direction[0]*a[1]-f.direction[1]*a[0]
-        ];
-        const targetPos=add(f.position,add(scale(a,Math.cos(theta)*radius),
-          add(scale(b,Math.sin(theta)*radius),scale(f.direction,axial))));
-        const alpha=1-Math.exp(-24*dt);
-        this.pos[j]+= (targetPos[0]-this.pos[j])*alpha;
-        this.pos[j+1]+= (targetPos[1]-this.pos[j+1])*alpha;
-        this.pos[j+2]+= (targetPos[2]-this.pos[j+2])*alpha;
+        const s=Math.sin(theta)*radius,c=Math.cos(theta)*radius;
+        this.pos[j]+= (f.position[0]+a[0]*c+b[0]*s+f.direction[0]*axial-this.pos[j])*alpha;
+        this.pos[j+1]+= (f.position[1]+a[1]*c+b[1]*s+f.direction[1]*axial-this.pos[j+1])*alpha;
+        this.pos[j+2]+= (f.position[2]+a[2]*c+b[2]*s+f.direction[2]*axial-this.pos[j+2])*alpha;
       }
       // Past practical view distance it disappears, never reverses.
       if(f.age>5.0)this._hideSlot(slot);
