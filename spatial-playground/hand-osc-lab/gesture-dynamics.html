@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07090c">
-<title>Gesture Dynamics — Spatial Particle Simulator</title>
+<title>Gesture Dynamics V2 — Hand-Cast Particle Flight</title>
 <style>
 :root{color-scheme:dark;--bg:#07090c;--fg:#f1f0ec;--dim:#a3a8ae;--line:#30333a;--accent:#e6bc87}
 *{box-sizing:border-box}
@@ -35,22 +35,23 @@ a{color:inherit}
 <header>
 <div class="eyebrow">SPATIAL PLAYGROUND / EXPERIMENT 12</div>
 <h1>Gesture<br>Dynamics.</h1>
-<p>物理空间不是预设动画。剑指引导运动，张掌炸开粒子，握拳重新聚集。默认静音，不连接 OSC，不上传手部数据。</p>
+<p>手势生成真正的飞行体：剑指从指尖发射主粒子与随从粒子，张掌爆散；先右拳、再左拳，全部快速回到手中。不会自动弹回。</p>
 </header>
 <div id="status" role="status">INITIALIZING …</div>
 <div id="controls">
   <div class="panel">
-    <div class="label">DESKTOP SIMULATION / 键盘 1·2·3·0</div>
+    <div class="label">DESKTOP MOCK / 1 发射 · 2 爆散 · 3 右拳 · 4 左拳 · 0 释放</div>
     <div class="buttons">
-      <button data-gesture="sword" aria-pressed="false">01 剑指 / DRIVE</button>
+      <button data-gesture="sword" aria-pressed="false">01 剑指 / CAST</button>
       <button data-gesture="open" aria-pressed="false">02 张掌 / BURST</button>
-      <button data-gesture="fist" aria-pressed="false">03 握拳 / ATTRACT</button>
+      <button data-gesture="right-fist" aria-pressed="false">03 右拳 / ARM</button>
+      <button data-gesture="left-fist" aria-pressed="false">04 左拳 / RECALL</button>
       <button data-gesture="neutral" aria-pressed="true">00 释放</button>
     </div>
-    <div id="help">鼠标定位与指向 · R 重新聚合 · 桌面操作是模拟，不代表 Quest 识别成功</div>
+    <div id="help">鼠标控制发射方向 · 右拳后左拳回收（按 3 再 4） · R 重置 · 桌面模拟不等于 Quest 实测</div>
   </div>
   <div class="panel">
-    <div class="label">PARTICLE FIELD</div>
+    <div class="label">FOLLOWER ORBIT / 粒子编队</div>
     <select id="shape" aria-label="粒子空间造型">
       <option value="cloud">01 / VOLUMETRIC CLOUD</option>
       <option value="torus">02 / TOROIDAL FIELD</option>
