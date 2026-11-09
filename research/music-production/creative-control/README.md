@@ -1,3 +1,5 @@
+> **Sound engine clarification:** The Agent Patch official case study documents a working offline multi-agent **DSP** system, but its complete code/download has not been located. Read [direct-use and credit audit](../agent-patch-reuse/README.md) and [Mac setup](../agent-patch-reuse/LOCAL_MAC_SETUP.md) before extending this folder. This directory **does not render audio or contain 62 DSP modules**; it only compiles validated intent, MIDI sketches and Show Score events.
+
 # Creative Control Institution / 创作控制机构 v0.1
 
 **Purpose**: an auditable, offline-first bridge between Ewan's artistic intent, Qwen-proposed musical structure, Codex execution, native DAW editing and the existing Show Score v2. **Not a synthesizer, audio renderer, AI music evaluator, live controller or existing performance system.**
