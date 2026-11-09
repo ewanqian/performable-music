@@ -1,5 +1,13 @@
 # HAND / SPACE / OSC · Spatial Playground Lab 02
 
+## Gesture Dynamics V2 / Fast Cast Flight (2026-11-09)
+
+**This replaces the initial spring-home field behavior.** The original technical test lab remains available, but the public `gesture-dynamics.html` now uses `gesture-flight-engine.mjs`: each sword pose spawns a moving lead particle followed by 120 orbiting points. A held sword can cast subsequent volleys at 580 ms intervals. The leader speed is 6.2 m/s; flight has no spring back to the original world position. Open palm sends the followers into ballistic scattering. Right fist arms a short recall window (2.6 seconds), then a later left fist recalls all active particles to the tracked right hand in ~230ms along direct straight paths. No automatic return or ring orbit on recall.
+
+Gesture classification uses the already available 25 WebXR joints and a fingertip vector combining proximal-to-tip (82%) and distal-axis (18%) directions, plus a 42ms gesture onset gate. Both AR and VR use the XR frame loop; the status UI refreshes every ~145ms but **does not throttle joint sampling**. Real Quest tracking accuracy and actual motion-to-photon latency remain unverified.
+
+Desktop fallback: `1` sword cast, `2` palm burst, `3` right fist arm, `4` left fist recall, `0` neutral, `R` reset. Change formation to cloud/torus/helix. Physical acceptance: test both hands and representative pointing directions including horizontal, vertical and head rotations; inspect false positives, frames per second, trajectory distance, one-shot palm and recall end position. No OSC or private data.
+
 ## Gesture Dynamics / Quest 3 Particle Dynamics (new, review branch)
 
 - [Gesture Dynamics — desktop + Quest MR / VR](./gesture-dynamics.html): 480 seeded particles, three 3D arrangements, index+middle sword posture directing a particle stream, open-palm one-shot blast, fist attraction, spring/inertia/damping and automatic recovery.
