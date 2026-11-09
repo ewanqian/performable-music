@@ -23,15 +23,16 @@ export class WarlockMotion {
     this.raiseAt=-Infinity;this.lastSlash=-Infinity;
     this.beamSince=null;this.lastBeam=-Infinity;
     this.chargeOrigin=null;this.lastThrow=-Infinity;this.energy=0;
-    this.lastPose=null;this.armed=false;
+    this.lastPose=null;this.armed=false;this.raiseReady=false;
   }
   emit(type,at,data={}){this.events.push({type,at,school:this.school,variant:this.variant,...data});}
   _travel(p,time){
     this.points.push({p:p.slice(),time});
     while(this.points.length>40||this.points.length>2&&time-this.points[0].time>280)this.points.shift();
     const from=this.points[0],v=this.points.length>1?sub(p,from.p):[0,0,0];
+    const immediate=this.points.length>1?sub(p,this.points[this.points.length-2].p):[0,0,0];
     const dt=Math.max(.001,(time-from.time)/1000);
-    return {distance:len(v),speed:len(v)/dt,delta:v};
+    return {distance:len(v),speed:len(v)/dt,delta:v,immediate,speedY:Math.abs(immediate[1])/Math.max(.001,(time-(this.points[this.points.length-2]?.time??time-16))/1000)};
   }
   advance(now,{left=null,right=null,menu=false,superPressed=false,trackingLost=false}={}){
     if(!Number.isFinite(now))throw Error('Expected monotonic time');
@@ -47,7 +48,7 @@ export class WarlockMotion {
     const available=hand&&!hand.stale&&!trackingLost;
     if(!available){
       this.points=[];this.beamSince=null;this.staffAimSince=null;
-      if(now-this.lastValid>CONTROL_THRESHOLDS.longLossMs){
+      if(now-this.lastValid>=CONTROL_THRESHOLDS.longLossMs){
         if(this.phase!=='RECOVER')this.emit('safe-end',now);
         this.phase='RECOVER';this.armed=false;this.raiseOrigin=null;
       }
@@ -87,7 +88,7 @@ export class WarlockMotion {
       if(this.armed&&this.raiseOrigin&&!Number.isFinite(this.raiseAt))this.raiseAt=-Infinity;
       if(this.armed&&this.raiseOrigin&&!this.raiseReady&&
         hand.point[1]-this.raiseOrigin[1]>CONTROL_THRESHOLDS.raiseDistanceM&&
-        movement.delta[1]>.12&&movement.speed>CONTROL_THRESHOLDS.raiseSpeedMps){
+        movement.immediate[1]>.04&&movement.speedY>CONTROL_THRESHOLDS.raiseSpeedMps){
         this.raiseReady=true;this.raiseAt=now;
         this.emit('shatter-armed',now);
       }
@@ -95,7 +96,7 @@ export class WarlockMotion {
         this.raiseReady=false;this.raiseOrigin=hand.point.slice();
       }
       if(this.raiseReady&&
-        (kind==='open'||movement.delta[1]<-.12&&movement.speed>.48)){
+        (kind==='open'||movement.immediate[1]<-.085&&movement.speedY>.48)){
         this.emit('shatter-wave',now,{point:hand.point.slice()});
         this.phase='BURST';this.raiseReady=false;this.raiseOrigin=hand.point.slice();
       }
