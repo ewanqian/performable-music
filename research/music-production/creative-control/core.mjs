@@ -58,7 +58,8 @@ export function validateContract(x) {
   } else {
     let last=-1; const ids=new Set();
     for (const [i,c] of x.performance.cues.entries()) {
-      if (!isObject(c) || typeof c.id !== 'string' || !/^[A-Za-z0-9_-]+$/.test(c.id) || ids.has(c.id)) err('Invalid/duplicate cue id '+i);
+      if (!isObject(c)) {err('Cue must be an object '+i); continue;}
+      if (typeof c.id !== 'string' || !/^[A-Za-z0-9_-]+$/.test(c.id) || ids.has(c.id)) err('Invalid/duplicate cue id '+i);
       else ids.add(c.id);
       if (!boundedInt(c.t_ms,0,x.performance.duration_ms) || c.t_ms<=last) err('Cues must be in increasing milliseconds at '+i);
       else last=c.t_ms;
@@ -77,7 +78,7 @@ export function validateContract(x) {
       !Array.isArray(p.notes) || p.notes.length < 1 || p.notes.length > 128) {
       err('Invalid MIDI phrase '+i); continue;
     }
-    if (p.start_ms + p.repeat*p.steps_per_cycle*p.step_ms > x.performance.duration_ms) err('MIDI phrase outside duration '+p.id);
+    if (p.start_ms + p.repeat*p.steps_per_cycle*p.step_ms > (x.performance?.duration_ms ?? 0)) err('MIDI phrase outside duration '+p.id);
     for (const n of p.notes) if(!boundedInt(n.pitch,0,127)||!boundedInt(n.step,0,p.steps_per_cycle-1)||
       !boundedInt(n.duration_steps,1,p.steps_per_cycle) || n.step+n.duration_steps>p.steps_per_cycle ||
       !boundedInt(n.velocity,1,127)) err('Invalid note in '+p.id);
