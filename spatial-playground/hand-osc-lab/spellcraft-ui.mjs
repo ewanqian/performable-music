@@ -149,6 +149,116 @@ function paintPanel(){
   g.fillText(('SCORE '+arena.score+'  ·  '+arena.note).slice(0,72),26,222);
   uiTexture.needsUpdate=true;
 }
+// This pair of UI planes is readable *inside* the headset, unlike HTML overlays.
+// Left: palm-held tradition selector. Right: eight-way fist-controlled spell wheel.
+function textCanvas(width,height){
+  const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
+  return {canvas,texture:new THREE.CanvasTexture(canvas)};
+}
+const palmPaint=textCanvas(1024,360),wheelPaint=textCanvas(1024,1024);
+const palmPanel=new THREE.Mesh(new THREE.PlaneGeometry(.78,.28),
+  new THREE.MeshBasicMaterial({map:palmPaint.texture,transparent:true,
+    side:THREE.DoubleSide,depthWrite:false}));
+const wheelPanel=new THREE.Mesh(new THREE.PlaneGeometry(.89,.89),
+  new THREE.MeshBasicMaterial({map:wheelPaint.texture,transparent:true,
+    side:THREE.DoubleSide,depthWrite:false}));
+group.add(palmPanel,wheelPanel);palmPanel.visible=wheelPanel.visible=false;
+const menuOrb=new THREE.Mesh(new THREE.IcosahedronGeometry(.067,1),
+  new THREE.MeshBasicMaterial({color:0xe8bd90,wireframe:true,
+    transparent:true,opacity:.85,depthWrite:false}));
+group.add(menuOrb);menuOrb.visible=false;
+const aimGeo=new THREE.BufferGeometry();
+aimGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(6),3).setUsage(THREE.DynamicDrawUsage));
+const aimRay=new THREE.Line(aimGeo,new THREE.LineBasicMaterial({
+  color:0xf7d49d,transparent:true,opacity:.62,depthWrite:false
+}));
+aimRay.frustumCulled=false;group.add(aimRay);
+const aimRing=new THREE.Mesh(new THREE.TorusGeometry(.13,.003,3,64),
+  new THREE.MeshBasicMaterial({color:0xf3d09e,transparent:true,opacity:.88,depthWrite:false}));
+group.add(aimRing);aimRing.visible=aimRay.visible=false;
+let lastWheelKey='',lastPalmKey='';
+function paintPalm(){
+  const key=line;if(lastPalmKey===key)return;lastPalmKey=key;
+  const ctx=palmPaint.canvas.getContext('2d');
+  ctx.clearRect(0,0,1024,360);
+  ctx.fillStyle='rgba(8,10,14,.90)';ctx.fillRect(0,0,1024,360);
+  ctx.strokeStyle='#b59972';ctx.strokeRect(4,4,1016,352);
+  ctx.textAlign='center';
+  ctx.fillStyle='#e6bd8b';ctx.font='bold 37px sans-serif';
+  ctx.fillText('LEFT PALM / CHOOSE YOUR PATH',512,78);
+  const choices=[['← WIZARD','west',254],['SORCERER →','east',770]];
+  for(const [text,mode,x] of choices){
+    const active=mode===line;
+    ctx.fillStyle=active?'#e6bd8b':'#3a3b42';
+    ctx.fillRect(x-224,115,448,115);
+    ctx.fillStyle=active?'#131313':'#ddd4c9';
+    ctx.font='bold 43px sans-serif';ctx.fillText(text,x,186);
+  }
+  ctx.fillStyle='#bbb5aa';ctx.font='27px sans-serif';
+  ctx.fillText('PRESENT PALM · SWIPE LEFT / RIGHT · HOLD RIGHT FIST',512,310);
+  palmPaint.texture.needsUpdate=true;
+}
+function paintWheel(selected=-1,candidate=-1){
+  const key=line+'|'+selected+'|'+candidate;
+  if(lastWheelKey===key)return;lastWheelKey=key;
+  const ctx=wheelPaint.canvas.getContext('2d'),w=1024;
+  ctx.clearRect(0,0,w,w);
+  ctx.fillStyle='rgba(7,9,13,.86)';
+  ctx.beginPath();ctx.arc(512,512,483,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#9b886d';ctx.lineWidth=4;
+  ctx.beginPath();ctx.arc(512,512,474,0,Math.PI*2);ctx.stroke();
+  ctx.beginPath();ctx.arc(512,512,148,0,Math.PI*2);ctx.stroke();
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  for(let i=0;i<8;i++){
+    const angle=Math.PI/2-i*Math.PI/4;
+    const cx=512+Math.cos(angle)*305,cy=512-Math.sin(angle)*305;
+    const active=selected===i||candidate===i;
+    ctx.beginPath();ctx.arc(cx,cy,138,0,Math.PI*2);
+    ctx.fillStyle=active?'#e6bd8b':'rgba(52,60,68,.84)';ctx.fill();
+    ctx.strokeStyle=active?'#fff0d9':'#6c7580';ctx.lineWidth=3;ctx.stroke();
+    const text=i<6?SPELLS[line][i].zh:i===6?'切换门派':'重置关卡';
+    ctx.fillStyle=active?'#12131a':'#f1ede5';
+    ctx.font='bold 33px sans-serif';ctx.fillText(text,cx,cy+17,260);
+    ctx.fillStyle=active?'#363a41':'#dac5a7';ctx.font='bold 27px sans-serif';
+    ctx.fillText(String(i+1).padStart(2,'0'),cx,cy-34);
+  }
+  ctx.fillStyle='#e6bd8b';ctx.font='bold 35px sans-serif';
+  ctx.fillText('MOVE FIST',512,483);
+  ctx.font='29px sans-serif';ctx.fillText('RELEASE TO SELECT',512,537);
+  wheelPaint.texture.needsUpdate=true;
+}
+function visualHandMenu(snapshot,hands,time){
+  const left=hands.find(x=>x.hand==='left');
+  const right=hands.find(x=>x.hand==='right');
+  palmPanel.visible=Boolean(snapshot.active&&left?.point);
+  if(palmPanel.visible){
+    palmPanel.position.set(left.point[0],left.point[1]+.22,left.point[2]-.09);
+    paintPalm();
+  }
+  wheelPanel.visible=Boolean(snapshot.active&&snapshot.wheel&&right?.point);
+  menuOrb.visible=Boolean(snapshot.active&&snapshot.wheel&&right?.point);
+  if(wheelPanel.visible){
+    const anchor=snapshot.wheel.anchor;
+    wheelPanel.position.set(anchor[0]+.18,anchor[1]+.15,anchor[2]-.19);
+    paintWheel(snapshot.wheel.selected,snapshot.wheel.candidate);
+    menuOrb.position.fromArray(anchor);
+    menuOrb.rotation.set(time*.0007,time*.0003,0);
+    menuOrb.scale.setScalar(1+.16*Math.sin(time*.006));
+  }
+}
+function visualAim(hand,aim,time){
+  const on=Boolean(hand&&aim);
+  aimRay.visible=on;aimRing.visible=on&&Boolean(aim.lock);
+  if(!on)return;
+  const a=hand.point,b=aim.point,arr=aimGeo.attributes.position.array;
+  for(let i=0;i<3;i++){arr[i]=a[i];arr[i+3]=b[i];}
+  aimGeo.attributes.position.needsUpdate=true;
+  aimRing.position.fromArray(b);
+  aimRing.scale.setScalar(1+.10*Math.sin(time*.006));
+  aimRay.material.color.setHex(aim.lock?0xffd89e:0x8e969e);
+  aimRay.material.opacity=aim.lock?.74:.36;
+}
+
 function updateMenu(){
   $('west').setAttribute('aria-pressed',String(line==='west'));
   $('east').setAttribute('aria-pressed',String(line==='east'));
