@@ -1,5 +1,24 @@
 # HAND / SPACE / OSC · Spatial Playground Lab 02
 
+## Spellcraft Atelier / Two Game Lines (2026-11-09)
+
+Two six-mechanic Quest 3 MR / VR browser experiments, implemented as original interactions (not game asset reproduction or verified religious ritual):
+
+- [European Fantasy / West](./spellcraft.html?line=west): fireball, freezing beam, chain lightning, ward block, gravity well, rift portal
+- [Chinese Fantasy / East](./spellcraft.html?line=east): draw-and-send talisman, nine flying swords, bimanual sword array, five-element target interactions, binding seal, seven-star sequence
+- Each demo has visible spatial targets, hit events, scored challenges and original procedural responses. Some modes use abstract symbolic translations of historically documented motifs; none claims ritual efficacy.
+- Desktop: choose any of six, move pointer to aim, press 1 sword / 2 open / 3 fist / 0 neutral, or use CAST for a direct test. In XR, left index-thumb pinch cycles the six modes except in the five-element selector. Quest hand pose is read from existing 25 joints using the same fast 42ms gate as Gesture Dynamics.
+- Audio is optional local WebAudio started by a user action. No remote WebSocket, OSC or hand recording. Three.js 0.180.0 MIT is loaded over HTTPS.
+- Node tests cover twelve mechanisms and input rules. **Real Quest hand-tracking and audio are unverified and must be observed on-device.**
+
+### Design and playtest acceptance
+
+1. Check both lines render six named modes and a real moving target, including one local score/feedback event per action.
+2. Quest 3: verify AR entry, hand consent, pose update, left-hand pinch navigation, hand loss, and cursor direction while turning the head.
+3. For draw-and-fire rune/portal, draw an actual closed circle then deliberately release and re-enter sword pose (or thrust) to fire. A circle alone should never auto-fire.
+4. For sword volley / fireball / shield / freeze, capture 10 valid trials each and count false detections and misses. Only increase visual complexity after gameplay is reliable.
+5. Confirm audio plays at safe level, no repeated loud trigger storms, sustained headset frame rate and independent XR exit/re-entry.
+
 ## Gesture Dynamics V2 / Fast Cast Flight (2026-11-09)
 
 **This replaces the initial spring-home field behavior.** The original technical test lab remains available, but the public `gesture-dynamics.html` now uses `gesture-flight-engine.mjs`: each sword pose spawns a moving lead particle followed by 120 orbiting points. A held sword can cast subsequent volleys at 580 ms intervals. The leader speed is 6.2 m/s; flight has no spring back to the original world position. Open palm sends the followers into ballistic scattering. Right fist arms a short recall window (2.6 seconds), then a later left fist recalls all active particles to the tracked right hand in ~230ms along direct straight paths. No automatic return or ring orbit on recall.
