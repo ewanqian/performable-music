@@ -186,6 +186,11 @@ export class EnergyStream {
     h.direction=d;
     h.point=p.slice();h.kind=next;h.present=true;
     h.motion=clamp(h.motion*Math.exp(-1.2*dt)+Math.max(0,h.speed-.35)*dt*.85,0,1.8);
+    // A fast sweep in neutral also banks kinetic energy. Pointing afterward
+    // releases it even if the performer never closed their fist.
+    if(next==='neutral'&&h.speed>1.0){
+      h.charge=clamp(h.charge+dt*(h.speed-1.0)*.42,0,POWER_MAX);
+    }
     if(h.speed>.34){
       h.emitAura+=dt*clamp(29+h.speed*38,0,180)*this.output;
       const count=Math.min(12,Math.floor(h.emitAura));h.emitAura-=count;
