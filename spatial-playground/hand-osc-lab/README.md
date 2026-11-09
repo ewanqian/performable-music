@@ -1,5 +1,18 @@
 # HAND / SPACE / OSC · Spatial Playground Lab 02
 
+## Gesture Dynamics / Quest 3 Particle Dynamics (new, review branch)
+
+- [Gesture Dynamics — desktop + Quest MR / VR](./gesture-dynamics.html): 480 seeded particles, three 3D arrangements, index+middle sword posture directing a particle stream, open-palm one-shot blast, fist attraction, spring/inertia/damping and automatic recovery.
+- Pure physics/classification is in `gesture-dynamics-engine.mjs`; WebXR joint sampling, immersive AR/VR and desktop controls are in `gesture-dynamics-ui.mjs`. The existing `engine.mjs` supplies shared 25-joint definitions/angles.
+- For desktop: use mouse + `1` sword / `2` burst / `3` fist / `0` neutral / `R` reset. Desktop mode is explicitly a **mock**, not verified hand tracking.
+- On Quest 3 Browser: open the **HTTPS deployed URL**, enable hand tracking, select `ENTER MR` (or VR), then perform sword / palm / fist gestures. Real 25-joint tracking is required; if absent, the app does not pretend gestures were recognized.
+- Each field is anchored approx. 0.95m in front of the first XR head pose using WebXR local reference space; physical space placement and comfort must be tested on device. No camera recording, room depth, remote OSC or uploaded hand coordinates.
+- Source-level tests: `node --test gesture-dynamics-engine.test.mjs` in this folder. Desktop WebGL and Quest acceptance remain **NOT VERIFIED** until actually exercised.
+- Renderer dependency: three.js 0.180.0, MIT, loaded from jsDelivr in `gesture-dynamics.html` (HTTPS/network required).
+
+**Hardware acceptance:** verify MR passthrough and hand permission; 25 joints per tracked hand; sword vector follows real index/middle direction 10/10 trials; palm gives exactly one blast per held posture; fist pulls then releases; loss of tracking never triggers a phantom blast; test 72/90 FPS target with 480 particles; reset/exit/re-entry succeeds. Record Quest Browser and firmware versions, measured frame rate and false-positive count.
+
+
 **Status:** Three separate pages exist (sensor baseline / sustained Web Audio synth / Organic Fields sound maps). Code and source-level tests have been committed; real Quest/AVP audio, hand latency and stage quality are **NOT yet hardware-verified**. No raw camera access, no room-scale anchor persistence, no physical KILL.
 
 ## P0 Stage Casting experiments (2026-11-08)
