@@ -452,9 +452,10 @@ async function enterXR(mode){
   try{
     const session=await navigator.xr.requestSession(mode,{optionalFeatures:['hand-tracking']});
     xrSession=session;anchored=false;arena.reset();
-    for(const h of Object.values(handState)){h.gate.reset();h.point=null;h.pinch=false;}
+    for(const h of Object.values(handState)){h.tracker.reset();h.point=null;h.time=0;}
+    handMenu.reset();
     session.addEventListener('end',()=>{
-      xrSession=null;anchored=false;arena.reset();
+      xrSession=null;anchored=false;arena.reset();handMenu.reset();
       group.position.set(0,0,0);group.quaternion.identity();
       clearEffects();updateMenu();
       $('enter-ar').hidden=false;$('enter-vr').hidden=false;$('exit-xr').hidden=true;
@@ -478,8 +479,35 @@ support();
 function render(time,frame){
   const dt=lastTime?clamp((time-lastTime)/1000,0,.05):1/90;lastTime=time;
   const hands=xrSession?getHands(frame,time):mockHands();
-  const events=arena.step(dt,hands);
+  nowHands=hands;
+  const left=hands.find(h=>h.hand==='left')||null;
+  const right=hands.find(h=>h.hand==='right')||null;
+  menuSnapshot=handMenu.update({left,right,now:time});
+  for(const event of menuSnapshot.events){
+    if(event.type==='line'){switchLine(event.line);blip(700,.14);}
+    if(event.type==='toggle-line'){switchLine(line==='west'?'east':'west');blip(760,.16);}
+    if(event.type==='skill'){selectSpell(event.index);blip(580+event.index*45,.16);}
+    if(event.type==='reset'){arena.reset();clearEffects();updateMenu();blip(350,.14);}
+    if(event.type==='menu-open'){blip(425,.22);arena.note='左掌左右选择门派 · 右拳八方向选技能';}
+    if(event.type==='wheel-open')blip(520,.12);
+    if(event.type==='menu-close'){
+      arena.prev.left=arena.prev.right='neutral';
+      arena.note='瞄准目标后施法';
+    }
+  }
+  const playable=(!menuSnapshot.suppress&&time>=menuSnapshot.cooldownUntil)?hands:[];
+  const candidate=playable.find(h=>h.hand==='right'&&['sword','open','fist'].includes(h.kind))||
+    playable.find(h=>['sword','open','fist'].includes(h.kind))||null;
+  currentAim=candidate?assistedAim(candidate.point,candidate.direction,arena.targets):null;
+  const controlled=playable.map(h=>{
+    if(!['sword','open','fist'].includes(h.kind))return h;
+    const aim=assistedAim(h.point,h.direction,arena.targets);
+    return aim?{...h,direction:aim.direction}:h;
+  });
+  const events=arena.step(dt,controlled);
   onEvents(events);effectStep(dt);
+  visualHandMenu(menuSnapshot,hands,time);
+  visualAim(candidate,currentAim,time);
   // Target and projectile meshes are real world-space objects, not 2D HUD art.
   for(let i=0;i<5;i++){
     const t=arena.targets[i],active=t.respawn<=0;
@@ -504,10 +532,12 @@ function render(time,frame){
   }
   projectiles.instanceMatrix.needsUpdate=true;
   if(projectiles.instanceColor)projectiles.instanceColor.needsUpdate=true;
-  pointing=hands.find(h=>h.kind==='sword')||null;
-  cursorArrow.visible=Boolean(pointing);
-  if(pointing){cursorArrow.position.fromArray(pointing.point);
-    cursorArrow.setDirection(new THREE.Vector3(...pointing.direction));}
+  pointing=candidate?.kind==='sword'?candidate:null;
+  cursorArrow.visible=Boolean(pointing)&&!menuSnapshot.active;
+  if(pointing){
+    cursorArrow.position.fromArray(pointing.point);
+    cursorArrow.setDirection(new THREE.Vector3(...(currentAim?.direction||pointing.direction)));
+  }
   frames++;if(time-fpsStart>1000){fps=frames;frames=0;fpsStart=time;}
   if(time-statsAt>160){
     statsAt=time;paintPanel();
@@ -515,7 +545,11 @@ function render(time,frame){
       '\n'+(line==='east'?'CHINESE FANTASY / 术师':'EUROPEAN FANTASY / 巫师')+
       '\n'+arena.spec.en+'\nSCORE '+arena.score+'  COMBO '+arena.combo+
       '  HP '+arena.life+'  FPS '+fps+(xrSession?'\nHANDS '+tracked:'')+
-      '\n'+arena.note;
+      '\n'+arena.note+
+      (menuSnapshot.active?'\nMENU · '+(menuSnapshot.wheel?
+        'FIST WHEEL '+(menuSnapshot.wheel.selected>=0?menuSnapshot.wheel.selected+1:'MOVE TO A DIRECTION'):
+        'SWIPE LEFT/RIGHT · GRIP RIGHT HAND'):
+        (currentAim?.lock?'\nAIM LOCK '+String(currentAim.target+1):'\nAIM: FOLLOW THE RAY'));
     if(msg!==lastStatus){state.textContent=msg;lastStatus=msg;}
   }
   renderer.render(scene,camera);
