@@ -10,6 +10,6 @@ Use 90–120 seconds as initial study length, FREE_TIME preferred, with 4–6 au
 
 Search no more than three independent normalized dimensions: harmonic movement, source grain, spatial pressure. Trial count <=6. Record two or more evaluation perspectives that may disagree (LONG_FORM, SOUND_IDENTITY, ARTISTIC_MEANING, TECHNICAL). Human listening state always PENDING.
 
-Use only known Show Score channels: energy/density/tension/space/pressure/fracture, numeric [0,1]. Never request master gain changes, remote device commands, cloud uploads or licensed audio reuse. Use source_kind SYNTHETIC for the new original experiment. If any source is unconfirmed, mark it UNVERIFIED.
+Use only known Show Score channels: energy/density/tension/space/pressure/fracture, numeric [0,1]. Never request master gain changes, remote device commands, cloud uploads or licensed audio reuse. Use provenance.input_kind SYNTHETIC for the new original experiment. If any source is unconfirmed, mark it UNVERIFIED.
 
 Return a proposal, not a statement of finished music or a live performance. You must explicitly state the musical function of each cue and the meaning of the proposed transformation, rather than inflating note count.

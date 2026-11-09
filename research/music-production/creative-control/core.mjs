@@ -66,8 +66,8 @@ export function validateContract(x) {
       if (!SCENES.has(c.scene)||!STATES.has(c.state)||!EVENTS.has(c.event_type)||!SOURCES.has(c.source)) err('Invalid scene/state/event/source at '+i);
       if (typeof c.musical_reason !== 'string' || c.musical_reason.trim().length < 12) err('Missing specific musical reason at cue '+i);
       if (!isObject(c.controls) || Object.keys(c.controls).some(k=>!CONTROL_CHANNELS.includes(k)||!inRange(c.controls[k],0,1))) err('Unbounded/unknown control at cue '+i);
-      if (c.event_type==='OVERRIDE' && c.source==='system') err('OVERRIDE must be a performer-authorized source at '+i);
-      if (c.event_type==='RESET' && c.source==='system') err('RESET must be human-authorized');
+      if (c.event_type==='OVERRIDE' && !['foot','hand','button'].includes(c.source)) err('OVERRIDE must be directly performer-authorized at '+i);
+      if (c.event_type==='RESET' && !['foot','hand','button'].includes(c.source)) err('RESET must be directly human-authorized');
     }
   }
   if (!Array.isArray(x.midi_phrases) || x.midi_phrases.length > 8) err('midi_phrases must be 0-8 items');

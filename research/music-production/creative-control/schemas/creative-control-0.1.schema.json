@@ -383,7 +383,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "format": "uri"
+            "minLength": 7
           },
           "minItems": 0,
           "maxItems": 20
