@@ -11,7 +11,7 @@ on:
       - '.github/workflows/morphology-lab.yml'
 jobs:
   source:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
       - name: Validate 54 independent modes
         run: node --test spatial-playground/morphology-lab/experiments.test.mjs
   browser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
