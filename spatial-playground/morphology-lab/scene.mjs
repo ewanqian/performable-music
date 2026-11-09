@@ -140,7 +140,8 @@ export class MorphologyStage{
  setStudy(family,index){
   const p=description(family,index);if(!p)return;
   this.family=family;this.index=index;this.selection=p;
-  this.disposeGroup();const g=this.group=new THREE.Group();
+  this.disposeGroup();this.additional=null;const g=this.group=new THREE.Group();
+  g.scale.setScalar(.82+this.depth*.36);
   this.scene.add(g);
   if(family==='light')this.buildLight(g,p);
   if(family==='brightness')this.buildBrightness(g,p);
@@ -159,8 +160,9 @@ export class MorphologyStage{
  }
  buildLight(g,p){
   const pods=[];sectionArcs(g,.84);
-  for(let i=0;i<12;i++){
-   const a=i/12*TAU,pos=pol(1.1,a,Math.sin(a*2)*.54);
+  const count=8+Math.round(this.complexity*12);
+  for(let i=0;i<count;i++){
+   const a=i/count*TAU,pos=pol(1.1,a,Math.sin(a*2)*.54);
    const housing=new THREE.Mesh(new THREE.CylinderGeometry(.055,.055,.38,10),mat(0x344038));
    housing.position.copy(pos);housing.quaternion.setFromUnitVectors(vec(0,1,0),pos.clone().normalize());
    g.add(housing);
@@ -186,7 +188,7 @@ export class MorphologyStage{
   const body=new THREE.Mesh(new THREE.IcosahedronGeometry(.94,2),material);g.add(body);
   const wire=new THREE.LineSegments(new THREE.WireframeGeometry(body.geometry),lineMat(ivory,.23));g.add(wire);
   const samples=[];
-  for(let i=0;i<54;i++){
+  for(let i=0;i<25+Math.round(this.complexity*65);i++){
    const v=randVec(i+6).multiplyScalar(1.01);
    const dot=sphere(g,.027,v,gold);dot.material=new THREE.MeshStandardMaterial({
     color:0xa5a79f,emissive:0xe7e3cf,emissiveIntensity:.2,roughness:.45});
@@ -277,7 +279,7 @@ export class MorphologyStage{
   this.animated.push((t)=>{g.rotation.y=Math.sin(t*.14)*.12;});
  }
  buildNeuron(g,p){
-  const source=vec(0,0,0),tips=[],segments=[],material=mat(ivory),countLimit=260;
+  const source=vec(0,0,0),tips=[],segments=[],material=mat(ivory),countLimit=100+Math.round(this.complexity*230);
   const method=p.method,b=p.params;
   const count=method==='contact'?2:1;
   for(let cell=0;cell<count;cell++){
@@ -290,7 +292,7 @@ export class MorphologyStage{
     segments.push({from:start.clone(),to:endpoint.clone(),order,cell});
     if(depth===1){tips.push(endpoint);return;}
     const childCount=method==='axon'&&order>1?1:
-       (rnd(serial*7+cell*23)<b.branch?.95:.65)?2:1;
+       (rnd(serial*7+cell*23)<b.branch?2:1);
     for(let child=0;child<childCount;child++){
       const axis=randVec(serial*4+child*13).multiplyScalar(.55);
       const dir=direction.clone().multiplyScalar(.77).add(axis.multiplyScalar(b.spread)).normalize();
@@ -331,7 +333,7 @@ export class MorphologyStage{
   for(let i=0;i<count;i++)targets.push(pol(.9,(i+.3)/count*TAU,Math.sin(i*2.4)*.42));
   targets.forEach((v,i)=>sphere(g,.045,v,i%2?gold:ivory));
   const paths=[];
-  let branches=mode==='explore'?45:mode==='colonies'?40:28;
+  let branches=Math.round((mode==='explore'?45:mode==='colonies'?40:28)*(.45+this.complexity));
   for(let i=0;i<branches;i++){
    const origin=mode==='colonies'?pol(.35,Math.floor(i/8)*TAU/5,-.15):vec(0,-.5,0);
    const pts=[origin.clone()],target=targets[i%targets.length],steps=48;
@@ -394,7 +396,7 @@ export class MorphologyStage{
   petalShape.bezierCurveTo(.05,.09,.036,.032,0,0);
   const petalGeo=new THREE.ShapeGeometry(petalShape,6);
   const petalMat=new THREE.MeshStandardMaterial({color:0xd6b7ba,side:THREE.DoubleSide,roughness:.86,metalness:0});
-  const n=Math.round((method==='silence'?.04:b.flower)*(method==='layers'?1050:650));
+  const n=Math.round((method==='silence'?.04:b.flower)*(method==='layers'?1050:650)*(.55+this.complexity));
   const petals=new THREE.InstancedMesh(petalGeo,petalMat,n);petals.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   g.add(petals);
   const dummy=new THREE.Object3D(),basePositions=Array.from({length:n},(_,i)=>{
@@ -432,7 +434,12 @@ export class MorphologyStage{
    caution:'Scene is WebGL spatial study, not Quest hardware-validated.'};
  }
  setParameters(p){if(typeof p.energy==='number')this.energy=clamp(p.energy);
-  if(typeof p.depth==='number')this.depth=clamp(p.depth);
+  if(typeof p.depth==='number'){
+   this.depth=clamp(p.depth);
+   if(this.group)this.group.scale.setScalar(.82+this.depth*.36);
+   this.scene.fog.density=.045+(1-this.depth)*.09;
+   this.floor.position.y=-.10+(this.depth-.5)*.10;
+  }
   if(typeof p.complexity==='number')this.complexity=clamp(p.complexity);}
  resetCamera(){this.camera.position.set(3.65,2.48,4.6);this.controls.target.set(0,0,0);this.controls.update();}
  stop(){this.stopped=true;this.disposeGroup();this.controls.dispose();this.renderer.dispose();}
