@@ -281,7 +281,7 @@ function updateMenu(){
     b.setAttribute('aria-pressed',String(arena.element===i));b.addEventListener('click',()=>{
       audioEnable();arena.setElement(i);updateMenu();});$('elements').append(b);
   });
-  lastPanel='';paintPanel();
+  lastPanel='';lastWheelKey='';lastPalmKey='';paintPanel();
 }
 function selectSpell(i){
   arena.select(i);clearEffects();updateMenu();lastStatus='';
@@ -293,6 +293,13 @@ function switchLine(next){
 $('west').addEventListener('click',()=>switchLine('west'));
 $('east').addEventListener('click',()=>switchLine('east'));
 $('next').addEventListener('click',()=>selectSpell((arena.index+1)%6));
+$('mock-palm')?.addEventListener('click',()=>{
+  mockLeftPalm=!mockLeftPalm;mockLeftShift=0;mockMenuGrip=false;
+  $('mock-palm').setAttribute('aria-pressed',String(mockLeftPalm));
+  $('mock-palm').textContent=mockLeftPalm?'左掌已展开 / CLOSE':'左掌菜单 / PRESENT';
+});
+$('mock-west')?.addEventListener('click',()=>{mockLeftShift=-.20;});
+$('mock-east')?.addEventListener('click',()=>{mockLeftShift=.20;});
 $('reset').addEventListener('click',()=>{arena.reset();clearEffects();updateMenu();});
 $('cast').addEventListener('click',()=>{
   audioEnable();
@@ -311,11 +318,25 @@ document.addEventListener('keydown',e=>{
     b.setAttribute('aria-pressed',String(b.dataset.gesture===desktopGesture));}
   if(e.code==='Space'){e.preventDefault();$('cast').click();}
   if(e.code==='KeyN')selectSpell((arena.index+1)%6);
+  if(e.code==='KeyM')$('mock-palm')?.click();
+  if(e.code==='KeyQ')mockLeftShift=-.20;
+  if(e.code==='KeyE')mockLeftShift=.20;
 });
 canvas.addEventListener('pointermove',e=>{
   cursor=[(e.clientX/innerWidth-.5)*2,(.5-e.clientY/innerHeight)*2];
 });
-canvas.addEventListener('pointerdown',()=>{$('cast').click();});
+canvas.addEventListener('pointerdown',event=>{
+  if(!mockLeftPalm){$('cast').click();return;}
+  mockMenuGrip=true;desktopGesture='fist';
+  try{canvas.setPointerCapture(event.pointerId);}catch{}
+});
+canvas.addEventListener('pointerup',event=>{
+  if(mockMenuGrip){mockMenuGrip=false;desktopGesture='neutral';}
+  try{canvas.releasePointerCapture(event.pointerId);}catch{}
+});
+canvas.addEventListener('pointercancel',()=>{
+  if(mockMenuGrip){mockMenuGrip=false;desktopGesture='neutral';}
+});
 updateMenu();
 addEventListener('resize',()=>{
   camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);
