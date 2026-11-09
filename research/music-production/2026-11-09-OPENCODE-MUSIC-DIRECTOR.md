@@ -9,6 +9,10 @@ Read before acting:
 - `research/lineages/ARTIST_MECHANISM_SOURCES_2026-11-09.md`.
 - Existing 006 and 010 auditory evidence plus local 24-piece prototype archive if present.
 
+## Critical IDs and concrete bug
+
+**C01–C48** are *new research concept cards*. The older M01–M24 denote the rejected 24 audio drafts and must never be silently reused as the new ideas. The prior `build_24.py` applies `is_gap=(bar==11)` across all pieces and removes most key new events that bar. Audit the resulting musical discontinuity and prevent this generic silence rule in future production. Preserve the old evidence untouched.
+
 ## Mission
 
 Do NOT generate 48 tracks. Treat 48 designs as a search space. In parallel, read research notes and assess musical differences. Deliver a compact *novelty shortlist of 12*, then create only **four** music-first high-quality short proof candidates, emphasizing tangible groove, one original sound identity, and a full phrase/answer. The user should not have to choose an M number merely to let you begin.

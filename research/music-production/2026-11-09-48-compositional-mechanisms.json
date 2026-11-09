@@ -103,7 +103,7 @@
   },
   "cards": [
     {
-      "id": "M01",
+      "id": "C01",
       "family": "A",
       "family_label": "4/4 脉冲引擎",
       "name": "双脉冲鼓机",
@@ -135,7 +135,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M02",
+      "id": "C02",
       "family": "A",
       "family_label": "4/4 脉冲引擎",
       "name": "低频锁扣",
@@ -167,7 +167,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M03",
+      "id": "C03",
       "family": "A",
       "family_label": "4/4 脉冲引擎",
       "name": "幽灵拍头",
@@ -199,7 +199,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M04",
+      "id": "C04",
       "family": "A",
       "family_label": "4/4 脉冲引擎",
       "name": "负空间加速",
@@ -231,7 +231,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M05",
+      "id": "C05",
       "family": "B",
       "family_label": "Broken / 2-Step",
       "name": "两步反弹",
@@ -263,7 +263,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M06",
+      "id": "C06",
       "family": "B",
       "family_label": "Broken / 2-Step",
       "name": "碎拍连贯",
@@ -295,7 +295,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M07",
+      "id": "C07",
       "family": "B",
       "family_label": "Broken / 2-Step",
       "name": "半速双速错觉",
@@ -327,7 +327,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M08",
+      "id": "C08",
       "family": "B",
       "family_label": "Broken / 2-Step",
       "name": "空拍回声",
@@ -359,7 +359,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M09",
+      "id": "C09",
       "family": "C",
       "family_label": "Footwork / 手动鼓机",
       "name": "双机手打对答",
@@ -391,7 +391,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M10",
+      "id": "C10",
       "family": "C",
       "family_label": "Footwork / 手动鼓机",
       "name": "脚步跨栏",
@@ -423,7 +423,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M11",
+      "id": "C11",
       "family": "C",
       "family_label": "Footwork / 手动鼓机",
       "name": "快速鼓句剪裁",
@@ -455,7 +455,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M12",
+      "id": "C12",
       "family": "C",
       "family_label": "Footwork / 手动鼓机",
       "name": "身体错拍",
@@ -487,7 +487,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M13",
+      "id": "C13",
       "family": "D",
       "family_label": "Dub / 空间节奏",
       "name": "一音多空间",
@@ -519,7 +519,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M14",
+      "id": "C14",
       "family": "D",
       "family_label": "Dub / 空间节奏",
       "name": "回声打击乐器",
@@ -551,7 +551,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M15",
+      "id": "C15",
       "family": "D",
       "family_label": "Dub / 空间节奏",
       "name": "谐波冻结而鼓继续",
@@ -583,7 +583,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M16",
+      "id": "C16",
       "family": "D",
       "family_label": "Dub / 空间节奏",
       "name": "前景后景呼吸",
@@ -615,7 +615,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M17",
+      "id": "C17",
       "family": "E",
       "family_label": "物件共振与打击乐",
       "name": "金属轮廓",
@@ -647,7 +647,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M18",
+      "id": "C18",
       "family": "E",
       "family_label": "物件共振与打击乐",
       "name": "瓷器共鸣",
@@ -679,7 +679,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M19",
+      "id": "C19",
       "family": "E",
       "family_label": "物件共振与打击乐",
       "name": "机械磨损",
@@ -711,7 +711,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M20",
+      "id": "C20",
       "family": "E",
       "family_label": "物件共振与打击乐",
       "name": "皮膜张力",
@@ -743,7 +743,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M21",
+      "id": "C21",
       "family": "F",
       "family_label": "Bass 运动学",
       "name": "弹性低音对话",
@@ -775,7 +775,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M22",
+      "id": "C22",
       "family": "F",
       "family_label": "Bass 运动学",
       "name": "低频换挡",
@@ -807,7 +807,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M23",
+      "id": "C23",
       "family": "F",
       "family_label": "Bass 运动学",
       "name": "破频生长",
@@ -839,7 +839,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M24",
+      "id": "C24",
       "family": "F",
       "family_label": "Bass 运动学",
       "name": "重力重拍",
@@ -871,7 +871,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M25",
+      "id": "C25",
       "family": "G",
       "family_label": "音高与记忆",
       "name": "半音待决",
@@ -903,7 +903,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M26",
+      "id": "C26",
       "family": "G",
       "family_label": "音高与记忆",
       "name": "和声折叠",
@@ -935,7 +935,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M27",
+      "id": "C27",
       "family": "G",
       "family_label": "音高与记忆",
       "name": "极短记忆动机",
@@ -967,7 +967,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M28",
+      "id": "C28",
       "family": "G",
       "family_label": "音高与记忆",
       "name": "声部轮换独白",
@@ -999,7 +999,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M29",
+      "id": "C29",
       "family": "H",
       "family_label": "采样与实体世界",
       "name": "生物律动素材",
@@ -1031,7 +1031,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M30",
+      "id": "C30",
       "family": "H",
       "family_label": "采样与实体世界",
       "name": "城市零件鼓组",
@@ -1063,7 +1063,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M31",
+      "id": "C31",
       "family": "H",
       "family_label": "采样与实体世界",
       "name": "动作关节音序",
@@ -1095,7 +1095,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M32",
+      "id": "C32",
       "family": "H",
       "family_label": "采样与实体世界",
       "name": "无字人声打击",
@@ -1127,7 +1127,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M33",
+      "id": "C33",
       "family": "I",
       "family_label": "时间几何",
       "name": "错长度稳定拍",
@@ -1159,7 +1159,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M34",
+      "id": "C34",
       "family": "I",
       "family_label": "时间几何",
       "name": "人的时间微偏差",
@@ -1191,7 +1191,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M35",
+      "id": "C35",
       "family": "I",
       "family_label": "时间几何",
       "name": "瞬时倒带标点",
@@ -1223,7 +1223,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M36",
+      "id": "C36",
       "family": "I",
       "family_label": "时间几何",
       "name": "解锁节奏网络",
@@ -1255,7 +1255,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M37",
+      "id": "C37",
       "family": "J",
       "family_label": "演奏性结构",
       "name": "脚踏决定副歌",
@@ -1288,7 +1288,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M38",
+      "id": "C38",
       "family": "J",
       "family_label": "演奏性结构",
       "name": "手掌成为鼓手",
@@ -1321,7 +1321,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M39",
+      "id": "C39",
       "family": "J",
       "family_label": "演奏性结构",
       "name": "声部独奏切换",
@@ -1354,7 +1354,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M40",
+      "id": "C40",
       "family": "J",
       "family_label": "演奏性结构",
       "name": "三态现场母带",
@@ -1387,7 +1387,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M41",
+      "id": "C41",
       "family": "K",
       "family_label": "神经场艺术命题",
       "name": "兴奋与抑制",
@@ -1419,7 +1419,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M42",
+      "id": "C42",
       "family": "K",
       "family_label": "神经场艺术命题",
       "name": "同步涌现",
@@ -1451,7 +1451,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M43",
+      "id": "C43",
       "family": "K",
       "family_label": "神经场艺术命题",
       "name": "短时音乐记忆",
@@ -1483,7 +1483,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M44",
+      "id": "C44",
       "family": "K",
       "family_label": "神经场艺术命题",
       "name": "预测落空后回答",
@@ -1515,7 +1515,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M45",
+      "id": "C45",
       "family": "L",
       "family_label": "声画共同作曲",
       "name": "声画对位而非同步",
@@ -1548,7 +1548,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M46",
+      "id": "C46",
       "family": "L",
       "family_label": "声画共同作曲",
       "name": "声音源拆解",
@@ -1581,7 +1581,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M47",
+      "id": "C47",
       "family": "L",
       "family_label": "声画共同作曲",
       "name": "黑场里的持续音乐",
@@ -1614,7 +1614,7 @@
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     },
     {
-      "id": "M48",
+      "id": "C48",
       "family": "L",
       "family_label": "声画共同作曲",
       "name": "信息写入节奏",
@@ -1646,5 +1646,6 @@
       "originality": "ORIGINAL EXPERIMENT: do not copy reference recordings, samples, signatures or arrangement",
       "acceptance": "Audible continuous 16-32 bar groove + distinguishable beginning/development/answer; pass human audio-only audition before any visual work."
     }
-  ]
+  ],
+  "id_namespace": "C01–C48; RESERVED old draft audio IDs M01–M24 refer to a separate, rejected 24-sketch audio pack. NEVER cross-map these IDs."
 }

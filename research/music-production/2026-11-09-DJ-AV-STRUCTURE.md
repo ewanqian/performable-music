@@ -1,5 +1,11 @@
 # DJ musical form × contemporary AV composition / 2026-11-09
 
+## ID namespace and observed prior failure
+
+The old local 24-piece package uses IDs **M01–M24**. This NEW catalogue uses **C01–C48** exclusively. Do not treat C01 as an updated M01 or reuse old generated MIDI automatically.
+
+The earlier package's `build_24.py` has a **global hard-coded bar-11 gap** (`is_gap=(bar==11)`), and then removes most of the new kick/snare/hat/metal/bass events on that bar for **all 24** drafts. Additional shared density rules also make the set feel structurally similar. This is a **source-observed programming flaw**, consistent with the artist's report of discontinuity; individual musical perception still requires actual listening. The new producer must not preserve it by default.
+
 ## Revision trigger
 
 The artist rejected most of the previous 24 short drafts as weak, abrupt, generic, underdeveloped, lacking groove and without a convincing main musical idea. The proposed four-item re-skin (M01/M07/M13/M19) is **CANCELLED** unless independently selected again. No new audio was made in this research update.

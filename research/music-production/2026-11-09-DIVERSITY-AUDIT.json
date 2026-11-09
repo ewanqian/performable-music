@@ -10,30 +10,31 @@
   "above_0_20": 0,
   "nearest_text_pairs": [
     {
-      "id_a": "M02",
-      "id_b": "M44",
+      "id_a": "C02",
+      "id_b": "C44",
       "jaccard": 0.077,
       "distinction": "M02 develops persistent kick/bass interlock; M44 creates a learned musical answer then withholds it while the underlying drums continue."
     },
     {
-      "id_a": "M08",
-      "id_b": "M14",
+      "id_a": "C08",
+      "id_b": "C14",
       "jaccard": 0.056,
       "distinction": "M08 displaces the expected snare with a tardy rebound; M14 plays a manual dub-delay send as a second instrument."
     },
     {
-      "id_a": "M28",
-      "id_b": "M39",
+      "id_a": "C28",
+      "id_b": "C39",
       "jaccard": 0.052,
       "distinction": "M28 reorchestrates the identity of a shared theme across timbres; M39 makes an operator solo intervention in a stable already-finished track."
     },
     {
-      "id_a": "M21",
-      "id_b": "M23",
+      "id_a": "C21",
+      "id_b": "C23",
       "jaccard": 0.048,
       "distinction": "M21 groove from elastic bass vs kick relationship; M23 a bass sound's internal FM spectral evolution."
     }
   ],
   "no_claim": "Low lexical overlap does not prove audible stylistic originality, or justify cloning other artists. Human listening remains decisive.",
-  "pending_check": "Before rendering more than four proofs, compare rhythmic skeleton, sound-source role, tension/answer, form and manual gesture among the 12 shortlisted options; reject if they share >=3 of those five axes without a meaningful audible distinction."
+  "pending_check": "Before rendering more than four proofs, compare rhythmic skeleton, sound-source role, tension/answer, form and manual gesture among the 12 shortlisted options; reject if they share >=3 of those five axes without a meaningful audible distinction.",
+  "id_namespace": "C01-C48 are research design IDs, distinct from failed M01-M24 audio previews."
 }
