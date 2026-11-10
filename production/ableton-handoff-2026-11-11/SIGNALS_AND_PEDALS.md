@@ -68,3 +68,15 @@ Quest WebXR immersive-ar supports passthrough on supported versions. Vision Pro 
 ## Minimum proof
 
 One 60–90 second accepted audio excerpt; one intentional pedal event visibly and audibly changes the same authored state; unplug each optional source and confirm neutral behavior; mute/re-arm cannot retrigger stale input; stereo/video fallback starts without the headset. Only then expand biosignal complexity.
+
+## Existing hand tracking and parallel ownership
+
+The artist confirms Quest hand tracking already works; the current gap is interaction detail. Do not rebuild the recognition baseline or describe it as wholly absent. Inspect the existing Hand Lab input and stability code and current open work. Capture the working version before changing behavior.
+
+Parallel work is useful only with isolated ownership:
+- DAW owner: Ableton set, instruments, arrangement and audio exports. Only this owner writes the active set.
+- Interaction worker: existing hand/pedal mapping, held-input release, quality/freshness, mute/re-arm and recovery tests in a separate branch. No changes to DAW content.
+- Visual worker: one licensed/authored scene and shared cue adapter, with desktop evidence first and headset-specific claims separately.
+- Integrator/reviewer: pin source commits, combine accepted branches, exercise one shared event and fallback, then assemble one review package. Do not mark success from individual workers' reports alone.
+
+The initial parallel outputs should be a real listening render, tested mapping/recovery behavior, and a visible original spatial scene. A task list is not any of those outputs. Do not block actual DAW production on speculative biosignal gear or another general framework.
