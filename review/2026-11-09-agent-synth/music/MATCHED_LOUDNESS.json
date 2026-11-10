@@ -1,0 +1,17 @@
+[
+  {
+    "id": "01_PRISM_RUN",
+    "measured_integrated_lufs": -22.0,
+    "true_peak_dbtp": -5.1
+  },
+  {
+    "id": "02_HINGE",
+    "measured_integrated_lufs": -22.0,
+    "true_peak_dbtp": -1.9
+  },
+  {
+    "id": "03_AIR_CURRENT",
+    "measured_integrated_lufs": -22.0,
+    "true_peak_dbtp": -4.8
+  }
+]
