@@ -36,7 +36,7 @@ A/B/C transients differ in pitch and spectral filtering but this is a **synthesi
 Use same stage width, boundary, volume and lighting; capture headset model/version, browser version, time, audio route and OSC path. Evaluate first with OBS/Quest capture, then Max OSC logger. Write measured values, not guesses.
 
 1. **T01 / Baseline regression**. Open Lab02 and Lab03 sequentially. Two hands, 25 joints each, stable joint lines, zone entered and exited exactly as expected. The two published URLs must stay independent.
-2. **T02 / Gate and envelope**. Right thumb/index pinch 10 repetitions of slow/fast movement. Listen for no clicks or stuck drone, and filter audible when held. Count dropped or false triggers.
+2. **T02 / Gate and envelope**. Right thumb/index pinch 10 repetitions of slow/fast movement. Listen for no clicks or stuck voice, an audible timbre change during the finite phrase, and silence after release. Count dropped or false triggers.
 3. **T03 / Independent finger timbre**. Sweep right thumb/middle, ring and pinky independently 10 times. Verify resonance, delay and modulation do not accidentally switch other controls. Compare spectrogram/audible behavior.
 4. **T04 / Bimanual HOLD**. Both index pinches held for >260ms, release and repeat. Confirm exactly one toggle per press/release cycle. Hand tracking loss must clear latch.
 5. **T05 / Cross-phalanx touch**. Bring index tip near middle PIP. Check at least 20 trials; record incorrect repeats and natural-pose false positives. Improve cooldown/rearm if needed.
@@ -53,7 +53,7 @@ Use same stage width, boundary, volume and lighting; capture headset model/versi
 - Source events: region ENTER and EXIT from the zone engine (current 34ms dwell, 9mm enter, 14mm exit margins).
 - Free mode: short impulse is scheduled at audio clock now + ~8 ms.
 - Quantized mode: the impulse is scheduled on the **next sixteenth-note** boundary from the local Web Audio origin at the chosen BPM (default 100). This is not Ableton Link sync or external clock locking; do not assert tight A/V or DAW phase sync until measured.
-- Oscillator drone is continuous and unquantized; no note sequencing.
+- The local resonant phrase is finite and unquantized; one pinch excites it once. Holding does not retrigger. Zone contacts may still use the existing subdivision quantization.
 
 ## OSC channel contract V2 (additive)
 

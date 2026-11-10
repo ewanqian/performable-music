@@ -31,39 +31,41 @@ DESKTOP SIMULATOR · NOT XR SENSOR DATA</div><div class="overlay-caption" id="ca
 <aside>
 <a href="https://ewanqian.site/#/apps" style="display:inline-block;margin-bottom:14px;font-size:10px;letter-spacing:.07em;color:#c7dbca;text-decoration:none">← EWAN / APPLICATIONS</a>
 <div class="eyebrow">PERFORMABLE MUSIC / SPATIAL PLAYGROUND / LAB 03</div><h1>HAND<br>SYNTH<br>SPACE.</h1>
-<p>在 Lab 02 骨架及三个空间区域之上增加连续合成器、双手控制、节奏触发与轻量环状视觉反馈。<a href="./index.html">返回未加音频的原版传感器 Demo</a>。</p>
+<p>用一次捏合激励一段共振：瓷的清响、弦的弹性、空气的呼吸。双手改变音色与空间，松手后让余音回到安静。<a href="./index.html">返回未加音频的原版传感器 Demo</a>。</p>
 <div class="rule">HEADSET / MIXED REALITY</div>
 <div class="btns"><button id="ar" class="primary" disabled>ENTER MR / AR</button><button id="vr" disabled>ENTER VR</button></div>
 <p id="device">检测 WebXR…Quest 优先 immersive-ar；Vision Pro Safari 使用 immersive-vr。</p>
 <div class="rule">SYNTH INSTRUMENT / EXPERIMENTAL</div>
-<p>这是持续音色/滤波控制器，不是空中钢琴。XR 手部一旦被追踪，就会启动轻音色；捏合可增强演奏力度。默认静音，点击 START AUDIO 或 ENTER MR 都会尝试开启声音。启动前请调低设备音量；不需要电脑或 OSC。</p>
+<p>点击启动后，手停在空中也保持安静。捏合或进入声音区域才发声；松手会收声，持续捏合也只留下有限余音。选一种音色，做一次动作，听它的变化。声音在浏览器本地生成。</p>
 <div class="btns">
   <button id="audio-start" class="primary">START AUDIO / 启动</button>
   <button id="audio-panic" class="danger">MUTE / 静音</button>
 </div>
+<label for="voice-select">声音材料 / Voice <select id="voice-select" style="display:block;width:100%;margin-top:6px;padding:9px;background:#101512;color:inherit;border:1px solid var(--edge)"><option value="0">PORCELAIN / 瓷 · 清响</option><option value="1">STRING / 弦 · 弹性</option><option value="2">AIR / 息 · 呼吸</option><option value="auto">HAND TIMBRE / 指节切换</option></select></label>
+<label for="audio-volume">音量 / Volume <output id="audio-volume-value" for="audio-volume">36%</output><input id="audio-volume" type="range" min="0" max="65" step="1" value="36"></label>
 <div class="row"><label for="quantize" style="margin:0">100 BPM / 16分量化触发</label><input id="quantize" type="checkbox"></div>
 <div class="row"><label for="bpm" style="margin:0">TEMPO · BPM</label><input id="bpm" type="number" min="40" max="220" value="100" style="max-width:95px"></div>
 <div class="rule">PERFORMANCE MAPPINGS</div>
 <div class="metrics" style="min-height:0;line-height:1.85">
-RIGHT thumb + index → drone GATE (hold to sustain)<br>
+RIGHT thumb + index → one resonant phrase (release to hush)<br>
 LEFT thumb + index → filter CUTOFF<br>
 RIGHT thumb + middle → RESONANCE<br>
 RIGHT thumb + ring → DELAY WET<br>
 RIGHT thumb + pinky → MODULATION<br>
-BOTH index pinches 260ms → HOLD on/off<br>
+BOTH index pinches 260ms → OSC HOLD (audio still decays)<br>
 INDEX TIP ↔ other middle PIP → TIMBRE cycle<br>
 LEFT ↔ RIGHT index spread → STEREO PAN<br>
-ZONE A/B/C ENTER + EXIT → tuned impulses<br>
+ZONE A/B/C ENTER → soft D / G / A contacts<br>
 TRACKING LOST → release / neutral (not EXIT)
 </div>
 <div class="rule">AUDIO / SENSORS / LATENCY</div>
 <div id="instrument-meter" class="metrics" style="min-height:100px">Audio locked · press START AUDIO. Hand tracking unaffected.</div>
 <div id="instrument-events" class="metrics" style="min-height:88px;max-height:144px;overflow:auto">No instrument events</div>
 <div class="btns">
- <button id="audio-check">SOUND CHECK / 听诊</button><button id="test-gate">TEST GATE (hold)</button><button id="test-zone">TEST ZONE C</button>
+ <button id="audio-check">SOUND CHECK / 听诊</button><button id="test-gate">PLAY / 按住再松开</button><button id="test-zone">TEST ZONE C</button>
  <button id="test-double">TEST BOTH HANDS</button><button id="diag-export">EXPORT TEST DATA</button>
 </div>
-<p>SOUND CHECK 可以播放独立于手势的 440–660Hz 检测音。如果 MR 里能听到检测音、但无持续音色，优先检查 XR HAND TRACKED 状态；若状态是 SUSPENDED，需退出 MR 后点击 START AUDIO 再试。绿色圆点表示音频运行，黄色表示暂停，红色表示静音或未启动。<br>测试按钮是<strong>模拟输入</strong>，不能证明头显追踪精度。OSC 传输仍使用下方原来的加密桥接和 ARM OSC；本地 Web Audio 不依赖 OSC。</p>
+<p>SOUND CHECK 播放一个轻柔的 D4 检测音。进入 MR 本身不发声；捏合一次或进入声音区域即可试听。若状态是 SUSPENDED，退出 MR 后点击 START AUDIO 再试。绿色圆点表示音频运行，黄色表示暂停，红色表示静音或未启动。<br>测试按钮是<strong>模拟输入</strong>，不能证明头显追踪精度。OSC 传输仍使用下方原来的加密桥接和 ARM OSC；本地 Web Audio 不依赖 OSC。</p>
 <div class="rule">BROWSER OSC BRIDGE</div>
 <label>桥接地址（从 HTTPS 页面连接时必须使用受信任的 WSS）
 <input id="endpoint" type="text" placeholder="wss://your-bridge.example.com" autocomplete="off" spellcheck="false"></label>
