@@ -104,19 +104,19 @@ Desktop fallback: from the repository root run python3 -m http.server 8000; open
 | URL (relative) | Purpose | Expected Web Audio |
 | --- | --- | --- |
 | [index.html](./index.html) | Lab02: hand joints / spatial zones / OSC input diagnostics | **SILENT BY DESIGN** |
-| [instrument.html](./instrument.html) | Hand / Synth / Space V2: sustained subtractive voice and space-triggered tones | **YES**; press START AUDIO or ENTER MR; tracking alone now opens a quiet drone, pinch increases loudness |
+| [instrument.html](./instrument.html) | Hand / Synth / Space V2: finite porcelain / string / air resonance and space-triggered tones | **YES**; START AUDIO or ENTER MR arms sound quietly; deliberate pinch or zone entry excites one phrase |
 | [playground.html](./playground.html) | Organic Fields: METAL / ELECTRO / ORCHESTRA map-driven sound fields | **YES**; press ENABLE AUDIO or ENTER MR, then move fingers through rings |
 
 **No Mac, bridge, WSS or OSC connection is required for local browser sound.** The bridge is only for forwarding semantic control events to another program.
 
 ### Quick XR sound diagnosis
 
-1. On V2, lower the headset volume, tap **SOUND CHECK**. It plays a standalone 440→660 Hz cue that does not depend on hand tracking.
+1. On V2, lower the headset volume, tap **SOUND CHECK**. It plays one soft D4 contact that does not depend on hand tracking.
 2. Tap and hold **TEST GATE** on the 2D page to hear the continuous synth. This is a simulated control, not a headset hand test.
 3. Tap **ENTER MR / AR**. That user click explicitly attempts to unlock Web Audio, without awaiting and losing transient XR activation.
-4. Listen for an entry sound-check cue. Once the hand tracking is valid, a quiet sustained drone should play **even without pinch**; thumb-index pinch boosts it.
+4. Entering XR itself stays quiet. Thumb-index pinch or zone entry excites a finite phrase; a tracked but relaxed hand is silent. Even a held pinch decays within 2.2 seconds plus a bounded echo tail.
 5. Inside V2 XR, **green audio-state dot** means running; **amber** means AudioContext suspended (browser/permission problem); **red** means locked or manually muted. If amber, exit XR and tap START AUDIO / SOUND CHECK again.
-6. If the XR cue plays but no drone follows, verify that the WebXR interface reports 1–2 tracked hands and 25 joint poses rather than missing hand input.
+6. If SOUND CHECK plays but a deliberate pinch is silent, verify 1–2 tracked hands and 25 joint poses, then check the GATE state. Presence alone deliberately produces no sound.
 7. Entering MR never requires Mac OSC. If headset sound still fails, capture browser version, headset model, audio-state dot, and whether SOUND CHECK works *outside* XR.
 
 This addresses the difference between “can synthesize sound,” “has permission to output sound,” and “has tracked hand input to modulate sound.” Do not claim an actual headset fix has been confirmed until it is tested on device.

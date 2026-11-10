@@ -1,7 +1,7 @@
 // Optional LAB03 performer layer; app.mjs remains the LAB02 XR sensor engine.
 // No additional WebGL context, camera access, downloaded audio samples, or telemetry.
 import {GestureInstrument} from './instrument-gesture.mjs';
-import {FieldSynth} from './instrument-audio.mjs';
+import {FieldSynth,VOICES} from './instrument-audio.mjs';
 
 const $=id=>document.getElementById(id);
 const mapper=new GestureInstrument();
@@ -10,6 +10,7 @@ let lastTick=null,perfLast=0,uiLast=0,flashUntil=0,manualGate=false;
 let frameCount=0,maxFrameGap=0,lagFrames=0,computeMs=0,maxComputeMs=0;
 let gapSamples=[],eventsLog=[],eventsCount=0,lastOutput=null,lastMode='DESKTOP';
 let explicitlyMuted=false,bootPromise=null,lastXRStatus='',lastXRStatusTime=0;
+let lastFeedWall=0,staleReleased=false;
 const audioState=()=>!synth.ready?'LOCKED':synth.isMuted?'MUTED':
   synth.ctx.state==='running'?'RUNNING':'SUSPENDED';
 window.__pmXRAudioStatus='LOCKED';
@@ -31,10 +32,7 @@ window.__pmBeforeEnterXR=()=>{
 };
 window.__pmOnXRStart=(xrMode)=>{
   addLog('XR '+xrMode+' / SOUND '+updateAudioStatus());
-  // A startup test tone is independent of all hand recognition and OSC.
-  bootPromise?.then(()=>{
-    if(synth.soundCheck())addLog('XR SOUND CHECK: 440–660Hz');
-  });
+  // Starting XR arms sound quietly; a deliberate pinch/contact excites it.
 };
 window.__pmXRAudioState=(now)=>{
   if(now-lastXRStatusTime<250)return;
@@ -42,7 +40,10 @@ window.__pmXRAudioState=(now)=>{
   const state=updateAudioStatus();
   if(state!==lastXRStatus){lastXRStatus=state;addLog('XR AUDIO STATE '+state);}
 };
-window.__pmOnXREnd=()=>{addLog('EXIT XR / AUDIO '+updateAudioStatus());};
+window.__pmOnXREnd=()=>{
+  manualGate=false;mapper.reset();synth.panic();$('audio-start').textContent='RESUME AUDIO';
+  addLog('EXIT XR / AUDIO '+updateAudioStatus());
+};
 
 const short=(x)=>Number.isFinite(x)?Number(x).toFixed(3):'—';
 function addLog(txt){
@@ -57,13 +58,20 @@ $('audio-start').addEventListener('click',async()=>{
     else await synth.start();
     synth.setBpm(Number($('bpm').value)||100);
     $('audio-start').textContent='AUDIO ACTIVE';
-    addLog('AUDIO ARMED LOCALLY / volume limited');
-  }catch(e){$('instrument-meter').textContent='Audio startup failed: '+String(e.message||e);}
+    addLog('AUDIO ARMED / pinch, release, listen');updateAudioStatus();
+  }catch(e){$('instrument-meter').textContent='Audio startup failed: '+String(e.message||e);$('audio-start').textContent='RETRY AUDIO';updateAudioStatus();}
 });
 $('audio-panic').addEventListener('click',()=>{
   explicitlyMuted=true;
   manualGate=false;synth.panic();$('audio-start').textContent='RESUME AUDIO';
   addLog('LOCAL AUDIO MUTED / OSC must be disarmed separately');
+});
+$('audio-volume').addEventListener('input',()=>{
+  const value=Number($('audio-volume').value);synth.setVolume(value/100);
+  $('audio-volume-value').textContent=value+'%';
+});
+$('voice-select').addEventListener('change',()=>{
+  synth.release();addLog('VOICE '+($('voice-select').value==='auto'?'HAND TIMBRE':VOICES[Number($('voice-select').value)].name));
 });
 $('quantize').addEventListener('change',()=>{
   synth.quantized=$('quantize').checked;addLog('QUANTIZE '+(synth.quantized?'ON':'OFF'));
@@ -90,7 +98,8 @@ $('audio-check')?.addEventListener('click',async()=>{
     if(!synth.ready)await synth.start();
     else await synth.resume();
     const ok=synth.soundCheck();
-    addLog('SOUND CHECK: '+(ok?'TONE 440–660Hz / NO OSC':'FAILED / '+audioState()));
+    $('audio-start').textContent='AUDIO ACTIVE';
+    addLog('SOUND CHECK: '+(ok?'SOFT D4 CONTACT / NO OSC':'FAILED / '+audioState()));
     updateAudioStatus();
   }catch(e){addLog('SOUND CHECK ERROR: '+String(e?.message||e));}
 });
@@ -133,7 +142,7 @@ function outgoing(params,event=null,now=0){
   });
 }
 window.__pmInstrumentFeed=({hands,zoneEvents,now,mode})=>{
-  const start=performance.now();
+  const start=performance.now();lastFeedWall=start;staleReleased=false;
   lastMode=mode;frameCount++;
   if(lastTick!==null){
     const gap=now-lastTick;
@@ -145,12 +154,12 @@ window.__pmInstrumentFeed=({hands,zoneEvents,now,mode})=>{
   lastTick=now;
   const output=mapper.update({left:hands.left,right:hands.right,zones:zoneEvents,now});
   lastOutput=output;const params={...output.params};
-  // XR hand presence opens a quiet drone. Pinch is the louder performance
-  // state. No hands => silence; never use the desktop simulated hand for this.
+  // Presence is a diagnostic only; it never opens the local audio gate.
   params.presence=mode!=='DESKTOP'&&output.diagnostics.trackedHands>0?1:0;
   // A visible, explicitly simulated desktop gate for checking synthesis without a headset.
-  if(mode==='DESKTOP'&&manualGate)params.gate=1;
-  if(synth.ready)synth.update(params,now);
+  if(mode==='DESKTOP')params.gate=manualGate?1:0;
+  const localParams={...params,timbre:$('voice-select').value==='auto'?params.timbre:Number($('voice-select').value)};
+  if(synth.ready)synth.update(localParams,now);
   for(const e of output.events){
     if(e.type==='ZONE_ENTER'||e.type==='ZONE_EXIT'){
       const ok=synth.trigger(e.zone,e.type==='ZONE_EXIT');
@@ -167,7 +176,7 @@ window.__pmInstrumentFeed=({hands,zoneEvents,now,mode})=>{
   if(now-perfLast>=55){perfLast=now;outgoing(params,null,now)}
   // Low-cost wireframe-only visual signal in the baseline XR renderer.
   window.__pmInstrumentVisual={
-    gate:Math.max(params.gate,params.presence*.40),
+    gate:params.gate,
     flash:Math.max(0,Math.min(1,(flashUntil-now)/220)),
     timbre:params.timbre
   };
@@ -178,10 +187,10 @@ window.__pmInstrumentFeed=({hands,zoneEvents,now,mode})=>{
       'AUDIO / '+(synth.ready?(synth.isMuted?'MUTED':synth.ctx.state.toUpperCase()):'LOCKED')+
         '    MODE / '+mode,
       'GATE '+(params.gate?'ON':'OFF')+'  XR PRESENCE '+(params.presence?'ON':'OFF')+
-        '  HOLD '+(params.hold?'ON':'OFF')+'  TIMBRE '+params.timbre+
+        '  HOLD '+(params.hold?'ON':'OFF')+'  VOICE '+VOICES[localParams.timbre].name+
         '  BPM '+synth.bpm+(synth.quantized?' QUANTIZED':' FREE'),
-      'FILTER '+Math.round(130*Math.pow(6000/130,params.cutoff))+'Hz'+
-        '  Q '+(0.75+params.resonance*8.25).toFixed(1)+
+      'FILTER '+Math.round(650*Math.pow(4400/650,params.cutoff))+'Hz'+
+        '  Q '+(.45+params.resonance*1.75).toFixed(1)+
         '  WET '+(params.wet*100).toFixed(0)+'%',
       'SPREAD '+params.spread.toFixed(2)+'  ENERGY '+params.energy.toFixed(2)+
         '  DRIVE '+params.drive.toFixed(2),
@@ -200,4 +209,13 @@ window.__pmInstrumentFeed=({hands,zoneEvents,now,mode})=>{
 };
 // Disconnected sensor stream or headset exit must not leave a sustained note.
 window.addEventListener('pagehide',()=>{manualGate=false;synth.panic()});
-window.addEventListener('blur',()=>{manualGate=false});
+window.addEventListener('blur',()=>{manualGate=false;synth.release()});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){manualGate=false;mapper.reset();synth.panic();$('audio-start').textContent='RESUME AUDIO';updateAudioStatus();}
+});
+// A stopped render/sensor stream must release even before the finite phrase ends.
+setInterval(()=>{
+  if(lastFeedWall&&!staleReleased&&performance.now()-lastFeedWall>320){
+    staleReleased=true;manualGate=false;mapper.reset();synth.release();
+  }
+},160);
