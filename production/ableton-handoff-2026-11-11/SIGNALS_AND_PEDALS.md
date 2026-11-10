@@ -80,3 +80,14 @@ Parallel work is useful only with isolated ownership:
 - Integrator/reviewer: pin source commits, combine accepted branches, exercise one shared event and fallback, then assemble one review package. Do not mark success from individual workers' reports alone.
 
 The initial parallel outputs should be a real listening render, tested mapping/recovery behavior, and a visible original spatial scene. A task list is not any of those outputs. Do not block actual DAW production on speculative biosignal gear or another general framework.
+
+## Existing bridge preflight findings (source audit, not runtime reproduction)
+
+A parallel read-only audit reported the existing Hand Lab bridge already handles semantic performance gate/cutoff/resonance/wet/spread/energy/drive/hold messages, with stale input handling. Reuse the viable V2 performance-event route after checking current source rather than rebuilding transport.
+
+Reproduce these findings against the exact branch chosen for integration before claiming a fix:
+1. Legacy zone event construction may overwrite the transport type with ENTER/EXIT, while the bridge checks incompatible type conditions. Confirm actual serialized payload and route.
+2. Held TIMBRE_CHANGE input may retrigger after its cooldown because release re-arm is absent.
+3. Local audio mute may leave OSC output armed. Ensure latched panic disarms the entire performance route; neutral input and explicit re-arm are required before resuming.
+
+Ableton remains musical clock authority. Do not describe a browser timer as verified Link synchronization. Coordinate fixes with the current interaction worker; this document does not modify those modules or assert hardware tests passed.
