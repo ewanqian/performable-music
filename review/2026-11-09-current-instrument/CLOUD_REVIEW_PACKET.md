@@ -1,0 +1,27 @@
+# CURRENT / 向流 — actual instrument and90-second sound work
+
+- DATE (Asia/Shanghai):2026-11-09. P0:December3 CRITICAL FIELD.
+- SOURCE_REPO / BRANCH / COMMIT:ewanqian/performable-music; work/critical-field-t00-t01; see local distribution COMMIT.txt and this packet's Git history.
+- OPEN_CODE_SESSION_ID:unavailable; Codex local execution, no Qwen/OpenCode generation or paid AI used.
+- Unique objective:one original continuously varying electronic instrument and one90-second sound work. PR50's three music candidates are artist **REJECTED**; technical evidence retained. No new MIDI songs, fixed note sequence, bass loop, random variation, preset parade or additional audio tracks.
+- Sources/rights:original native Agent Synth graph/CV gestures and raw native recording. Agent Synth0.588.1 MIT, Tal (Diabl0269); same installed VST3 and Waveform14.1.24. No reference PCM, sampled source or third-party DSP source redistributed. Not the original The Agent Patch.
+- Changed files:studies/019-continuous-field-instrument/; this review directory; artist-rejection knowledge and review notes; study018 README now explicitly records REJECT. Existing audio/projects preserved.
+- Actual WAV:studies/019-continuous-field-instrument/outputs/final-06/CURRENT_90s.wav. Actual diagnostic excerpt:WEAKEST_CANDIDATE_29-41s.wav. Distribution:/Users/ewanqian/Downloads/CRITICAL_FIELD_CURRENT_INSTRUMENT_R2_2026-11-09/.
+- Actual source:outputs/take-06/RAW_CONTINUOUS_INSTRUMENT.wav; patches/CURRENT_LIVE_R2.json/.state; patches/CURRENT_PERFORMANCE_R2.json/.state; outputs/final-06/CURRENT_90s_EDITABLE.tracktionedit. One held key excites one native synth track. Four internal CV curves perform timbre/spatial gestures. This is **programmed parameter performance**, not human real-time recording.
+- Audio judgement:artist audition **PENDING**; model audition **NOT_PERFORMED**. No automatic artistic pass. Actual afplay command completes with exit0; acoustic monitoring remains NOT_TESTED.
+- At least three review timecodes:29–41s is the measurement-derived weakest candidate;52–56s establishes the near-field state;58–62s opens the spectrum, with measured pressure peak around59.8s;81.5s releases the key into the original envelope/space tail.
+- Weakest candidate evidence:final Waveform29–31 vs39–41s centroid989→1139Hz,2–8k power17.3%→20.6%,RMS+0.37dB. Controls rise but spectral development is restrained. This is not a claim of having heard the weakest passage.
+- Critical moment evidence:final52–56 vs58–62s centroid956→2074Hz;2–8k power15.0%→45.2%;RMS falls1.18dB. The change is not merely louder.120–500Hz power fraction still falls23.7%→10.7%; low-mid thinning remains a listening risk. Existing low oscillator rerouting improves30–120Hz retention; do not claim all low bands solved.
+- Technical results:90s,48kHz,stereo PCM24; finite,zero clipped samples; measured-19.9LUFS,true peak-10.1dBTP; mono-fold RMS difference-0.24dB; ending reaches zero. Normalization is constant gain only, not a dynamic climax master ramp.
+- Native tests:all authored parameters read back within tolerance, including Delay137ms,Reverb preDelay18ms,4x nonlinear processing and detune4.7cents. Actual native JSON reload and full-state fresh-instance reload both render nonzero and finite. Waveform loads the saved performance state and actually exports the90s file.
+- Failure/correction record:old study018 delay values used seconds where the engine expects milliseconds; new instrument corrects them. Precalibration native oscillator Octave was ineffective with external absolute-Hz CV; actual carrier×4 now uses Math Sum stages. Early amplitude graph mistakenly read Math Sum instead of Product; numeric CV tap exposed an envelope that would not close, and it was corrected before delivery. Early takes retained, excluded from audition. Pressure-dependent nonlinear makeup thinned the body; existing low oscillator is rerouted through its own same-envelope/motor path without pressure compensation.
+- Visual issues/three visual timecodes:**NOT_TESTED**, visual work paused; no invented capture.
+- Remove:all PR50 music from active candidates; preserve historical files. Do not deliver discarded early technical takes as additional works.
+- Metal/GPU p50,p95,p99/memory/20min soak:**NOT_TESTED this iteration**.
+- OSC addresses/timestamps/event IDs/loss/disconnect:**NOT_TESTED**, paused.
+- Shared Show Score Audio/Visual event.id:**NOT_TESTED**, paused; no new performance clock created.
+- AVP/Quest/foot/real EEG:all **NOT_TESTED**.
+- Limits:live macro GUI/hardware CC, full-work GUI reopen, real-time latency/soak, acoustic monitoring and cross-machine portability **NOT_TESTED**. The standalone ZIP downloaded; extraction and signature verification of the partial extraction failed, so it is not deployed/used. Existing VST3 remains the actual engine.
+- Commands:record.py --run take-06; export_waveform.py --take take-06 --out final-06; audit.py; actual Waveform argument list in EXPORT.json; actual EBU128 logs and state-reopen result accompany this packet.
+- KEEP/REVISE/REJECT:CURRENT **PENDING_ARTIST**. PR50 three pieces **REJECTED**. Technical success is not music acceptance.
+- Next one task:artist audio-only audition of CURRENT, with attention to29–41s and the approximately60s critical gesture.

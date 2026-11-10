@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/usr/bin/afplay",
+    "-v",
+    "0.15",
+    "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/019-continuous-field-instrument/outputs/final-06/CURRENT_90s.wav"
+  ],
+  "exit_code": 0,
+  "expected_file_seconds": 90,
+  "acoustic_monitoring": "NOT_TESTED",
+  "artist_audition": "PENDING",
+  "model_audition": "NOT_PERFORMED"
+}

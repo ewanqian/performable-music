@@ -1,0 +1,67 @@
+{
+  "format": {
+    "seconds": 90,
+    "sample_rate": 48000,
+    "channels": 2,
+    "subtype": "PCM_24"
+  },
+  "finite": "PASS",
+  "clipped_samples": 0,
+  "sample_peak_dbfs": -10.219860665340484,
+  "rms_dbfs": -23.530423343355437,
+  "stereo_correlation": 0.8951151748252536,
+  "mono_fold_rms_difference_db": -0.23513137809378762,
+  "end_100ms_peak": 0.0,
+  "before_critical": {
+    "seconds": [
+      52,
+      56
+    ],
+    "rms_dbfs": -22.97150963944503,
+    "power_centroid_hz": 956.3132152680874,
+    "low_30_500_fraction": 0.30808512146103323,
+    "lowmid_120_500_fraction": 0.23659572402523005,
+    "high_2000_8000_fraction": 0.14958646294703065
+  },
+  "critical": {
+    "seconds": [
+      58,
+      62
+    ],
+    "rms_dbfs": -24.152068481987232,
+    "power_centroid_hz": 2074.4424732206076,
+    "low_30_500_fraction": 0.22823815074216697,
+    "lowmid_120_500_fraction": 0.10685396627697542,
+    "high_2000_8000_fraction": 0.45247486003418336
+  },
+  "weakest_candidate_early": {
+    "seconds": [
+      29,
+      31
+    ],
+    "rms_dbfs": -22.646138335882398,
+    "power_centroid_hz": 988.6601848418902,
+    "low_30_500_fraction": 0.3287298746349415,
+    "lowmid_120_500_fraction": 0.21617678601684895,
+    "high_2000_8000_fraction": 0.17278654163649243
+  },
+  "weakest_candidate_late": {
+    "seconds": [
+      39,
+      41
+    ],
+    "rms_dbfs": -22.27385349037007,
+    "power_centroid_hz": 1139.0717437128521,
+    "low_30_500_fraction": 0.3151455595077985,
+    "lowmid_120_500_fraction": 0.20527586221998734,
+    "high_2000_8000_fraction": 0.2057688571099836
+  },
+  "weakest_candidate_seconds": [
+    29,
+    41
+  ],
+  "weakest_basis": "read-only critic: lowest central 12s spectral-change candidate, not human listening",
+  "artist_acceptance": "PENDING",
+  "model_audition": "NOT_PERFORMED",
+  "wav_sha256": "ed67a4a8e19a07451e5bf70e48dd814a6db67091a57335d803a09e5c4ef2c38c"
+}

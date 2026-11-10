@@ -1,0 +1,32 @@
+{
+  "source": "take-06 native continuous take",
+  "native_command": [
+    "/Applications/Waveform 14.app/Contents/MacOS/Waveform 14",
+    "render",
+    "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/019-continuous-field-instrument/outputs/final-06/CURRENT_90s_EDITABLE.tracktionedit",
+    "-o",
+    "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/019-continuous-field-instrument/outputs/final-06/CURRENT_90s.wav",
+    "--format",
+    "wav",
+    "--sample-rate",
+    "48000",
+    "--bit-depth",
+    "24",
+    "--channels",
+    "stereo",
+    "--start",
+    "0",
+    "--end",
+    "90",
+    "--no-tails",
+    "--json"
+  ],
+  "raw_lufs": -31.4,
+  "raw_true_peak": -20.9,
+  "static_master_change_db": 11.399999999999999,
+  "dynamic_master_gain": "NONE",
+  "tracks": 1,
+  "note_events": "one note-on and one note-off only",
+  "artistic_acceptance": "PENDING",
+  "model_audition": "NOT_PERFORMED"
+}
