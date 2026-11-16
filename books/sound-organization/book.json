@@ -1,0 +1,67 @@
+{
+  "title": "声音的组织",
+  "subtitle": "从聆听到实时演奏",
+  "description": "艺术家的创作经验与 Ableton Live 实践",
+  "edition": "R3 · 连续正文一稿",
+  "basis": "已确认的 R2 六组24章目录；保留主书、制作课程、工具查阅的分层。",
+  "parts": [
+    {"id":"I","title":"进入声音的世界","chapters":[
+      {"number":1,"title":"从一场演出开始","file":"manuscript/01-performance.md","status":"manuscript_draft"},
+      {"number":2,"title":"池田亮司：机器与身体之间","file":"manuscript/02-ikeda.md","status":"manuscript_draft"},
+      {"number":3,"title":"科隆、东京与穿越国界的声音","status":"outline_only"},
+      {"number":4,"title":"厂牌如何形成一种语言","status":"outline_only"},
+      {"number":5,"title":"舞台上的集体：Dumb Type","status":"outline_only"}
+    ]},
+    {"id":"II","title":"在作品中听见选择","chapters":[
+      {"number":6,"title":"Alva Noto：声音被复制之后","status":"outline_only"},
+      {"number":7,"title":"坂本龙一：钢琴以外的世界","status":"outline_only"},
+      {"number":8,"title":"柏大辅：让音乐自己讲故事","status":"outline_only"},
+      {"number":9,"title":"Robert Henke：为作品发明工具","file":"manuscript/09-henke.md","status":"manuscript_draft"}
+    ]},
+    {"id":"III","title":"用 Live 塑造材料","chapters":[
+      {"number":10,"title":"Ableton Live：一个可演奏的工作室","status":"outline_only"},
+      {"number":11,"title":"从一个声音到一片声场","status":"outline_only"},
+      {"number":12,"title":"让声音产生距离","status":"outline_only"},
+      {"number":13,"title":"重采样：让一次变化成为新材料","status":"outline_only"}
+    ]},
+    {"id":"IV","title":"把材料写成音乐","chapters":[
+      {"number":14,"title":"节奏、旋律与和声的作用","status":"outline_only"},
+      {"number":15,"title":"悬停、断裂与回返","status":"outline_only"},
+      {"number":16,"title":"混音：安排注意力与尺度","status":"outline_only"},
+      {"number":17,"title":"一件作品，几种呈现","status":"outline_only"}
+    ]},
+    {"id":"V","title":"让音乐发生在现场","chapters":[
+      {"number":18,"title":"Session View：开放音乐的行进方式","status":"outline_only"},
+      {"number":19,"title":"真锅大度：动作如何成为音乐决定","status":"outline_only"},
+      {"number":20,"title":"黑川良一：同时作曲的声音与影像","status":"outline_only"},
+      {"number":21,"title":"房间、观众与表演者","status":"outline_only"}
+    ]},
+    {"id":"VI","title":"形成持续的创作实践","chapters":[
+      {"number":22,"title":"Agent加入工作室之后","status":"outline_only"},
+      {"number":23,"title":"品味怎样变得具体","status":"outline_only"},
+      {"number":24,"title":"把创作放回生活与共同体","status":"outline_only"}
+    ]}
+  ],
+  "routes": [
+    {"title":"认识人物与场景","chapters":[1,2,3,4,5,7]},
+    {"title":"氛围与微声","chapters":[6,7,11,12,15,16]},
+    {"title":"准备实时演出","chapters":[10,17,18,19,21]},
+    {"title":"音画同源","chapters":[2,5,9,20,21]},
+    {"title":"Agent与个人语言","chapters":[22,13,16,23,24]}
+  ],
+  "courses": [
+    {"title":"基础补课","status":"planned","units":["声音怎样经过Live","音高、音量与时间","从滤波到包络","录音与保存"]},
+    {"title":"声音制作","status":"planned","units":["一份录音的几种身份","颗粒与连续声场","空间与后处理","处理顺序与并联"]},
+    {"title":"作曲与混音","status":"planned","units":["一句声音怎样继续","稀疏与密集","把层次混清楚","录音、短篇与版本"]},
+    {"title":"现场与视听","status":"planned","units":["Session演出工程","宏与控制权","共同事件","空间和连续演练"]}
+  ],
+  "media": {
+    "2": [
+      {"title":"datamatics [prototype-ver.2.0] · 2006–08","provider":"vimeo","id":"62242278","source":"https://www.ryojiikeda.com/project/datamatics/","note":"艺术家项目页所嵌的作品录像。含快速闪变，可跳过观看。"},
+      {"title":"BODY MUSIC [for duo] I, II, III, Op.4 · 2016（片段）","provider":"vimeo","id":"256060363","source":"https://www.ryojiikeda.com/project/music_percussion/","note":"艺术家项目页所嵌的演出片段；不是完整作品的替代版本。"}
+    ],
+    "9": [
+      {"title":"Robert Henke · Ableton Live、激光与限制","provider":"youtube","id":"8_EhTIxsOMQ","source":"https://www.youtube.com/watch?v=8_EhTIxsOMQ","note":"Red Bull Music Academy 公开讲座。正文不冒充对该录像的逐分钟分析。"}
+    ]
+  }
+}
