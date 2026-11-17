@@ -1,3 +1,11 @@
+# Current production entry · 2026-11-18
+
+Read [The Point · Mac 复苏 / Windows Renew](production/the-point-2026-12-04/README.md) and [LOCAL_AGENT_TASK.json](LOCAL_AGENT_TASK.json) first for current production. Main task: [#57](https://github.com/ewanqian/performable-music/issues/57). Mac continues the actual FUSU/Ableton source; Windows Renew continues the already-claimed asset and visual work and receives an immutable music package. Preserve local dirty work and existing owners; do not restart either task.
+
+The December 4 proposal is the current show context. The dated November 4 material below is retained as historical evidence, not this run's default 128 BPM, renderer, source track or 16-minute instruction. Historical experiments may still be read deliberately. Public/private boundaries and artist listening remain in force.
+
+---
+
 # LOCAL PROGRESS + AGENT HANDOFF — 2026-11-04
 
 Read [OpenCode handoff](research/agent-music/OPENCODE_HANDOFF_2026-11-04.md) for the latest tested progress and next bounded task. Waveform **14.1.24 is now installed**; Free entitlement/native save/reopen/export remain untested. Earlier absence reports below and in study audits are historical. Studies006/007 contain current original percussive A/B, finish trials and nine composition sketches. User finds promise but rough production; no final mix or performance approval. The earlier SC keyboard study is paused. Full show remains unverified.

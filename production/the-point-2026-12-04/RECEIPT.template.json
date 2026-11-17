@@ -1,0 +1,68 @@
+{
+  "template_version": "1.0",
+  "template_only": true,
+  "instruction": "Copy to an endpoint-owned receipt; fill from actual evidence. This is not a Show Score event or an uploaded package.",
+  "task_url": "https://github.com/ewanqian/performable-music/issues/57",
+  "terminal_role": null,
+  "operator_id": null,
+  "session_id": null,
+  "recorded_at": null,
+  "status": null,
+  "evidence_type": null,
+  "source": {
+    "work_id": null,
+    "display_name": null,
+    "source_id": null,
+    "revision": null,
+    "repository_commit": null,
+    "native_project_sha256": null,
+    "private_location_ref": null,
+    "music_credit": null
+  },
+  "package": {
+    "package_id": null,
+    "producer_role": null,
+    "manifest_sha256": null,
+    "storage_ref": null,
+    "visibility": null,
+    "rights_review": null,
+    "upload_status": null,
+    "files": []
+  },
+  "timebase": {
+    "audio_sample_rate_hz": null,
+    "audio_channels": null,
+    "audio_sample_zero_source_seconds": null,
+    "duration_seconds": null,
+    "midi_origin_audio_seconds": null,
+    "cue_origin_audio_seconds": null,
+    "tempo_map_ref": null,
+    "count_in_seconds": null,
+    "tail_seconds": null,
+    "session_transport_map_ref": null,
+    "render_fps": null,
+    "frame_start": null,
+    "render_start_music_seconds": null
+  },
+  "interfaces": [],
+  "receiving": {
+    "package_id": null,
+    "hashes_verified": null,
+    "actual_receiver_role": null,
+    "acknowledged_at": null,
+    "offline_sync_status": null,
+    "live_link_status": null,
+    "measured_offset_ms": null,
+    "measurement_method": null
+  },
+  "outputs": [],
+  "music_change_requests": [],
+  "artist_verdict": {
+    "verdict": null,
+    "artifact_sha256": null,
+    "timecoded_notes": []
+  },
+  "blockers": [],
+  "next_owner": null,
+  "next_action": null
+}
