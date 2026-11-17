@@ -1,0 +1,27 @@
+{
+  "edition": "R4",
+  "checked_at": "2026-11-17",
+  "scope": "本轮新增与重新核对的事实；沿用来源另见sources.json。此记录不进入人物正文。",
+  "sources": [
+    {"id":"icc","url":"https://www.ntticc.or.jp/en/exhibitions/2017/sakamoto-ryuichi-with-takatani-shiro-installation-music-2-is-your-time/","author":"NTT ICC","type":"institution_project","read":"full_page_text","supports":"作品年份、海啸钢琴来历、坂本/高谷合作、async的5.1装置语境","chapters":[1],"limits":"材料史、接受痕迹与灾难不应被浪漫化的分析是本书解释"},
+    {"id":"reich","url":"https://www.boosey.com/pages/cr/catalogue/cat_detail?musicid=548","author":"Steve Reich / Boosey & Hawkes","title":"Music for 18 Musicians — composer programme note","type":"composer_program_note","read":"composer_note","supports":"规则脉冲、呼吸时长、乐器提示与段落关系","chapters":[1],"limits":"不将作品写为自由即兴"},
+    {"id":"lucier","url":"https://www.moma.org/explore/inside_out/2015/01/20/collecting-alvin-luciers-i-am-sitting-in-a-room/","author":"Martha Joseph / MoMA","date":"2015-01-20","type":"institution_collection_essay","read":"full_page_text","supports":"1969作品的录音、播放、重录过程与房间共振","chapters":[1],"limits":"与日常试音的对照是本书解释"},
+    {"id":"em","url":"https://www.ensemble-modern.com/en/media/interviews/2024-01-17/t-s-not-a-machinery-a-conversation-with-ryoji-ikeda","author":"David Rittershaus / Ryoji Ikeda","date":"2024-01","type":"primary_interview","read":"full_interview_text","supports":"长桌谱面、相向行进、DJ与Dumb Type经历、身体与信任","chapters":[2],"limits":"首演前口述，不是本书作者现场见闻；自述不等于完整传记"},
+    {"id":"datamatics","url":"https://www.ryojiikeda.com/project/datamatics/","author":"Ryoji Ikeda","type":"artist_project","read":"series_and_prototype_version_text","supports":"硬盘错误/代码研究生成的二维图案、多层音轨与逐渐增加维度的安排、合作署名","chapters":[2],"limits":"未取得音轨；不推断机械硬盘声被直接播放，不给精确效果器识别"},
+    {"id":"testpattern","url":"https://www.ryojiikeda.com/project/testpattern/","author":"Ryoji Ikeda","type":"artist_project","read":"series_and_live_version_text","supports":"一般系列转换与音频驱动现场版本的区别","chapters":[2]},
+    {"id":"origins","url":"https://roberthenke.com/interviews/ableton.html","author":"Maya-Roisin Slater / Robert Henke / Gerhard Behles","date":"2016","type":"primary_interview","read":"full_interview_text","supports":"慕尼黑乐器店相识、柏林计算机课程重逢、相互增减材料的合作","chapters":[9],"limits":"回顾叙述；不虚构当日的情景和对白"},
+    {"id":"henke-bio","url":"https://roberthenke.com/interviews/bio.html","author":"Robert Henke","type":"artist_biography_cv","read":"bio_and_relevant_cv_entries","supports":"出生、学习/剧场/母带工作、Monolake1995/1999身份变化、Ralf Suckow合作","chapters":[9]},
+    {"id":"ableton","url":"https://roberthenke.com/technology/ableton_live.html","author":"Robert Henke","type":"artist_software_history","read":"full_page_text","supports":"Ableton公司创立者与Henke开发参与的区分","chapters":[9]},
+    {"id":"lumiere","url":"https://roberthenke.com/concerts/lumiere.html","author":"Robert Henke","type":"artist_project","read":"full_page_text","supports":"直接激光控制信号、共同事件、MIDI、作曲/即兴版本的取舍","chapters":[1,9],"limits":"共享层级的进一步比较属于本书分析"},
+    {"id":"kurokawa-bio","url":"https://www.ryoichikurokawa.com/bio.html","author":"Ryoichi Kurokawa","type":"artist_biography","read":"biography_text","supports":"1978出生、柏林、时间雕塑、现场录音/数字材料","chapters":[20]},
+    {"id":"unfold","url":"https://www.ryoichikurokawa.com/project/unfold.html","author":"Ryoichi Kurokawa","date":"2016","type":"artist_project","read":"full_project_text","supports":"8分钟循环、3通道HD、6.1环绕与触觉装置","chapters":[20],"media":{"provider":"vimeo","id":"160648305","provenance":"官方页面iframe链接"},"limits":"没有把片段或页面阅读写成现场聆听"},
+    {"id":"fact-unfold","url":"https://www.fact.co.uk/artwork/unfold-2016","author":"FACT","type":"commissioner_project","read":"project_text_and_credits","supports":"天体物理材料、Vincent Minier/CEA Irfu、Hiroshi Matoba及数据提供者署名","chapters":[20],"limits":"不把艺术映射写为宇宙声音的现场录音"},
+    {"id":"shape-nonotak","url":"https://shapeplatform.eu/artist/nonotak/","author":"SHAPE","type":"artist_platform_profile","read":"full_profile","supports":"Noemi Schipfer/Takami Nakamoto、2011年底成立、2013装置与Late Speculation","chapters":[20],"media":{"provider":"youtube","id":"Tbaft6u2Roo","provenance":"SHAPE页面SHIRO teaser链接"}},
+    {"id":"nonotak-interview","url":"https://derivative.ca/community-post/nonotak/66933","author":"Derivative / Noemi Schipfer / Takami Nakamoto","type":"primary_interview","read":"substantial_indexed_interview_excerpt; direct_open_timeout","supports":"缩小模型、Ableton声音与视觉状态、MIDI连接、共同叙事、TouchDesigner与ECLIPSE单屏条件","chapters":[20],"limits":"访谈所述项目，不是2026全部演出设备；照片署名不等于转载许可"},
+    {"id":"tdableton","url":"https://derivative.ca/UserGuide/TDAbleton","author":"Derivative","type":"official_documentation","read":"indexed_official_sections","supports":"Live状态、MIDI与参数访问，Remote Scripts/Max for Live机制","chapters":[20],"limits":"未执行Live/TD集成，不声称本轮工程可运行"},
+    {"id":"tdableton-events","url":"https://derivative.ca/UserGuide/TDAbleton_System_Components","author":"Derivative","type":"official_documentation","read":"abletonMIDI_sections","supports":"MIDI事件速率与帧采样的区别、事件回调","chapters":[],"usage":"仅制作课程编务方案"},
+    {"id":"isaacson","url":"https://www.neh.gov/humanities/2014/mayjune/conversation/venn-diagram-walter-isaacson","author":"NEH / Walter Isaacson","date":"2014","type":"primary_interview","read":"interview_sections","supports":"叙述、让读者判断、跨领域合作的传记方法讨论","chapters":[],"usage":"编辑方法参照，不模仿其文字或加入虚构情景"}
+  ],
+  "interpretation_policy": "正文中的作曲与媒介关系分析属于本书解释；实际见闻、引语与私人动机不虚构。",
+  "media_policy": "仅官方或项目方确认的外部播放入口，按需加载，无下载/再分发原音轨。许可页与照片像素检查分别记账。"
+}
