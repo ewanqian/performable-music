@@ -1,0 +1,22 @@
+name: Book source snapshot
+on:
+  push:
+    branches: [book/release-six-parts-v1]
+    paths:
+      - books/sound-organization/**
+      - .github/workflows/book-source-snapshot.yml
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify book source directory
+        run: test -d books/sound-organization/release/manuscript
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sound-organization-source
+          path: books/sound-organization/
+          if-no-files-found: error
+          retention-days: 7
