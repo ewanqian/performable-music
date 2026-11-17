@@ -13,14 +13,14 @@
   "handoff": "production/the-point-2026-12-04/README.md",
   "interface_contract": "production/the-point-2026-12-04/HANDOFF_CONTRACT.md",
   "receipt_template": "production/the-point-2026-12-04/RECEIPT.template.json",
-  "current_goal": "Audition at most four candidates including FUSU; prioritize expressive piano/electronics, sustained atmosphere and low-frequency weight. Deepen two accepted systems and prove performer-led timing with two takes using the same material.",
-  "first_action": "Preserve the active Mac source and owners; collect current FUSU and reported R0/V1 media, then prioritize M3 piano dry/electronic comparison with complete phrasing. Use existing suitable FUSU piano material if present; do not substitute AMB or restart rejected audio.",
+  "current_goal": "Develop the performable FUSU album/live version through sustained atmosphere, expressive piano/electronics and low-frequency weight. Revise one passage at a time; four candidates/two systems are first-round work ceilings, never completion quotas or a final track count. No required new direction.",
+  "first_action": "Preserve the active Mac FUSU source and owners; collect current source/media and link the three screenshot-reported Renew studies to actual versions. Prioritize one piano dry/electronic comparison with complete phrasing. Use existing suitable material if present; do not regenerate a batch, substitute AMB or restart rejected audio.",
   "priority": [
     "M0/R0 source and audition first; reuse an existing candidate rather than duplicating it.",
     "M3: expressive piano with electronics is an explicit audition requirement. Preserve touch, voicing, phrasing and natural releases; distinguish recorded performance from programmed MIDI.",
-    "M0 or M1: test low-frequency weight and sustained time using sparse material; M2 fills an actual texture/space gap only. Four total slots maximum, two to deepen.",
+    "M0 or M1: test low-frequency weight and sustained time using sparse material; M2 fills an actual texture/space gap only. Four candidates/two deepened systems are ceilings. Work on one revision at a time; no mandatory new direction.",
     "Prove one continuous dimension and intervention/release; add NEXT only for selected systems. Free-time passages use musical cues, not forced bar boundaries. Record two audibly different takes from the same material.",
-    "Windows continues existing V1/V2/V3 limits and consumes immutable Mac packages. Aim for a natural 4–6 minute paired performance proof, then develop the full proposed slot after real acceptance."
+    "Windows preserves its existing independent Renew studies and visual work, consumes immutable Mac packages, and prioritizes V1. V2/V3 remain conditional on musical need. Prove performer-led timing with accepted material, even one source initially; develop the full proposed slot only after real acceptance."
   ],
   "owners": {
     "mac_music": {
@@ -51,7 +51,19 @@
         "Blender project reopen and three lighting states",
         "15s offline audiovisual preview using motion-joint proxy"
       ],
-      "independent_media_review": "NOT_PERFORMED"
+      "independent_media_review": "NOT_PERFORMED",
+      "additional_music_studies": {
+        "evidence_type": "USER_SUPPLIED_SCREENSHOT",
+        "titles": [
+          "错拍走廊 / Offset Corridor",
+          "余像井 / Afterimage Well",
+          "异步门 / Asynchronous Gate"
+        ],
+        "source_version_status": "SOURCE_VERSION_PENDING",
+        "current_artistic_status": "CURRENT_DIRECTION_NOT_ACCEPTED",
+        "independent_audio_review": "NOT_PERFORMED",
+        "relationship_to_mac_fusu": "Independent studies; not automatically M1/M2/M3 and not evidence of edits to the active Mac FUSU source"
+      }
     },
     "cloud_coordination": {
       "role": "routing / interfaces / evidence reconciliation",
@@ -110,7 +122,7 @@
   "deliverables": [
     "Current FUSU and reported Drop Flow/stone outputs available for actual review with exact source versions",
     "M3 piano dry/electronic comparison with natural phrasing; M0/M1 sustained weight proof, with audition suggestions rather than forced short full forms",
-    "At most two accepted playable systems, one selected visual, and a natural transition",
+    "Accepted playable material, initially one passage; at most two systems to deepen in the first round. One selected visual and a natural transition when multiple sections are ready.",
     "Two takes from the same material with different dwell/release decisions; exact music-package versions, real control logs and artist verdicts",
     "Full-set rehearsal and album master remain separately pending"
   ],
@@ -123,7 +135,9 @@
     "No mandatory 45–60 second beginning/development/ending template; natural phrases and long listening determine excerpt duration.",
     "No post-rock crescendo template, toy-like automatic motifs or unrelated instrumental virtuosity.",
     "Violin is a conditional source within existing candidate slots, not a fifth candidate or a replacement for the piano requirement.",
-    "New expressive-piano and sustained-time direction overrides legacy groove-first and fixed-form prompts; no artist approval may be inferred from this document."
+    "New expressive-piano and sustained-time direction overrides legacy groove-first and fixed-form prompts; no artist approval may be inferred from this document.",
+    "Candidate/system counts are first-round work ceilings, not mandatory style quotas or final album track count; revise one passage at a time.",
+    "Existing independent Renew studies are preserved by their current owner; selected material is handed to Mac as a frozen package, never a second writer to the active FUSU set."
   ],
   "legacy_task_ref": "https://github.com/ewanqian/performable-music/blob/3b550984e4e4fac97959535959d07e15dd2267c4/LOCAL_AGENT_TASK.json",
   "note": "This file routes existing work. It does not launch agents, transfer files, or prove real-time connectivity.",
@@ -133,13 +147,16 @@
     "includes_existing_fusu": true,
     "existing_drop_flow_may_fill_one_slot": true,
     "selected_music_to_deepen": 2,
-    "minimum_selected_new_directions": 1,
+    "minimum_selected_new_directions": 0,
     "visual_experiments": 3,
     "selected_main_visuals": 1,
     "initial_control_functions": 2,
     "maximum_final_control_functions": 3,
     "v3_experiment_minutes_maximum": 45,
-    "selection_status": "PENDING_ARTIST_AUDITION_OF_REVISED_DIRECTION"
+    "selection_status": "PENDING_ARTIST_AUDITION_OF_REVISED_DIRECTION",
+    "limits_are_upper_bounds_not_acceptance_gates": true,
+    "concurrent_music_revisions": 1,
+    "final_album_track_count": null
   },
   "musical_direction": "production/the-point-2026-12-04/MUSICAL_DIRECTION.md",
   "audition_windows_seconds": {
