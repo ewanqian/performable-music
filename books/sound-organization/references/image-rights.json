@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-11-17",
+  "embedded_images": [],
+  "decision": "两张许可页核实，但原件下载失败，未完成图像本身检查；本轮不嵌入。不用未授权官方照片补位。",
+  "candidates": [
+    {
+      "title": "Monodeck II Warmth — Dorkbot Melbourne 14.2",
+      "source": "https://commons.wikimedia.org/wiki/File:Monodeck_II_Warmth_-_Dorkbot_Melbourne_14.2.jpg",
+      "author": "Javier Candeira",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "date": "2008-01-31",
+      "role": "第09章控制表面、界面与演奏关系",
+      "license_page_verified": true,
+      "pixels_reviewed": false,
+      "included": false,
+      "limits": "640×480；未实看像素。原描述带猜测，不能称为正式演出现场。若采用需署名、许可链接及改动说明。"
+    },
+    {
+      "title": "Robert henke INAGRM 01",
+      "source": "https://commons.wikimedia.org/wiki/File:Robert_henke_INAGRM_01.jpg",
+      "author": "Sarah Martinus",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "caption_date": "2010-12-11",
+      "role": "第09章声音在演出空间中的呈现",
+      "license_page_verified": true,
+      "pixels_reviewed": false,
+      "included": false,
+      "limits": "上传时间与拍摄/演出时间分开。未实看原图，暂不采用。"
+    }
+  ],
+  "excluded": [
+    {"type":"Ikeda/NONOTAK/Kurokawa官方作品照","reason":"已有摄影署名或press入口，但未发现明确适用的自由转载许可；仅链接原站"},
+    {"type":"Monodeck2.jpg","reason":"GFDL-only；本轮不采用，不称无版权"}
+  ]
+}

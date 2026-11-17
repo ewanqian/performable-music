@@ -1,0 +1,12 @@
+site/
+__pycache__/
+*.pyc
+.local/
+exports/
+*.als
+*.alp
+*.wav
+*.aif
+*.aiff
+*.mp3
+.DS_Store
