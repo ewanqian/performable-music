@@ -8,19 +8,19 @@
     "end": "21:30",
     "status": "USER_SUPPLIED_PROPOSAL_FINAL_VENUE_CONFIRMATION_PENDING"
   },
-  "status": "DEMO_PLAN_READY_LOCAL_OFFLINE_PREVIEW_REPORTED",
+  "status": "MUSICAL_DIRECTION_REVISED_MEDIA_AUDITION_PENDING",
   "task_url": "https://github.com/ewanqian/performable-music/issues/57",
   "handoff": "production/the-point-2026-12-04/README.md",
   "interface_contract": "production/the-point-2026-12-04/HANDOFF_CONTRACT.md",
   "receipt_template": "production/the-point-2026-12-04/RECEIPT.template.json",
-  "current_goal": "Compare at most four music candidates including FUSU; deepen two, at least one new direction; select one shared visual and record both 60–90s sections plus one 15–30s transition.",
-  "first_action": "Mac supplies the current FUSU excerpt; Windows supplies the reported Drop Flow 70.3s audio and existing 15s preview. Audition/review existing outputs before duplicating work, then follow DEMO_PLAN.md.",
+  "current_goal": "Audition at most four candidates including FUSU; prioritize expressive piano/electronics, sustained atmosphere and low-frequency weight. Deepen two accepted systems and prove performer-led timing with two takes using the same material.",
+  "first_action": "Preserve the active Mac source and owners; collect current FUSU and reported R0/V1 media, then prioritize M3 piano dry/electronic comparison with complete phrasing. Use existing suitable FUSU piano material if present; do not substitute AMB or restart rejected audio.",
   "priority": [
-    "M0 baseline and R0 existing Drop Flow audition first; reuse R0 in a candidate slot if the artist finds it suitable.",
-    "Mac alone develops up to three contrasting short music directions: percussive dialogue, granular space, motif/harmonic return. Four total slots maximum, not four complete live systems.",
-    "Artist selects two with at least one new direction. Prove one continuous control plus hold/release, then optionally add NEXT using the existing interface.",
-    "Windows incrementally reviews V1 existing stone/light preview, tests one V2 spatial HUD layer, and limits V3 existing motion-proxy residue to one 45-minute experiment.",
-    "Deliver one continuous version-matched audiovisual demonstration, naturally about 2m15s–3m30s including a transition; expand only after listening, control and visual acceptance."
+    "M0/R0 source and audition first; reuse an existing candidate rather than duplicating it.",
+    "M3: expressive piano with electronics is an explicit audition requirement. Preserve touch, voicing, phrasing and natural releases; distinguish recorded performance from programmed MIDI.",
+    "M0 or M1: test low-frequency weight and sustained time using sparse material; M2 fills an actual texture/space gap only. Four total slots maximum, two to deepen.",
+    "Prove one continuous dimension and intervention/release; add NEXT only for selected systems. Free-time passages use musical cues, not forced bar boundaries. Record two audibly different takes from the same material.",
+    "Windows continues existing V1/V2/V3 limits and consumes immutable Mac packages. Aim for a natural 4–6 minute paired performance proof, then develop the full proposed slot after real acceptance."
   ],
   "owners": {
     "mac_music": {
@@ -108,17 +108,22 @@
     }
   ],
   "deliverables": [
-    "Existing FUSU excerpt and reported Drop Flow/stone media available for review",
-    "Up to four distinct short music candidates with source and one-sentence differences",
-    "Two selected 60–90s playable sections and one selected visual system",
-    "One 15–30s transition and continuous capture, exact music-package versions, real control and artist verdicts"
+    "Current FUSU and reported Drop Flow/stone outputs available for actual review with exact source versions",
+    "M3 piano dry/electronic comparison with natural phrasing; M0/M1 sustained weight proof, with audition suggestions rather than forced short full forms",
+    "At most two accepted playable systems, one selected visual, and a natural transition",
+    "Two takes from the same material with different dwell/release decisions; exact music-package versions, real control logs and artist verdicts",
+    "Full-set rehearsal and album master remain separately pending"
   ],
   "constraints": [
     "One writer per active DAW set; Windows never modifies Mac active .als.",
     "Do not assume Awakening, Renew, Reawakening and AMB are identical files.",
     "No default 100/128 BPM, no auto-restart of rejected CURRENT or old generation batches.",
     "Do not overwrite Windows working branch or uncommitted local work.",
-    "Private/client/licensed assets and raw local paths do not enter public Git."
+    "Private/client/licensed assets and raw local paths do not enter public Git.",
+    "No mandatory 45–60 second beginning/development/ending template; natural phrases and long listening determine excerpt duration.",
+    "No post-rock crescendo template, toy-like automatic motifs or unrelated instrumental virtuosity.",
+    "Violin is a conditional source within existing candidate slots, not a fifth candidate or a replacement for the piano requirement.",
+    "New expressive-piano and sustained-time direction overrides legacy groove-first and fixed-form prompts; no artist approval may be inferred from this document."
   ],
   "legacy_task_ref": "https://github.com/ewanqian/performable-music/blob/3b550984e4e4fac97959535959d07e15dd2267c4/LOCAL_AGENT_TASK.json",
   "note": "This file routes existing work. It does not launch agents, transfer files, or prove real-time connectivity.",
@@ -134,6 +139,26 @@
     "initial_control_functions": 2,
     "maximum_final_control_functions": 3,
     "v3_experiment_minutes_maximum": 45,
-    "selection_status": "PENDING_ARTIST"
+    "selection_status": "PENDING_ARTIST_AUDITION_OF_REVISED_DIRECTION"
+  },
+  "musical_direction": "production/the-point-2026-12-04/MUSICAL_DIRECTION.md",
+  "audition_windows_seconds": {
+    "piano_m3": [
+      90,
+      150
+    ],
+    "weight_m0_or_m1": [
+      120,
+      180
+    ],
+    "note": "Suggested listening windows only; retain natural phrasing and report actual duration."
+  },
+  "performance_proof_minutes": {
+    "suggested": [
+      4,
+      6
+    ],
+    "takes": 2,
+    "note": "Same selected material, different performer-led dwell/release; not additional compositions or completed work."
   }
 }
