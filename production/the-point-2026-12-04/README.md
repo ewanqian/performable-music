@@ -1,5 +1,7 @@
 # The Point · 2026-12-04 · 双机制作入口
 
+**Mac实际制作回执 · 11/18** 已完成M3两分钟钢琴裸声／电子对照和原生导出核对，M0两分半重量试听与派生ALS已备。M0原生复验、艺术家采用与现场联调待完成。[查看本机制作证据与待办](receipts/mac-awakening-20261118.md)
+
 更新：2026-11-18，Asia/Shanghai。主任务沿用 [Performable Music #57](https://github.com/ewanqian/performable-music/issues/57)。
 
 **Performable Music 负责音乐、接口和交接；Mac 负责复苏编曲；Windows Renew 负责历史资产查找、视觉加工、渲染与上传准备。**
