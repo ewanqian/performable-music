@@ -8,18 +8,19 @@
     "end": "21:30",
     "status": "USER_SUPPLIED_PROPOSAL_FINAL_VENUE_CONFIRMATION_PENDING"
   },
-  "status": "COORDINATION_ACTIVE_MACHINE_RECEIPTS_PENDING",
+  "status": "DEMO_PLAN_READY_LOCAL_OFFLINE_PREVIEW_REPORTED",
   "task_url": "https://github.com/ewanqian/performable-music/issues/57",
   "handoff": "production/the-point-2026-12-04/README.md",
   "interface_contract": "production/the-point-2026-12-04/HANDOFF_CONTRACT.md",
   "receipt_template": "production/the-point-2026-12-04/RECEIPT.template.json",
-  "current_goal": "Continue Mac FUSU music and already-claimed Windows Renew asset/visual work, exchange one frozen music package and one version-matched 15–30s audiovisual proof.",
-  "first_action": "Read current routing; preserve active owners and dirty work. Report actual source/version and next handoff. Do not launch a duplicate producer.",
+  "current_goal": "Compare at most four music candidates including FUSU; deepen two, at least one new direction; select one shared visual and record both 60–90s sections plus one 15–30s transition.",
+  "first_action": "Mac supplies the current FUSU excerpt; Windows supplies the reported Drop Flow 70.3s audio and existing 15s preview. Audition/review existing outputs before duplicating work, then follow DEMO_PLAN.md.",
   "priority": [
-    "Mac: inspect the actual FUSU set and active DAW owner, continue that source, export a versioned music package.",
-    "Windows Renew: continue existing asset recovery and visual processing; FUSU source is on Mac, not a Windows search blocker.",
-    "Use existing Show Score v2/adapters. Record actual endpoint configuration, common time origin and package ACK.",
-    "Return one audible music excerpt and a short visual proof with exact consumed version; artist listening decides acceptance."
+    "M0 baseline and R0 existing Drop Flow audition first; reuse R0 in a candidate slot if the artist finds it suitable.",
+    "Mac alone develops up to three contrasting short music directions: percussive dialogue, granular space, motif/harmonic return. Four total slots maximum, not four complete live systems.",
+    "Artist selects two with at least one new direction. Prove one continuous control plus hold/release, then optionally add NEXT using the existing interface.",
+    "Windows incrementally reviews V1 existing stone/light preview, tests one V2 spatial HUD layer, and limits V3 existing motion-proxy residue to one 45-minute experiment.",
+    "Deliver one continuous version-matched audiovisual demonstration, naturally about 2m15s–3m30s including a transition; expand only after listening, control and visual acceptance."
   ],
   "owners": {
     "mac_music": {
@@ -36,12 +37,21 @@
     "windows_renew": {
       "role": "asset recovery / visual processing / render / upload preparation",
       "work_label": "Renew",
-      "status": "IN_PROGRESS_USER_REPORTED",
-      "evidence": "User confirms Windows Codex already claimed and is working",
-      "machine_receipt": "PENDING",
+      "status": "LOCAL_OFFLINE_PREVIEW_VERIFIED",
+      "evidence": "Committed local-agent execution report, not independent cloud audio/video review",
+      "machine_receipt": "COMMITTED_REPORT_AVAILABLE_MEDIA_DELIVERY_PENDING",
       "session_id": null,
       "music_dependency": "WAITING_FOR_MAC_PACKAGE",
-      "execution_issue": "https://github.com/ewanqian/atmospheric-escape-liveset/issues/13"
+      "execution_issue": "https://github.com/ewanqian/atmospheric-escape-liveset/issues/13",
+      "evidence_type": "LOCAL_AGENT_REPORT",
+      "evidence_url": "https://github.com/ewanqian/atmospheric-escape-liveset/blob/a89ccc4c2250c65e4881e8aeba8a8820aa3ded2f/experiments/entropy-spatial-3d/awakening-light-instrument-20261117/LOCAL_AGENT_PROMPT.md",
+      "reported_outputs": [
+        "70.3s Drop Flow rearrangement and source edits",
+        "estimated-transient MIDI, not actual Mac DAW MIDI",
+        "Blender project reopen and three lighting states",
+        "15s offline audiovisual preview using motion-joint proxy"
+      ],
+      "independent_media_review": "NOT_PERFORMED"
     },
     "cloud_coordination": {
       "role": "routing / interfaces / evidence reconciliation",
@@ -98,10 +108,10 @@
     }
   ],
   "deliverables": [
-    "Mac source/version receipt and frozen audio/MIDI-or-cue package",
-    "Windows received-package ACK and asset inventory",
-    "Version-matched main still and 15–30s visual/sync proof",
-    "Actual upload/receipt status, missing items and next owner"
+    "Existing FUSU excerpt and reported Drop Flow/stone media available for review",
+    "Up to four distinct short music candidates with source and one-sentence differences",
+    "Two selected 60–90s playable sections and one selected visual system",
+    "One 15–30s transition and continuous capture, exact music-package versions, real control and artist verdicts"
   ],
   "constraints": [
     "One writer per active DAW set; Windows never modifies Mac active .als.",
@@ -111,5 +121,19 @@
     "Private/client/licensed assets and raw local paths do not enter public Git."
   ],
   "legacy_task_ref": "https://github.com/ewanqian/performable-music/blob/3b550984e4e4fac97959535959d07e15dd2267c4/LOCAL_AGENT_TASK.json",
-  "note": "This file routes existing work. It does not launch agents, transfer files, or prove real-time connectivity."
+  "note": "This file routes existing work. It does not launch agents, transfer files, or prove real-time connectivity.",
+  "demo_plan": "production/the-point-2026-12-04/DEMO_PLAN.md",
+  "demo_limits": {
+    "music_candidate_slots": 4,
+    "includes_existing_fusu": true,
+    "existing_drop_flow_may_fill_one_slot": true,
+    "selected_music_to_deepen": 2,
+    "minimum_selected_new_directions": 1,
+    "visual_experiments": 3,
+    "selected_main_visuals": 1,
+    "initial_control_functions": 2,
+    "maximum_final_control_functions": 3,
+    "v3_experiment_minutes_maximum": 45,
+    "selection_status": "PENDING_ARTIST"
+  }
 }
