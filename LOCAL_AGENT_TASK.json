@@ -1,70 +1,115 @@
 {
-  "project": "Performable Music / Critical Field",
-  "date": "2026-11-04",
-  "show_target": "2026-12-03",
-  "status": "P0_NATIVE_DAW_VERIFICATION_AND_ONE_EXCERPT_FINISH",
-  "current_goal": "60–90s distinctive original sound + audible structural tension + 1 foot/button event driving audio and visual from same Show Score",
+  "project": "Performable Music / The Point 2026-12-04",
+  "date": "2026-11-18",
+  "timezone": "Asia/Shanghai",
+  "show_target": "2026-12-04",
+  "show_slot": {
+    "start": "21:00",
+    "end": "21:30",
+    "status": "USER_SUPPLIED_PROPOSAL_FINAL_VENUE_CONFIRMATION_PENDING"
+  },
+  "status": "COORDINATION_ACTIVE_MACHINE_RECEIPTS_PENDING",
+  "task_url": "https://github.com/ewanqian/performable-music/issues/57",
+  "handoff": "production/the-point-2026-12-04/README.md",
+  "interface_contract": "production/the-point-2026-12-04/HANDOFF_CONTRACT.md",
+  "receipt_template": "production/the-point-2026-12-04/RECEIPT.template.json",
+  "current_goal": "Continue Mac FUSU music and already-claimed Windows Renew asset/visual work, exchange one frozen music package and one version-matched 15–30s audiovisual proof.",
+  "first_action": "Read current routing; preserve active owners and dirty work. Report actual source/version and next handoff. Do not launch a duplicate producer.",
   "priority": [
-    "read START_HERE_FOR_LOCAL_CODEX.md",
-    "stop expanding soft-piano MIDI material",
-    "run render.py to regenerate original reference stems and score",
-    "listen critically and produce A/B revision of suspension->override",
-    "prove one same-event SC audio and WebGL/Jitter visual reaction",
-    "test disconnect and independent manual kill"
+    "Mac: inspect the actual FUSU set and active DAW owner, continue that source, export a versioned music package.",
+    "Windows Renew: continue existing asset recovery and visual processing; FUSU source is on Mac, not a Windows search blocker.",
+    "Use existing Show Score v2/adapters. Record actual endpoint configuration, common time origin and package ACK.",
+    "Return one audible music excerpt and a short visual proof with exact consumed version; artist listening decides acceptance."
   ],
-  "do_not_claim": [
-    "16-minute show finished",
-    "multichannel spatial audio tested",
-    "AVP input connected",
-    "user wav uploaded publicly",
-    "audio quality passed"
-  ],
-  "local_files_required": [
-    "Listening_Y personally supplied on user's machine (do not commit publicly)",
-    "SuperCollider installation/version",
-    "Live/Max versions if used"
-  ],
-  "deliverables": [
-    "A.wav",
-    "B.wav",
-    "audio_visual_event_demo",
-    "cue/score log",
-    "audit with timestamps and real test results"
-  ],
-  "audition_gate": "User must hear and choose; no musical self-scoring by agents",
-  "full_show_outline": [
+  "owners": {
+    "mac_music": {
+      "role": "DAW owner",
+      "work_label": "复苏 / FUSU",
+      "source_location": "Mac",
+      "status": "SOURCE_HOST_CONFIRMED_BY_USER",
+      "task_receipt": "PENDING",
+      "evidence": "User statement 2026-11-18",
+      "session_id": null,
+      "active_set_source_id": null,
+      "active_package_id": null
+    },
+    "windows_renew": {
+      "role": "asset recovery / visual processing / render / upload preparation",
+      "work_label": "Renew",
+      "status": "IN_PROGRESS_USER_REPORTED",
+      "evidence": "User confirms Windows Codex already claimed and is working",
+      "machine_receipt": "PENDING",
+      "session_id": null,
+      "music_dependency": "WAITING_FOR_MAC_PACKAGE",
+      "execution_issue": "https://github.com/ewanqian/atmospheric-escape-liveset/issues/13"
+    },
+    "cloud_coordination": {
+      "role": "routing / interfaces / evidence reconciliation",
+      "cannot_claim": [
+        "local disk access",
+        "actual DAW or Blender execution",
+        "real-time connection from documentation"
+      ]
+    }
+  },
+  "data_contract": "protocols/show-score-v2.schema.json",
+  "interfaces": [
     {
-      "act": "INITIAL_CONDITION",
-      "minutes": "0-3"
+      "id": "music-package",
+      "authority": "mac_music",
+      "consumer": "windows_renew",
+      "definition": "production/the-point-2026-12-04/HANDOFF_CONTRACT.md",
+      "status": "DEFINED_AWAITING_REAL_PACKAGE"
     },
     {
-      "act": "FIELD",
-      "minutes": "3-7"
+      "id": "show-score",
+      "authority": "actual music transport and authorized cue operator",
+      "consumer": "existing adapters and visual runtime",
+      "definition": "protocols/README-show-score.md",
+      "status": "EXISTING_SCHEMA_THIS_RUN_UNVERIFIED"
     },
     {
-      "act": "OVERRIDE",
-      "minutes": "7-12"
+      "id": "midi-cc",
+      "authority": "actual Mac DAW output",
+      "consumer": "existing adapter",
+      "definition": "production/the-point-2026-12-04/HANDOFF_CONTRACT.md",
+      "status": "AWAITING_LOCAL_MAPPING"
     },
     {
-      "act": "AFTERIMAGE",
-      "minutes": "12-16"
+      "id": "audio-analysis",
+      "authority": "measured or recorded source",
+      "consumer": "bounded visual parameters",
+      "definition": "protocols/linkosc-stage-adapter-2026-11-09.md",
+      "status": "ADAPTER_DESIGN_NOT_THIS_RUN_VERIFIED"
+    },
+    {
+      "id": "xr-and-manual-input",
+      "authority": "existing input terminal",
+      "consumer": "existing music/visual adapters",
+      "definition": "https://github.com/ewanqian/xr-works",
+      "status": "EXISTING_PROJECT_THIS_RUN_UNVERIFIED"
+    },
+    {
+      "id": "visual-hud-motion",
+      "authority": "windows_renew",
+      "consumer": "private scene/runtime",
+      "definition": "https://github.com/ewanqian/atmospheric-escape-liveset/issues/13",
+      "status": "TASK_IN_PROGRESS_USER_REPORTED_OUTPUTS_PENDING"
     }
   ],
-  "data_contract": "protocols/show-score-v1.schema.json",
-  "reference_renderer": "performances/2026-12-03-phase-01/pressure-test-001/render.py",
-  "updated_at": "2026-11-04",
-  "production_stack_decision": "Use legally authorized existing Ableton if save/export works; otherwise Waveform Free 14 (zero-cost DAW). Surge XT for synth, plugdata for modular live DSP, optional Supermassive for space, and SuperCollider only for unique scripted synth/stems, not blanket music production.",
-  "selection_doc": "research/agent-music/PRODUCTION_STACK_DECISION_2026-11-04.md",
-  "first_action": "Read handoff, preserve work, verify installed Waveform Free edition and native save/reopen/export using NEW edit; refine one existing excerpt and provide level-matched audition.",
-  "private_listening_evidence": "User-uploaded 26.04 s groove-focused original audio clip: tactile pitched percussion, metallic accents and negative space. Not in public repo. No final quality verdict.",
-  "no_cost_constraint": "No purchased plugins or license bypass; REAPER is only 60-day fully functional evaluation, not permanent free baseline.",
-  "handoff": "research/agent-music/OPENCODE_HANDOFF_2026-11-04.md",
-  "latest_local_inventory": {
-    "Waveform": "14.1.24 installed",
-    "Free_entitlement": "NOT TESTED",
-    "native_save_reopen_export": "NOT RUN",
-    "Surge_XT": "1.3.4 actual VST3 rendered",
-    "plugdata": "0.9.3 actual DSP tested"
-  },
-  "human_feedback": "Promising percussive direction, production still rough; no specific A/B selection or show approval"
+  "deliverables": [
+    "Mac source/version receipt and frozen audio/MIDI-or-cue package",
+    "Windows received-package ACK and asset inventory",
+    "Version-matched main still and 15–30s visual/sync proof",
+    "Actual upload/receipt status, missing items and next owner"
+  ],
+  "constraints": [
+    "One writer per active DAW set; Windows never modifies Mac active .als.",
+    "Do not assume Awakening, Renew, Reawakening and AMB are identical files.",
+    "No default 100/128 BPM, no auto-restart of rejected CURRENT or old generation batches.",
+    "Do not overwrite Windows working branch or uncommitted local work.",
+    "Private/client/licensed assets and raw local paths do not enter public Git."
+  ],
+  "legacy_task_ref": "https://github.com/ewanqian/performable-music/blob/3b550984e4e4fac97959535959d07e15dd2267c4/LOCAL_AGENT_TASK.json",
+  "note": "This file routes existing work. It does not launch agents, transfer files, or prove real-time connectivity."
 }
