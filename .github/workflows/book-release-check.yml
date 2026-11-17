@@ -1,0 +1,35 @@
+name: Check Sound Organization Book
+on:
+  push:
+    branches: [book/release-six-parts-v1, book/two-part-integration]
+    paths:
+      - books/sound-organization/**
+      - .github/workflows/book-release-check.yml
+  pull_request:
+    paths:
+      - books/sound-organization/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: book-check-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build and validate available publication source
+        run: |
+          if [ -f books/sound-organization/release/build.py ]; then
+            python books/sound-organization/release/build.py
+            python books/sound-organization/release/check.py
+          else
+            python -c "from pathlib import Path; p=Path('books/sound-organization/release/manuscript'); assert len(list(p.glob('*.md'))) >= 1"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sound-organization-source-${{ github.sha }}
+          path: books/sound-organization/
+          retention-days: 7
