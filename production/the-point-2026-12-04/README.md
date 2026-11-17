@@ -4,11 +4,13 @@
 
 **Performable Music 负责音乐、接口和交接；Mac 负责复苏编曲；Windows Renew 负责历史资产查找、视觉加工、渲染与上传准备。**
 
-本轮先读 **[《复苏》音乐创作方向](MUSICAL_DIRECTION.md)**，再读 **[Demo代办清单](DEMO_PLAN.md)**：以钢琴表现力、宽时间氛围与低频重量为重点；最多四个音乐候选（含复苏），只深化两项。取消短时间内强制起承转合，先听完整乐句与能停留的声场，再完成两次可比较的现场演奏。三个视觉短实验仍共用已有场景，选一个主视觉。
+本轮先读 **[《复苏》音乐创作方向](MUSICAL_DIRECTION.md)**，再读 **[Demo代办清单](DEMO_PLAN.md)**：以钢琴表现力、宽时间氛围与低频重量为重点；四候选/两深化是首轮工作上限，一次只精修一项，取消必须新增方向的要求。取消短时间内强制起承转合，先听完整乐句与能停留的声场，再完成两次可比较的现场演奏。三个视觉短实验仍共用已有场景，选一个主视觉。
 
 本轮已完成的研究、方案与待验证项见 **[11/18研究进度](RESEARCH_PROGRESS_2026-11-18.md)**。
 
 Windows 已提交[11/18本地执行报告](https://github.com/ewanqian/atmospheric-escape-liveset/blob/a89ccc4c2250c65e4881e8aeba8a8820aa3ded2f/experiments/entropy-spatial-3d/awakening-light-instrument-20261117/LOCAL_AGENT_PROMPT.md)：70.3秒Drop Flow重组试听、三种灯态、15秒石体离线样片和工程重开。云端尚未独立试听/观看；正式联动仍等Mac音乐包。已有成果先审阅和增量修改，不重新领取或重建。机器session ID与媒体交付位置待回报。
+
+用户另以截图报告Renew三套Ableton研究样例：《错拍走廊》《余像井》《异步门》。当前整体方向未获接受；原执行者保留工程并关联源版本，不自动映射为M1–M3，不代替Mac正式FUSU。选中材料以冻结包交Mac整合。
 
 ## 只从这里分工
 
@@ -56,7 +58,7 @@ Windows 已提交[11/18本地执行报告](https://github.com/ewanqian/atmospher
 2. 继续查找 Reactor/Hero、Drop Flow/TIMER、动作与模型等相关资产。登记 source ID、hash、软件版本、依赖、可复用状态和上传去向。具体私有磁盘位置留本地。
 3. 复苏编曲源明确在 Mac。Windows 不再以找不到它为失败项；若找到历史音频，只回报候选、时长、关联工程与已知署名，交 Mac 判断。
 4. Mac 包到达前可完成静帧、灯态、受光扫描恢复、模型加工、动作或 HUD 预演；音乐同步项单列 `WAITING_FOR_MAC_PACKAGE`。临时音频或控制要标为临时，不作为真实同步证据。
-5. 收到音乐包后核对版本/hash，回报 ACK，再使用冻结副本联调。需要改音乐时提交时间码和理由，Mac 输出下一版；Windows 不改活动 `.als`。
+5. 收到音乐包后核对版本/hash，回报 ACK，再使用冻结副本联调。需要改音乐时提交时间码和理由，Mac 输出下一版；Windows 不改Mac活动FUSU `.als`；其已有独立研究样例仍由原执行者在副本中整理。
 6. 可上传的原创代码、文档和清单按目标仓库提交。私人音频、授权采样、客户视觉、模型母包和重型工程先用既有授权私有存储；没有目标就回报缺少目标，不能默认推到公开 Git。
 7. 回传可重开视觉工程的清单、短片与实际渲染参数，并指出消费了哪个音乐 package ID。已上传才写上传完成。
 
@@ -70,7 +72,7 @@ Windows 已提交[11/18本地执行报告](https://github.com/ewanqian/atmospher
 
 ## 现有任务怎样接续
 
-- [Atmospheric Escape #13](https://github.com/ewanqian/atmospheric-escape-liveset/issues/13)：Windows Renew 执行入口；状态依据用户确认更新为执行中，机器回执待补。
+- [Atmospheric Escape #13](https://github.com/ewanqian/atmospheric-escape-liveset/issues/13)：Windows Renew 执行入口；已有本地离线执行报告，独立媒体审阅、机器session ID与正式Mac包接收待补。
 - [Atmospheric Escape PR14](https://github.com/ewanqian/atmospheric-escape-liveset/pull/14)：已有制作分支，不自动合并或覆盖。
 - [Performable Music PR56](https://github.com/ewanqian/performable-music/pull/56)：既有 Ableton-first 交接，仍为未合并草稿。本目录补充本次双机路由；原生工程保护、试听及重开验证沿用其原则。
 - [PR58](https://github.com/ewanqian/performable-music/pull/58)：AMB研究记录；[PR59](https://github.com/ewanqian/performable-music/pull/59)训练、[PR60](https://github.com/ewanqian/performable-music/pull/60)书稿继续独立。
