@@ -2,6 +2,8 @@
 
 Read [The Point · Mac 复苏 / Windows Renew](production/the-point-2026-12-04/README.md) and [LOCAL_AGENT_TASK.json](LOCAL_AGENT_TASK.json) first for current production. Main task: [#57](https://github.com/ewanqian/performable-music/issues/57). Mac continues the actual FUSU/Ableton source; Windows Renew continues the already-claimed asset and visual work and receives an immutable music package. Preserve local dirty work and existing owners; do not restart either task.
 
+Read [Reawakening musical direction](production/the-point-2026-12-04/MUSICAL_DIRECTION.md) before new musical work. Prioritize expressive piano, sustained atmosphere and low-frequency weight; protect phrase-level timing and meaningful live decisions. Four candidate slots and two selected systems remain the limit. The previous short complete-form audition requirement is superseded.
+
 The December 4 proposal is the current show context. The dated November 4 material below is retained as historical evidence, not this run's default 128 BPM, renderer, source track or 16-minute instruction. Historical experiments may still be read deliberately. Public/private boundaries and artist listening remain in force.
 
 ---

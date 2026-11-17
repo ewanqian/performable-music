@@ -4,7 +4,9 @@
 
 **Performable Music 负责音乐、接口和交接；Mac 负责复苏编曲；Windows Renew 负责历史资产查找、视觉加工、渲染与上传准备。**
 
-本轮具体任务见 **[Demo代办清单](DEMO_PLAN.md)**：最多四个音乐候选（含复苏），只深化两项；三个视觉短实验共用已有场景，选一个主视觉完成两段音画与一次转场。
+本轮先读 **[《复苏》音乐创作方向](MUSICAL_DIRECTION.md)**，再读 **[Demo代办清单](DEMO_PLAN.md)**：以钢琴表现力、宽时间氛围与低频重量为重点；最多四个音乐候选（含复苏），只深化两项。取消短时间内强制起承转合，先听完整乐句与能停留的声场，再完成两次可比较的现场演奏。三个视觉短实验仍共用已有场景，选一个主视觉。
+
+本轮已完成的研究、方案与待验证项见 **[11/18研究进度](RESEARCH_PROGRESS_2026-11-18.md)**。
 
 Windows 已提交[11/18本地执行报告](https://github.com/ewanqian/atmospheric-escape-liveset/blob/a89ccc4c2250c65e4881e8aeba8a8820aa3ded2f/experiments/entropy-spatial-3d/awakening-light-instrument-20261117/LOCAL_AGENT_PROMPT.md)：70.3秒Drop Flow重组试听、三种灯态、15秒石体离线样片和工程重开。云端尚未独立试听/观看；正式联动仍等Mac音乐包。已有成果先审阅和增量修改，不重新领取或重建。机器session ID与媒体交付位置待回报。
 
@@ -25,7 +27,7 @@ Windows 已提交[11/18本地执行报告](https://github.com/ewanqian/atmospher
 2. 音画关系：音乐组织发生、停顿和回返；身体动作影响空间；扫描、光照和 HUD 显示状态变化。人体 motion 与 motion graphics 分别记录。
 3. 时间与接口：统一来源、版本、起点、tempo/meter、实际 MIDI、cue 和控制数据；复用 Show Score v2 与现有适配器。
 4. 双机职责、接收确认、修改请求和上传去向。
-5. 先交一个60–90秒音乐段落及15–30秒视觉证明，再根据实测扩展。
+5. 先交足够判断的钢琴裸声/电子对照与低频停留片段，再用入选材料录制建议约4–6分钟的连续演奏；视觉短证明按既有任务继续。时长是工作建议，不压缩乐句，也不复制素材凑数。
 
 详细视觉配方和素材清单仍在私有 [Awakening 制作目录](https://github.com/ewanqian/atmospheric-escape-liveset/tree/work/awakening-light-instrument-20261117/experiments/entropy-spatial-3d/awakening-light-instrument-20261117)。公开入口只同步经整理的制作决定，不复制私有工程或本次对话原文。
 
