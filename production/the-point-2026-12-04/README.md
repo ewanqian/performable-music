@@ -4,7 +4,9 @@
 
 **Performable Music 负责音乐、接口和交接；Mac 负责复苏编曲；Windows Renew 负责历史资产查找、视觉加工、渲染与上传准备。**
 
-本次按艺术家最新分工整理已有工作。Windows 已领取并工作，由艺术家在本轮确认；机器 session、具体文件和产出回执仍待补。不会重复领取、启动第二位 DAW 写入者，或把“Windows 没有复苏工程”当作资产工作的阻塞。
+本轮具体任务见 **[Demo代办清单](DEMO_PLAN.md)**：最多四个音乐候选（含复苏），只深化两项；三个视觉短实验共用已有场景，选一个主视觉完成两段音画与一次转场。
+
+Windows 已提交[11/18本地执行报告](https://github.com/ewanqian/atmospheric-escape-liveset/blob/a89ccc4c2250c65e4881e8aeba8a8820aa3ded2f/experiments/entropy-spatial-3d/awakening-light-instrument-20261117/LOCAL_AGENT_PROMPT.md)：70.3秒Drop Flow重组试听、三种灯态、15秒石体离线样片和工程重开。云端尚未独立试听/观看；正式联动仍等Mac音乐包。已有成果先审阅和增量修改，不重新领取或重建。机器session ID与媒体交付位置待回报。
 
 ## 只从这里分工
 
