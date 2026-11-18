@@ -1,0 +1,15 @@
+{"event": "queueStarted", "jobs": 1}
+{"event": "jobStarted", "index": 1, "name": "CURRENT_90s", "destination": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/019-continuous-field-instrument/outputs/final-06/CURRENT_90s.wav"}
+{"event": "progress", "progress": 0.064472280442715}
+{"event": "progress", "progress": 0.286214262247086}
+{"event": "progress", "progress": 0.509378433227539}
+{"event": "progress", "progress": 0.735386967658997}
+{"event": "progress", "progress": 0.955706775188446}
+{"event": "jobFinished", "index": 1, "name": "CURRENT_90s", "state": "completed", "file": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/019-continuous-field-instrument/outputs/final-06/CURRENT_90s.wav"}
+{"event": "finished", "success": true, "files": ["/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/019-continuous-field-instrument/outputs/final-06/CURRENT_90s.wav"]}
+Cmajor plugin format enabled
+Creating Default Controllers...
+Loading Custom Controllers...
+LAME: using shared library: /Applications/Waveform 14.app/Contents/Frameworks/libmp3lame.dylib
+2026-11-09 23:11:57.859 Waveform 14[35072:10004541] ApplePersistenceIgnoreState: Existing state will not be touched. New state will be written to /var/folders/xq/209zspr10lv_fq6plknmrt380000gp/T/com.tracktion.Waveform14.savedState
+Cleaning up temp files..
