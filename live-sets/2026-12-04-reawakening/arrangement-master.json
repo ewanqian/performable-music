@@ -1,0 +1,34 @@
+{
+  "schema": "reawakening-arrangement-master/0.1",
+  "status": "REHEARSAL_DESIGN_NOT_HARDWARE_VERIFIED",
+  "show": "2026-12-04 · The Point · Reawakening",
+  "proposed_show_window_local": "21:00–21:30 Asia/Shanghai (organizer confirmation pending)",
+  "source_of_truth": "Mac Ableton Live; one current DAW writer; public score is not an ALS",
+  "show_score_protocol": "../../protocols/show-score-v2.schema.json",
+  "clock_policy": "No assumed global BPM. Ableton owns musical time; each source clip keeps original duration. The console clock is wall-independent rehearsal elapsed time, not Show Score musical transport.",
+  "budget_seconds": {"total": 1800, "music_goal": 1680, "exit_or_recovery": 120},
+  "status_legend": {
+    "EXISTS_UNAPPROVED": "Real local source/derived audio exists but artist listening decision pending",
+    "PLAN_ONLY": "Cue/placement proposal; no claim of a finished track",
+    "CONDITIONAL": "Use only after listening, sourcing and approval"
+  },
+  "available_sources": [
+    {"id": "M3", "name": "回返 · piano + response", "recorded_duration_seconds": 120, "detail": "38-note programmed piano; four whole-phrase extracts (0–25.5, 25.5–49.5, 61–89, 97.3–120 s), dry piano/electronic response, Hold/Release and scripted NEXT variants", "status": "EXISTS_UNAPPROVED", "private_package": "awakening-performance-prototype-v002", "do_not_publish_media": true},
+    {"id": "M0", "name": "重量 · sub/body/texture", "recorded_duration_seconds": 150, "detail": "Sub Stack-derived low event and long hold, four stems; original Live engine resampling verified, M0 independent ALS reopen pending", "status": "EXISTS_UNAPPROVED", "private_package": "awakening-m0-weight-v001 (actual local package name/version must be checked)", "do_not_publish_media": true}
+  ],
+  "sections": [
+    {"id":"S1","title":"低频 / 进入","target_start_s":0,"target_end_s":300,"scene":"INITIAL_CONDITION","source":"M0","status":"PLAN_ONLY","musical_action":"Sparse sub events separated by sufficient silence; choose a held source only if audition passes","visual_action":"Existing stone/light field with large static negative space","performer_decision":"Permit, delay or omit a second impact","exit_rule":"Manual NEXT after tail, not on a 5-minute alarm"},
+    {"id":"S2","title":"钢琴 / 近景","target_start_s":300,"target_end_s":600,"scene":"FIELD","source":"M3","status":"PLAN_ONLY","musical_action":"Protect complete human-legible piano phrases; start bare then allow one electronic reply","visual_action":"Nearly still: piano remains foreground, avoid gesture-driven flashes","performer_decision":"Queue next phrase, then wait for phrase-end release","exit_rule":"Deferred NEXT only; direct APC clip launch disabled until tested"},
+    {"id":"S3","title":"残响 / 漂移","target_start_s":600,"target_end_s":900,"scene":"FIELD","source":"M3 tails or M0 texture","status":"PLAN_ONLY","musical_action":"Reuse selected material's electronic tail, no weak M2 invented solely to fill five minutes","visual_action":"Quest spatial scan/trace can shape light field without changing audio","performer_decision":"HOLD / RELEASE bounded tail; duration judged by ear","exit_rule":"Manual release and let tail clear"},
+    {"id":"S4","title":"压力 / 接近","target_start_s":900,"target_end_s":1200,"scene":"OVERRIDE","source":"M0","status":"PLAN_ONLY","musical_action":"Sub body grows by articulation/spacing rather than master gain; prepare the sole major impact","visual_action":"Reduce distance/light contrast, not continuous heavy animation","performer_decision":"Choose timing of next low event; maintain headroom","exit_rule":"One deliberate gate to S5"},
+    {"id":"S5","title":"主峰 / 撤除","target_start_s":1200,"target_end_s":1500,"scene":"OVERRIDE","source":"M0 (M1 only if approved)","status":"PLAN_ONLY","musical_action":"Single earned eruption, then stop supporting layers; leave room for true silence","visual_action":"Existing stone/light contrast reaches one clear strong state then withdraws","performer_decision":"One impact and an explicit RELEASE; no forced repeated rise","exit_rule":"After pressure drops, queue S6"},
+    {"id":"S6","title":"回返 / 离场","target_start_s":1500,"target_end_s":1800,"scene":"AFTERIMAGE","source":"M3","status":"PLAN_ONLY","musical_action":"Return one complete piano phrase or accepted counterpart; last 120s can absorb actual tail/safe exit","visual_action":"Clear HUD, return to near-stillness, then stage blackout (not music kill)","performer_decision":"Give or withhold final line, then listen to decay","exit_rule":"Finish by ear; stage window has 2-minute exit/recovery allowance"}
+  ],
+  "manual_cues": ["ARM", "NEXT_REQUEST", "HOLD", "RELEASE", "VISUAL_BLACKOUT", "SOFT_STOP", "HARDWARE_AUDIO_MUTE"],
+  "safety": {
+    "auto_advance": false,
+    "software_soft_stop_is_not_emergency_hardware_mute": true,
+    "quest_may_not_own": ["NEXT_REQUEST", "MASTER_GAIN", "TRANSPORT", "SOFT_STOP", "HARDWARE_AUDIO_MUTE"],
+    "on_xr_stale": "neutralize XR-dependent visual controls only; retain Ableton audio transport and acoustic hold policy, do not invent a new musical cue"
+  }
+}
