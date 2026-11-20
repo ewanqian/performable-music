@@ -39,3 +39,9 @@ Studying an artist does not imply endorsement, collaboration or authorship by th
 ## Third-party software
 
 Record project name, URL, author/organization, version/date checked, license, and exactly how it is used in `references/ACKNOWLEDGEMENTS.md`.
+
+## Personal schedules and production handoffs
+
+This public research repository may describe creative goals, interfaces, experiments and completed demos. Do **not** commit minute-level schedules, personal working-hour calendars, unpublished venue call sheets, active client/fee discussions, raw login or deployment evidence, or personal operational logs. Keep these in a private project workspace. Publish a neutral experiment summary when it helps reproducibility.
+
+For the November 2026 scope cleanup, the original Stage Casting execution schedules were preserved in the **private** `ewanqian/workforge` repository under `projects/stage-casting-2026-12-04/internal-schedule/`. Removing current files from this public branch does not erase earlier Git history.

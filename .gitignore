@@ -51,3 +51,9 @@ studies/*/outputs/
 
 # Agent music expectation MIDI audition outputs (generated on each workstation)
 studies/011-musical-expectation/out/
+
+# Personal production schedule and calendar imports — private workforge only
+/research/visual-runtime/2026-11-06-16-study-plan/DAILY_TIMEBLOCKS_2026-11-06_TO_2026-12-03.csv
+/research/visual-runtime/2026-11-06-16-study-plan/DAILY_PLAN.json
+/research/visual-runtime/2026-11-06-16-study-plan/LOCAL_HAIKU_START.md
+/research/visual-runtime/2026-11-06-16-study-plan/TIMEBLOCKS_104_IMPORT_OPTIONAL.ics
