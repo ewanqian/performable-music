@@ -289,7 +289,7 @@ v = [v[0] + g*explode*.09, v[1] + Math.sin(i*.17)*explode*.015, v[2] + g*explode
 | `AGENTS.md` | 1 | 全局交接横幅 |
 | `research/lineages/ARTIST_PERIODS_AND_RESEARCH_CARDS_2026-11-05.md` | 34 | 把 Stage Casting / Entropy / REACTOR 归为"演出控制知识" |
 | `research/visual-runtime/.../MASTER_PLAN.md` | 44 | V12 "复用 ENTROPY 信息语言"（指 UI 语言，不是几何） |
-| `research/visual-runtime/.../DAILY_PLAN.json` / `DAILY_TIMEBLOCKS...csv` | 176 / 81 | 同上 |
+| Private Stage Casting execution schedule (not in public tree) | — | The visual experiments remain public; personal day-by-day dispatch is held separately |
 | `research/visual-runtime/.../EXPERIMENTS_16.json` | 251 | V09 依赖"已有 ENTROPY 界面语言" |
 
 **【事实】** 本仓库**没有任何** `.glb`/`.gltf`/`.blend`/`.fbx` 文件（实际 `find` 结果为空）。
