@@ -1,0 +1,10 @@
+{
+  "description": "R2已确认交付原件的校验清单。原始二进制和HTML逐字节保存在本轮下载归档包 archive-original-r2/；本仓库的R2.md是文本转写，不冒充原文件。",
+  "files": {
+    "README.txt": {"bytes":858,"sha256":"50b5b488634b13bb71b2cc42b461fa84396014d325a9fdccd0435e66f35de4ea"},
+    "outline_R2.json": {"bytes":24958,"sha256":"91a597dd422ffea3c17d92a0c5aca83b5fd9477bb37b40647758aff400c03b4c"},
+    "分组目录与迁移_R2.md": {"bytes":14354,"sha256":"b94cb400b0044163f5f1fe49c53ae5124832b3d0b81086483499276ce95911da"},
+    "声音的组织_网页重编_R2.zip": {"bytes":43305,"sha256":"c870b1192a7178d3161288574a26599277e8d57c4b1967673752b44558b361d2"},
+    "声音的组织_阅读地图_R2.html": {"bytes":76554,"sha256":"4e1fa9ae3fb2608650f4d0b38c5c6e5cb01732fc7a6a364741e07671010b3dce"}
+  }
+}

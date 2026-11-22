@@ -1,0 +1,27 @@
+{
+  "checked_at":"2026-11-17",
+  "scope":"本轮第01、02、09章的资料。编辑记录，不在人物正文展示检索过程。",
+  "sources":[
+    {"id":"icc","title":"Installation Music 2 — IS YOUR TIME","author":"NTT InterCommunication Center","date":"2017–2018","url":"https://www.ntticc.or.jp/en/exhibitions/2017/sakamoto-ryuichi-with-takatani-shiro-installation-music-2-is-your-time/","type":"institution_project","read":"page_text","supports":"海啸钢琴的来历、坂本龙一与高谷史郎合作、async装置形式","chapters":[1],"limits":"未对原作品音轨进行逐秒分析"},
+    {"id":"session","title":"Live 12 Manual — Session View","author":"Ableton","url":"https://www.ableton.com/en/live-manual/12/session-view/","type":"official_manual","read":"relevant_sections","supports":"Arrangement与Session的不同时间组织","chapters":[1,9]},
+    {"id":"invisible","title":"Live Performance in the Age of Super Computing","author":"Robert Henke","date":"2007; retrospective note 2025-12","url":"https://roberthenke.com/interviews/supercomputing.html","type":"artist_essay","read":"relevant_sections","supports":"看不见的软件乐器与观众问题","chapters":[1],"limits":"作者已说明不再赞同旧文全部观点；不可写为当前技术规范"},
+    {"id":"ikeda-bio","title":"Biography","author":"Ryoji Ikeda","url":"https://www.ryojiikeda.com/biography/","type":"artist_biography","read":"biography_and_selected_discography","supports":"出生、工作范围、唱片与系列关系","chapters":[2]},
+    {"id":"em","title":"T’S (NOT) A MACHINERY: A Conversation with Ryoji Ikeda","author":"David Rittershaus / Ensemble Modern","date":"2024-01","url":"https://www.ensemble-modern.com/en/media/interviews/2024-01-17/t-s-not-a-machinery-a-conversation-with-ryoji-ikeda","type":"primary_interview","read":"interview_text","supports":"DJ和Dumb Type经历、身体与严格结构、沿桌面谱面移动","chapters":[2],"limits":"个人回顾，不是完整传记或所有作品的技术说明"},
+    {"id":"dumbtype","title":"2022: remap","author":"Dumb Type / Artizon Museum / The Japan Foundation","url":"https://dumbtype.com/2022remap/en/","type":"official_project","read":"page_text","supports":"1984年集体形成、身体与技术实践","chapters":[2]},
+    {"id":"testpattern","title":"test pattern","author":"Ryoji Ikeda","url":"https://www.ryojiikeda.com/project/testpattern/","type":"artist_project","read":"overview_and_version_records","supports":"数据转换、设备与感知阈限、2008年起系列","chapters":[2]},
+    {"id":"datamatics","title":"datamatics","author":"Ryoji Ikeda","url":"https://www.ryojiikeda.com/project/datamatics/","type":"artist_project","read":"overview_and_prototype_version_description","supports":"材料、版本、图形程序署名","media":{"provider":"vimeo","id":"62242278","discovery":"官方项目页内嵌链接"},"chapters":[2],"limits":"未声称完成录像听赏或频谱测量"},
+    {"id":"cyclo","title":"cyclo.","author":"Ryoji Ikeda / Carsten Nicolai","url":"https://www.ryojiikeda.com/project/cyclo/","type":"artist_project","read":"page_text","supports":"相位和幅度可视化进入声音选择；合作与发行","chapters":[2]},
+    {"id":"percussion","title":"music for percussion","author":"Ryoji Ikeda","url":"https://www.ryojiikeda.com/project/music_percussion/","type":"artist_project","read":"work_descriptions_and_credits","supports":"2016年作品构成、Eklekto署名","media":{"provider":"vimeo","id":"256060363","discovery":"官方项目页内嵌链接"},"chapters":[2]},
+    {"id":"henke-bio","title":"Biography","author":"Robert Henke","url":"https://roberthenke.com/interviews/bio.html","type":"artist_biography","read":"biography_text","supports":"Monolake、Live、工具制作与音乐方向","chapters":[9]},
+    {"id":"origins","title":"One Adds and the Other Subtracts","author":"Maya-Roisin Slater / Gerhard Behles / Robert Henke","date":"2016-11","url":"https://roberthenke.com/interviews/ableton.html","type":"primary_interview","read":"Munich_and_Berlin_sections","supports":"相识、合作、工作室与Basic Channel环境","chapters":[9]},
+    {"id":"ableton","title":"Ableton Live","author":"Robert Henke","url":"https://roberthenke.com/technology/ableton_live.html","type":"artist_history","read":"page_text","supports":"公司创立者与Henke参与开发的区分","chapters":[9]},
+    {"id":"mono","title":"Mono On Mono","author":"Ableton / Robert Henke","date":"Live 5时期","url":"https://www.ableton.com/en/pages/artists/monolake/","type":"primary_interview","read":"interview_text","supports":"声音与groove、录音、版本比较","chapters":[9],"limits":"历史制作方法，不是2026年设备清单"},
+    {"id":"monodeck","title":"Monodeck II","author":"Robert Henke","url":"https://roberthenke.com/technology/monodeck.html","type":"artist_technical_project","read":"page_text","supports":"控制器、触觉访问、LED反馈与现场重组","chapters":[9]},
+    {"id":"lumiere","title":"Lumière","author":"Robert Henke","url":"https://roberthenke.com/concerts/lumiere.html","type":"artist_project","read":"page_text","supports":"共同视听事件、激光信号限制、不同版本的取舍","chapters":[1,9],"limits":"有关关系与自由度的进一步分析属于本书解读"},
+    {"id":"granulator","title":"Granulator III","author":"Robert Henke","url":"https://roberthenke.com/technology/granulator3.html","type":"author_documentation","read":"loading_modes_position_sections","supports":"局部读取、Classic/Loop/Cloud及扫描","chapters":[9]},
+    {"id":"max","title":"An Interview with Robert Henke","author":"Cycling ’74 / Robert Henke","date":"2009","url":"https://cycling74.com/articles/an-interview-with-robert-henke","type":"primary_interview","read":"interview_text","supports":"小型patch与把时间留给音乐的取舍","chapters":[9]},
+    {"id":"henke-rbma","title":"Robert Henke Discusses Ableton Live, Lasers and Limits","author":"Red Bull Music Academy","date":"2018","url":"https://www.youtube.com/watch?v=8_EhTIxsOMQ","type":"lecture_video","read":"metadata_only","chapters":[9],"limits":"仅作为公开讲座播放入口，不支撑逐段声音分析"}
+  ],
+  "editorial_interpretation":"现场决定权、媒介限制、音乐与工具之间的关系等论述为本书解释；正文通过措辞与引用区分艺术家陈述。",
+  "media_policy":"仅链接或按需嵌入；不下载、复制或再分发原作。播放器实际地区可用性另测。"
+}
