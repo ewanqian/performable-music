@@ -1,0 +1,28 @@
+name: Warlock Motion-First Action Grammar
+on:
+  pull_request:
+    paths:
+      - 'spatial-playground/warlock-immersion/motion-grammar*'
+      - 'spatial-playground/warlock-immersion/ACTION_GRAMMAR_RESEARCH.md'
+      - '.github/workflows/warlock-motion-grammar.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'spatial-playground/warlock-immersion/motion-grammar*'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  grammar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse standalone motion recognizer
+        run: |
+          node --check spatial-playground/warlock-immersion/motion-grammar.mjs
+          node --check spatial-playground/warlock-immersion/motion-grammar.test.mjs
+      - name: Test gesture states without XR hardware
+        run: node --test spatial-playground/warlock-immersion/motion-grammar.test.mjs
