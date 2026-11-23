@@ -1,0 +1,29 @@
+[
+  {
+    "id": "01_PRISM_RUN",
+    "v1_notes": 249,
+    "v2_notes": 249,
+    "deleted_events": 7,
+    "added_events": 7,
+    "midi_sha256": "d06c54caafd3e74088b82902086dce9ce07fba61d3da3f522caf73f9d689e8ef",
+    "human_listening": "PENDING"
+  },
+  {
+    "id": "02_HINGE",
+    "v1_notes": 245,
+    "v2_notes": 231,
+    "deleted_events": 34,
+    "added_events": 20,
+    "midi_sha256": "a98b8cb791bb841421e19adfc956731bda6bfa015a6c318c93a965ccaa0e93ed",
+    "human_listening": "PENDING"
+  },
+  {
+    "id": "03_AIR_CURRENT",
+    "v1_notes": 108,
+    "v2_notes": 108,
+    "deleted_events": 5,
+    "added_events": 5,
+    "midi_sha256": "db74257bbb2676c77159e91fd32a10fcf8b632f949389a6e684516ef3cf19e8c",
+    "human_listening": "PENDING"
+  }
+]

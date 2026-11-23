@@ -1,0 +1,35 @@
+[
+  {
+    "id": "01_PRISM_RUN",
+    "source": "v02.mid",
+    "output": "v03.mid",
+    "changes": []
+  },
+  {
+    "id": "02_HINGE",
+    "source": "v02.mid",
+    "output": "v03.mid",
+    "changes": [
+      {
+        "track": "tension_string",
+        "pitch": 72,
+        "beat": 4.65,
+        "old_duration": 0.62,
+        "new_duration": 0.47
+      },
+      {
+        "track": "tension_string",
+        "pitch": 72,
+        "beat": 44.65,
+        "old_duration": 0.62,
+        "new_duration": 0.47
+      }
+    ]
+  },
+  {
+    "id": "03_AIR_CURRENT",
+    "source": "v02.mid",
+    "output": "v03.mid",
+    "changes": []
+  }
+]

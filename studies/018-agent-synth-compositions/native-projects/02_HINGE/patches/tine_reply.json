@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Midi Input",
+      "uuid": "4067c94d-fd40-4d64-b57e-b2698a113ab6",
+      "params": {},
+      "position": {
+        "x": null,
+        "y": null
+      }
+    },
+    {
+      "id": 2,
+      "type": "Audio Output",
+      "uuid": "6b40ce25-004e-4749-9d47-724b5ab47119",
+      "params": {},
+      "position": {
+        "x": null,
+        "y": null
+      }
+    },
+    {
+      "id": 3,
+      "type": "Mallet",
+      "uuid": "fba79749-313a-40a6-be7b-f0ea59b2a2a2",
+      "params": {
+        "bypassed": false,
+        "dualIO": true,
+        "material": "Glockenspiel",
+        "tune": 0.0,
+        "fine": 0.0,
+        "decay": 1.25000011920929,
+        "damping": 0.490000009536743,
+        "brightness": 0.759999990463257,
+        "hardness": 0.479999989271164,
+        "resonator": 0.5,
+        "tremolo": 0.0,
+        "release": 0.28000009059906,
+        "velBright": 0.5,
+        "level": 0.280000001192093,
+        "muted": false
+      },
+      "position": {
+        "x": null,
+        "y": null
+      }
+    },
+    {
+      "id": 4,
+      "type": "Delay",
+      "uuid": "3d6a6909-0dc0-4463-86a6-86786887c726",
+      "params": {
+        "bypassed": false,
+        "dualIO": false,
+        "time": 1.0,
+        "feedback": 0.189999997615814,
+        "mix": 0.159999996423721,
+        "tempoSync": false,
+        "timeDiv": "1/4",
+        "pingPong": true,
+        "outputLevel": 0.75,
+        "muted": false,
+        "pan": 0.0
+      },
+      "position": {
+        "x": null,
+        "y": null
+      }
+    },
+    {
+      "id": 5,
+      "type": "Reverb",
+      "uuid": "f3b170a0-dbb0-467f-a022-86bcc21ae64a",
+      "params": {
+        "bypassed": false,
+        "dualIO": false,
+        "roomSize": 0.569999992847443,
+        "damping": 0.449999988079071,
+        "wet": 0.119999997317791,
+        "dry": 0.879999995231628,
+        "width": 0.850000023841858,
+        "preDelay": 0.009999999776483,
+        "outputLevel": 0.850000023841858,
+        "muted": false,
+        "pan": 0.0
+      },
+      "position": {
+        "x": null,
+        "y": null
+      }
+    }
+  ],
+  "connections": [
+    {
+      "src": 1,
+      "srcPort": -1,
+      "dst": 3,
+      "dstPort": -1,
+      "isMidi": true
+    },
+    {
+      "src": 3,
+      "srcPort": 0,
+      "dst": 4,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 3,
+      "srcPort": 1,
+      "dst": 4,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 4,
+      "srcPort": 0,
+      "dst": 5,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 4,
+      "srcPort": 1,
+      "dst": 5,
+      "dstPort": 1,
+      "isMidi": false
+    },
+    {
+      "src": 5,
+      "srcPort": 0,
+      "dst": 2,
+      "dstPort": 0,
+      "isMidi": false
+    },
+    {
+      "src": 5,
+      "srcPort": 1,
+      "dst": 2,
+      "dstPort": 1,
+      "isMidi": false
+    }
+  ],
+  "modulations": []
+}

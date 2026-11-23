@@ -1,0 +1,21 @@
+Cmajor plugin format enabled
+Creating Default Controllers...
+Loading Custom Controllers...
+LAME: using shared library: /Applications/Waveform 14.app/Contents/Frameworks/libmp3lame.dylib
+2026-11-09 21:14:18.810 Waveform 14[9684:9790630] ApplePersistenceIgnoreState: Existing state will not be touched. New state will be written to /var/folders/xq/209zspr10lv_fq6plknmrt380000gp/T/com.tracktion.Waveform14.savedState
+{"event": "queueStarted", "jobs": 4}
+{"event": "jobStarted", "index": 1, "name": "air_thread", "destination": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/air_thread.wav"}
+{"event": "progress", "progress": 0.086793653666973}
+{"event": "jobFinished", "index": 1, "name": "air_thread", "state": "completed", "file": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/air_thread.wav"}
+{"event": "jobStarted", "index": 2, "name": "orbit", "destination": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/orbit.wav"}
+{"event": "progress", "progress": 0.25}
+{"event": "jobFinished", "index": 2, "name": "orbit", "state": "completed", "file": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/orbit.wav"}
+{"event": "jobStarted", "index": 3, "name": "anchor", "destination": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/anchor.wav"}
+{"event": "progress", "progress": 0.5}
+{"event": "progress", "progress": 0.691587328910828}
+{"event": "jobFinished", "index": 3, "name": "anchor", "state": "completed", "file": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/anchor.wav"}
+{"event": "jobStarted", "index": 4, "name": "light", "destination": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/light.wav"}
+{"event": "progress", "progress": 0.901777744293213}
+{"event": "jobFinished", "index": 4, "name": "light", "state": "completed", "file": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/light.wav"}
+{"event": "finished", "success": true, "files": ["/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/air_thread.wav", "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/orbit.wav", "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/anchor.wav", "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/03_AIR_CURRENT/final/native-stems/light.wav"]}
+Cleaning up temp files..

@@ -1,0 +1,53 @@
+{
+  "plugin": "/Users/ewanqian/Library/Audio/Plug-Ins/VST3/Agent Synth.vst3",
+  "host": "pedalboard real VST3; not Waveform",
+  "hardware_audition": "NOT_TESTED",
+  "artist_acceptance": "PENDING",
+  "patches": {
+    "prism_glass": {
+      "status": "PASS",
+      "peak": 0.08174075186252594,
+      "rms": 0.007673739455640316,
+      "fresh_instance_peak": 0.08174075186252594,
+      "native_graph_roundtrip": "PASS",
+      "state_sha256": "7c3b01971ee8d9c07cc66f240b1f7667753c1d1152ebfebc0e492b1d69d7d0d6",
+      "render_wall_seconds": 20.249168999958783
+    },
+    "hinge_pluck": {
+      "status": "PASS",
+      "peak": 0.12455416470766068,
+      "rms": 0.0029518718365579844,
+      "fresh_instance_peak": 0.12455416470766068,
+      "native_graph_roundtrip": "PASS",
+      "state_sha256": "11b2cb5d68bdabe3228069bd839b9a48293fecf2c1d0480c6bbc04223ba29640",
+      "render_wall_seconds": 20.09906266600592
+    },
+    "air_current": {
+      "status": "PASS",
+      "peak": 0.19376730918884277,
+      "rms": 0.035907793790102005,
+      "fresh_instance_peak": 0.19376730918884277,
+      "native_graph_roundtrip": "PASS",
+      "state_sha256": "e590d8d554424e19e257f5565aa00405b61bcbf737f5235c7e824d5b3812b8f2",
+      "render_wall_seconds": 20.217415791994426
+    },
+    "pulse_fm": {
+      "status": "PASS",
+      "peak": 0.2208598405122757,
+      "rms": 0.029896268621087074,
+      "fresh_instance_peak": 0.2208598405122757,
+      "native_graph_roundtrip": "PASS",
+      "state_sha256": "512bdb586e3c9bc26494d77dd3d8b42d649f830c5db79b9e8ffa2de761683218",
+      "render_wall_seconds": 20.227395458030514
+    },
+    "low_fm": {
+      "status": "PASS",
+      "peak": 0.2336912900209427,
+      "rms": 0.03136482462286949,
+      "fresh_instance_peak": 0.2336912900209427,
+      "native_graph_roundtrip": "PASS",
+      "state_sha256": "704f711d5c81a8551c868679360ccc9bb82ccf1a93ea665d222b10b266b1732f",
+      "render_wall_seconds": 20.191761834023055
+    }
+  }
+}

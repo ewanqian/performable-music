@@ -1,0 +1,10 @@
+Cmajor plugin format enabled
+Creating Default Controllers...
+Loading Custom Controllers...
+LAME: using shared library: /Applications/Waveform 14.app/Contents/Frameworks/libmp3lame.dylib
+2026-11-09 21:12:51.271 Waveform 14[8802:9786603] ApplePersistenceIgnoreState: Existing state will not be touched. New state will be written to /var/folders/xq/209zspr10lv_fq6plknmrt380000gp/T/com.tracktion.Waveform14.savedState
+{"event": "queueStarted", "jobs": 1}
+{"event": "jobStarted", "index": 1, "name": "gui-reopened", "destination": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/waveform-gate/gui-reopened.wav"}
+{"event": "jobFinished", "index": 1, "name": "gui-reopened", "state": "completed", "file": "/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/waveform-gate/gui-reopened.wav"}
+{"event": "finished", "success": true, "files": ["/Users/ewanqian/.codex/worktrees/critical-field-t00-t01/performable-music/studies/018-agent-synth-compositions/outputs/waveform-gate/gui-reopened.wav"]}
+Cleaning up temp files..
