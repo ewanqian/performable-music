@@ -1,5 +1,7 @@
 # Performable Physics — 面向粒子特效的轻量 Geometry Nodes-like Runtime
 
+> **R00 已提交（2026-11-27）：** [持续研究与实验循环](LOOP.md) · [当前状态 / R01 队列](STATE.json) · [可离线打开的 R00 HTML](experiments/R00-periodic-fluid/index.html) · [实际数值证据](experiments/R00-periodic-fluid/evidence.json) · [持续追踪 Issue #72](https://github.com/ewanqian/performable-music/issues/72)。R00 的 CPU 数值自测 7/7 通过，完整 runtime、浏览器、GPU Compute、动态障碍、LED 回光及现场均未验收。本文架构仍是研究提案；后续以 STATE.json 和证据记录区分进展，不改变生产 P0。
+
 - 日期：2026-11-27
 - 类型：独立视觉技术研究 / R&D，不是作品发布、音乐制作任务或现场交付承诺
 - 状态：**PROPOSED / 尚未实现或验收**。已有三维预演与手势轨迹原型的体验反馈是研究起点；本文未审阅其完整源码，不能证明其底层物理、照明或设备性能。
