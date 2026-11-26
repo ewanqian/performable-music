@@ -1,4 +1,6 @@
-# Visual Atlas A01 — 48 hypotheses / 12 anchors / 10 runnable sketches
+# Visual Atlas — 48 hypotheses / A01 + A02
+
+> **A02 / 2026-11-27**: [12 ordered geometry compositions](A02/README.md) · [single HTML](A02/index.html) · [browser and numerical evidence](A02/evidence.json). Four distinct mechanism families with three compositions each. Actual CPU Z-buffer browser render and camera invariance checks passed; WebGL2 path unverified. A01 below is preserved.
 
 Status: research candidate, not accepted visual artwork. Source artistic lineage: [creative vocabulary](https://github.com/ewanqian/art-works/blob/main/lineages/2026-creative-vocabulary.md), [No Further Input Required](https://github.com/ewanqian/art-works/blob/main/works/no-further-input-required.md), [Reverse Neural Score](https://github.com/ewanqian/art-works/blob/main/works/reverse-neural-score.md). TIMER association and distance sampling are creative extrapolations, not verified original node graphs. No private work implementation or media was copied.
 
