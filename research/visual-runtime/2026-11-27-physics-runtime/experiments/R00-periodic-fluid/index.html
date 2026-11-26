@@ -1,0 +1,65 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Performable Physics / R00</title><style>
+*{box-sizing:border-box}body{margin:0;background:#0a0d12;color:#d7e0ea;font:14px system-ui,sans-serif}main{max-width:1120px;padding:24px;margin:auto}h1{font-size:clamp(24px,4vw,40px);letter-spacing:-.045em;margin:8px 0}small,p{color:#a0adbd;line-height:1.6}canvas{display:block;width:100%;height:min(57vh,550px);min-height:260px;border:1px solid #29323e;touch-action:none}section{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}button,input{accent-color:#c3d4e7}button{background:#17212d;color:#e3ebf2;border:1px solid #435369;border-radius:5px;padding:9px 13px;cursor:pointer}label{display:inline-flex;align-items:center;gap:6px}pre{overflow:auto;font-size:12px}#status{font:12px monospace;line-height:1.5;color:#a6bccf;min-height:30px}
+</style><main><small>VISUAL RUNTIME RESEARCH / R00 / CPU REFERENCE</small><h1>PERFORMABLE PHYSICS</h1><p>真实三维周期速度场、半拉格朗日平流、离散压力投影、被动示踪粒子。先注入一次动量，再观察停止施力后的持续演化；拖动旋转观察三维深度。此为数值实验，不是完整流体引擎。</p><canvas id="view"></canvas><section><button id="jet">注入动量 +</button><button id="opposite">反向注入 −</button><button id="pause">暂停</button><button id="step">单步</button><button id="reset">重置</button><label><input id="projection" type="checkbox" checked>压力投影</label></section><section><label>Yaw <input id="yaw" type="range" min="-180" max="180" value="26"></label><label>Pitch <input id="pitch" type="range" min="-80" max="80" value="-15"></label></section><div id="status">Initializing</div><p>周期边界是本轮唯一边界；无碰撞障碍、真实湍流、物质密度/黏度模型、GPU Compute、SSR、XR 或音频接口。关闭压力投影用于对照。相机操作不改变状态。数值耗散与小阻尼均存在。</p><button id="test">运行数值自测</button><pre id="report"></pre></main><script>function createFluid(n=16,count=4096,seed=27){
+  const N=n*n*n, mk=()=>new Float32Array(N), idx=(x,y,z)=>((x+n)%n)+n*((y+n)%n)+n*n*((z+n)%n);
+  let U=[mk(),mk(),mk()], B=[mk(),mk(),mk()], P=mk(), Q=mk(), D=mk(), particles=new Float32Array(count*3), step=0;
+  let s=seed>>>0;const rand=()=>{s=(Math.imul(1664525,s)+1013904223)>>>0;return s/4294967296};
+  const nb=Array.from({length:6},()=>new Int32Array(N));
+  for(let z=0;z<n;z++)for(let y=0;y<n;y++)for(let x=0;x<n;x++){let i=idx(x,y,z);[idx(x+1,y,z),idx(x-1,y,z),idx(x,y+1,z),idx(x,y-1,z),idx(x,y,z+1),idx(x,y,z-1)].forEach((v,j)=>nb[j][i]=v)}
+  const wrap=x=>((x%n)+n)%n;
+  function sample(a,x,y,z){x=wrap(x);y=wrap(y);z=wrap(z);let i=Math.floor(x),j=Math.floor(y),k=Math.floor(z),tx=x-i,ty=y-j,tz=z-k;let i1=(i+1)%n,j1=(j+1)%n,k1=(k+1)%n;let b=k*n*n,c=k1*n*n;let l=(x,y,t)=>x+(y-x)*t;return l(l(l(a[b+j*n+i],a[b+j*n+i1],tx),l(a[b+j1*n+i],a[b+j1*n+i1],tx),ty),l(l(a[c+j*n+i],a[c+j*n+i1],tx),l(a[c+j1*n+i],a[c+j1*n+i1],tx),ty),tz)}
+  function vel(a,x,y,z,out){out[0]=sample(a[0],x-.5,y,z);out[1]=sample(a[1],x,y-.5,z);out[2]=sample(a[2],x,y,z-.5);return out}
+  function reset(){s=seed>>>0;for(let a of [...U,...B,P,Q,D])a.fill(0);step=0;for(let i=0;i<count;i++){// elongated tracer seed cloud, true XYZ
+    particles[i*3]=n*(.26+.48*rand());particles[i*3+1]=n*(.30+.40*rand());particles[i*3+2]=n*(.28+.44*rand())
+  }}
+  function impulse(cx,cy,cz,dx,dy,dz,strength=6,radius=.18){const cc=[cx*n,cy*n,cz*n],dv=[dx,dy,dz],r=radius*n;for(let z=0;z<n;z++)for(let y=0;y<n;y++)for(let x=0;x<n;x++){const i=idx(x,y,z);for(let a=0;a<3;a++){let xx=x+(a===0?.5:0)-cc[0],yy=y+(a===1?.5:0)-cc[1],zz=z+(a===2?.5:0)-cc[2];xx-=n*Math.round(xx/n);yy-=n*Math.round(yy/n);zz-=n*Math.round(zz/n);let f=Math.exp(-(xx*xx+yy*yy+zz*zz)/(2*r*r));U[a][i]+=dv[a]*strength*f}}}
+  function divergence(){let t=0;for(let i=0;i<N;i++){const d=U[0][i]-U[0][nb[1][i]]+U[1][i]-U[1][nb[3][i]]+U[2][i]-U[2][nb[5][i]];D[i]=d;t+=d*d}return Math.sqrt(t/N)}
+  function project(iters=32){const before=divergence();P.fill(0);Q.fill(0);for(let k=0;k<iters;k++){for(let i=0;i<N;i++){Q[i]=(P[nb[0][i]]+P[nb[1][i]]+P[nb[2][i]]+P[nb[3][i]]+P[nb[4][i]]+P[nb[5][i]]-D[i])/6}[P,Q]=[Q,P]}
+    for(let i=0;i<N;i++){U[0][i]-=P[nb[0][i]]-P[i];U[1][i]-=P[nb[2][i]]-P[i];U[2][i]-=P[nb[4][i]]-P[i]}return [before,divergence()]}
+  let metric={before:0,after:0,energy:0,step:0};
+  const v=new Float64Array(3),v2=new Float64Array(3);
+  function tick(dt=1/30,projection=true,iters=32){if(!(dt>0&&dt<=.1))throw new Error("dt out of range");
+    for(let z=0;z<n;z++)for(let y=0;y<n;y++)for(let x=0;x<n;x++){let i=idx(x,y,z);for(let a=0;a<3;a++){let xx=x+(a===0?.5:0),yy=y+(a===1?.5:0),zz=z+(a===2?.5:0);vel(U,xx,yy,zz,v);B[a][i]=sample(U[a],x-v[0]*dt,y-v[1]*dt,z-v[2]*dt)*.998}}
+    [U,B]=[B,U];let m=projection?project(iters):[divergence(),divergence()];let energy=0;for(let i=0;i<N;i++)energy+=(U[0][i]**2+U[1][i]**2+U[2][i]**2)/2/N;
+    for(let i=0;i<particles.length;i+=3){let x=particles[i],y=particles[i+1],z=particles[i+2];vel(U,x,y,z,v);vel(U,x+v[0]*dt*.5,y+v[1]*dt*.5,z+v[2]*dt*.5,v2);particles[i]=wrap(x+v2[0]*dt);particles[i+1]=wrap(y+v2[1]*dt);particles[i+2]=wrap(z+v2[2]*dt)}
+    metric={before:m[0],after:m[1],energy,step:++step};return metric
+  }
+  reset();return {n,particles,reset,impulse,tick,project,divergence,metrics:()=>({...metric}),finite:()=>[...U,particles].every(a=>a.every(Number.isFinite))}
+}
+function selfTest(){
+  const a=createFluid(12,512,27),b=createFluid(12,512,27),c=createFluid(12,512,27);
+  const initial=a.particles.slice();const z=a.tick();const still=a.particles.every((x,i)=>x===initial[i]);a.reset();
+  for(const f of [a,b,c])f.impulse(.37,.51,.49,1,.18,.27,7,.17);
+  const A=a.tick(1/30,true,48),B=b.tick(1/30,false,48),C=c.tick(1/30,true,48);
+  const seedEqual=a.particles.every((x,i)=>x===c.particles[i]);
+  const snap=a.particles.slice();let M;for(let k=0;k<12;k++)M=a.tick(1/30,true,48);
+  let displacement=0,zmotion=0;for(let i=0;i<snap.length;i++){let d=a.particles[i]-snap[i];d-=12*Math.round(d/12);displacement+=d*d;if(i%3===2)zmotion+=d*d}
+  const rms=Math.sqrt(displacement/snap.length),zrms=Math.sqrt(zmotion/(snap.length/3));
+  const checks={zeroForceStill:still&&z.energy===0,projectionReducesDivergence:A.after<A.before*.55&&A.after<B.after*.55,deterministicSameRun:seedEqual&&A.after===C.after,continuesAfterImpulse:M.energy>0&&rms>.001,realZMotion:zrms>.001,finite:a.finite()&&b.finite()&&c.finite(),insidePeriodicDomain:a.particles.every(x=>x>=0&&x<12)};
+  return {checks,pass:Object.values(checks).every(Boolean),grid:12,tracers:512,dt:1/30,iterations:48,firstProjected:A,firstUnprojected:B,after12UnforcedSteps:M,tracerRmsGridCells:rms,zRmsGridCells:zrms}
+}
+(function browser(){
+ const $=id=>document.getElementById(id),canvas=$("view"),gl=canvas.getContext("webgl2",{antialias:true,alpha:false});
+ if(!gl){$("status").textContent="WebGL2 unavailable. Numerical tests remain available; no 3D rendering."; $("test").onclick=()=>{$("report").textContent=JSON.stringify(selfTest(),null,2)};return}
+ const vs=`#version 300 es
+ in vec3 pos; uniform float yaw,pitch,aspect,scale,point; 
+ void main(){vec3 p=pos; float cy=cos(yaw),sy=sin(yaw),cp=cos(pitch),sp=sin(pitch); p=vec3(cy*p.x+sy*p.z,p.y,-sy*p.x+cy*p.z);p=vec3(p.x,cp*p.y-sp*p.z,sp*p.y+cp*p.z);float d=4.1-p.z;gl_Position=vec4(p.x*2.15/aspect,p.y*2.15,((d-0.1)*1.01-0.1),d);gl_PointSize=clamp(point*scale/d,1.,6.);}`;
+ const fs=`#version 300 es
+ precision highp float;uniform vec3 col;uniform bool dots;out vec4 color;void main(){if(dots&&length(gl_PointCoord-vec2(.5))>.5)discard;color=vec4(col,1.);}`;
+ function shader(type,src){let sh=gl.createShader(type);gl.shaderSource(sh,src);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(sh));return sh}
+ try{const pr=gl.createProgram();gl.attachShader(pr,shader(gl.VERTEX_SHADER,vs));gl.attachShader(pr,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);if(!gl.getProgramParameter(pr,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(pr));gl.useProgram(pr);
+ const loc=gl.getAttribLocation(pr,"pos"), uni=Object.fromEntries(["yaw","pitch","aspect","scale","point","col","dots"].map(k=>[k,gl.getUniformLocation(pr,k)]));let buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,3,gl.FLOAT,false,0,0);
+ const f=createFluid(16,4096,27),display=new Float32Array(f.particles.length),wire=[];for(let a=0;a<3;a++)for(let b of [-1,1])for(let c of [-1,1]){let q=[b,c,-1];q=[0,0,0];q[a]=-1;q[(a+1)%3]=b;q[(a+2)%3]=c;wire.push(...q);q[a]=1;wire.push(...q)}let cube=new Float32Array(wire);
+ let running=true,projection=true,dt=1/30,acc=0,last=performance.now(),metric={step:0,before:0,after:0,energy:0},drop=0,compute=0,pending=[];
+ function inject(sign=1){pending.push([sign>0?.35:.65,.50,.50,sign,.12,.24,8,.17])}
+ function advance(){let t=performance.now();for(let p of pending)f.impulse(...p);pending=[];metric=f.tick(dt,projection,32);compute=performance.now()-t}
+ inject();$("pause").onclick=()=>{running=!running;acc=0;$("pause").textContent=running?"暂停":"继续"};$("step").onclick=()=>{running=false;acc=0;$("pause").textContent="继续";advance()};$("jet").onclick=()=>inject();$("opposite").onclick=()=>inject(-1);$("reset").onclick=()=>{f.reset();pending=[];metric={step:0,before:0,after:0,energy:0};drop=0;acc=0;compute=0};$("projection").onchange=e=>{projection=e.target.checked};$("test").onclick=()=>{$("report").textContent=JSON.stringify(selfTest(),null,2)};
+ let drag=null;canvas.addEventListener("pointerdown",e=>{canvas.setPointerCapture(e.pointerId);drag={x:e.clientX,y:e.clientY}});canvas.addEventListener("pointermove",e=>{if(!drag)return;let dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag={x:e.clientX,y:e.clientY};$("yaw").value=Math.max(-180,Math.min(180,+$("yaw").value+dx*.45));$("pitch").value=Math.max(-80,Math.min(80,+$("pitch").value+dy*.45))});canvas.addEventListener("pointerup",()=>drag=null);canvas.addEventListener("pointercancel",()=>drag=null);
+ function draw(now){const elapsed=Math.min(.25,(now-last)/1000);last=now;if(running){acc+=elapsed;let steps=0;while(acc>=dt&&steps<2){advance();acc-=dt;steps++}if(acc>=dt){drop+=Math.floor(acc/dt);acc%=dt}}
+ let d=Math.min(2,devicePixelRatio||1),w=Math.max(1,Math.round(canvas.clientWidth*d)),h=Math.max(1,Math.round(canvas.clientHeight*d));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}gl.viewport(0,0,w,h);gl.clearColor(.026,.033,.043,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.uniform1f(uni.yaw,+$("yaw").value*Math.PI/180);gl.uniform1f(uni.pitch,+$("pitch").value*Math.PI/180);gl.uniform1f(uni.aspect,w/h);gl.uniform1f(uni.scale,d);gl.uniform1f(uni.point,6);gl.uniform1i(uni.dots,0);gl.uniform3f(uni.col,.25,.34,.44);gl.bufferData(gl.ARRAY_BUFFER,cube,gl.STATIC_DRAW);gl.drawArrays(gl.LINES,0,cube.length/3);
+ for(let i=0;i<display.length;i++)display[i]=f.particles[i]*2/f.n-1;gl.uniform1i(uni.dots,1);gl.uniform3f(uni.col,.75,.87,.96);gl.bufferData(gl.ARRAY_BUFFER,display,gl.DYNAMIC_DRAW);gl.drawArrays(gl.POINTS,0,display.length/3);
+ $("status").textContent="CPU 16³ / 4096 tracers · step "+metric.step+" · div "+metric.before.toFixed(4)+" → "+metric.after.toFixed(4)+" · energy "+metric.energy.toFixed(3)+" · step "+compute.toFixed(1)+" ms · dropped "+drop;
+ requestAnimationFrame(draw)}
+ requestAnimationFrame(draw);
+ }catch(e){$("status").textContent="Renderer error: "+e.message;$("test").onclick=()=>{$("report").textContent=JSON.stringify(selfTest(),null,2)}}
+})();</script></html>
