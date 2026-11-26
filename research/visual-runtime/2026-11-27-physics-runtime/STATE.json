@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "project": "performable-physics",
+  "baseline": {
+    "round": "R00",
+    "sourceCommit": "cf9bf0bc31256dfc40cf8f1b7cafea7f88d3ecc5",
+    "evidenceCommit": "5180d54dc9aafc9d7f808dbd8f7dda448f647699",
+    "path": "experiments/R00-periodic-fluid/",
+    "status": {
+      "implementation": "IMPLEMENTED",
+      "numerical": "NUMERIC_TESTED",
+      "browser": "UNVERIFIED",
+      "gpuCompute": "NOT_IMPLEMENTED",
+      "artist": "UNVERIFIED"
+    }
+  },
+  "next": {
+    "round": "R01",
+    "hypothesis": "R00 numerical and interactive behavior can be reproduced in a browser without modifying simulation state through the camera",
+    "acceptance": [
+      "Reproduce seven numerical checks using actual solver source",
+      "Check WebGL2 shader compilation and 3D render in available browser",
+      "Verify controls and camera-only state invariance",
+      "Record test environment, failures and real evidence; if browser inaccessible mark BLOCKED"
+    ],
+    "limit": "One draft PR, no automatic merge, no production changes"
+  },
+  "policy": "Read LOOP.md; do not duplicate pending rounds."
+}
