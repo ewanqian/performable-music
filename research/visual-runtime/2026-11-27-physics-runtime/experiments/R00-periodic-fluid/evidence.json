@@ -1,0 +1,40 @@
+{
+  "round": "R00",
+  "date": "2026-11-27",
+  "sourceCommit": "cf9bf0bc31256dfc40cf8f1b7cafea7f88d3ecc5",
+  "environment": "JavaScript execution isolate; CPU numerical solver only. No browser, GPU, XR or stage validation.",
+  "checks": {
+    "zeroForceStill": true,
+    "projectionReducesDivergence": true,
+    "deterministicSameRun": true,
+    "continuesAfterImpulse": true,
+    "realZMotion": true,
+    "finite": true,
+    "insidePeriodicDomain": true
+  },
+  "pass": true,
+  "grid": 12,
+  "tracers": 512,
+  "dt": 0.03333333333333333,
+  "iterations": 48,
+  "firstProjected": {
+    "before": 0.40605926507329765,
+    "after": 0.026069747700084064,
+    "energy": 0.5325458788505244,
+    "step": 1
+  },
+  "firstUnprojected": {
+    "before": 0.40605926507329765,
+    "after": 0.40605926507329765,
+    "energy": 0.7183306691593098,
+    "step": 1
+  },
+  "after12UnforcedSteps": {
+    "before": 0.0070690601225817775,
+    "after": 0.0003871119690620593,
+    "energy": 0.4587029738619784,
+    "step": 13
+  },
+  "tracerRmsGridCells": 0.5326077677449959,
+  "zRmsGridCells": 0.248309292369307
+}
