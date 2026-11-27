@@ -1,0 +1,177 @@
+{
+  "round": "R01",
+  "date": "2026-11-27",
+  "hypothesis": "Exact R00 CPU metrics reproduce in Chromium and actual rendering and camera invariance can be verified without state changes.",
+  "baselineCommit": "cf9bf0bc31256dfc40cf8f1b7cafea7f88d3ecc5",
+  "baselineEvidenceCommit": "5180d54dc9aafc9d7f808dbd8f7dda448f647699",
+  "sourceBlob": "48c9e539570f08d04c3ac77b12d8e41934ca8607",
+  "sourceBytes": 11735,
+  "sourceSHA256": "f868ab5d9154d7b9ca1915de9ecb8459e1d963665b64fd0466233b1be9236fe3",
+  "runnerBlob": "3c7ed8d46e1e19c9ecdef4d838b20ce2c5ed82fd",
+  "environment": "Headless Chromium 144.0.7559.96 on Linux x86_64 via Python Playwright; exact HTML loaded via page.set_content; viewport 1120x1000 DPR 1.",
+  "initialFailure": "file:// navigation returned net::ERR_BLOCKED_BY_ADMINISTRATOR; reran exact UTF-8 HTML through page.set_content. Offline file navigation unverified in this environment.",
+  "seed": 27,
+  "impulse": [
+    0.37,
+    0.51,
+    0.49,
+    1,
+    0.18,
+    0.27,
+    7,
+    0.17
+  ],
+  "units": "grid-cell coordinates; dt seconds; energy as defined by R00",
+  "runs": [
+    {
+      "name": "default",
+      "flags": [],
+      "browser": "144.0.7559.96",
+      "initialStatus": "WebGL2 unavailable. Numerical tests remain available; no 3D rendering.",
+      "webgl2": null,
+      "numeric": {
+        "checks": {
+          "zeroForceStill": true,
+          "projectionReducesDivergence": true,
+          "deterministicSameRun": true,
+          "continuesAfterImpulse": true,
+          "realZMotion": true,
+          "finite": true,
+          "insidePeriodicDomain": true
+        },
+        "pass": true,
+        "grid": 12,
+        "tracers": 512,
+        "dt": 0.03333333333333333,
+        "iterations": 48,
+        "firstProjected": {
+          "before": 0.40605926507329765,
+          "after": 0.026069747700084064,
+          "energy": 0.5325458788505244,
+          "step": 1
+        },
+        "firstUnprojected": {
+          "before": 0.40605926507329765,
+          "after": 0.40605926507329765,
+          "energy": 0.7183306691593098,
+          "step": 1
+        },
+        "after12UnforcedSteps": {
+          "before": 0.0070690601225817775,
+          "after": 0.0003871119690620593,
+          "energy": 0.4587029738619784,
+          "step": 13
+        },
+        "tracerRmsGridCells": 0.5326077677449959,
+        "zRmsGridCells": 0.248309292369307
+      },
+      "pageErrors": [],
+      "shaderRenderControlsCamera": "BLOCKED",
+      "screenshotSHA256": "b5739b0bc7dc4f7bec6be396a691eb715b2df047e7232c7268581d0897e444dc"
+    },
+    {
+      "name": "swiftshader",
+      "flags": [
+        "--use-gl=angle",
+        "--use-angle=swiftshader",
+        "--enable-unsafe-swiftshader"
+      ],
+      "browser": "144.0.7559.96",
+      "initialStatus": "WebGL2 unavailable. Numerical tests remain available; no 3D rendering.",
+      "webgl2": null,
+      "numeric": {
+        "checks": {
+          "zeroForceStill": true,
+          "projectionReducesDivergence": true,
+          "deterministicSameRun": true,
+          "continuesAfterImpulse": true,
+          "realZMotion": true,
+          "finite": true,
+          "insidePeriodicDomain": true
+        },
+        "pass": true,
+        "grid": 12,
+        "tracers": 512,
+        "dt": 0.03333333333333333,
+        "iterations": 48,
+        "firstProjected": {
+          "before": 0.40605926507329765,
+          "after": 0.026069747700084064,
+          "energy": 0.5325458788505244,
+          "step": 1
+        },
+        "firstUnprojected": {
+          "before": 0.40605926507329765,
+          "after": 0.40605926507329765,
+          "energy": 0.7183306691593098,
+          "step": 1
+        },
+        "after12UnforcedSteps": {
+          "before": 0.0070690601225817775,
+          "after": 0.0003871119690620593,
+          "energy": 0.4587029738619784,
+          "step": 13
+        },
+        "tracerRmsGridCells": 0.5326077677449959,
+        "zRmsGridCells": 0.248309292369307
+      },
+      "pageErrors": [],
+      "shaderRenderControlsCamera": "BLOCKED",
+      "screenshotSHA256": "b5739b0bc7dc4f7bec6be396a691eb715b2df047e7232c7268581d0897e444dc"
+    }
+  ],
+  "isolateSelfTest": {
+    "executed": "Fetched immutable R00 source; extracted createFluid and selfTest before browser IIFE; executed in JS isolate",
+    "numeric": {
+      "checks": {
+        "zeroForceStill": true,
+        "projectionReducesDivergence": true,
+        "deterministicSameRun": true,
+        "continuesAfterImpulse": true,
+        "realZMotion": true,
+        "finite": true,
+        "insidePeriodicDomain": true
+      },
+      "pass": true,
+      "grid": 12,
+      "tracers": 512,
+      "dt": 0.03333333333333333,
+      "iterations": 48,
+      "firstProjected": {
+        "before": 0.40605926507329765,
+        "after": 0.026069747700084064,
+        "energy": 0.5325458788505244,
+        "step": 1
+      },
+      "firstUnprojected": {
+        "before": 0.40605926507329765,
+        "after": 0.40605926507329765,
+        "energy": 0.7183306691593098,
+        "step": 1
+      },
+      "after12UnforcedSteps": {
+        "before": 0.0070690601225817775,
+        "after": 0.0003871119690620593,
+        "energy": 0.4587029738619784,
+        "step": 13
+      },
+      "tracerRmsGridCells": 0.5326077677449959,
+      "zRmsGridCells": 0.248309292369307
+    }
+  },
+  "exactEqualityToR00": true,
+  "projectionResidualFraction": 0.06420182949249593,
+  "status": {
+    "numerical": "NUMERIC_TESTED",
+    "browserNumericalUI": "BROWSER_TESTED",
+    "shaderCompilation": "BLOCKED",
+    "threeDRender": "BLOCKED",
+    "cameraInvariance": "BLOCKED",
+    "interactiveControls": "BLOCKED",
+    "gpuCompute": "NOT_IMPLEMENTED",
+    "artist": "UNVERIFIED",
+    "round": "BLOCKED (partial success; no promotion)"
+  },
+  "screenshotNote": "Two actual full-page screenshots generated locally; both identical and display the no-WebGL status and numeric report, not rendered 3D. Binary images not committed; runner reproduces them.",
+  "next": "Complete R01 on a WebGL2-capable browser: compile shaders, demonstrate rendered point cloud, paused yaw/pitch invariance and deterministic post-camera step. R02 remains gated."
+}
