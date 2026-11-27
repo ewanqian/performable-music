@@ -16,14 +16,24 @@
   },
   "next": {
     "round": "R01",
-    "hypothesis": "R00 numerical and interactive behavior can be reproduced in a browser without modifying simulation state through the camera",
+    "hypothesis": "R00 actual WebGL2 render and paused camera changes preserve simulation state; numeric reproduction already passed",
     "acceptance": [
-      "Reproduce seven numerical checks using actual solver source",
-      "Check WebGL2 shader compilation and 3D render in available browser",
-      "Verify controls and camera-only state invariance",
-      "Record test environment, failures and real evidence; if browser inaccessible mark BLOCKED"
+      "On supported browser verify shader compile/link and actual nonblank rendered point cloud",
+      "Verify controls and paused camera-only state invariance using exact exposed tracer arrays and next-step A/B",
+      "Record adapter, real screenshots and errors; if unavailable retain BLOCKED"
     ],
-    "limit": "One draft PR, no automatic merge, no production changes"
+    "limit": "Stay on R01 in this same draft PR. No R02 until review/explicit waiver; no auto-merge or production changes."
   },
-  "policy": "Read LOOP.md; do not duplicate pending rounds."
+  "policy": "Read LOOP.md; do not duplicate pending rounds.",
+  "candidate": {
+    "round": "R01",
+    "branch": "research/physics-r01",
+    "path": "experiments/R01-browser-reproduction/",
+    "status": "BLOCKED",
+    "numerical": "NUMERIC_TESTED",
+    "browserNumericalUI": "BROWSER_TESTED",
+    "webgl2": "BLOCKED",
+    "review": "PENDING",
+    "evidenceCommit": "70f77ba08d1e2f4753e9fd9d163c129c44e1356d"
+  }
 }
