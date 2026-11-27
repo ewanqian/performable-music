@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Reawakening / Arrangement Master R0</title>
+<style>
+:root{color-scheme:dark;--bg:#101010;--surface:#1b1b1b;--line:#383838;--muted:#a4a4a4;--white:#f1efe8;--active:#d3d0c4;--error:#eeae98;--font:ui-sans-serif,system-ui,-apple-system,'PingFang SC','Noto Sans CJK SC',sans-serif}
+*{box-sizing:border-box}body{background:var(--bg);color:var(--white);font-family:var(--font);margin:0;line-height:1.5}main{max-width:1160px;margin:0 auto;padding:32px 24px 50px}header{display:flex;gap:20px;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:28px}header p,.sub,.kicker{font-size:12px;letter-spacing:.12em;color:var(--muted)}h1{font-size:clamp(24px,3vw,34px);font-weight:550;letter-spacing:-.04em;margin:8px 0}.kicker{margin:0}.flag{font-size:11px;border:1px solid var(--line);padding:8px 12px;color:#dad8cf;max-width:240px}section{margin-top:30px}.clock-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:10px}.meter{border:1px solid var(--line);padding:18px;min-height:132px}.meter strong{display:block;font-size:clamp(26px,3.6vw,47px);font-weight:400;letter-spacing:-.055em;font-variant-numeric:tabular-nums;margin-top:10px;line-height:1}.meter span{font-size:12px;color:var(--muted);letter-spacing:.03em}.meter#clockBox{background:#21211f}.label{font-size:11px;color:var(--muted);letter-spacing:.13em;text-transform:uppercase}.progress{height:2px;background:var(--line);margin-top:14px}.progress>div{height:100%;width:0;background:#e8e5da;transition:width .1s linear}.blocks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.slot{appearance:none;text-align:left;padding:18px;background:var(--bg);color:var(--white);border:1px solid var(--line);cursor:pointer;min-height:153px}.slot strong{display:block;margin:12px 0 6px;font-size:17px;font-weight:530}.slot small{display:block;color:var(--muted);font-size:12px}.slot[aria-current="true"]{border-color:var(--white);background:#262622}.slot:focus-visible,button:focus-visible{outline:2px solid #fff;outline-offset:2px}.slot .number{font-size:12px;color:#c3c0b5}.grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}.details,.control-panel,.log-panel{border:1px solid var(--line);padding:20px}.details h2,.control-panel h2{font-size:20px;font-weight:520;margin:10px 0}.details p{font-size:14px;color:#d5d2c9;margin:8px 0}.details span{display:block;color:var(--muted);font-size:12px;margin-top:16px}.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:15px}.btn{background:#252525;border:1px solid #5c5c5c;color:var(--white);border-radius:0;font-size:13px;min-height:44px;padding:9px 12px;cursor:pointer;text-align:left}.btn:hover{background:#333}.btn.primary{background:#dedcd2;border-color:#dedcd2;color:#171717}.btn.danger{border-color:#9b766d;color:#f6b8a8}.btn:disabled{opacity:.35;cursor:not-allowed}.kbd{float:right;font-size:11px;opacity:.7}.notice{font-size:12px;min-height:36px;color:#d4d1c7;border-top:1px solid var(--line);margin-top:18px;padding-top:12px}.notice.alert{color:var(--error)}.record{display:flex;gap:8px;margin-top:10px}.record textarea{width:100%;min-height:46px;resize:vertical;font:13px var(--font);background:#101010;color:var(--white);border:1px solid var(--line);padding:10px}.record button{min-width:90px}.log-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}.log-head strong{font-size:14px;font-weight:500}.log-panel{margin-top:12px}.event-list{padding:0;margin:0;list-style:none;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;max-height:195px;overflow:auto}.event-list li{padding:7px 0;border-bottom:1px solid #2d2d2d;display:flex;gap:15px;color:#d1cdc4}.event-list li em{color:#888;font-style:normal;min-width:66px}footer{color:var(--muted);font-size:12px;border-top:1px solid var(--line);margin-top:30px;padding-top:15px}b{font-weight:550}.hide{display:none}
+@media(max-width:790px){.clock-grid{grid-template-columns:1fr 1fr}.clock-grid .meter:first-child{grid-column:span 2}.blocks{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}header{flex-direction:column}.flag{max-width:none}}
+@media(max-width:480px){main{padding:20px 14px 40px}.blocks{grid-template-columns:1fr}.clock-grid{gap:6px}.meter{padding:13px;min-height:111px}.meter strong{font-size:27px}.controls{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<header><div><p class="kicker">PERFORMABLE MUSIC / 2026.12.04 / THE POINT</p><h1>REAWAKENING — Arrangement Master</h1><div class="sub">R0 · 六段排练提词 / Live Set 调度演习</div></div><div class="flag"><b>仅排练模拟</b><br>不会播放音频，不发送 MIDI / OSC，不控制 Ableton；软件 STOP 也不是真实安全静音</div></header>
+<section class="clock-grid" aria-label="排练时间状态">
+ <div class="meter" id="clockBox"><div class="label">Session elapsed / 本次演练</div><strong id="elapsed">00:00.0</strong><div class="progress"><div id="progress"></div></div></div>
+ <div class="meter"><div class="label">Current section / 当前段</div><strong id="sectionNo">01 / 06</strong><span id="sectionAge">段内 00:00</span></div>
+ <div class="meter"><div class="label">Cue state / 请求状态</div><strong id="status">IDLE</strong><span id="stateDetail">准备手动开始</span></div>
+</section>
+<section><div class="label" style="margin-bottom:12px">Operator grid · 5-minute rehearsal targets / 点击卡片仅查看</div><div class="blocks" id="blocks"></div></section>
+<section class="grid2">
+ <div class="details"><div class="label" id="detailRange">00:00–05:00 / S1</div><h2 id="detailTitle">低频 / 进入</h2><p id="detailSource"></p><span>声音 / Music</span><p id="detailMusic"></p><span>视觉 / Visual</span><p id="detailVisual"></p><span>现场选择 / Decision</span><p id="detailDecision"></p><span>下一段 / Exit rule</span><p id="detailExit"></p></div>
+ <div class="control-panel"><div class="label">Manual cue simulation</div><h2>操作区</h2><div class="controls">
+ <button id="start" class="btn primary">开始 / 暂停 <span class="kbd">SPACE</span></button>
+ <button id="next" class="btn">请求 NEXT <span class="kbd">N</span></button>
+ <button id="commit" class="btn">确认句尾并换段 <span class="kbd">ENTER</span></button>
+ <button id="hold" class="btn">HOLD / RELEASE <span class="kbd">按住 H</span></button>
+ <button id="visual" class="btn">视觉黑场模拟 <span class="kbd">V</span></button>
+ <button id="stop" class="btn danger">模拟 SOFT STOP <span class="kbd">S</span></button>
+ <button id="reset" class="btn">重置本次演习 <span class="kbd">R</span></button>
+ <button id="export" class="btn">导出 Cue 日志 <span class="kbd">JSON</span></button>
+ </div><div id="notice" class="notice" aria-live="polite">六个五分钟仅为提示，不会自动换段。先在 Ableton 的副本中开声。</div><div class="record"><textarea id="note" aria-label="排练备注" placeholder="实际听感、设备型号、失败现象或转场决策（仅存在当前浏览器内存）"></textarea><button id="record" class="btn">记一条</button></div></div>
+</section>
+<section class="log-panel"><div class="log-head"><strong>Operator log · 本地事件记录</strong><span class="label" id="count">0 EVENTS</span></div><ul class="event-list" id="eventList"></ul></section>
+<footer>音乐时间线由 Mac Ableton 实际源工程拥有；这里的计时只用于排练与人工标记，不能代替同步测量。M0 与 M3 均待艺术家正式试听。XR、脚踏和网络联调须先做独立信号测试。关闭此页会丢失尚未导出的事件日志。</footer>
+</main>
+<script>
+'use strict';
+const sections=[
+ {id:'S1',n:'01',title:'低频 / 进入',source:'M0 · 150s 存在，未确认录用',music:'稀疏低音与长停留。下一击可以发生，也可以被省略。',visual:'现有石体／灯态，基本静止，保留黑。',decision:'决定第二次低击是否出现。',exit:'尾音完成后手动放行，不因五分钟到点强制切。'},
+ {id:'S2',n:'02',title:'钢琴 / 近景',source:'M3 · 120s 编程钢琴，未确认录用',music:'从完整钢琴乐句进入。保护38音及四个整句，不在中途切断。',visual:'安静，少量视差，让钢琴处于前景。',decision:'提前请求下一句，但在当前句真正结束后才放行。',exit:'NEXT 排队；句尾才确认。'},
+ {id:'S3',n:'03',title:'残响 / 漂移',source:'M3电子尾音 / M0已有材质',music:'HOLD / RELEASE 被选中的电子尾音，不编新M2凑时长。',visual:'Quest 手势优先只控制空间扫描和痕迹。',decision:'让余音留多长，什么时候撤离。',exit:'先 RELEASE，听到衰减完成再放行。'},
+ {id:'S4',n:'04',title:'压力 / 接近',source:'M0 · 低频主体与粗糙泛音',music:'控制低频事件间隔与声体占比，留住真正的压力。',visual:'结构对比加深，不靠连续抖动。',decision:'下一次重击何时许可。',exit:'为唯一主要强度核心预留空间。'},
+ {id:'S5',n:'05',title:'主峰 / 撤除',source:'M0，M1仅在独立试听接受后替代',music:'仅一次有准备的强度爆发，然后有意识地撤掉支撑。',visual:'石体灯态出现一个主要强态并逐渐退去。',decision:'在什么时候断开支撑，不用持续增音量。',exit:'真正听见压力释放后才请求回返。'},
+ {id:'S6',n:'06',title:'回返 / 离场',source:'M3 · 一个完整钢琴乐句或其已录用变体',music:'回返并自然结束。28分钟左右若已成立可以退出，另两分钟为机动。',visual:'HUD消退，画面逐渐清空；视觉黑场不等于音频静音。',decision:'再来一句，或者让声音结束。',exit:'音乐尾音完成后人工结束。'}
+];
+const $=id=>document.getElementById(id);
+const state={section:0,preview:0,running:false,elapsedMs:0,startedAt:0,sectionEnteredMs:0,queued:false,hold:false,blackout:false,log:[],runId:new Date().toISOString()};
+const format=(ms,decimal=false)=>{const s=Math.max(0,Math.floor(ms/1000)),m=Math.floor(s/60),r=s%60;return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`+(decimal?'.'+Math.floor((ms%1000)/100):'');};
+function now(){return state.elapsedMs+(state.running?performance.now()-state.startedAt:0);}
+function record(type,detail={}){const item={elapsed_ms:Math.round(now()),section:sections[state.section].id,type,...detail};state.log.push(item);renderLog();}
+function notice(s,alert=false){$('notice').textContent=s;$('notice').className='notice'+(alert?' alert':'');}
+function pause(){if(state.running){state.elapsedMs=now();state.running=false;}}
+function start(){if(state.running){pause();record('session.pause');notice('已暂停排练计时；Ableton 实际音频不受影响。');}
+else{state.startedAt=performance.now();state.running=true;record('session.start_or_resume');notice('计时开始。操作者手动决定音乐和换段。');}update();}
+function nextRequest(){if(!state.running){notice('请先启动本次排练计时。',true);return;}if(state.queued){record('next.duplicate_ignored');notice('已有待放行的 NEXT；重复请求已忽略。',true);return;}
+state.queued=true;record('next.request');notice(state.section===5?'末段结束请求已排队；确认自然尾音结束后按 ENTER。':'NEXT 已排队，**不要切断钢琴整句**；到真实句尾时按 ENTER。');update();}
+function commit(){if(!state.queued){notice('先按 N 请求 NEXT；不能跳过排队直接切段。',true);return;}if(state.hold){notice('当前仍在 HOLD；先 RELEASE，再决定是否放行。',true);return;}
+state.queued=false;record('next.accept_at_operator_mark');if(state.section===5){record('session.manual_end');pause();notice('已人工结束本次六段演练。导出日志，并继续核查真实录音。');}
+else{state.section++;state.preview=state.section;state.sectionEnteredMs=now();record('section.enter');notice(`已人工切入 ${sections[state.section].id}。此操作只改变排练提词，不控制Ableton。`);}update();renderCards();renderDetails();}
+function setHold(v){if(state.hold===v)return;state.hold=v;record(v?'tail.hold.request':'tail.release.request');$('hold').setAttribute('aria-pressed',String(v));notice(v?'HOLD 已记入排练日志；不会接通真实声音。':'RELEASE 已记入排练日志；听尾音后再决定换段。');update();}
+function toggleBlackout(){state.blackout=!state.blackout;record(state.blackout?'visual.blackout.request':'visual.restore.request');$('visual').setAttribute('aria-pressed',String(state.blackout));notice(`视觉${state.blackout?'黑场':'恢复'}请求已记录（模拟）。音频保持原样。`);update();}
+function softStop(){if(state.hold)setHold(false);if(state.queued){record('next.cancel');state.queued=false;}record('software_stop.simulation_only');pause();notice('只停止排练时钟。**并未关闭Ableton或真实输出**；演出需独立物理静音。',true);update();}
+function reset(){if(!window.confirm('清空尚未导出的日志并重置本次模拟演练？'))return;state.section=0;state.preview=0;state.running=false;state.elapsedMs=0;state.startedAt=0;state.sectionEnteredMs=0;state.queued=false;state.hold=false;state.blackout=false;state.log=[];state.runId=new Date().toISOString();notice('已重置。');renderCards();renderDetails();renderLog();update();}
+function exportLog(){record('log.export_requested');const obj={schema:'reawakening-rehearsal-log/0.1',run_id:state.runId,exported_at:new Date().toISOString(),source:'OFFLINE_CUE_SIMULATION_ONLY',no_live_midi_osc:true,elapsed_ms:Math.round(now()),events:state.log};const blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`reawakening-rehearsal-${state.runId.replace(/[:.]/g,'-')}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function renderCards(){const root=$('blocks');root.innerHTML='';sections.forEach((s,i)=>{const b=document.createElement('button');b.className='slot';b.setAttribute('aria-current',String(i===state.section));b.setAttribute('aria-label',`查看 ${s.id}: ${s.title}`);b.innerHTML=`<span class="number">${s.n} / ${format(i*300000)}–${format((i+1)*300000)}</span><strong>${s.title}</strong><small>${s.source}</small>`;b.onclick=()=>{state.preview=i;renderDetails();};root.append(b);});}
+function renderDetails(){const s=sections[state.preview];$('detailRange').textContent=`${format(state.preview*300000)}–${format((state.preview+1)*300000)} / ${s.id} / 计划提示，不是实际片长`;$('detailTitle').textContent=s.title;$('detailSource').textContent=s.source;$('detailMusic').textContent=s.music;$('detailVisual').textContent=s.visual;$('detailDecision').textContent=s.decision;$('detailExit').textContent=s.exit;}
+function renderLog(){const e=$('eventList');e.replaceChildren();for(const item of state.log.slice(-16).reverse()){const li=document.createElement('li');const time=document.createElement('em');time.textContent=format(item.elapsed_ms);const body=document.createElement('span');body.textContent=`${item.section} · ${item.type}`+(item.note?` · ${item.note}`:'');li.append(time,body);e.append(li);}$('count').textContent=`${state.log.length} EVENTS`;}
+function update(){let t=now();$('elapsed').textContent=format(t,true);$('progress').style.width=Math.min(100,t/1800000*100)+'%';$('sectionNo').textContent=`${String(state.section+1).padStart(2,'0')} / 06`;$('sectionAge').textContent=`段内 ${format(t-state.sectionEnteredMs)} · 目标约 05:00`;
+const status=state.queued?'NEXT WAIT':state.hold?'HOLD':state.blackout?'VISUAL OFF':state.running?'RUNNING':'IDLE';$('status').textContent=status;$('status').style.fontSize=status.length>8?'30px':'';$('stateDetail').textContent=t>=1800000?'30分钟预算已到，不会自动切段':state.queued?'等待自然句尾，由人确认':state.hold?'电子尾音请求已按住':state.blackout?'仅模拟画面黑场':state.running?'计时运行中；音乐由Ableton掌握':'本页不控制真实设备';}
+function key(e){if(['TEXTAREA','INPUT','SELECT'].includes(document.activeElement?.tagName))return;if(e.repeat)return;switch(e.code){case 'Space':e.preventDefault();start();break;case 'KeyN':nextRequest();break;case 'Enter':commit();break;case 'KeyH':setHold(true);break;case 'KeyV':toggleBlackout();break;case 'KeyS':softStop();break;case 'KeyR':reset();break;}}
+function keyUp(e){if(e.code==='KeyH')setHold(false);}
+$('start').onclick=start;$('next').onclick=nextRequest;$('commit').onclick=commit;$('hold').onclick=()=>setHold(!state.hold);$('visual').onclick=toggleBlackout;$('stop').onclick=softStop;$('reset').onclick=reset;$('export').onclick=exportLog;$('record').onclick=()=>{const note=$('note').value.trim();if(note){record('operator.note',{note});$('note').value='';notice('已记入本地日志。');}};
+document.addEventListener('keydown',key);document.addEventListener('keyup',keyUp);window.addEventListener('blur',()=>{if(state.hold)setHold(false);});renderCards();renderDetails();renderLog();update();setInterval(update,100);
+</script>
+</body></html>
