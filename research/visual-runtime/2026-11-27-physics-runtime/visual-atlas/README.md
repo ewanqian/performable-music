@@ -1,4 +1,6 @@
-# Visual Atlas — 48 hypotheses / A01 + A02
+# Visual Atlas — 48 hypotheses / A01 + A02 + A03
+
+> **A03 / 2026-11-27**: [Material continuum and video lighting](A03/README.md) · [single HTML](A03/index.html) · [actual browser evidence](A03/evidence.json) · [48 study classification](A03/STUDY-REVIEW.md). Three generators, four rendering levels. 12/12 short CPU depth-buffer browser tests and synthetic local WebM red/blue decode passed; not GPU rendering or full GI. Preserve A01 and A02.
 
 > **A02 / 2026-11-27**: [12 ordered geometry compositions](A02/README.md) · [single HTML](A02/index.html) · [browser and numerical evidence](A02/evidence.json). Four distinct mechanism families with three compositions each. Actual CPU Z-buffer browser render and camera invariance checks passed; WebGL2 path unverified. A01 below is preserved.
 
