@@ -1,0 +1,394 @@
+{
+  "date": "2026-11-27",
+  "counts": {
+    "通用机制": 24,
+    "强概念": 14,
+    "高视觉保真": 10
+  },
+  "assessment": [
+    {
+      "id": "01-01",
+      "title": "Corner Pressure",
+      "primary": "通用机制",
+      "levels": "L0–L2",
+      "reason": "空间施力与清晰方向；不以四角移动作为作品完成",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "01-02",
+      "title": "Wall Sweep",
+      "primary": "通用机制",
+      "levels": "L1–L3",
+      "reason": "移动力区/边界算子；真实移动壁求解待验证",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "01-03",
+      "title": "Diagonal Shear",
+      "primary": "通用机制",
+      "levels": "L1–L3",
+      "reason": "相对剪切与有序双层种子；避免变成全局平移",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "01-04",
+      "title": "Breath Box",
+      "primary": "强概念",
+      "levels": "L0–L3",
+      "reason": "呼吸作为乐句尺度的空间张力；不是密闭液体压缩",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "02-01",
+      "title": "Distance Script",
+      "primary": "通用机制",
+      "levels": "L0–L3",
+      "reason": "按弧长重采样；可生成点、截面、带状曲面与实例",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "02-02",
+      "title": "Fan Drip",
+      "primary": "通用机制",
+      "levels": "L1–L3",
+      "reason": "方向场、分支与纤维组织",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "02-03",
+      "title": "Viscous Curtain",
+      "primary": "高视觉保真",
+      "levels": "L1–L4",
+      "reason": "材质形变、厚度、粗糙反射；弹簧/黏弹性需独立求解",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "02-04",
+      "title": "Reverse Drip",
+      "primary": "强概念",
+      "levels": "L1–L3",
+      "reason": "沉降/反向施力构成段落；禁止倒放冒充物理",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "03-01",
+      "title": "Toroidal Return",
+      "primary": "强概念",
+      "levels": "L1–L3",
+      "reason": "闭环空间与循环时间；周期边界验证",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "03-02",
+      "title": "Split Return",
+      "primary": "高视觉保真",
+      "levels": "L1–L4",
+      "reason": "障碍绕流、真实接触与可见分叉，需 R02",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "03-03",
+      "title": "Counterflow",
+      "primary": "通用机制",
+      "levels": "L0–L3",
+      "reason": "A02/A03 物质线和曲面共用三维状态；可扩展双源",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "03-04",
+      "title": "Sink and Rise",
+      "primary": "强概念",
+      "levels": "L1–L3",
+      "reason": "上升下沉的空间复调；避免统一速度",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "04-01",
+      "title": "Single Vortex",
+      "primary": "通用机制",
+      "levels": "L1–L3",
+      "reason": "旋转源与速度场采样",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "04-02",
+      "title": "Twin Vortex",
+      "primary": "强概念",
+      "levels": "L1–L3",
+      "reason": "两个旋涡的结构关系；互扰需实际求解",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "04-03",
+      "title": "Vortex Ring",
+      "primary": "高视觉保真",
+      "levels": "L1–L4",
+      "reason": "环形物质与雾；需测 coherent vortex ring，不只命名",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "04-04",
+      "title": "Torn Surface",
+      "primary": "高视觉保真",
+      "levels": "L2–L4",
+      "reason": "断裂、表面厚度与局部断口；待约束和拓扑 solver",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "05-01",
+      "title": "Distance Clock",
+      "primary": "通用机制",
+      "levels": "L0–L3",
+      "reason": "距离阈值、相位、实例生成；分离时间采样和弧长",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "05-02",
+      "title": "Delayed Response",
+      "primary": "强概念",
+      "levels": "L0–L3",
+      "reason": "乐句等待与因果，显式时间戳/事件队列",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "05-03",
+      "title": "Phase Drift",
+      "primary": "强概念",
+      "levels": "L0–L3",
+      "reason": "时间展开为空间，重复截面与相位漂移；A03 TIMER 关联",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "05-04",
+      "title": "Threshold Break",
+      "primary": "强概念",
+      "levels": "L0–L4",
+      "reason": "能量积累与阈值释放，真实指标而非随意爆炸",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "06-01",
+      "title": "Breathing Lattice",
+      "primary": "强概念",
+      "levels": "L0–L3",
+      "reason": "局部邻域驱动自主演化；A02/A03 格架关联",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "06-02",
+      "title": "Lattice Collapse",
+      "primary": "强概念",
+      "levels": "L1–L4",
+      "reason": "结构规则撤销及形态解体；待断裂约束",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "06-03",
+      "title": "Suspended Geometry",
+      "primary": "高视觉保真",
+      "levels": "L2–L5",
+      "reason": "悬浮实体、表面、空间遮挡与流场；待 SDF",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "06-04",
+      "title": "Quiet Field",
+      "primary": "强概念",
+      "levels": "L0–L3",
+      "reason": "负空间、极少输入、衰减和停顿；不是空场",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "07-01",
+      "title": "Dust Fall",
+      "primary": "高视觉保真",
+      "levels": "L0–L4",
+      "reason": "光中沉降的细粒、深度和重力；非完整颗粒接触",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "07-02",
+      "title": "Heavy Grain",
+      "primary": "高视觉保真",
+      "levels": "L0–L4",
+      "reason": "可见质量、粗糙接触、堆积；需颗粒 solver",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "07-03",
+      "title": "Collapse Pile",
+      "primary": "高视觉保真",
+      "levels": "L2–L4",
+      "reason": "支撑撤除后的坍塌；需约束求解",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "07-04",
+      "title": "Tilted Gravity",
+      "primary": "通用机制",
+      "levels": "L0–L3",
+      "reason": "重力方向和坐标校准；A01 弹道而非堆积",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "08-01",
+      "title": "Volume Slice",
+      "primary": "通用机制",
+      "levels": "L0–L3",
+      "reason": "统一世界空间剖面选择，不改变状态",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "08-02",
+      "title": "Scanning Plane",
+      "primary": "通用机制",
+      "levels": "L0–L3",
+      "reason": "扫描位置与时间/历史抽取",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "08-03",
+      "title": "Density Band",
+      "primary": "通用机制",
+      "levels": "L0–L4",
+      "reason": "密度阈值可视化；示踪统计不是真实质量",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "08-04",
+      "title": "Contour Instrument",
+      "primary": "通用机制",
+      "levels": "L1–L3",
+      "reason": "等值轮廓、采样标量与层次",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "09-01",
+      "title": "Echo Trails",
+      "primary": "通用机制",
+      "levels": "L0–L3",
+      "reason": "有界历史缓冲、空间拖尾、保留拓扑",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "09-02",
+      "title": "Layered History",
+      "primary": "通用机制",
+      "levels": "L0–L3",
+      "reason": "历史帧复用与分层，和 TIMER 时间机制共享",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "09-03",
+      "title": "Scar Space",
+      "primary": "强概念",
+      "levels": "L0–L4",
+      "reason": "历史影响未来状态；不可只画残影",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "09-04",
+      "title": "Decay Archive",
+      "primary": "强概念",
+      "levels": "L0–L3",
+      "reason": "记忆衰减与撤去输入后的余动",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "10-01",
+      "title": "Reflection Matter",
+      "primary": "高视觉保真",
+      "levels": "L3–L4",
+      "reason": "A03 镜像地面反射原型；完整 SSR/平面反射需 GPU 实测",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "10-02",
+      "title": "Emissive Flow",
+      "primary": "通用机制",
+      "levels": "L1–L4",
+      "reason": "速度着色/发光是一种通用表现层，非照明",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "10-03",
+      "title": "Light Volume",
+      "primary": "高视觉保真",
+      "levels": "L3–L4",
+      "reason": "空间雾与介质散射；A03 仅距离雾",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "10-04",
+      "title": "Edge Discipline",
+      "primary": "通用机制",
+      "levels": "L2–L4",
+      "reason": "边缘高光与受控光比；非独立作品",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "11-01",
+      "title": "Energy Choir",
+      "primary": "通用机制",
+      "levels": "L0–L4",
+      "reason": "能量统计与可复用有界音乐映射，尚无 DAW",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "11-02",
+      "title": "Vorticity Choir",
+      "primary": "通用机制",
+      "levels": "L0–L4",
+      "reason": "涡量统计；需量纲与代理注明",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "11-03",
+      "title": "Pressure Choir",
+      "primary": "通用机制",
+      "levels": "L0–L4",
+      "reason": "压力统计/剖面采样，不能凭空构造音乐数据",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "11-04",
+      "title": "Collision Choir",
+      "primary": "通用机制",
+      "levels": "L0–L4",
+      "reason": "真实碰撞事件与有限声学反馈，待 solver",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "12-01",
+      "title": "Spatial Window",
+      "primary": "通用机制",
+      "levels": "L0–L5",
+      "reason": "固定空间窗口与剖面 UI，设备验证独立",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "12-02",
+      "title": "Force Handle",
+      "primary": "通用机制",
+      "levels": "L0–L5",
+      "reason": "锚定力源/局部施力，作为共享交互算子",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "12-03",
+      "title": "Observer Shift",
+      "primary": "通用机制",
+      "levels": "L0–L5",
+      "reason": "tracking→stage→audience 校准；不随头部转动",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    },
+    {
+      "id": "12-04",
+      "title": "Hidden Instrument",
+      "primary": "强概念",
+      "levels": "L0–L5",
+      "reason": "隐藏控制和可见后果：表演语法，不以设备噱头替代内容",
+      "status": "EDITORIAL_ASSESSMENT / implementation status remains governed by individual evidence"
+    }
+  ]
+}
