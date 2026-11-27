@@ -1,0 +1,198 @@
+{
+  "sourceCommit": "a4542c09929768b0ef4ac5cc8b8aa01b9ea0aa02",
+  "gitBlob": "116f8ceff63e6f6c088287d646b344b18bad9f4c",
+  "sha256": "8ed0d08022b2403ec8fa8eed8187581f148b11c8926607448459fc363b018c72",
+  "environment": "Headless Chromium, set_content of exact HTML, viewport 1024x950, 840px internal width; CPU Canvas 3D inverse-depth rasterizer. WebGL2 probe returned false.",
+  "tests": [
+    {
+      "scene": 0,
+      "level": 0,
+      "vertices": 1536,
+      "triangles": 1904,
+      "renderMs": 45.1,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 0,
+      "level": 1,
+      "vertices": 1536,
+      "triangles": 1904,
+      "renderMs": 30.9,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 0,
+      "level": 2,
+      "vertices": 1536,
+      "triangles": 1904,
+      "renderMs": 44.4,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 0,
+      "level": 3,
+      "vertices": 1536,
+      "triangles": 1904,
+      "renderMs": 68,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": true,
+      "reflection": true
+    },
+    {
+      "scene": 1,
+      "level": 0,
+      "vertices": 1440,
+      "triangles": 1692,
+      "renderMs": 30.2,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 1,
+      "level": 1,
+      "vertices": 1440,
+      "triangles": 1692,
+      "renderMs": 32.6,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 1,
+      "level": 2,
+      "vertices": 1440,
+      "triangles": 1692,
+      "renderMs": 30.6,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 1,
+      "level": 3,
+      "vertices": 1440,
+      "triangles": 1692,
+      "renderMs": 54.8,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": true,
+      "reflection": true
+    },
+    {
+      "scene": 2,
+      "level": 0,
+      "vertices": 451,
+      "triangles": 408,
+      "renderMs": 31.5,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 2,
+      "level": 1,
+      "vertices": 451,
+      "triangles": 408,
+      "renderMs": 36.4,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 2,
+      "level": 2,
+      "vertices": 451,
+      "triangles": 408,
+      "renderMs": 36.1,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": false,
+      "reflection": false
+    },
+    {
+      "scene": 2,
+      "level": 3,
+      "vertices": 451,
+      "triangles": 408,
+      "renderMs": 43.3,
+      "simulationStep": 25,
+      "stateInvariant": true,
+      "lit": true,
+      "reflection": true
+    }
+  ],
+  "pageErrors": [],
+  "allStateInvariant": true,
+  "meanAbsolutePixelDelta8bit": {
+    "videoBlackVsSplit": 14.173733732623484,
+    "reflectionOffVsOn": 1.663311520260278,
+    "ditherVsOpaque": 17.34141033224884,
+    "fogOffVsOn": 7.037814256137238
+  },
+  "deltaMethod": "Grain=0, paused scene 0, PBR level. Mean absolute 8-bit RGB difference of browser canvas screenshots; only indicates effect changes pixels, not physical accuracy.",
+  "localVideoDecode": {
+    "status": "PASS",
+    "testAsset": "Original synthetic WebM, 128x96, 12fps, red 1s then blue 1s, VP8; fed via browser file input, then seeked paused video.",
+    "frames": [
+      {
+        "time": 0.25,
+        "all12SourceSamples": [
+          0.9913928435929399,
+          0,
+          0
+        ],
+        "sampleSurfaceRGB": [
+          231.60227217056305,
+          129.65715135154446,
+          130.55619337023248
+        ],
+        "lightingOffRGB": [
+          128.12248139842455,
+          129.65715135154446,
+          130.55619337023248
+        ]
+      },
+      {
+        "time": 1.25,
+        "all12SourceSamples": [
+          0,
+          0,
+          0.9828262550537913
+        ],
+        "sampleSurfaceRGB": [
+          128.12248139842455,
+          129.65715135154446,
+          231.5131607741527
+        ],
+        "lightingOffRGB": [
+          128.12248139842455,
+          129.65715135154446,
+          130.55619337023248
+        ]
+      }
+    ],
+    "pageErrors": []
+  },
+  "limits": [
+    "Short browser smoke tests only; CPU render timings are not full-frame timing, GPU benchmarks or sustained playback.",
+    "No multi-bounce GI, SSR, volume raymarch, cast shadow solver, WebGPU or full PBR environment map filtering.",
+    "No artist acceptance, physical venue/Quest 3/OSC/Max/Ableton test, or deployment.",
+    "A03 is three mechanisms with four rendering levels, not 12 independent new artistic mechanisms or completion of 48 studies."
+  ]
+}

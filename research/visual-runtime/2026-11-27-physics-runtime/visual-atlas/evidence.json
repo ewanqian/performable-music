@@ -1,0 +1,86 @@
+{
+  "sourceCommit": "367f9a6efcb5d7a6068fca30775ab2c7e89cffb9",
+  "environment": "JavaScript isolate; no browser or hardware",
+  "tests": [
+    {
+      "id": "01-04",
+      "finite": true,
+      "points": 3072,
+      "trace": 0,
+      "energy": 0.5056060328356452
+    },
+    {
+      "id": "02-01",
+      "finite": true,
+      "points": 0,
+      "trace": 28,
+      "energy": 0
+    },
+    {
+      "id": "03-03",
+      "finite": true,
+      "points": 3072,
+      "trace": 0,
+      "energy": 0.4093344823993338
+    },
+    {
+      "id": "04-03",
+      "finite": true,
+      "points": 3072,
+      "trace": 0,
+      "energy": 0.05372296503421716
+    },
+    {
+      "id": "05-01",
+      "finite": true,
+      "points": 0,
+      "trace": 28,
+      "energy": 0
+    },
+    {
+      "id": "06-01",
+      "finite": true,
+      "points": 343,
+      "trace": 0,
+      "energy": 0.000457286913878994
+    },
+    {
+      "id": "07-04",
+      "finite": true,
+      "points": 600,
+      "trace": 0,
+      "energy": 0.9234434541946124
+    },
+    {
+      "id": "08-01",
+      "finite": true,
+      "points": 3072,
+      "trace": 0,
+      "energy": 0.507174194759155
+    },
+    {
+      "id": "09-03",
+      "finite": true,
+      "points": 600,
+      "trace": 0,
+      "energy": 0.014407313921473739
+    },
+    {
+      "id": "11-01",
+      "finite": true,
+      "points": 3072,
+      "trace": 0,
+      "energy": 0.507174194759155
+    }
+  ],
+  "distanceSampleError": 5.551115123125783e-17,
+  "limitations": [
+    "36-step finite-state smoke test only",
+    "Canvas perspective renderer not real GPU 3D rendering",
+    "No real XR, Ableton, Max, SSR or LED light",
+    "Vortex ring is impulse seed only; coherent ring unverified",
+    "Breath Box is radial force approximation, not moving wall",
+    "Scar Space and lattice use distinct artistic state models",
+    "No artist acceptance"
+  ]
+}

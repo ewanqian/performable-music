@@ -1,0 +1,106 @@
+{
+  "version": "A02",
+  "sourceCommit": "63c76daf62bf19382c519d1aa20bd39afb32d1be",
+  "sourceBlob": "028e52ce47b03977abc536f27afd879cf32f3b99",
+  "sha256": "cd7e9283dd8b5d7a081567e21dd63ca0393040e6cc7eb2dda47411ec303f4ad4",
+  "environment": "Headless Chromium; WebGL2 unavailable; CPU per-pixel inverse-depth rasterizer exercised in browser. Not physical GPU.",
+  "tests": [
+    {
+      "name": "12 candidate renders",
+      "passed": 12,
+      "total": 12,
+      "steps": [
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        20,
+        20,
+        20,
+        30,
+        30,
+        30
+      ],
+      "vertices": [
+        2184,
+        632,
+        831,
+        2540,
+        620,
+        476,
+        3000,
+        3000,
+        3000,
+        2245,
+        4009,
+        2627
+      ],
+      "browserErrors": []
+    },
+    {
+      "name": "paused camera rotation",
+      "passed": 12,
+      "total": 12,
+      "scope": "equality of exposed simulation snapshot before and after yaw change"
+    },
+    {
+      "name": "straight-line resampling at two input rates",
+      "coarseInputSegments": 10,
+      "fineInputSegments": 100,
+      "spacing": 0.046,
+      "counts": [
+        35,
+        35
+      ],
+      "maxDifference": 0,
+      "maxSpacingError": 4.163336342344337e-17,
+      "pass": true
+    },
+    {
+      "name": "CPU depth order",
+      "nearFirst": [
+        255,
+        0,
+        0,
+        255
+      ],
+      "farFirst": [
+        255,
+        0,
+        0,
+        255
+      ],
+      "pass": true
+    },
+    {
+      "name": "bounded cue API",
+      "validRecorded": 1,
+      "invalidNaNRejected": true
+    },
+    {
+      "name": "flow divergence at step 20 (rounded grid units)",
+      "sheet": [
+        0.0085,
+        0.0012
+      ],
+      "cross": [
+        0.0122,
+        0.0015
+      ],
+      "column": [
+        0.0085,
+        0.0012
+      ]
+    }
+  ],
+  "limitations": [
+    "Twelve compositions from four mechanisms, not twelve independent solvers or all 48 briefs",
+    "WebGL2 shader path not exercised",
+    "Software rasterizer is not GPU timing or exact shader parity",
+    "Only short smoke tests, no sustained performance or headset/audio/LED validation",
+    "Phase Clock is an A02 reinterpretation of TIMER; not original node graph or exact Distance Clock manifest",
+    "Artistic approval pending; line thickness and scene size may need tuning on LED"
+  ]
+}
